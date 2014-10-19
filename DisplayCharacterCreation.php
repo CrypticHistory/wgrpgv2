@@ -3,7 +3,6 @@
 <div class='mainWindow'>
 	<div class='content'>
 		Create your character:<br/>
-		
 		<form action='createCharacter.php' method='post'>
 			<table>
 				<tr>
