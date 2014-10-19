@@ -1,0 +1,77 @@
+<?php
+
+class DisplayEquipInventory{
+
+	public function DisplayEquipInventory(){
+		
+	}
+	
+	public function toHTML(){
+		ob_start(); ?>
+		
+			<div class='inventoryDiv hidden' id='inventoryDivEquipment'>
+				<table>
+					<tr>
+						<th class='itemNameHeader borderBottom'>Item Name:</th>
+						<th class='itemTypeHeader borderBottom'>Type:</th>
+						<th class='damageHeader borderBottom'>DMG:</th>
+						<th class='defenceHeader borderBottom'>DEF:</th>
+						<th class='sizeHeader borderBottom'>Size:</th>
+					</tr>
+					<?php
+						$arrUseItems = $this->getEquipInventory();
+						$intCounter = 0;
+						foreach($arrUseItems as $intKey => $arrCategoryNames){
+							echo "<tr class='textCenter' id='equipItem" . $intCounter . "'>";
+							echo "<td class='pointer background" . ($intCounter % 2) . "'><a href=\"javascript:showItemDetails('equip', '" . $intCounter . "');\">" . $arrCategoryNames['strItemName'] . "</a>" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? " (E)" : "") . "</td>";
+							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['strItemType'] . "</td>";
+							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['intDamage'] . "</td>";
+							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['intDefence'] . "</td>";
+							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['strSize'] . "</td>";
+							echo "</tr>";
+							echo "<tr id='equipItemDetails" . $intCounter . "' class='hidden'><td colspan='5' class='itemDesc background" . ($intCounter % 2) . "'><b>Description:</b><br/>" . $arrCategoryNames['txtItemDesc'] . "<br/>
+									<form method='post' action='main.php?page=DisplayGameUI'>
+										<input type='hidden' name='itemID' value='" . $arrCategoryNames['intItemInstanceID'] . "'/>
+										<button type='submit' name='itemAction' value='" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? "unequip'>Unequip" : "equip'>Equip") . "</button>
+										" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? "" : "<button type='submit' name='itemAction' value='drop'>Drop</button>") . "
+									</form></td><td></td><td></td>
+								  </tr>";
+							$intCounter++;
+						}
+					?>
+				</table>
+			</div>
+		
+		<?php
+		$strHTML = ob_get_contents();
+		ob_end_clean();
+		
+		echo $strHTML;
+	}
+
+	private function getEquipInventory(){
+		$arrReturn = array();
+		$objDB = new Database();
+		$strSQL = "SELECT intItemInstanceID, strItemName, txtItemDesc, strItemType, intDamage, intDefence, strSize
+					FROM tblitem
+						INNER JOIN tblcharacteritemxr
+						USING (intItemID)
+					WHERE (strItemType = 'Armour' OR strItemType = 'Accessory' OR strItemType = 'Weapon')
+							AND intRPGCharacterID = " . $objDB->quote($_SESSION['objRPGCharacter']->getRPGCharacterID());
+		$rsResult = $objDB->query($strSQL);
+		$intCounter = 0;
+		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+			$arrReturn[$intCounter]['intItemInstanceID'] = $arrRow['intItemInstanceID'];
+			$arrReturn[$intCounter]['strItemName'] = $arrRow['strItemName'];
+			$arrReturn[$intCounter]['txtItemDesc'] = $arrRow['txtItemDesc'];
+			$arrReturn[$intCounter]['strItemType'] = $arrRow['strItemType'];
+			$arrReturn[$intCounter]['intDamage'] = $arrRow['intDamage'];
+			$arrReturn[$intCounter]['intDefence'] = $arrRow['intDefence'];
+			$arrReturn[$intCounter]['strSize'] = $arrRow['strSize'];
+			$intCounter++;
+		}
+		return $arrReturn;
+	}
+}
+
+?>

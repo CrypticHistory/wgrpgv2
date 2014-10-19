@@ -1,0 +1,180 @@
+<?php
+
+include_once 'DataGameUI.class';
+include_once 'RPGCharacter.class';
+include_once 'RPGFloor.class';
+include_once 'RPGEvent.class';
+include_once 'RPGXMLReader.class';
+include_once 'UISettings.class';
+include_once "DisplayCharacterInfo.class";
+include_once "DisplayEventWindow.class";
+include_once "DisplayUseInventory.class";
+include_once "DisplayEquipInventory.class";
+include_once "DisplayMiscInventory.class";
+include_once "DisplayQuestInventory.class";
+include_once "DisplayCommandsWindow.class";
+
+class DisplayGameUI extends DataGameUI{
+
+	protected $_objUISettings;
+	protected $_objCharacterInfo;
+	protected $_objEventWindow;
+	protected $_objUseInventory;
+	protected $_objEquipInventory;
+	protected $_objMiscInventory;
+	protected $_objQuestInventory;
+	protected $_objCommandsWindow;
+
+	public function DisplayGameUI(){
+		if(!isset($_SESSION['objUISettings'])){
+			$_SESSION['objUISettings'] = new UISettings();
+		}
+		$this->_objCharacterInfo = new DisplayCharacterInfo();
+		$this->_objEventWindow = new DisplayEventWindow();
+		$this->_objUseInventory = new DisplayUseInventory();
+		$this->_objEquipInventory = new DisplayEquipInventory();
+		$this->_objMiscInventory = new DisplayMiscInventory();
+		$this->_objQuestInventory = new DisplayQuestInventory();
+		$this->_objCommandsWindow = new DisplayCommandsWindow();
+		$this->DataGameUI();
+	}
+	
+	public function toJavascript(){
+		ob_start(); ?>
+		
+		<link rel="stylesheet" type="text/css" href="main.css" media="screen" />
+		<script>
+			$(document).ready(function(){
+				$("#inventoryTabHeading<?=$_SESSION['objUISettings']->getInventoryFrame()?>").addClass('currentTab');
+				$("#inventoryDiv<?=$_SESSION['objUISettings']->getInventoryFrame()?>").removeClass('hidden');
+			});
+
+			function switchInventoryTab(strTabName){
+				$('.inventoryTabHeading').each(function(){
+					$(this).removeClass('currentTab');
+				});
+				$('.inventoryDiv').each(function(){
+					$(this).addClass('hidden');
+				});
+				
+				$.ajax({
+						url: 'UISettingsAJAX.php',
+						async: true,
+						type: 'post',
+						contentType: "application/x-www-form-urlencoded;charset=ISO-8859-15",
+						data: {
+							action: 'setInventoryFrame',
+							strInventoryFrame: strTabName
+						},
+						error: function(textStatus, errorThrown){
+							alert(textStatus);
+						}
+				});
+				
+				$('#inventoryTabHeading' + strTabName).addClass('currentTab');
+				$('#inventoryDiv' + strTabName).removeClass('hidden');
+			}
+
+			function showItemDetails(strItemTab, intItemRow){
+				hide = false;
+				$("[id*='" + strItemTab + "ItemDetails']").each(function(){
+					$(this).addClass('hidden');
+				});
+				if($('#' + strItemTab + 'Item' + intItemRow).hasClass('selectedRow')){
+					hide = true;
+				}
+				$("[id*='" + strItemTab + "Item']").each(function(){
+					$(this).removeClass('selectedRow');
+				});
+				if(hide == false){
+					$('#' + strItemTab + 'ItemDetails' + intItemRow).removeClass('hidden');
+					$('#' + strItemTab + 'Item' + intItemRow).addClass('selectedRow');
+				}
+			}
+		</script>
+
+		<?php
+		$strJS = ob_get_contents();
+		ob_end_clean();
+		
+		echo $strJS;
+	}
+	
+	public function toHTML(){
+		ob_start(); ?>
+		
+		<?php
+			if(!isset($_SESSION['objUser'])){
+				echo "You do not have permission to view this page.";
+				exit;
+			}
+		?>
+		
+		<div class='navDiv'>
+			<a href='index.php'>Main</a>
+		</div>
+		
+		<div class='mainDiv'>
+			<?php
+			echo $this->_objCharacterInfo->toHTML();
+			
+			echo $this->_objEventWindow->toHTML();
+			
+			?>
+			
+			<fieldset class='rightFieldset'>
+			<legend>Inventory</legend>
+			
+			<?php
+			
+			$arrInvTabHeadings = array("Equipment", "Consumable", "Misc", "Quest");
+			$arrInvTabObjects = array("_objEquipInventory", "_objUseInventory", "_objMiscInventory", "_objQuestInventory");
+			
+			foreach($arrInvTabHeadings as $intTabID => $strTabTitle){
+				echo "<div class='inventoryTabHeading' id='inventoryTabHeading" . $strTabTitle . "' onclick=\"switchInventoryTab('" . $strTabTitle . "')\">" . $strTabTitle . "</div>";
+			}
+			
+			foreach($arrInvTabObjects as $intTabID => $strObjectName){
+				echo $this->$strObjectName->toHTML();
+			}
+			
+			?>
+			</fieldset>
+			
+			<fieldset class='worldFieldset'>
+			<legend>World</legend>
+				<div class='worldDiv'>
+					Floor: <?=$_SESSION['objRPGCharacter']->getFloor()?><br/>
+					Day: <?=$_SESSION['objRPGCharacter']->getDay()?><br/>
+					Time: <?=$_SESSION['objRPGCharacter']->getTime()?>
+				</div>
+			</fieldset>
+			
+			<?=$this->_objCommandsWindow->toHTML()?>
+			
+			<fieldset class='compassFieldset'>
+			<legend>Compass</legend>
+				<div class='compassDiv'>
+					<div class='compassNLine'>
+						<a href='main.php?page=DisplayGameUI&direction=north'><input class='compass' type='button' value='North'/></a>
+					</div>
+					<div class='compassMidLine'>
+						<a href='main.php?page=DisplayGameUI&direction=west'><input class='fL compass' type='button' value='West'/></a>
+						<a href='main.php?page=DisplayGameUI&direction=east'><input class='fR compass' type='button' value='East'/></a>
+					</div>
+					<div class='compassSLine'>
+						<a href='main.php?page=DisplayGameUI&direction=south'><input class='compass' type='button' value='South'/></a>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+		
+		<?php
+		$strHTML = ob_get_contents();
+		ob_end_clean();
+		
+		echo $strHTML;
+	}
+}
+
+?>

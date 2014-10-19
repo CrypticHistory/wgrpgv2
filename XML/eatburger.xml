@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>3</end>
+	<end>4</end>
+	<dialog id="0">
+		<eventText>
+			There's a burger on the ground with grease soaking through the wrapper. Should you eat it or ignore it?
+		</eventText>
+		<option id="1" action="forceEatItem~1">Eat it</option>
+		<option id="3" action="giveItem~1">Save it for later</option>
+		<option id="2" action="forceEatItem~1">Ignore it</option>
+	</dialog>
+	<dialog id="1">
+		<eventText>
+			You unwrap the burger and throw the greasy wrapper behind you.
+			The fact that you found a warm burger sitting in a damp cave makes you feel a bit paranoid.
+			But your overwhelming feelings of gluttony are far more powerful.
+			With a shrug, you dig in.
+		</eventText>
+		<option id="4">Continue</option>
+	</dialog>
+	<dialog id="2">
+		<eventText>
+			You try your hardest to ignore the burger, but your hunger gets the best of you.
+			You unwrap the greasy burger, salivating on queue as the smell of processed beef smothered in mayonnaise fills your nostrils.
+			You've already unwrapped it, might as well eat it while it's still warm.
+			The fact that you found a warm burger sitting in a damp cave makes you feel a bit paranoid.
+			But your overwhelming feelings of gluttony are far more powerful.
+			With a shrug, you dig in.
+		</eventText>
+		<option id="4">Continue</option>
+	</dialog>
+	<dialog id="3">
+		<eventText>
+			You decide to store the burger for later. With a few taps on your wristwatch, the burger dissolves into 1s and 0s, storing itself in your digital inventory.
+		</eventText>
+	</dialog>
+	<dialog id="4">
+		<eventText>
+			You finish the burger in a matter of seconds.
+			A burp escapes your lips and echos throughout the cavern.
+			Normally you'd surpress it but you felt comfortable that nobody would be around to hear your burp.
+			You pat your distended belly, feeling uncomfortably full.
+			You've eaten many a burger in your day, but never felt this full afterwards.
+			Hopefully you'll be able to walk it off...
+		</eventText>
+	</dialog>
+</event>

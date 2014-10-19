@@ -1,0 +1,41 @@
+<?php
+
+class DisplayCharacterInfo{
+
+	public function DisplayCharacterInfo(){
+		
+	}
+	
+	public static function toHTML(){
+		ob_start(); ?>
+		
+			<fieldset class='leftFieldset'>
+			<legend>Character Info</legend>
+				<div class='characterDiv'>
+					<table>
+						<tr>
+							<td>Name:</td><td id='charName'><?=$_SESSION['objRPGCharacter']->getRPGCharacterName()?></td>
+						</tr>
+						<tr>
+							<td>Height:</td><td id='charHeight'><?=$_SESSION['objRPGCharacter']->getHeightInFeet()?></td>
+						</tr>
+						<tr>
+							<td>Weight:</td><td id='charWeight'><?=round($_SESSION['objRPGCharacter']->getWeight(), 2)?> lbs</td>
+						</tr>
+						<tr>
+							<td>BMI:</td><td id='charBMI'><?=$_SESSION['objRPGCharacter']->getBMI()?></td>
+						</tr>
+					</table>
+				</div>
+			</fieldset>
+		
+		<?php
+		$strHTML = ob_get_contents();
+		ob_end_clean();
+		
+		echo $strHTML;
+	}
+
+}
+
+?>

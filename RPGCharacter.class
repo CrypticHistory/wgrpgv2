@@ -1,0 +1,492 @@
+<?php
+
+require_once "Database.class";
+include_once "RPGItem.class";
+include_once "constants.php";
+
+class RPGCharacter{
+	
+	private $_intRPGCharacterID;
+	private $_strUserID;
+	private $_strRPGCharacterName;
+	private $_intHeight;
+	private $_dblWeight;
+	private $_intDigestionRate;
+	private $_intFloorID;
+	private $_intDay;
+	private $_strTime;
+	private $_intEventID;
+	private $_intEventNodeID;
+	private $_intArmourRipLevel;
+	private $_dtmCreatedOn;
+	private $_strCreatedBy;
+	private $_dtmModifiedOn;
+	private $_strModifiedBy;
+	
+	public function RPGCharacter($intRPGCharacterID = null){
+		if($intRPGCharacterID){
+			$this->loadRPGCharacterInfo($intRPGCharacterID);
+		}
+	}
+	
+	private function populateVarFromRow($arrCharacterInfo){
+		$this->setRPGCharacterID($arrCharacterInfo['intRPGCharacterID']);
+		$this->setUserID($arrCharacterInfo['strUserID']);
+		$this->setRPGCharacterName($arrCharacterInfo['strRPGCharacterName']);
+		$this->setHeight($arrCharacterInfo['intHeight']);
+		$this->setWeight($arrCharacterInfo['dblWeight']);
+		$this->setDigestionRate($arrCharacterInfo['intDigestionRate']);
+		$this->setFloor($arrCharacterInfo['intFloorID']);
+		$this->setDay($arrCharacterInfo['intDay']);
+		$this->setTime($arrCharacterInfo['strTime']);
+		$this->setEventID($arrCharacterInfo['intEventID']);
+		$this->setEventNodeID($arrCharacterInfo['intEventNodeID']);
+		$this->setArmourRipLevel($arrCharacterInfo['intArmourRipLevel']);
+		$this->setCreatedOn($arrCharacterInfo['dtmCreatedOn']);
+		$this->setCreatedBy($arrCharacterInfo['strCreatedBy']);
+		$this->setModifiedOn($arrCharacterInfo['dtmModifiedOn']);
+		$this->setModifiedBy($arrCharacterInfo['strModifiedBy']);
+	}
+	
+	private function loadRPGCharacterInfo($intRPGCharacterID){
+		$objDB = new Database();
+		$arrCharacterInfo = array();
+			$strSQL = "SELECT *
+						FROM tblrpgcharacter
+							WHERE intRPGCharacterID = " . $objDB->quote($intRPGCharacterID);
+			$rsResult = $objDB->query($strSQL);
+			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+				$arrCharacterInfo['intRPGCharacterID'] = $arrRow['intRPGCharacterID'];
+				$arrCharacterInfo['strUserID'] = $arrRow['strUserID'];
+				$arrCharacterInfo['strRPGCharacterName'] = $arrRow['strRPGCharacterName'];
+				$arrCharacterInfo['intHeight'] = $arrRow['intHeight'];
+				$arrCharacterInfo['dblWeight'] = $arrRow['dblWeight'];
+				$arrCharacterInfo['intDigestionRate'] = $arrRow['intDigestionRate'];
+				$arrCharacterInfo['intFloorID'] = $arrRow['intFloorID'];
+				$arrCharacterInfo['intDay'] = $arrRow['intDay'];
+				$arrCharacterInfo['strTime'] = $arrRow['strTime'];
+				$arrCharacterInfo['intEventID'] = $arrRow['intEventID'];
+				$arrCharacterInfo['intEventNodeID'] = $arrRow['intEventNodeID'];
+				$arrCharacterInfo['intArmourRipLevel'] = $arrRow['intArmourRipLevel'];
+				$arrCharacterInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
+				$arrCharacterInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
+				$arrCharacterInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
+				$arrCharacterInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
+			}
+		$this->populateVarFromRow($arrCharacterInfo);
+	}
+	
+	public function save(){
+		$objDB = new Database();
+		$strSQL = "UPDATE tblrpgcharacter
+					SET intHeight = " . $objDB->quote($this->_intHeight) . ",
+						dblWeight = " . $objDB->quote($this->_dblWeight) . ",
+						intFloorID = " . $objDB->quote($this->_intFloorID) . ",
+						intDigestionRate = " . $objDB->quote($this->_intDigestionRate) . ",
+						intDay = " . $objDB->quote($this->_intDay) . ",
+						strTime = " . $objDB->quote($this->_strTime) . ",
+						intEventID = " . $objDB->quote($this->_intEventID) . ",
+						intEventNodeID = " . $objDB->quote($this->_intEventNodeID) . ",
+						intArmourRipLevel = " . $objDB->quote($this->_intArmourRipLevel) . "
+						WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
+		$objDB->query($strSQL);
+	}
+	
+	public function createNewCharacter($strUserID, $strRPGCharacterName){
+		$objDB = new Database();
+		$strSQL = "INSERT INTO tblrpgcharacter
+					(strUserID, strRPGCharacterName, dblWeight, intFloorID, dtmCreatedOn, strCreatedBy)
+						VALUES
+					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", 120, 1, '" . date('Y-m-d H:i:s') . "', " . $objDB->quote($strUserID) . ")";
+		$objDB->query($strSQL);
+		$intRPGCharacterID = $objDB->lastInsertID();
+		$this->loadRPGCharacterInfo($intRPGCharacterID);
+	}
+	
+	public function addToCharacterEventLog($intEventID){
+		$objDB = new Database();
+		$strSQL = "INSERT INTO tblcharactereventxr
+						(intRPGCharacterID, intEventID, dtmDateAdded)
+					VALUES
+						(" . $objDB->quote($this->getRPGCharacterID()) . ", " . $objDB->quote($intEventID) . ", NOW())";
+		$objDB->query($strSQL);
+	}
+	
+	public function giveItem($intItemID){
+		$objDB = new Database();
+		$objItem = new RPGItem($intItemID);
+		$strSQL = "INSERT INTO tblcharacteritemxr
+						(intRPGCharacterID, intItemID, intCaloriesRemaining, dtmDateAdded)
+					VALUES
+						(" . $objDB->quote($this->getRPGCharacterID()) . ", " . $objDB->quote($intItemID) . ", " . $objDB->quote($objItem->getCalories()) . ", NOW())";
+		$objDB->query($strSQL);
+		return $objDB->lastInsertID();
+	}
+	
+	public function eatItem($intItemInstanceID){
+		$objDB = new Database();
+		$strSQL = "UPDATE tblcharacteritemxr
+					SET blnDigesting = 1
+					WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
+		$objDB->query($strSQL);
+	}
+	
+	public function dropItem($intItemInstanceID){
+		$objDB = new Database();
+		$strSQL = "DELETE FROM tblcharacteritemxr
+					WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
+		$objDB->query($strSQL);
+	}
+	
+	public function forceEatItem($intItemID){
+		$intItemInstanceID = $this->giveItem($intItemID);
+		$objDB = new Database();
+		$strSQL = "UPDATE tblcharacteritemxr
+					SET blnDigesting = 1
+					WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
+		$objDB->query($strSQL);
+	}
+	
+	public function equipItem($intItemInstanceID){
+		$objDB = new Database();
+		$this->unequipItemType($intItemInstanceID);
+		if($this->clothingCheck($intItemInstanceID, true)){
+			$strSQL = "UPDATE tblcharacteritemxr
+						SET blnEquipped = 1
+						WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
+			$objDB->query($strSQL);
+		}
+	}
+	
+	public function clothingCheck($intItemInstanceID, $blnSetEvent){
+		$objDB = new Database();
+		global $arrClothingSizes;
+		$strSQL = "SELECT strSize, intEventID
+					FROM tblitem
+						INNER JOIN tblcharacteritemxr
+						USING (intItemID)
+					WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		$intClothingBMI = $arrClothingSizes[$arrRow['strSize']];
+		$intCharacterBMI = $this->getBMI();
+		$intBMIDifference = $intCharacterBMI - $intClothingBMI;
+		
+		if($intBMIDifference <= -6){
+			$this->setArmourRipLevel(10);
+			$intNode = 0;
+			$blnReturn = false;
+		}	
+		else if($intBMIDifference > -6 && $intBMIDifference <= -4){
+			$this->setArmourRipLevel(11);
+			$intNode = 1;
+			$blnReturn = true;
+		}
+		else if($intBMIDifference > -4 && $intBMIDifference <= -2){
+			$this->setArmourRipLevel(12);
+			$intNode = 2;
+			$blnReturn = true;
+		}
+		else if($intBMIDifference > -2 && $intBMIDifference <= 2){
+			$this->setArmourRipLevel(13);
+			$intNode = 3;
+			$blnReturn = true;
+		}
+		else if($intBMIDifference > 2 && $intBMIDifference <= 4){
+			$this->setArmourRipLevel(14);
+			$intNode = 4;
+			$blnReturn = true;
+		}
+		else if($intBMIDifference > 4 && $intBMIDifference <= 6){
+			$this->setArmourRipLevel(15);
+			$intNode = 5;
+			$blnReturn = true;
+		}
+		else if($intBMIDifference > 6 && $intBMIDifference <= 8){
+			$this->setArmourRipLevel(16);
+			$intNode = 6;
+			$blnReturn = true;
+		}
+		else if($intBMIDifference > 8 && $intBMIDifference <= 10){
+			$this->setArmourRipLevel(17);
+			$intNode = 7;
+			$blnReturn = true;
+		}
+		else if($intBMIDifference > 10 && $intBMIDifference <= 12){
+			$this->setArmourRipLevel(18);
+			$intNode = 8;
+			$blnReturn = false;
+		}
+		else if($intBMIDifference > 12){
+			$this->setArmourRipLevel(18);
+			$intNode = 9;
+			$blnReturn = false;
+		}
+		
+		if($blnSetEvent){
+			$this->setEventID($arrRow['intEventID']);
+			$this->setEventNodeID($intNode);
+		}
+		
+		return $blnReturn;
+	}
+	
+	public function ripClothingCheck(){
+		$intEventID = $this->getEquippedArmour('intEventID');
+		$intPrevArmourRipLevel = $this->getArmourRipLevel();
+		$intCurrentArmour = $this->getEquippedArmour('intItemInstanceID');
+		
+		if(isset($intCurrentArmour)){
+			$blnWearable = $this->clothingCheck($intCurrentArmour, false);
+		}
+		else{
+			return "";
+		}
+		
+		if($intPrevArmourRipLevel != $this->getArmourRipLevel()){
+			$objEvent = new RPGEvent($intEventID);
+			$objXML = new RPGXMLReader($objEvent->getXML());
+			$strReturn = $objXML->getEventTextList($this->getArmourRipLevel());
+		}
+		else{
+			$strReturn = "";
+		}
+		
+		if(!$blnWearable){
+			$this->unequipItem($intCurrentArmour);
+		}
+		
+		return "<br/><br/>" . $strReturn;
+	}
+	
+	public function getEquippedArmour($strReturnVariable){
+		$objDB = new Database();
+		$strSQL = "SELECT intEventID, strItemName, intItemInstanceID
+					FROM tblitem
+						INNER JOIN tblcharacteritemxr
+						USING (intItemID)
+					WHERE strItemType = 'Armour'
+						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
+						AND blnEquipped = 1";
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		return $arrRow[$strReturnVariable];
+	}
+	
+	public function unequipItem($intItemInstanceID){
+		$objDB = new Database();
+		$this->setArmourRipLevel(NULL);
+		$strSQL = "UPDATE tblcharacteritemxr
+					SET blnEquipped = 0
+					WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
+		$objDB->query($strSQL);
+	}
+	
+	public function unequipItemType($intItemInstanceID){
+		$objDB = new Database();
+		$strSQL = "SELECT strItemType
+					FROM tblitem
+						INNER JOIN tblcharacteritemxr
+						USING (intItemID)
+					WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		
+		$strSQL = "UPDATE tblcharacteritemxr
+						INNER JOIN tblitem
+						USING (intItemID)
+					SET blnEquipped = 0
+					WHERE strItemType = " . $objDB->quote($arrRow['strItemType']) . "
+					AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID());
+		$objDB->query($strSQL);
+	}
+	
+	public function isEquipped($intItemInstanceID){
+		$objDB = new Database();
+		$strSQL = "SELECT intItemInstanceID
+					FROM tblcharacteritemxr
+					WHERE blnEquipped = 1
+					AND intItemInstanceID = " . $objDB->quote($intItemInstanceID);
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		return $arrRow == false ? false : true;
+	}
+	
+	public function digestItems(){
+		$objDB = new Database();
+		
+		$strSQL = "SELECT intItemInstanceID, intCaloriesRemaining
+					FROM tblcharacteritemxr
+					WHERE blnDigesting = 1";
+		$rsResult = $objDB->query($strSQL);
+		
+		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+			$intNewCalories = $arrRow['intCaloriesRemaining'] - $this->getDigestionRate();
+			$blnDelete = $intNewCalories <= 0 ? 1 : 0;
+			
+			if($blnDelete){
+				$this->setWeight($this->getWeight() + ($arrRow['intCaloriesRemaining'] / intCALORIES_PER_POUND));
+				$strSQL = "DELETE FROM tblcharacteritemxr
+							WHERE intItemInstanceID = " . $objDB->quote($arrRow['intItemInstanceID']);
+				$objDB->query($strSQL);
+			}
+			else{
+				$this->setWeight($this->getWeight() + ($this->getDigestionRate() / intCALORIES_PER_POUND));
+				$strSQL = "UPDATE tblcharacteritemxr
+							SET intCaloriesRemaining = " . $objDB->quote($intNewCalories) . "
+							WHERE intItemInstanceID = " . $objDB->quote($arrRow['intItemInstanceID']);
+				$objDB->query($strSQL);
+			}
+		}
+	}
+	
+	public function getBMI(){
+		return ($this->getWeight() / dblLBS_PER_KG) / pow($this->getHeight() / 100, 2);
+	}
+	
+	public function getHeightInFeet(){
+		$dblFeet = $this->getHeight() / dblCM_PER_FOOT;
+		$whole = floor($dblFeet);
+		$fraction = $dblFeet - $whole;
+		$intInches = round($fraction * intFEET_PER_INCH);
+		return strval($whole) . "'" . strval($intInches) . "\"";
+	}
+	
+	public function checkEndOfEvent(){
+		$objEvent = new RPGEvent($this->getEventID());
+		$objXML = new RPGXMLReader($objEvent->getXML());
+		if(in_array($this->getEventNodeID(), (array)$objXML->getEndNodes())){
+			$this->addToCharacterEventLog($this->getEventID());
+		}
+	}
+	
+	public function getRPGCharacterID(){
+		return $this->_intRPGCharacterID;
+	}
+		
+	public function setRPGCharacterID($intRPGCharacterID){
+		$this->_intRPGCharacterID = $intRPGCharacterID;
+	}
+	
+	public function getUserID(){
+		return $this->_strUserID;
+	}
+	
+	public function setUserID($strUserID){
+		$this->_strUserID = $strUserID;
+	}
+	
+	public function getRPGCharacterName(){
+		return $this->_strRPGCharacterName;
+	}
+	
+	public function setRPGCharacterName($strRPGCharacterName){
+		$this->_strRPGCharacterName = $strRPGCharacterName;
+	}
+	
+	public function getHeight(){
+		return $this->_intHeight;
+	}
+	
+	public function setHeight($intHeight){
+		$this->_intHeight = $intHeight;
+	}
+	
+	public function getWeight(){
+		return $this->_dblWeight;
+	}
+	
+	public function setWeight($dblWeight){
+		$this->_dblWeight = $dblWeight;
+	}
+	
+	public function getDigestionRate(){
+		return $this->_intDigestionRate;
+	}
+	
+	public function setDigestionRate($intDigestionRate){
+		$this->_intDigestionRate = $intDigestionRate;
+	}
+	
+	public function getCreatedOn(){
+		return $this->_dtmCreatedOn;
+	}
+	
+	public function setCreatedOn($dtmCreatedOn){
+		$this->_dtmCreatedOn = $dtmCreatedOn;
+	}
+	
+	public function getCreatedBy(){
+		return $this->_strCreatedBy;
+	}
+	
+	public function setCreatedBy($strCreatedBy){
+		$this->_strCreatedBy = $strCreatedBy;
+	}
+	
+	public function getModifiedOn(){
+		return $this->_dtmModifiedOn;
+	}
+	
+	public function setModifiedOn($dtmModifiedOn){
+		$this->_dtmModifiedOn = $dtmModifiedOn;
+	}
+	
+	public function getModifiedBy(){
+		return $this->_strModifiedBy;
+	}
+	
+	public function setModifiedBy($strModifiedBy){
+		$this->_strModifiedBy = $strModifiedBy;
+	}
+	
+	public function getFloor(){
+		return $this->_intFloorID;
+	}
+	
+	public function setFloor($intFloorID){
+		$this->_intFloorID = $intFloorID;
+	}
+	
+	public function getDay(){
+		return $this->_intDay;
+	}
+	
+	public function setDay($intDay){
+		$this->_intDay = $intDay;
+	}
+	
+	public function getTime(){
+		return $this->_strTime;
+	}
+	
+	public function setTime($strTime){
+		$this->_strTime = $strTime;
+	}
+	
+	public function getEventID(){
+		return $this->_intEventID;
+	}
+	
+	public function setEventID($intEventID){
+		$this->_intEventID = $intEventID;
+	}
+	
+	public function getEventNodeID(){
+		return $this->_intEventNodeID;
+	}
+	
+	public function setEventNodeID($intEventNodeID){
+		$this->_intEventNodeID = $intEventNodeID;
+	}
+	
+	public function getArmourRipLevel(){
+		return $this->_intArmourRipLevel;
+	}
+	
+	public function setArmourRipLevel($intArmourRipLevel){
+		$this->_intArmourRipLevel = $intArmourRipLevel;
+	}
+}
+
+?>

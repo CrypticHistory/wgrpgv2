@@ -1,0 +1,203 @@
+.navDiv{
+	
+}
+
+a:link {color: 	#383838; text-decoration: none;}      /* unvisited link */
+a:visited {color:#383838; text-decoration: none;}  /* visited link */
+a:hover {color:#808080;}  /* mouse over link */
+a:active {color:#383838;}  /* selected link */ 
+
+body{
+	background-color:#D1BE94;
+	color:#4F3F32;
+	font-size:0.9em;
+	font-family: Georgia, Arial, sans-serif;
+}
+
+table{
+	font-size:0.9em;
+}
+
+.mainDiv{
+	margin-top:10px;
+}
+
+.leftFieldset{
+	width:25%;
+	height:72%;
+	float:left;
+}
+
+.middleFieldset{
+	width:44%;
+	height:72%;
+	float:left;
+}
+
+.rightFieldset{
+	width:25%;
+	height:72%;
+	float:left;
+}
+
+.eventDiv{
+	padding-left:2px;
+	overflow-y: scroll;
+	width:100%;
+	height:100%;
+	background-color:#EBE2D1;
+	border:1px solid grey;
+}
+
+.characterDiv{
+	width:100%;
+	height:100%;
+	background-color:#EBE2D1;
+	border:1px solid grey;
+}
+
+.inventoryDiv{
+	padding-left:2px;
+	width:100%;
+	height:95%;
+	background-color:#EBE2D1;
+	border:1px solid grey;
+	clear:both;
+}
+
+.worldFieldset{
+	margin-top:5px;
+	float:left;
+	width:25%;
+	height:18%;
+}
+
+.commandsFieldset{
+	margin-top:5px;
+	float:left;
+	width:44%;
+	height:18%;
+}
+
+.compassFieldset{
+	margin-top:5px;
+	float:left;
+	width:25%;
+	height:18%;
+}
+
+.worldDiv{
+	padding-left:2px;
+	width:100%;
+	height:100%;
+	background-color:#EBE2D1;
+	border:1px solid grey;
+}
+
+.commandsDiv{
+	width:100%;
+	height:100%;
+	background-color:#EBE2D1;
+	border:1px solid grey;
+}
+
+.compassDiv{
+	padding-top:9px;
+	width:100%;
+	height:100%;
+	background-color:#EBE2D1;
+	border:1px solid grey;
+}
+
+.compassNLine{
+	text-align:center;
+}
+
+.fL{
+	float:left;
+}
+
+.fR{
+	float:right;
+}
+
+.cB{
+	clear:both;
+}
+
+.compassMidLine{
+	text-align:center;
+}
+
+.compassSLine{
+	text-align:center;
+	clear:both;
+}
+
+.compass{
+	background-color: #CFCFCF;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+	width: 30%;
+	height: 30%;
+}
+
+.hidden{
+	display:none;
+}
+
+.inventoryTabHeading{
+	background-color: #CFCFCF;
+	height:22px;
+	width:82px;
+	border-left:1px solid grey;
+	border-right:1px solid grey;
+	border-top:1px solid grey;
+	float:left;
+	text-align:center;
+	cursor:pointer;
+}
+
+.currentTab{
+	background-color: #FFFAF0 !important;
+}
+
+.itemNameHeader{
+	width:70%;
+}
+
+.itemTypeHeader{
+	width:30%;
+}
+
+.textCenter{
+	text-align:center;
+}
+
+.borderBottom{
+	border-bottom:1px solid grey;
+}
+
+.background0{
+	background-color:#F5F5F5;
+}
+
+.background1{
+	background-color:#E8E8E8;
+}
+
+.pointer{
+	cursor:pointer;
+}
+
+.selectedRow{
+	font-weight:bold;
+}
+
+.itemDesc{
+	padding-top:10px;
+	padding-left:10px;
+	padding-right:10px;
+	border-bottom:1px solid grey;
+}

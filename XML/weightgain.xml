@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>5</end>
+	<dialog id='0'>
+		<eventText>An androgynous looking fairy enters your field of vision. Talk to it? </eventText>
+		<option id='1'>Yes</option>
+		<option id='5'>No</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>"I can make you gain or lose weight. Take your pick," it squeaks.</eventText>
+		<option id='2' action="Weight+50">Gain</option>
+		<option id='3' action="Weight*0.8">Lose</option>
+		<option id='4'>No thanks</option>
+	</dialog>
+	<dialog id='2'>
+		<eventText precondition="BMI&gt;34">
+			The fairy shakes its head in disapproval. "I don't know why you'd want to be fatter than you already are, but here goes."
+		</eventText>
+		<eventText>
+			The fairy waves its arms to produce a bright flash of light, enough to blind you temporarily.
+		</eventText>
+		<eventText precondition="BMI&gt;19&amp;BMI&lt;25">
+			When your vision returns, you stare down at your chubby tummy.
+			A roll of fat slightly hangs over your waistband.
+		</eventText>
+		<eventText precondition="BMI&lt;19">
+			When your vision returns, you stare down at your now-curvy midsection.
+			You used to be able to see your abs, but not anymore.
+		</eventText>
+		<eventText precondition="BMI&gt;34&amp;BMI&lt;45">
+			When your vision returns, you stare down at your bulging belly and marvel at its size.
+			It extends so far that you cannot see your feet without bending over.
+		</eventText>
+		<eventText precondition="BMI&gt;24&amp;BMI&lt;35">
+			When your vision returns, you stare down at your pudgy belly.
+			It hangs over your waistband.
+		</eventText>
+		<eventText precondition="BMI&gt;44">
+			When your vision returns, you peek down at your sagging gut.
+			It hangs to your knees and blocks a good portion of the ground in front of you from your field of vision.
+		</eventText>
+		<eventText>True to its word, the fairy made you fatter!</eventText>
+		<option id='5'>Continue</option>
+	</dialog>
+	<dialog id='3'>
+		<eventText>
+			The fairy waves its arms to produce a bright flash of light, enough to blind you temporarily.
+			When your vision returns, you stare down at your stomach, much flatter than it was previous.
+			True to its word, the fairy made you thinner.
+		</eventText>
+		<option id='5'>Continue</option>
+	</dialog>
+	<dialog id='4'>
+		<eventText>"Okay. Suit yourself."</eventText>
+		<option id='5'>Continue</option>
+	</dialog>
+	<dialog id='5'>
+		<eventText>The fairy disappears in a shimmer of light.</eventText>
+	</dialog>
+</event>

@@ -1,0 +1,41 @@
+<?php
+
+class UISettings{
+
+	private $_strInventoryFrame;
+	private $_strEventFrame;
+	private $_strCharacterFrame;
+	
+	public function UISettings(){
+		//defaults
+		$this->_strInventoryFrame = "Equipment";
+		$this->_strEventFrame = "EventWindow";
+		$this->_strCharacterFrame = "CharacterInfo";
+	}
+	
+	public function getInventoryFrame(){
+		return $this->_strInventoryFrame;
+	}
+	
+	public function setInventoryFrame($strInventoryFrame){
+		$this->_strInventoryFrame = $strInventoryFrame;
+	}
+	
+	public function getEventFrame(){
+		return $this->_strEventFrame;
+	}
+	
+	public function setEventFrame($strEventFrame){
+		$this->_strEventFrame = $strEventFrame;
+	}
+
+	public function getCharacterFrame(){
+		return $this->_strCharacterFrame;
+	}
+	
+	public function setCharacterFrame($strCharacterFrame){
+		$this->_strCharacterFrame = $strCharacterFrame;
+	}
+}
+
+?>

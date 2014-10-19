@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>2</end>
+	<dialog id="0">
+		<eventText>There's a pale alien with glazed-over eyes. Looks like it's high on that good shit. Talk to it?</eventText>
+		<option id="1" action="giveItem~2">Yes</option>
+		<option id="2">No</option>
+	</dialog>
+	<dialog id="1">
+		<eventText>"Ayyyyyy lmao..." the alien drags out. It extends its hand. In it appears an outfit - blue jeans and tank top. You take the clothes and thank the alien for its kind gesture.</eventText>
+		<option id="2">Swag a hunnet thousand</option>
+	</dialog>
+	<dialog id="2">
+		<eventText>What a strange occurence that was...</eventText>
+	</dialog>
+</event>

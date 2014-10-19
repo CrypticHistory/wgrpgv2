@@ -1,0 +1,107 @@
+<?php
+
+require_once "Database.class";
+
+class RPGUser{
+	
+	private $_intUserID;
+	private $_strUserID;
+	private $_dtmCreatedOn;
+	private $_strCreatedBy;
+	private $_dtmModifiedOn;
+	private $_strModifiedBy;
+	
+	public function RPGUser($strUserID = null){
+		$objDB = new Database();
+		if($strUserID){
+			$arrUserInfo = array();
+			$strSQL = "SELECT *
+						FROM tbluser
+							WHERE strUserID = " . $objDB->quote($strUserID);
+			$rsResult = $objDB->query($strSQL);
+			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+				$arrUserInfo['intUserID'] = $arrRow['intUserID'];
+				$arrUserInfo['strUserID'] = $arrRow['strUserID'];
+				$arrUserInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
+				$arrUserInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
+				$arrUserInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
+				$arrUserInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
+			}
+			$this->populateVarFromRow($arrUserInfo);
+		}
+	}
+	
+	private function populateVarFromRow($arrUserInfo){
+		$this->setNumericalUserID($arrUserInfo['intUserID']);
+		$this->setStringUserID($arrUserInfo['strUserID']);
+		$this->setCreatedOn($arrUserInfo['dtmCreatedOn']);
+		$this->setCreatedBy($arrUserInfo['strCreatedBy']);
+		$this->setModifiedOn($arrUserInfo['dtmModifiedOn']);
+		$this->setModifiedBy($arrUserInfo['strModifiedBy']);
+	}
+	
+	public function getCharacterList(){
+		$objDB = new Database();
+		$arrReturn = array();
+		$strSQL = "SELECT intRPGCharacterID, strRPGCharacterName
+					FROM tbluser
+						INNER JOIN tblrpgcharacter
+						USING (strUserID)
+					WHERE strUserID = " . $objDB->quote($this->getStringUserID());
+		$rsResult = $objDB->query($strSQL);
+		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+			$arrReturn[$arrRow['intRPGCharacterID']] = $arrRow['strRPGCharacterName'];
+		}
+		return $arrReturn;
+	}
+	
+	public function getNumericalUserID(){
+		return $this->_intUserID;
+	}
+	
+	public function setNumericalUserID($intUserID){
+		$this->_intUserID = $intUserID;
+	}
+	
+	public function getStringUserID(){
+		return $this->_strUserID;
+	}
+	
+	public function setStringUserID($strUserID){
+		$this->_strUserID = $strUserID;
+	}
+	
+	public function getCreatedOn(){
+		return $this->_dtmCreatedOn;
+	}
+	
+	public function setCreatedOn($dtmCreatedOn){
+		$this->_dtmCreatedOn = $dtmCreatedOn;
+	}
+	
+	public function getCreatedBy(){
+		return $this->_strCreatedBy;
+	}
+	
+	public function setCreatedBy($strCreatedBy){
+		$this->_strCreatedBy = $strCreatedBy;
+	}
+	
+	public function getModifiedOn(){
+		return $this->_dtmModifiedOn;
+	}
+	
+	public function setModifiedOn($dtmModifiedOn){
+		$this->_dtmModifiedOn = $dtmModifiedOn;
+	}
+	
+	public function getModifiedBy(){
+		return $this->_strModifiedBy;
+	}
+	
+	public function setModifiedBy($strModifiedBy){
+		$this->_strModifiedBy = $strModifiedBy;
+	}
+}
+
+?>

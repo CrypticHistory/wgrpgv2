@@ -1,0 +1,12 @@
+<?php
+
+class DataCharacterSelection{
+
+	private $_objDB;
+	
+	public function DataCharacterSelection(){
+		$this->_objDB = new Database();
+	}
+}
+
+?>

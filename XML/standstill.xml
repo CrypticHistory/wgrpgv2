@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>2</end>
+	<dialog id='0'>
+		<eventText>You stand still, doing absolutely nothing! Want to do something?</eventText>
+		<option id='1'>Yes</option>
+		<option id='2'>No</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>You did something! Woah!</eventText>
+		<option id='2'>Yes</option>
+	</dialog>
+	<dialog id='2'>
+		<eventText>End</eventText>
+	</dialog>
+</event>

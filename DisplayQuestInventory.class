@@ -1,0 +1,25 @@
+<?php
+
+class DisplayQuestInventory{
+
+	public function DisplayQuestInventory(){
+		
+	}
+	
+	public function toHTML(){
+		ob_start(); ?>
+		
+			<div class='inventoryDiv hidden' id='inventoryDivQuest'>
+				Quest
+			</div>
+		
+		<?php
+		$strHTML = ob_get_contents();
+		ob_end_clean();
+		
+		echo $strHTML;
+	}
+
+}
+
+?>

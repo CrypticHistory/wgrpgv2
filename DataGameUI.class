@@ -1,0 +1,83 @@
+<?php
+
+include_once 'DialogConditionFactory.class';
+include_once 'RPGTime.class';
+
+class DataGameUI{
+	
+	public function DataGameUI(){
+		
+		//load character
+		if(isset($_POST['strCharacterName'])){
+			$_SESSION['objRPGCharacter'] = new RPGCharacter($_POST['strCharacterName']);
+		}
+		
+		$this->handleEvents();
+		$this->handleTicks();
+	}
+	
+	public function traverse($strDirection){
+		// moves within current floor and generates a new event
+		// when EventID is 1, standstill occurs, otherwise unique event happens
+		$blnAllowedMove = $this->isAllowedMove($strDirection);
+		if($blnAllowedMove){
+			$objFloor = new RPGFloor($_SESSION['objRPGCharacter']->getFloor());
+			$objFloor->setApplicableEvents($_SESSION['objRPGCharacter']->getRPGCharacterID());
+			$intEventID = $objFloor->generateRandomEvent();
+		}
+		else{
+			$intEventID = 1;
+		}
+		$_SESSION['objRPGCharacter']->setEventID($intEventID);		
+		$_SESSION['objRPGCharacter']->setEventNodeID(0);
+	}
+	
+	public function isAllowedMove($strDirection){
+		if($strDirection == 'north'){
+			return 1;
+		}
+		else if($strDirection == 'south'){
+			return 1;
+		}
+		else if($strDirection == 'east'){
+			return 1;
+		}
+		else if($strDirection == 'west'){
+			return 1;
+		}
+		else{
+			return 0;
+		}
+	}
+	
+	public function handleEvents(){
+		if(isset($_GET['direction'])){
+			$this->traverse($_GET['direction']);
+		}
+		
+		$_SESSION['objRPGCharacter']->checkEndOfEvent();
+		
+		if(isset($_POST['itemAction']) && isset($_POST['itemID'])){
+			if($_POST['itemAction'] == 'use'){
+				$_SESSION['objRPGCharacter']->eatItem($_POST['itemID']);
+			}
+			elseif($_POST['itemAction'] == 'drop'){
+				$_SESSION['objRPGCharacter']->dropItem($_POST['itemID']);
+			}
+			elseif($_POST['itemAction'] == 'equip'){
+				$_SESSION['objRPGCharacter']->equipItem($_POST['itemID']);
+			}
+			elseif($_POST['itemAction'] == 'unequip'){
+				$_SESSION['objRPGCharacter']->unequipItem($_POST['itemID']);
+			}
+		}
+	}
+	
+	public function handleTicks(){
+		$_SESSION['objRPGCharacter']->setTime(RPGTime::addTickToTime($_SESSION['objRPGCharacter']->getTime()));
+		$_SESSION['objRPGCharacter']->digestItems();
+		$_SESSION['objRPGCharacter']->save();
+	}	
+}
+
+?>

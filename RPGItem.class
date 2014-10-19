@@ -1,0 +1,162 @@
+<?php
+
+require_once "Database.class";
+
+class RPGItem{
+
+	private $_intItemID;
+	private $_strItemName;
+	private $_txtItemDesc;
+	private $_intCalories;
+	private $_intDamage;
+	private $_intDefence;
+	private $_strSize;
+	private $_intEventID;
+	private $_dtmCreatedOn;
+	private $_strCreatedBy;
+	private $_dtmModifiedOn;
+	private $_strModifiedBy;
+	
+	public function RPGItem($intItemID = null){
+		if($intItemID){
+			$this->loadItemInfo($intItemID);
+		}
+	}
+	
+	private function populateVarFromRow($arrItemInfo){
+		$this->setItemID($arrItemInfo['intItemID']);
+		$this->setItemName($arrItemInfo['strItemName']);
+		$this->setItemDesc($arrItemInfo['txtItemDesc']);
+		$this->setCalories($arrItemInfo['intCalories']);
+		$this->setDamage($arrItemInfo['intDamage']);
+		$this->setDefence($arrItemInfo['intDefence']);
+		$this->setSize($arrItemInfo['strSize']);
+		$this->setEventID($arrItemInfo['intEventID']);
+		$this->setCreatedOn($arrItemInfo['dtmCreatedOn']);
+		$this->setCreatedBy($arrItemInfo['strCreatedBy']);
+		$this->setModifiedOn($arrItemInfo['dtmModifiedOn']);
+		$this->setModifiedBy($arrItemInfo['strModifiedBy']);
+	}
+	
+	private function loadItemInfo($intItemID){
+		$objDB = new Database();
+		$arrItemInfo = array();
+			$strSQL = "SELECT *
+						FROM tblitem
+							WHERE intItemID = " . $objDB->quote($intItemID);
+			$rsResult = $objDB->query($strSQL);
+			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+				$arrItemInfo['intItemID'] = $arrRow['intItemID'];
+				$arrItemInfo['strItemName'] = $arrRow['strItemName'];
+				$arrItemInfo['txtItemDesc'] = $arrRow['txtItemDesc'];
+				$arrItemInfo['intCalories'] = $arrRow['intCalories'];
+				$arrItemInfo['intDamage'] = $arrRow['intDamage'];
+				$arrItemInfo['intDefence'] = $arrRow['intDefence'];
+				$arrItemInfo['strSize'] = $arrRow['strSize'];
+				$arrItemInfo['intEventID'] = $arrRow['intEventID'];
+				$arrItemInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
+				$arrItemInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
+				$arrItemInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
+				$arrItemInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
+			}
+		$this->populateVarFromRow($arrItemInfo);
+	}
+	
+	public function getItemID(){
+		return $this->_intItemID;
+	}
+	
+	public function setItemID($intItemID){
+		$this->_intItemID = $intItemID;
+	}
+	
+	public function getItemName(){
+		return $this->_strItemName;
+	}
+	
+	public function setItemName($strItemName){
+		$this->_strItemName = $strItemName;
+	}
+	
+	public function getItemDesc(){
+		return $this->_txtItemDesc;
+	}
+	
+	public function setItemDesc($txtItemDesc){
+		$this->_txtItemDesc = $txtItemDesc;
+	}
+	
+	public function getCalories(){
+		return $this->_intCalories;
+	}
+	
+	public function setCalories($intCalories){
+		$this->_intCalories = $intCalories;
+	}
+	
+	public function getDamage(){
+		return $this->_intDamage;
+	}
+	
+	public function setDamage($intDamage){
+		$this->_intDamage = $intDamage;
+	}
+	
+	public function getDefence(){
+		return $this->_intDefence;
+	}
+	
+	public function setDefence($intDefence){
+		$this->_intDefence = $intDefence;
+	}
+	
+	public function getSize(){
+		return $this->_strSize;
+	}
+	
+	public function setSize($strSize){
+		$this->_strSize = $strSize;
+	}
+	
+	public function getEventID(){
+		return $this->_intEventID;
+	}
+	
+	public function setEventID($intEventID){
+		$this->_intEventID = $intEventID;
+	}
+	
+	public function getCreatedOn(){
+		return $this->_dtmCreatedOn;
+	}
+	
+	public function setCreatedOn($dtmCreatedOn){
+		$this->_dtmCreatedOn = $dtmCreatedOn;
+	}
+	
+	public function getCreatedBy(){
+		return $this->_strCreatedBy;
+	}
+	
+	public function setCreatedBy($strCreatedBy){
+		$this->_strCreatedBy = $strCreatedBy;
+	}
+	
+	public function getModifiedOn(){
+		return $this->_dtmModifiedOn;
+	}
+	
+	public function setModifiedOn($dtmModifiedOn){
+		$this->_dtmModifiedOn = $dtmModifiedOn;
+	}
+	
+	public function getModifiedBy(){
+		return $this->_strModifiedBy;
+	}
+	
+	public function setModifiedBy($strModifiedBy){
+		$this->_strModifiedBy = $strModifiedBy;
+	}
+}
+
+?>

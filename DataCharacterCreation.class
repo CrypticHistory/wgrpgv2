@@ -1,0 +1,12 @@
+<?php
+
+class DataCharacterCreation{
+
+	private $_objDB;
+	
+	public function DataCharacterCreation(){
+		$this->_objDB = new Database();
+	}
+}
+
+?>

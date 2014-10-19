@@ -1,0 +1,50 @@
+<?php
+
+include_once 'DataCharacterCreation.class';
+
+class DisplayCharacterCreation extends DataCharacterCreation{
+
+	public function DisplayCharacterCreation(){
+		$this->DataCharacterCreation();
+	}
+	
+	public static function toJavascript(){
+		ob_start(); ?>
+		
+		<script>
+			$(document).ready(function(){
+				
+			});
+		</script>
+
+		<?php
+		$strJS = ob_get_contents();
+		ob_end_clean();
+		
+		echo $strJS;
+	}
+	
+	public static function toHTML(){
+		ob_start(); ?>
+		
+			Create your character:<br/>
+			
+			<form action='main.php?page=CreateCharacter' method='post'>
+				<table>
+					<tr>
+						<td>Name:</td>
+						<td><input type='text' name='strRPGCharacterName'/></td>
+					</tr>
+				</table>
+				<input type='submit' value='Submit'/>
+			</form>
+		
+		<?php
+		$strHTML = ob_get_contents();
+		ob_end_clean();
+		
+		echo $strHTML;
+	}
+}
+
+?>

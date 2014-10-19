@@ -1,0 +1,41 @@
+<?php
+
+class DisplayEventWindow{
+
+	public function DisplayEventWindow(){
+		
+	}
+	
+	public static function toHTML(){
+		ob_start(); ?>
+		
+			<fieldset class='middleFieldset'>
+			<legend>Events</legend>
+				<div class='eventDiv'>
+					<?php
+					$intCounter = 0;
+					$objEvent = new RPGEvent($_SESSION['objRPGCharacter']->getEventID());
+					$objXML = new RPGXMLReader($objEvent->getXML());
+					foreach($objXML->getEventTextList($_SESSION['objRPGCharacter']->getEventNodeID()) as $key => $value){
+						if(($objXML->hasEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) == true && DialogConditionFactory::evaluateCondition($objXML->getEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter)) == true)
+							|| $objXML->hasEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) == false){
+							echo $value;
+						}
+						$intCounter++;
+					}
+					
+					echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck() . "</i>";
+					?>
+				</div>
+			</fieldset>
+		
+		<?php
+		$strHTML = ob_get_contents();
+		ob_end_clean();
+		
+		echo $strHTML;
+	}
+
+}
+
+?>

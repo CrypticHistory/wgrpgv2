@@ -1,0 +1,73 @@
+<?php
+
+class DisplayUseInventory{
+
+	public function DisplayUseInventory(){
+		
+	}
+	
+	public function toHTML(){
+		ob_start(); ?>
+		
+			<div class='inventoryDiv hidden' id='inventoryDivConsumable'>
+				<table>
+					<tr>
+						<th class='itemNameHeader borderBottom'>Item Name:</th>
+						<th class='itemTypeHeader borderBottom'>Type:</th>
+						<th class='caloriesHeader borderBottom'>Calories:</th>
+					</tr>
+					<?php
+						$arrUseItems = $this->getUseInventory();
+						$intCounter = 0;
+						foreach($arrUseItems as $intKey => $arrCategoryNames){
+							echo "<tr class='textCenter' id='useItem" . $intCounter . "'>";
+							echo "<td class='pointer background" . ($intCounter % 2) . "'><a href=\"javascript:showItemDetails('use', '" . $intCounter . "');\">" . $arrCategoryNames['strItemName'] . "</td>";
+							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['strItemType'] . "</td>";
+							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['intCalories'] . "</td>";
+							echo "</tr>";
+							echo "<tr id='useItemDetails" . $intCounter . "' class='hidden'><td colspan='3' class='itemDesc background" . ($intCounter % 2) . "'><b>Description:</b><br/>" . $arrCategoryNames['txtItemDesc'] . "<br/>
+									<form method='post' action='main.php?page=DisplayGameUI'>
+										<input type='hidden' name='itemID' value='" . $arrCategoryNames['intItemInstanceID'] . "'/>
+										<button type='submit' name='itemAction' value='use'>Use</button>
+										<button type='submit' name='itemAction' value='drop'>Drop</button>
+									</form></td><td></td><td></td>
+								  </tr>";
+							$intCounter++;
+						}
+					?>
+				</table>
+			</div>
+		
+		<?php
+		$strHTML = ob_get_contents();
+		ob_end_clean();
+		
+		echo $strHTML;
+	}
+	
+	private function getUseInventory(){
+		$arrReturn = array();
+		$objDB = new Database();
+		$strSQL = "SELECT intItemInstanceID, strItemName, txtItemDesc, strItemType, intCalories
+					FROM tblitem
+						INNER JOIN tblcharacteritemxr
+						USING (intItemID)
+					WHERE (strItemType = 'Food' OR strItemType = 'Potion')
+							AND blnDigesting = 0
+							AND intRPGCharacterID = " . $objDB->quote($_SESSION['objRPGCharacter']->getRPGCharacterID());
+		$rsResult = $objDB->query($strSQL);
+		$intCounter = 0;
+		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+			$arrReturn[$intCounter]['intItemInstanceID'] = $arrRow['intItemInstanceID'];
+			$arrReturn[$intCounter]['strItemName'] = $arrRow['strItemName'];
+			$arrReturn[$intCounter]['txtItemDesc'] = $arrRow['txtItemDesc'];
+			$arrReturn[$intCounter]['strItemType'] = $arrRow['strItemType'];
+			$arrReturn[$intCounter]['intCalories'] = $arrRow['intCalories'];
+			$intCounter++;
+		}
+		return $arrReturn;
+	}
+
+}
+
+?>
