@@ -1,7 +1,5 @@
 <?php
 
-require_once "Database.class";
-
 function user_exists($strUsername) {
 	$objDB = new Database();
 	$strSQL = "SELECT COUNT(intUserID) as intCount FROM tbluser WHERE strUserID = " . $objDB->quote($strUsername);
@@ -43,6 +41,13 @@ function register_user($arrRegisterData) {
 		$strComma = ",";
 	}
 	
+	$objDB->query($strSQL);
+}
+
+function changePassword($strNewPassword){
+	$objDB = new Database();
+	$strNewPassword = md5($strNewPassword);
+	$strSQL = "UPDATE tbluser SET strPassword = " . $objDB->quote($strNewPassword) . " WHERE intUserID = " . $objDB->quote($_SESSION['objUser']->getNumericalUserID());
 	$objDB->query($strSQL);
 }
 

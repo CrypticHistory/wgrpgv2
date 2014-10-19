@@ -18,8 +18,89 @@ table{
 	font-size:0.9em;
 }
 
+.blogbutton{
+	margin-top:3px;
+	margin-bottom:3px;
+	width:100px;
+	font-size: 0.9em;
+}
+
+li{
+	list-style-type: none;
+}
+
+ul{
+	margin:0px;
+}
+
 .mainDiv{
 	margin-top:10px;
+}
+
+.navigation{
+	float:left;
+	margin:10px;
+}
+
+.content{
+	float:left;
+	margin:20px;
+}
+
+.topWindow{
+  top: 20px;
+  width:50%;
+  left:25%;
+  float:left;
+  position: relative;
+  background-color: #EBE2D1;
+  border: 5px solid #FFFFFF;
+  padding-bottom:15px;
+}
+
+.mainWindow{
+  width:50%;
+  left:25%;
+  position:relative;
+  clear:both;
+  float:left;
+  background-color: #EBE2D1;
+  border: 5px solid #FFFFFF;
+}
+
+.login{
+	background-color:#EBE2D1;
+	float:right;
+	padding:10px;
+}
+
+.blogHeader{
+	font-size:1.4em;
+	font-weight:bold;
+	display:inline;
+}
+
+.blogPost{
+	width:630px;
+	padding:5px;
+}
+
+.logo{
+	position:absolute;
+	left:44%;
+	top:10%;
+}
+
+hr{
+	border:1px solid #FFFFFF;
+}
+
+.useridInput{
+	width:150px;
+}
+
+.passwordInput{
+	width:150px;
 }
 
 .leftFieldset{

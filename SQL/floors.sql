@@ -1,2 +1,2 @@
-INSERT INTO tblfloor (strFloorName, txtEntryText, strCreatedBy, dtmCreatedOn)
+INSERT INTO tblFloor (strFloorName, txtEntryText, strCreatedBy, dtmCreatedOn)
 VALUES ('Beginner Floor 1', 'In a flash of light, you shimmer into existence. Smoke rises around you', 'akereliuk', NOW());

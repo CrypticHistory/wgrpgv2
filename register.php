@@ -1,28 +1,30 @@
 <?php
 
-require_once('Database.class');
-require_once('users.php');
+include_once "header.php";
+
+echo "<div class='mainWindow'>";
+echo "<div class='content'>";
 
 if ($_POST){
 	$arrUserFields = array('strUserID','strPassword','strRepeatPassword');
 	foreach($_POST as $key=>$value) {
 		if (empty($value) && in_array($key, $arrUserFields) === true) {
-			$arrErrors[] = 'fields not filled out properly';
+			$arrErrors[] = 'Fields not filled out properly. Try again.';
 			break 1;
 		}
 	}
 	
 	if (empty($arrErrors) === true) {
-		if (user_exists($_POST['strUserID']) === true) {
-			$arrErrors[] = 'sorry username exists';
+		if (user_exists($_POST['strUserID'])) {
+			$arrErrors[] = 'Error: That username already exists.';
 		}
 		
 		if (strlen($_POST['strPassword']) < 6) {
-			$arrErrors[] = 'password must be 7';
+			$arrErrors[] = 'Error: Password must be at least 7 characters.';
 		}
 		
 		if ($_POST['strPassword'] !== $_POST['strRepeatPassword']) {
-			$arrErrors[] = 'passwords dont match';
+			$arrErrors[] = 'Error: Passwords dont match.';
 		}
 		
 		if(empty($arrErrors) === true){
@@ -33,39 +35,39 @@ if ($_POST){
 				'strCreatedBy' => 'system'
 			);
 			register_user($arrRegisterData);
-			echo "Registered<br/><a href='index.php'>Go Back</a>";
+			echo "Registered successfully.";
 		}
 		else{
-			print_r($arrErrors);
+			foreach($arrErrors as $key => $value){
+				echo $value;
+			}
 		}
 	}
 	else{
-		print_r($arrErrors);
+		foreach($arrErrors as $key => $value){
+			echo $value;
+		}
 	}
 }
 else{
 
 ?>
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>WGRPG</title>
-	</head>
-	<body>
-		<form action="" method="post">
-			<ul>
-				<h2>Register</h2>
-				<li>Username:</li>
-				<li><input type="text" id="userIDTextField" name="strUserID"></li>
-				<li>Password:</li>
-				<li><input type="password" name="strPassword"></li>
-				<li>Confirm Password:</li>
-				<li><input type="password" name="strRepeatPassword"></li>
-				<li><input type="submit" value="Submit"></li>
-			</ul>
-		</form>
-	</body>
-</html>
+
+<form action="" method="post">
+	<ul>
+		<h2>Register</h2>
+		<li>Username:</li>
+		<li><input type="text" id="userIDTextField" name="strUserID"></li>
+		<li>Password:</li>
+		<li><input type="password" name="strPassword"></li>
+		<li>Confirm Password:</li>
+		<li><input type="password" name="strRepeatPassword"></li>
+		<li><input type="submit" value="Submit"></li>
+	</ul>
+</form>
+
 <?php
 }
+echo "</div></div>";
+include_once "footer.php";
 ?>

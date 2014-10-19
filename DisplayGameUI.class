@@ -16,7 +16,6 @@ include_once "DisplayCommandsWindow.class";
 
 class DisplayGameUI extends DataGameUI{
 
-	protected $_objUISettings;
 	protected $_objCharacterInfo;
 	protected $_objEventWindow;
 	protected $_objUseInventory;
