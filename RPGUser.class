@@ -6,6 +6,7 @@ class RPGUser{
 	
 	private $_intUserID;
 	private $_strUserID;
+	private $_blnAdmin;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
@@ -22,6 +23,7 @@ class RPGUser{
 			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
 				$arrUserInfo['intUserID'] = $arrRow['intUserID'];
 				$arrUserInfo['strUserID'] = $arrRow['strUserID'];
+				$arrUserInfo['blnAdmin'] = $arrRow['blnAdmin'];
 				$arrUserInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrUserInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrUserInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
@@ -34,6 +36,7 @@ class RPGUser{
 	private function populateVarFromRow($arrUserInfo){
 		$this->setNumericalUserID($arrUserInfo['intUserID']);
 		$this->setStringUserID($arrUserInfo['strUserID']);
+		$this->setAdmin($arrUserInfo['blnAdmin']);
 		$this->setCreatedOn($arrUserInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrUserInfo['strCreatedBy']);
 		$this->setModifiedOn($arrUserInfo['dtmModifiedOn']);
@@ -69,6 +72,14 @@ class RPGUser{
 	
 	public function setStringUserID($strUserID){
 		$this->_strUserID = $strUserID;
+	}
+	
+	public function getAdmin(){
+		return $this->_blnAdmin;
+	}
+	
+	public function setAdmin($blnAdmin){
+		$this->_blnAdmin = $blnAdmin;
 	}
 	
 	public function getCreatedOn(){

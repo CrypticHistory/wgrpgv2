@@ -1,0 +1,151 @@
+<?php
+
+require_once "Database.class";
+
+class BlogPost{
+
+	private $_intPostID;
+	private $_strUserID;
+	private $_strSubject;
+	private $_txtContents;
+	private $_intParentID;
+	private $_dtmCreatedOn;
+	private $_strCreatedBy;
+	private $_dtmModifiedOn;
+	private $_strModifiedBy;
+	
+	public function BlogPost($intPostID = null){
+		if($intPostID){
+			$this->loadPostInfo($intPostID);
+		}
+	}
+	
+	private function populateVarFromRow($arrPostInfo){
+		$this->setPostID($arrPostInfo['intPostID']);
+		$this->setUserID($arrPostInfo['strUserID']);
+		$this->setSubject($arrPostInfo['strSubject']);
+		$this->setContents($arrPostInfo['txtContents']);
+		$this->setParentID($arrPostInfo['intParentID']);
+		$this->setCreatedOn($arrPostInfo['dtmCreatedOn']);
+		$this->setCreatedBy($arrPostInfo['strCreatedBy']);
+		$this->setModifiedOn($arrPostInfo['dtmModifiedOn']);
+		$this->setModifiedBy($arrPostInfo['strModifiedBy']);
+	}
+	
+	private function loadPostInfo($intPostID){
+		$objDB = new Database();
+		$arrPostInfo = array();
+			$strSQL = "SELECT *
+						FROM tblpost
+							WHERE intPostID = " . $objDB->quote($intPostID);
+			$rsResult = $objDB->query($strSQL);
+			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+				$arrPostInfo['intPostID'] = $arrRow['intPostID'];
+				$arrPostInfo['strUserID'] = $arrRow['strUserID'];
+				$arrPostInfo['strSubject'] = $arrRow['strSubject'];
+				$arrPostInfo['txtContents'] = $arrRow['txtContents'];
+				$arrPostInfo['intParentID'] = $arrRow['intParentID'];
+				$arrPostInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
+				$arrPostInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
+				$arrPostInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
+				$arrPostInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
+			}
+		$this->populateVarFromRow($arrPostInfo);
+	}
+	
+	public function save(){
+		$objDB = new Database();
+		$strSQL = "UPDATE tblpost
+					SET strSubject = " . $objDB->quote($this->_strSubject) . ",
+						txtContents = " . $objDB->quote($this->_txtContents) . ",
+						dtmModifiedOn = NOW(),
+						dtmModifiedBy = " . $objDB->quote($this->_strUserID) . "
+						WHERE intPostID = " . $objDB->quote($this->_intPostID);
+		$objDB->query($strSQL);
+	}
+	
+	public function createNewPost($strUserID, $strSubject, $txtContents, $intParentID){
+		$objDB = new Database();
+		$strSQL = "INSERT INTO tblpost
+					(strUserID, strSubject, txtContents, intParentID, dtmCreatedOn, strCreatedBy)
+						VALUES
+					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strSubject) . ", " . $objDB->quote($txtContents) . ", NULL, NOW(), " . $objDB->quote($strUserID) . ")";
+		$objDB->query($strSQL);
+		$intPostID = $objDB->lastInsertID();
+		$this->loadPostInfo($intPostID);
+	}
+	
+	public function getPostID(){
+		return $this->_intPostID;
+	}
+	
+	public function setPostID($intPostID){
+		$this->_intPostID = $intPostID;
+	}
+	
+	public function getUserID(){
+		return $this->_strUserID;
+	}
+	
+	public function setUserID($strUserID){
+		$this->_strUserID = $strUserID;
+	}
+	
+	public function getSubject(){
+		return $this->_strSubject;
+	}
+	
+	public function setSubject($strSubject){
+		$this->_strSubject = $strSubject;
+	}
+	
+	public function getContents(){
+		return $this->_txtContents;
+	}
+	
+	public function setContents($txtContents){
+		$this->_txtContents = $txtContents;
+	}
+	
+	public function getParentID(){
+		return $this->_intParentID;
+	}
+	
+	public function setParentID($intParentID){
+		$this->_intParentID = $intParentID;
+	}
+	
+	public function getCreatedOn(){
+		return $this->_dtmCreatedOn;
+	}
+	
+	public function setCreatedOn($dtmCreatedOn){
+		$this->_dtmCreatedOn = $dtmCreatedOn;
+	}
+	
+	public function getCreatedBy(){
+		return $this->_strCreatedBy;
+	}
+	
+	public function setCreatedBy($strCreatedBy){
+		$this->_strCreatedBy = $strCreatedBy;
+	}
+	
+	public function getModifiedOn(){
+		return $this->_dtmModifiedOn;
+	}
+	
+	public function setModifiedOn($dtmModifiedOn){
+		$this->_dtmModifiedOn = $dtmModifiedOn;
+	}
+	
+	public function getModifiedBy(){
+		return $this->_strModifiedBy;
+	}
+	
+	public function setModifiedBy($strModifiedBy){
+		$this->_strModifiedBy = $strModifiedBy;
+	}
+}
+
+?>

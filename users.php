@@ -1,6 +1,9 @@
 <?php
 
+include_once "RPGUser.class";
 require_once "Database.class";
+
+session_start();
 
 function user_exists($strUsername) {
 	$objDB = new Database();
@@ -43,6 +46,13 @@ function register_user($arrRegisterData) {
 		$strComma = ",";
 	}
 	
+	$objDB->query($strSQL);
+}
+
+function changePassword($strNewPassword){
+	$objDB = new Database();
+	$strNewPassword = md5($strNewPassword);
+	$strSQL = "UPDATE tbluser SET strPassword = " . $objDB->quote($strNewPassword) . " WHERE intUserID = " . $objDB->quote($_SESSION['objUser']->getNumericalUserID());
 	$objDB->query($strSQL);
 }
 
