@@ -42,7 +42,7 @@ class RPGItem{
 		$objDB = new Database();
 		$arrItemInfo = array();
 			$strSQL = "SELECT *
-						FROM tblItem
+						FROM tblitem
 							WHERE intItemID = " . $objDB->quote($intItemID);
 			$rsResult = $objDB->query($strSQL);
 			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){

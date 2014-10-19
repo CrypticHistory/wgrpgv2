@@ -13,7 +13,7 @@
 				}
 			
 				$arrThreads = getAllThreads();
-				foreach($arrThreads as $key => $arrColumns){
+				foreach(array_reverse($arrThreads) as $key => $arrColumns){
 					echo "<table class='blogPost'><tr><td><div class='blogHeader'>" . $arrColumns['strSubject'] . "</div>";
 					echo " - Posted by <b>" . $arrColumns['strUserID'] . "</b> on <b>" . date('F d Y', strtotime($arrColumns['dtmCreatedOn'])) . "</b></td></tr>";
 					echo "<tr><td><div class='blogPostContents'>" . nl2br($arrColumns['txtContents']) . "</div></td></tr></table><hr/>";
