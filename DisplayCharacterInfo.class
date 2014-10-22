@@ -9,25 +9,48 @@ class DisplayCharacterInfo{
 	public static function toHTML(){
 		ob_start(); ?>
 		
-			<fieldset class='leftFieldset'>
-			<legend>Character Info</legend>
-				<div class='characterDiv'>
-					<table>
-						<tr>
-							<td>Name:</td><td id='charName'><?=$_SESSION['objRPGCharacter']->getRPGCharacterName()?></td>
-						</tr>
-						<tr>
-							<td>Height:</td><td id='charHeight'><?=$_SESSION['objRPGCharacter']->getHeightInFeet()?></td>
-						</tr>
-						<tr>
-							<td>Weight:</td><td id='charWeight'><?=round($_SESSION['objRPGCharacter']->getWeight(), 2)?> lbs</td>
-						</tr>
-						<tr>
-							<td>BMI:</td><td id='charBMI'><?=$_SESSION['objRPGCharacter']->getBMI()?></td>
-						</tr>
-					</table>
-				</div>
-			</fieldset>
+			<div class='characterDiv hidden' id='characterDivInfo'>
+				<table align='center'>
+					<tr>
+						<th class='tableHeader borderBottom statHeader' colspan='2'>Basic Stats</th>
+					</tr>
+					<tr>
+						<td class='background0'>Name:</td><td class='background0' id='charName'><?=$_SESSION['objRPGCharacter']->getRPGCharacterName()?></td>
+					</tr>
+					<tr>
+						<td class='background1'>Gender:</td><td class='background1' id='charGender'><?=$_SESSION['objRPGCharacter']->getGender()?></td>
+					</tr>
+					<tr>
+						<td class='background0'>Sexual Orientation:</td><td class='background0' id='charOrientation'><?=$_SESSION['objRPGCharacter']->getOrientation()?></td>
+					</tr>
+					<tr>
+						<td class='background1'>Personality:</td><td class='background1' id='charPersonality'><?=$_SESSION['objRPGCharacter']->getPersonality()?></td>
+					</tr>
+					<tr>
+						<td class='background0'>Stance on Fat:</td><td class='background0' id='charFatStance'><?=$_SESSION['objRPGCharacter']->getFatStance()?></td>
+					</tr>
+					<tr>
+						<td class='borderTop' colspan='2'>&nbsp;</td>
+					</tr>
+				</table>
+				<table align='center'>
+					<tr>
+						<th class='tableHeader borderBottom statHeader' colspan='2'>Body Stats</th>
+					</tr>
+					<tr>
+						<td class='background0'>Height:</td><td class='background0' id='charHeight'><?=$_SESSION['objRPGCharacter']->getHeightInFeet()?></td>
+					</tr>
+					<tr>
+						<td class='background1'>Weight:</td><td class='background1' id='charWeight'><?=round($_SESSION['objRPGCharacter']->getWeight(), 2)?> lbs</td>
+					</tr>
+					<tr>
+						<td class='background0'>Digestion Rate:</td><td class='background0' id='charDigestion'><?=$_SESSION['objRPGCharacter']->getDigestionRate()?> cal/tick</td>
+					</tr>
+					<tr>
+						<td class='borderTop' colspan='2'>&nbsp;</td>
+					</tr>
+				</table>
+			</div>
 		
 		<?php
 		$strHTML = ob_get_contents();

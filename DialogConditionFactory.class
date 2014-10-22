@@ -18,23 +18,28 @@ class DialogConditionFactory {
 		else{
 			if(strpos($strCondition, '>')){
 				$variable = explode('>', $strCondition);
-				return (intval(call_user_func("self::get" . $variable[0])) > intval($variable[1]));
+				$function = 'get' . $variable[0];
+				return (intval($_SESSION['objRPGCharacter']->$function()) > intval($variable[1]));
 			}
 			else if(strpos($strCondition, '<')){
 				$variable = explode('<', $strCondition);
-				return (intval(call_user_func("self::get" . $variable[0])) < intval($variable[1]));
+				$function = 'get' . $variable[0];
+				return (intval($_SESSION['objRPGCharacter']->$function()) < intval($variable[1]));
 			}
 			else if(strpos($strCondition, '>=')){
 				$variable = explode('>', $strCondition);
-				return (intval(call_user_func("self::get" . $variable[0])) >= intval($variable[1]));
+				$function = 'get' . $variable[0];
+				return (intval($_SESSION['objRPGCharacter']->$function()) >= intval($variable[1]));
 			}
 			else if(strpos($strCondition, '<=')){
 				$variable = explode('>', $strCondition);
-				return (intval(call_user_func("self::get" . $variable[0])) <= intval($variable[1]));
+				$function = 'get' . $variable[0];
+				return (intval($_SESSION['objRPGCharacter']->$function()) <= intval($variable[1]));
 			}
 			else if(strpos($strCondition, '=')){
 				$variable = explode('>', $strCondition);
-				return (intval(call_user_func("self::get" . $variable[0])) == intval($variable[1]));
+				$function = 'get' . $variable[0];
+				return (intval($_SESSION['objRPGCharacter']->$function()) == intval($variable[1]));
 			}
 		}
 	}
@@ -42,44 +47,23 @@ class DialogConditionFactory {
 	public static function evaluateAction($strAction){
 		if(strpos($strAction, '+')){
 			$variable = explode('+', $strAction);
-			call_user_func("self::add" . $variable[0], intval($variable[1]));
+			$function = 'set' . $variable[0];
+			$_SESSION['objRPGCharacter']->$function(intval($_SESSION['objRPGCharacter']->getWeight()) + intval($variable[1]));
 		}
 		else if(strpos($strAction, '-')){
 			$variable = explode('-', $strAction);
-			call_user_func("self::add" . $variable[0], intval(-1 * abs($variable[1])));
+			$function = 'set' . $variable[0];
+			$_SESSION['objRPGCharacter']->$function(intval($_SESSION['objRPGCharacter']->getWeight()) - intval($variable[1]));
 		}
 		else if(strpos($strAction, '*')){
 			$variable = explode('*', $strAction);
-			call_user_func("self::set" . $variable[0], (floatval($variable[1]) * floatval(self::getWeight())));
+			$function = 'set' . $variable[0];
+			$_SESSION['objRPGCharacter']->$function(floatval($variable[1]) * floatval($_SESSION['objRPGCharacter']->getWeight()));
 		}
 		else if(strpos($strAction, '~')){
 			$function = explode('~', $strAction);
-			call_user_func("self::" . $function[0], intval($function[1]));
+			$_SESSION['objRPGCharacter']->$function[0]($function[1]);
 		}
-	}
-	
-	public static function getWeight(){
-		return $_SESSION['objRPGCharacter']->getWeight();
-	}
-	
-	public static function addWeight($intValue){
-		$_SESSION['objRPGCharacter']->setWeight(intval($_SESSION['objRPGCharacter']->getWeight()) + intval($intValue));
-	}
-	
-	public static function setWeight($dblValue){
-		$_SESSION['objRPGCharacter']->setWeight($dblValue);
-	}
-	
-	public static function forceEatItem($intItemID){
-		$_SESSION['objRPGCharacter']->forceEatItem($intItemID);
-	}
-	
-	public static function giveItem($intItemID){
-		$_SESSION['objRPGCharacter']->giveItem($intItemID);
-	}
-	
-	public static function getBMI(){
-		return $_SESSION['objRPGCharacter']->getBMI();
 	}
 }
 

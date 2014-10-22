@@ -10,7 +10,7 @@ class UISettings{
 		//defaults
 		$this->_strInventoryFrame = "Equipment";
 		$this->_strEventFrame = "EventWindow";
-		$this->_strCharacterFrame = "CharacterInfo";
+		$this->_strCharacterFrame = "Info";
 	}
 	
 	public function getInventoryFrame(){

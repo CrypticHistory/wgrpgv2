@@ -1,8 +1,9 @@
 <?php 
 
 include_once "Database.class";
-include_once "users.php";
 include_once 'constants.php';
+include_once "common.php";
+include_once "users.php";
 include_once "RPGUser.class";
 include_once "BlogPost.class";
 include_once "RPGCharacter.class";
@@ -16,6 +17,9 @@ include_once "RPGCharacter.class";
 	<head>
 		<title>WGRPG</title>
 		<link rel="stylesheet" type="text/css" href="main.css" media="screen" />
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="JS/jquery.numeric.js"></script>
+		<?php header('Content-Type: text/html; charset=ISO-8859-15');?>
 	</head>
 	<body>
 		<div class='topWindow'>

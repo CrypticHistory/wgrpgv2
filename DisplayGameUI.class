@@ -7,6 +7,9 @@ include_once 'RPGEvent.class';
 include_once 'RPGXMLReader.class';
 include_once 'UISettings.class';
 include_once "DisplayCharacterInfo.class";
+include_once "DisplayCharacterAppearance.class";
+include_once "DisplayCharacterSkills.class";
+include_once "DisplayCharacterQuests.class";
 include_once "DisplayEventWindow.class";
 include_once "DisplayUseInventory.class";
 include_once "DisplayEquipInventory.class";
@@ -17,6 +20,9 @@ include_once "DisplayCommandsWindow.class";
 class DisplayGameUI extends DataGameUI{
 
 	protected $_objCharacterInfo;
+	protected $_objCharacterAppearance;
+	protected $_objCharacterSkills;
+	protected $_objCharacterQuests;
 	protected $_objEventWindow;
 	protected $_objUseInventory;
 	protected $_objEquipInventory;
@@ -29,6 +35,9 @@ class DisplayGameUI extends DataGameUI{
 			$_SESSION['objUISettings'] = new UISettings();
 		}
 		$this->_objCharacterInfo = new DisplayCharacterInfo();
+		$this->_objCharacterAppearance = new DisplayCharacterAppearance();
+		$this->_objCharacterSkills = new DisplayCharacterSkills();
+		$this->_objCharacterQuests = new DisplayCharacterQuests();
 		$this->_objEventWindow = new DisplayEventWindow();
 		$this->_objUseInventory = new DisplayUseInventory();
 		$this->_objEquipInventory = new DisplayEquipInventory();
@@ -46,6 +55,8 @@ class DisplayGameUI extends DataGameUI{
 			$(document).ready(function(){
 				$("#inventoryTabHeading<?=$_SESSION['objUISettings']->getInventoryFrame()?>").addClass('currentTab');
 				$("#inventoryDiv<?=$_SESSION['objUISettings']->getInventoryFrame()?>").removeClass('hidden');
+				$("#characterTabHeading<?=$_SESSION['objUISettings']->getCharacterFrame()?>").addClass('currentTab');
+				$("#characterDiv<?=$_SESSION['objUISettings']->getCharacterFrame()?>").removeClass('hidden');
 			});
 
 			function switchInventoryTab(strTabName){
@@ -72,6 +83,32 @@ class DisplayGameUI extends DataGameUI{
 				
 				$('#inventoryTabHeading' + strTabName).addClass('currentTab');
 				$('#inventoryDiv' + strTabName).removeClass('hidden');
+			}
+			
+			function switchCharacterTab(strTabName){
+				$('.characterTabHeading').each(function(){
+					$(this).removeClass('currentTab');
+				});
+				$('.characterDiv').each(function(){
+					$(this).addClass('hidden');
+				});
+				
+				$.ajax({
+						url: 'UISettingsAJAX.php',
+						async: true,
+						type: 'post',
+						contentType: "application/x-www-form-urlencoded;charset=ISO-8859-15",
+						data: {
+							action: 'setCharacterFrame',
+							strCharacterFrame: strTabName
+						},
+						error: function(textStatus, errorThrown){
+							alert(textStatus);
+						}
+				});
+				
+				$('#characterTabHeading' + strTabName).addClass('currentTab');
+				$('#characterDiv' + strTabName).removeClass('hidden');
 			}
 
 			function showItemDetails(strItemTab, intItemRow){
@@ -114,12 +151,28 @@ class DisplayGameUI extends DataGameUI{
 		</div>
 		
 		<div class='mainDiv'>
-			<?php
-			echo $this->_objCharacterInfo->toHTML();
+		
+			<fieldset class='leftFieldset'>
+			<legend>Character</legend>
 			
-			echo $this->_objEventWindow->toHTML();
+			<?php
+			
+			$arrCharTabHeadings = array("Info", "Appearance", "Skills", "Quests");
+			$arrCharTabObjects = array("_objCharacterInfo", "_objCharacterAppearance", "_objCharacterSkills", "_objCharacterQuests");
+			
+			foreach($arrCharTabHeadings as $intTabID => $strTabTitle){
+				echo "<div class='characterTabHeading' id='characterTabHeading" . $strTabTitle . "' onclick=\"switchCharacterTab('" . $strTabTitle . "')\">" . $strTabTitle . "</div>";
+			}
+			
+			foreach($arrCharTabObjects as $intTabID => $strObjectName){
+				echo $this->$strObjectName->toHTML();
+			}
 			
 			?>
+			
+			</fieldset>
+			
+			<?=$this->_objEventWindow->toHTML()?>
 			
 			<fieldset class='rightFieldset'>
 			<legend>Inventory</legend>
@@ -138,6 +191,7 @@ class DisplayGameUI extends DataGameUI{
 			}
 			
 			?>
+			
 			</fieldset>
 			
 			<fieldset class='worldFieldset'>

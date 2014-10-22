@@ -3,6 +3,7 @@
 		$action = $_POST['action'];
 		switch($action){
 			case 'setInventoryFrame' : setInventoryFrame(); break;
+			case 'setCharacterFrame' : setCharacterFrame(); break;
 			default: break;
 		}
 	}
@@ -11,6 +12,12 @@
 		include_once "UISettings.class";
 		session_start();
 		$_SESSION['objUISettings']->setInventoryFrame($_POST['strInventoryFrame']);
+	}
+	
+	function setCharacterFrame(){
+		include_once "UISettings.class";
+		session_start();
+		$_SESSION['objUISettings']->setCharacterFrame($_POST['strCharacterFrame']);
 	}
 	
 ?>

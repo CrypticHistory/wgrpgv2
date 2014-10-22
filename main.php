@@ -1,5 +1,6 @@
 <?php
 	require_once 'constants.php';
+	require_once 'common.php';
 	require_once "Database.class";
 	require_once 'users.php';
 	require_once 'RPGUser.class';

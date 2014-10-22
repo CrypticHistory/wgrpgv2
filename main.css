@@ -80,6 +80,10 @@ ul{
 	display:inline;
 }
 
+.heightInput{
+	width:35px;
+}
+
 .blogPost{
 	width:630px;
 	padding:5px;
@@ -131,19 +135,31 @@ hr{
 }
 
 .characterDiv{
+	overflow-y:scroll;
 	width:100%;
-	height:100%;
+	height:95%;
 	background-color:#EBE2D1;
 	border:1px solid grey;
 }
 
 .inventoryDiv{
-	padding-left:2px;
+	overflow-y:scroll;
 	width:100%;
 	height:95%;
 	background-color:#EBE2D1;
 	border:1px solid grey;
 	clear:both;
+}
+
+.tableHeader{
+	width:450px;
+	font-weight:bold;
+	font-size:1.0em;
+	text-align:left;
+}
+
+.borderTop{
+	border-top:1px solid #CFCFCF;
 }
 
 .worldFieldset{
@@ -240,6 +256,18 @@ hr{
 	cursor:pointer;
 }
 
+.characterTabHeading{
+	background-color: #CFCFCF;
+	height:22px;
+	width:82px;
+	border-left:1px solid grey;
+	border-right:1px solid grey;
+	border-top:1px solid grey;
+	float:left;
+	text-align:center;
+	cursor:pointer;
+}
+
 .currentTab{
 	background-color: #FFFAF0 !important;
 }
@@ -257,7 +285,7 @@ hr{
 }
 
 .borderBottom{
-	border-bottom:1px solid grey;
+	border-bottom:1px solid #CFCFCF;
 }
 
 .background0{
