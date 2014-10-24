@@ -9,6 +9,7 @@
 					<td>Name:</td>
 					<td><input id='charName' type='text' maxlength='20' name='strRPGCharacterName'/></td>
 				</tr>
+				<tr>
 					<td>Gender:</td>
 					<td><select name='strGender'>
 					<?php
@@ -19,6 +20,40 @@
 					?>
 					</select></td>
 				</tr>
+				<tr>
+					<td>Hair Colour:</td>
+					<td><select name='strHairColour'>
+					<?php
+						$arrHairColours = get_enum_values('tblrpgcharacter', 'strHairColour');
+						foreach($arrHairColours as $key => $value){
+							echo "<option>" . $value . "</option>";
+						}
+					?>
+					</select></td>
+				</tr>
+				<tr>
+					<td>Eye Colour:</td>
+					<td><select name='strEyeColour'>
+					<?php
+						$arrEyeColours = get_enum_values('tblrpgcharacter', 'strEyeColour');
+						foreach($arrEyeColours as $key => $value){
+							echo "<option>" . $value . "</option>";
+						}
+					?>
+					</select></td>
+				</tr>
+				<tr>
+					<td>Ethnicity:</td>
+					<td><select name='strEthnicity'>
+					<?php
+						$arrEthnicities = get_enum_values('tblrpgcharacter', 'strEthnicity');
+						foreach($arrEthnicities as $key => $value){
+							echo "<option>" . $value . "</option>";
+						}
+					?>
+					</select></td>
+				</tr>
+				<tr>
 					<td>Sexual Orientation:</td>
 					<td><select name='strOrientation'/>
 					<?php
@@ -29,6 +64,7 @@
 					?>
 					</select></td>
 				</tr>
+				<tr>
 					<td>Personality:</td>
 					<td><select name='strPersonality'/>
 					<?php
@@ -39,6 +75,7 @@
 					?>
 					</select></td>
 				</tr>
+				<tr>
 					<td>Stance on Fat:</td>
 					<td><select name='strFatStance'/>
 					<?php
@@ -49,9 +86,11 @@
 					?>
 					</select></td>
 				</tr>
+				<tr>
 					<td>Height:</td>
 					<td><input id='heightFeet' type='number' class='heightInput' min='4' max='6' value='5' name='intHeightFeet'/> feet <input id='heightInches' type='number' value='0' min='0' max='11' class='heightInput' maxlength='2' name='intHeightInches'/> inches</td>
 				</tr>
+				<tr>
 					<td>Weight:</td>
 					<td><input readonly id='weightInput' value='108' type='text' class='heightInput' maxlength='3' name='dblWeight'/> lbs</td>
 				</tr>

@@ -62,7 +62,7 @@ class DialogConditionFactory {
 		}
 		else if(strpos($strAction, '~')){
 			$function = explode('~', $strAction);
-			$_SESSION['objRPGCharacter']->$function[0]($function[1]);
+			$_SESSION['objRPGCharacter']->$function[0]($function[1], (isset($function[2]) ? $function[2] : null));
 		}
 	}
 }

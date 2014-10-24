@@ -30,7 +30,6 @@ class RPGItem{
 		$this->setCalories($arrItemInfo['intCalories']);
 		$this->setDamage($arrItemInfo['intDamage']);
 		$this->setDefence($arrItemInfo['intDefence']);
-		$this->setSize($arrItemInfo['strSize']);
 		$this->setEventID($arrItemInfo['intEventID']);
 		$this->setCreatedOn($arrItemInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrItemInfo['strCreatedBy']);
@@ -52,7 +51,6 @@ class RPGItem{
 				$arrItemInfo['intCalories'] = $arrRow['intCalories'];
 				$arrItemInfo['intDamage'] = $arrRow['intDamage'];
 				$arrItemInfo['intDefence'] = $arrRow['intDefence'];
-				$arrItemInfo['strSize'] = $arrRow['strSize'];
 				$arrItemInfo['intEventID'] = $arrRow['intEventID'];
 				$arrItemInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrItemInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
@@ -108,14 +106,6 @@ class RPGItem{
 	
 	public function setDefence($intDefence){
 		$this->_intDefence = $intDefence;
-	}
-	
-	public function getSize(){
-		return $this->_strSize;
-	}
-	
-	public function setSize($strSize){
-		$this->_strSize = $strSize;
 	}
 	
 	public function getEventID(){

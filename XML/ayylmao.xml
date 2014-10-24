@@ -3,7 +3,7 @@
 	<end>2</end>
 	<dialog id="0">
 		<eventText>There's a pale alien with glazed-over eyes. Looks like it's high on that good shit. Talk to it?</eventText>
-		<option id="1" action="giveItem~2">Yes</option>
+		<option id="1" action="giveItem~2~M">Yes</option>
 		<option id="2">No</option>
 	</dialog>
 	<dialog id="1">
