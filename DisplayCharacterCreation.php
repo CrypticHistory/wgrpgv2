@@ -43,7 +43,7 @@
 					</select></td>
 				</tr>
 				<tr>
-					<td>Ethnicity:</td>
+					<td>Skin Tone:</td>
 					<td><select name='strEthnicity'>
 					<?php
 						$arrEthnicities = get_enum_values('tblrpgcharacter', 'strEthnicity');

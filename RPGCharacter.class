@@ -27,6 +27,9 @@ class RPGCharacter{
 	private $_strEthnicity;
 	private $_intMaxHP;
 	private $_intCurrentHP;
+	private $_intDamage;
+	private $_intDefence;
+	private $_intCombat;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
@@ -60,6 +63,8 @@ class RPGCharacter{
 		$this->setEthnicity($arrCharacterInfo['strEthnicity']);
 		$this->setMaxHP($arrCharacterInfo['intMaxHP']);
 		$this->setCurrentHP($arrCharacterInfo['intCurrentHP']);
+		$this->setDamage($arrCharacterInfo['intDamage']);
+		$this->setDefence($arrCharacterInfo['intDefence']);
 		$this->setCreatedOn($arrCharacterInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrCharacterInfo['strCreatedBy']);
 		$this->setModifiedOn($arrCharacterInfo['dtmModifiedOn']);
@@ -95,6 +100,8 @@ class RPGCharacter{
 				$arrCharacterInfo['strEthnicity'] = $arrRow['strEthnicity'];
 				$arrCharacterInfo['intMaxHP'] = $arrRow['intMaxHP'];
 				$arrCharacterInfo['intCurrentHP'] = $arrRow['intCurrentHP'];
+				$arrCharacterInfo['intDamage'] = $arrRow['intDamage'];
+				$arrCharacterInfo['intDefence'] = $arrRow['intDefence'];
 				$arrCharacterInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrCharacterInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrCharacterInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
@@ -123,7 +130,9 @@ class RPGCharacter{
 						strEyeColour = " . $objDB->quote($this->_strEyeColour) . ",
 						strEthnicity = " . $objDB->quote($this->_strEthnicity) . ",
 						intMaxHP = " . $objDB->quote($this->_intMaxHP) . ",
-						intCurrentHP = " . $objDB->quote($this->_intCurrentHP) . "
+						intCurrentHP = " . $objDB->quote($this->_intCurrentHP) . ",
+						intDamage = " . $objDB->quote($this->_intDamage) . ",
+						intDefence = " . $objDB->quote($this->_intDefence) . "
 						WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
 		$objDB->query($strSQL);
 	}
@@ -159,7 +168,8 @@ class RPGCharacter{
 		return $objDB->lastInsertID();
 	}
 	
-	public function eatItem($intItemInstanceID){
+	public function eatItem($intItemInstanceID, $intHPHeal){
+		$this->healHP($intHPHeal);
 		$objDB = new Database();
 		$strSQL = "UPDATE tblcharacteritemxr
 					SET blnDigesting = 1
@@ -176,6 +186,8 @@ class RPGCharacter{
 	
 	public function forceEatItem($intItemID){
 		$intItemInstanceID = $this->giveItem($intItemID);
+		$objItem = new RPGItem($intItemID);
+		$this->healHP($objItem->getHPHeal());
 		$objDB = new Database();
 		$strSQL = "UPDATE tblcharacteritemxr
 					SET blnDigesting = 1
@@ -183,7 +195,11 @@ class RPGCharacter{
 		$objDB->query($strSQL);
 	}
 	
-	public function equipItem($intItemInstanceID){
+	public function healHP($intHPHeal){
+		$this->setCurrentHP(min(intval($this->getMaxHP()), (intval($this->getCurrentHP()) + intval($intHPHeal))));
+	}
+	
+	public function equipArmour($intItemInstanceID){
 		$objDB = new Database();
 		$this->unequipItemType($intItemInstanceID);
 		if($this->clothingCheck($intItemInstanceID, true)){
@@ -192,6 +208,15 @@ class RPGCharacter{
 						WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
 			$objDB->query($strSQL);
 		}
+	}
+	
+	public function equipWeapon($intItemInstanceID){
+		$objDB = new Database();
+		$this->unequipItemType($intItemInstanceID);
+		$strSQL = "UPDATE tblcharacteritemxr
+					SET blnEquipped = 1
+					WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
+		$objDB->query($strSQL);
 	}
 	
 	public function clothingCheck($intItemInstanceID, $blnSetEvent){
@@ -289,7 +314,7 @@ class RPGCharacter{
 		}
 		
 		if(!$blnWearable){
-			$this->unequipItem($intCurrentArmour);
+			$this->unequipItem($intCurrentArmour, 'Armour');
 		}
 		
 		return "<br/><br/>" . $strReturn;
@@ -297,11 +322,11 @@ class RPGCharacter{
 	
 	public function getEquippedArmour($strReturnVariable){
 		$objDB = new Database();
-		$strSQL = "SELECT intEventID, strItemName, intItemInstanceID
+		$strSQL = "SELECT intEventID, strItemName, intItemInstanceID, intDefence, strSize
 					FROM tblitem
 						INNER JOIN tblcharacteritemxr
 						USING (intItemID)
-					WHERE strItemType = 'Armour'
+					WHERE strItemType LIKE 'Armour:%'
 						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
 						AND blnEquipped = 1";
 		$rsResult = $objDB->query($strSQL);
@@ -309,9 +334,25 @@ class RPGCharacter{
 		return $arrRow[$strReturnVariable];
 	}
 	
-	public function unequipItem($intItemInstanceID){
+	public function getEquippedWeapon($strReturnVariable){
 		$objDB = new Database();
-		$this->setArmourRipLevel(NULL);
+		$strSQL = "SELECT intEventID, strItemName, intItemInstanceID, intDamage
+					FROM tblitem
+						INNER JOIN tblcharacteritemxr
+						USING (intItemID)
+					WHERE strItemType LIKE 'Weapon:%'
+						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
+						AND blnEquipped = 1";
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		return $arrRow[$strReturnVariable];
+	}
+	
+	public function unequipItem($intItemInstanceID, $strItemType = null){
+		$objDB = new Database();
+		if($strItemType == 'Armour'){
+			$this->setArmourRipLevel(NULL);
+		}
 		$strSQL = "UPDATE tblcharacteritemxr
 					SET blnEquipped = 0
 					WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
@@ -394,6 +435,31 @@ class RPGCharacter{
 		if(in_array($this->getEventNodeID(), (array)$objXML->getEndNodes())){
 			$this->addToCharacterEventLog($this->getEventID());
 		}
+	}
+	
+	public function takeDamage($intDamage){
+		$this->setCurrentHP(max(0, intval($this->getCurrentHP()) - intval($intDamage)));
+		return $intDamage;
+	}
+	
+	public function isDead(){
+		return intval($this->getCurrentHP()) <= 0 ? 1 : 0;
+	}
+	
+	public function reviveCharacter(){
+		$this->setCurrentHP($this->getMaxHP());
+	}
+	
+	public function getModifiedMaxHP(){
+		return $this->getMaxHP();
+	}
+	
+	public function getModifiedDamage(){
+		return intval($this->getDamage()) + intval($this->getEquippedWeapon('intDamage'));
+	}
+	
+	public function getModifiedDefence(){
+		return intval($this->getDefence()) + intval($this->getEquippedArmour('intDefence'));
 	}
 	
 	public function getRPGCharacterID(){
@@ -572,6 +638,22 @@ class RPGCharacter{
 		$this->_intCurrentHP = $intCurrentHP;
 	}
 	
+	public function getDamage(){
+		return $this->_intDamage;
+	}
+	
+	public function setDamage($intDamage){
+		$this->_intDamage = $intDamage;
+	}
+	
+	public function getDefence(){
+		return $this->_intDefence;
+	}
+	
+	public function setDefence($intDefence){
+		$this->_intDefence = $intDefence;
+	}
+	
 	public function getEventID(){
 		return $this->_intEventID;
 	}
@@ -594,6 +676,14 @@ class RPGCharacter{
 	
 	public function setArmourRipLevel($intArmourRipLevel){
 		$this->_intArmourRipLevel = $intArmourRipLevel;
+	}
+	
+	public function setCombat($intNPCID){
+		$this->_intCombat = $intNPCID;
+	}
+	
+	public function getCombat(){
+		return $this->_intCombat;
 	}
 }
 

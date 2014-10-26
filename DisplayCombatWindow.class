@@ -1,0 +1,25 @@
+<?php
+
+class DisplayCombatWindow{
+
+	public function DisplayCombatWindow(){
+		
+	}
+	
+	public static function toHTML(){
+		ob_start(); ?>
+		
+			<div class='eventDiv' id='eventDivCombatWindow'>
+				<?=$_SESSION['strCombatMessage']?>
+			</div>
+		
+		<?php
+		$strHTML = ob_get_contents();
+		ob_end_clean();
+		
+		echo $strHTML;
+	}
+
+}
+
+?>

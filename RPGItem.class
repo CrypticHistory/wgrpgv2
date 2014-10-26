@@ -8,6 +8,7 @@ class RPGItem{
 	private $_strItemName;
 	private $_txtItemDesc;
 	private $_intCalories;
+	private $_intHPHeal;
 	private $_intDamage;
 	private $_intDefence;
 	private $_strSize;
@@ -28,6 +29,7 @@ class RPGItem{
 		$this->setItemName($arrItemInfo['strItemName']);
 		$this->setItemDesc($arrItemInfo['txtItemDesc']);
 		$this->setCalories($arrItemInfo['intCalories']);
+		$this->setHPHeal($arrItemInfo['intHPHeal']);
 		$this->setDamage($arrItemInfo['intDamage']);
 		$this->setDefence($arrItemInfo['intDefence']);
 		$this->setEventID($arrItemInfo['intEventID']);
@@ -49,6 +51,7 @@ class RPGItem{
 				$arrItemInfo['strItemName'] = $arrRow['strItemName'];
 				$arrItemInfo['txtItemDesc'] = $arrRow['txtItemDesc'];
 				$arrItemInfo['intCalories'] = $arrRow['intCalories'];
+				$arrItemInfo['intHPHeal'] = $arrRow['intHPHeal'];
 				$arrItemInfo['intDamage'] = $arrRow['intDamage'];
 				$arrItemInfo['intDefence'] = $arrRow['intDefence'];
 				$arrItemInfo['intEventID'] = $arrRow['intEventID'];
@@ -90,6 +93,14 @@ class RPGItem{
 	
 	public function setCalories($intCalories){
 		$this->_intCalories = $intCalories;
+	}
+	
+	public function getHPHeal(){
+		return $this->_intHPHeal;
+	}
+	
+	public function setHPHeal($intHPHeal){
+		$this->_intHPHeal = $intHPHeal;
 	}
 	
 	public function getDamage(){

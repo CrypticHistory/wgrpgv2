@@ -9,25 +9,32 @@ class DisplayEventWindow{
 	public static function toHTML(){
 		ob_start(); ?>
 		
-			<fieldset class='middleFieldset'>
-			<legend>Events</legend>
-				<div class='eventDiv'>
-					<?php
-					$intCounter = 0;
-					$objEvent = new RPGEvent($_SESSION['objRPGCharacter']->getEventID());
-					$objXML = new RPGXMLReader($objEvent->getXML());
-					foreach($objXML->getEventTextList($_SESSION['objRPGCharacter']->getEventNodeID()) as $key => $value){
-						if(($objXML->hasEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) == true && DialogConditionFactory::evaluateCondition($objXML->getEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter)) == true)
-							|| $objXML->hasEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) == false){
-							echo $value;
-						}
-						$intCounter++;
+			<div class='eventDiv' id='eventDivEventWindow'>
+				<?php
+				if(isset($_SESSION['strCombatMessage'])){
+					echo $_SESSION['strCombatMessage'] . "<br/>";
+					unset($_SESSION['strCombatMessage']);
+				}
+				
+				$intCounter = 0;
+				$objEvent = new RPGEvent($_SESSION['objRPGCharacter']->getEventID());
+				$objXML = new RPGXMLReader($objEvent->getXML());
+				foreach($objXML->getEventTextList($_SESSION['objRPGCharacter']->getEventNodeID()) as $key => $value){
+					if(($objXML->hasEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) == true && DialogConditionFactory::evaluateCondition($objXML->getEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter)) == true)
+						|| $objXML->hasEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) == false){
+						echo $value;
 					}
-					
-					echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck() . "</i>";
-					?>
-				</div>
-			</fieldset>
+					$intCounter++;
+				}
+				
+				if(isset($_SESSION['strLootMessage'])){
+					echo '<br/>' . $_SESSION['strLootMessage'];
+					unset($_SESSION['strLootMessage']);
+				}
+				
+				echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck() . "</i>";
+				?>
+			</div>
 		
 		<?php
 		$strHTML = ob_get_contents();

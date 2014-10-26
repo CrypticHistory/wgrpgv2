@@ -1,6 +1,7 @@
 <?php
 
 include_once 'DialogConditionFactory.class';
+include_once 'RPGNPC.class';
 include_once 'RPGTime.class';
 
 class DataGameUI{
@@ -55,17 +56,32 @@ class DataGameUI{
 			$this->traverse($_GET['direction']);
 		}
 		
+		if($_SESSION['objRPGCharacter']->getCombat() != 0){
+			$_SESSION['objUISettings']->setEventFrame('Combat');
+			$_SESSION['objUISettings']->setCommandsFrame('Combat');
+			if(!isset($_SESSION['objEnemy'])){
+				$_SESSION['objEnemy'] = new RPGNPC($_SESSION['objRPGCharacter']->getCombat());
+				$_SESSION['strCombatMessage'] = "<b>Attack In Progress : " . $_SESSION['objEnemy']->getNPCName() . "</b><br/>";
+			}
+		}
+		else{
+			unset($_SESSION['objEnemy']);
+			$_SESSION['objUISettings']->setEventFrame('Event');
+			$_SESSION['objUISettings']->setCommandsFrame('Event');
+		}
+		
 		$_SESSION['objRPGCharacter']->checkEndOfEvent();
 		
 		if(isset($_POST['itemAction']) && isset($_POST['itemID'])){
 			if($_POST['itemAction'] == 'use'){
-				$_SESSION['objRPGCharacter']->eatItem($_POST['itemID']);
+				$_SESSION['objRPGCharacter']->eatItem($_POST['itemID'], $_POST['itemHPHeal']);
 			}
 			elseif($_POST['itemAction'] == 'drop'){
 				$_SESSION['objRPGCharacter']->dropItem($_POST['itemID']);
 			}
 			elseif($_POST['itemAction'] == 'equip'){
-				$_SESSION['objRPGCharacter']->equipItem($_POST['itemID']);
+				$strEquipFunction = 'equip' . $_POST['itemType'];
+				$_SESSION['objRPGCharacter']->$strEquipFunction($_POST['itemID']);
 			}
 			elseif($_POST['itemAction'] == 'unequip'){
 				$_SESSION['objRPGCharacter']->unequipItem($_POST['itemID']);

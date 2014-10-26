@@ -15,6 +15,7 @@ class DisplayUseInventory{
 						<th class='itemNameHeader borderBottom'>Item Name:</th>
 						<th class='itemTypeHeader borderBottom'>Type:</th>
 						<th class='caloriesHeader borderBottom'>Calories:</th>
+						<th class='HPHealHeader borderBottom'>Health:</th>
 					</tr>
 					<?php
 						$arrUseItems = $this->getUseInventory();
@@ -24,10 +25,12 @@ class DisplayUseInventory{
 							echo "<td class='pointer background" . ($intCounter % 2) . "'><a href=\"javascript:showItemDetails('use', '" . $intCounter . "');\">" . $arrCategoryNames['strItemName'] . "</td>";
 							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['strItemType'] . "</td>";
 							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['intCalories'] . "</td>";
+							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['intHPHeal'] . "</td>";
 							echo "</tr>";
 							echo "<tr id='useItemDetails" . $intCounter . "' class='hidden'><td colspan='3' class='itemDesc background" . ($intCounter % 2) . "'><b>Description:</b><br/>" . $arrCategoryNames['txtItemDesc'] . "<br/>
 									<form method='post' action='main.php?page=DisplayGameUI'>
 										<input type='hidden' name='itemID' value='" . $arrCategoryNames['intItemInstanceID'] . "'/>
+										<input type='hidden' name='itemHPHeal' value='" . $arrCategoryNames['intHPHeal'] . "'/>
 										<button type='submit' name='itemAction' value='use'>Use</button>
 										<button type='submit' name='itemAction' value='drop'>Drop</button>
 									</form></td><td></td><td></td>
@@ -48,7 +51,7 @@ class DisplayUseInventory{
 	private function getUseInventory(){
 		$arrReturn = array();
 		$objDB = new Database();
-		$strSQL = "SELECT intItemInstanceID, strItemName, txtItemDesc, strItemType, intCalories
+		$strSQL = "SELECT intItemInstanceID, strItemName, txtItemDesc, strItemType, intCalories, intHPHeal
 					FROM tblitem
 						INNER JOIN tblcharacteritemxr
 						USING (intItemID)
@@ -62,6 +65,7 @@ class DisplayUseInventory{
 			$arrReturn[$intCounter]['strItemName'] = $arrRow['strItemName'];
 			$arrReturn[$intCounter]['txtItemDesc'] = $arrRow['txtItemDesc'];
 			$arrReturn[$intCounter]['strItemType'] = $arrRow['strItemType'];
+			$arrReturn[$intCounter]['intHPHeal'] = $arrRow['intHPHeal'];
 			$arrReturn[$intCounter]['intCalories'] = $arrRow['intCalories'];
 			$intCounter++;
 		}

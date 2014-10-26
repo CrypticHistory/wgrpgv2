@@ -1,0 +1,28 @@
+<?php
+
+class DisplayCombatCommandsWindow{
+
+	public function DisplayCombatCommandsWindow(){
+		
+	}
+	
+	public static function toHTML(){
+		ob_start(); ?>
+
+			<div class='commandsDiv' id='commandsDivCombatCommands'>
+				<form method='post' action='combat.php'>
+					<button type='submit' name='command' value='attack'>Attack</button>
+					<button type='submit' name='command' value='flee'>Flee</button>
+				</form>
+			</div>
+		
+		<?php
+		$strHTML = ob_get_contents();
+		ob_end_clean();
+		
+		echo $strHTML;
+	}
+
+}
+
+?>

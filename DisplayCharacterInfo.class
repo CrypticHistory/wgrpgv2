@@ -50,6 +50,23 @@ class DisplayCharacterInfo{
 						<td class='borderTop' colspan='2'>&nbsp;</td>
 					</tr>
 				</table>
+				<table align='center'>
+					<tr>
+						<th class='tableHeader borderBottom statHeader' colspan='2'>Combat Stats</th>
+					</tr>
+					<tr>
+						<td class='background0'>Current HP:</td><td class='background0' id='charMaxHP'><?=$_SESSION['objRPGCharacter']->getCurrentHP()?> / <?=$_SESSION['objRPGCharacter']->getModifiedMaxHP()?></td>
+					</tr>
+					<tr>
+						<td class='background1'>Damage:</td><td class='background1' id='charDamage'><?=$_SESSION['objRPGCharacter']->getModifiedDamage()?></td>
+					</tr>
+					<tr>
+						<td class='background0'>Defence:</td><td class='background0' id='charDefence'><?=$_SESSION['objRPGCharacter']->getModifiedDefence()?></td>
+					</tr>
+					<tr>
+						<td class='borderTop' colspan='2'>&nbsp;</td>
+					</tr>
+				</table>
 			</div>
 		
 		<?php

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>0</end>
+	<dialog id="0">
+		<eventText>
+			You equip the weapon. After swinging it around a few times, you feel comfortable that it will serve you well in combat.
+		</eventText>
+	</dialog>
+</event>

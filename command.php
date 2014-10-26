@@ -1,7 +1,10 @@
 <?php
 
 	include_once 'DialogConditionFactory.class';
+	include_once 'RPGUser.class';
 	include_once 'RPGCharacter.class';
+	include_once 'RPGNPC.class';
+	include_once 'UISettings.class';
 	
 	session_start();
 

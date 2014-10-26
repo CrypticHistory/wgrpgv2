@@ -1,16 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <event>
-	<end>2</end>
+	<end>0</end>
 	<dialog id='0'>
-		<eventText>You stand still, doing absolutely nothing! Want to do something?</eventText>
-		<option id='1'>Yes</option>
-		<option id='2'>No</option>
-	</dialog>
-	<dialog id='1'>
-		<eventText>You did something! Woah!</eventText>
-		<option id='2'>Yes</option>
-	</dialog>
-	<dialog id='2'>
-		<eventText>End</eventText>
+		<eventText precondition="BMI&gt;0&amp;BMI&lt;30">
+			You press onward.
+		</eventText>
+		<eventText precondition="BMI&gt;29&amp;BMI&lt;40">
+			You lumber onward.
+		</eventText>
+		<eventText precondition="BMI&gt;39">
+			You waddle onward.
+		</eventText>
+		<eventText>
+			Every step you take is met with an echo. Occasionally your gait meets a puddle, and warm water licks your ankles.<![CDATA[<br/><br/>]]>
+		</eventText>
+		<eventText precondition="BMI&gt;19&amp;BMI&lt;30">
+			You're a bit tired, but you know you cannot rest.<![CDATA[<br/><br/>]]>
+		</eventText>
+		<eventText precondition="BMI&gt;29&amp;BMI&lt;40">
+			Your weight is putting a great amount of strain on your lower body, but you know you cannot rest.<![CDATA[<br/><br/>]]>
+		</eventText>
+		<eventText precondition="BMI&gt;39&amp;BMI&lt;50">
+			Your girth is putting an immense amount of strain on your lower body, but you know you cannot rest.<![CDATA[<br/><br/>]]>
+		</eventText>
+		<eventText precondition="BMI&gt;49&amp;BMI&lt;60">
+			Hefting around your jiggling rolls is beginning to put immense strain on your lower body. You are absolutely exausted, but you know you cannot rest.<![CDATA[<br/><br/>]]>
+		</eventText>
+		<eventText precondition="BMI&gt;59">
+			Your body has become utterly massive as of late, and each step you take sends ripples jolting across your jiggling rolls of fat. You're surprised you can even continue waddling forward, even at such a slow pace. You are absolutely exausted, but you know you cannot rest.<![CDATA[<br/><br/>]]>
+		</eventText>
+		<eventText>
+			The clinking of metal and stone can be heard in the distance, hinting that there could be other lifeforms present within the cavern.
+			You know you're not alone; you can sense it. The question that plagues your mind, however, is whether you are amongst friend or foe...
+		</eventText>
 	</dialog>
 </event>

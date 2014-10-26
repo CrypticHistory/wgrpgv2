@@ -22,9 +22,10 @@ class DisplayEquipInventory{
 						$arrUseItems = $this->getEquipInventory();
 						$intCounter = 0;
 						foreach($arrUseItems as $intKey => $arrCategoryNames){
+							$arrItemType = explode(':', $arrCategoryNames['strItemType']);
 							echo "<tr class='textCenter' id='equipItem" . $intCounter . "'>";
 							echo "<td class='pointer background" . ($intCounter % 2) . "'><a href=\"javascript:showItemDetails('equip', '" . $intCounter . "');\">" . $arrCategoryNames['strItemName'] . "</a>" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? " (E)" : "") . "</td>";
-							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['strItemType'] . "</td>";
+							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrItemType[1] . "</td>";
 							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['intDamage'] . "</td>";
 							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['intDefence'] . "</td>";
 							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['strSize'] . "</td>";
@@ -32,6 +33,7 @@ class DisplayEquipInventory{
 							echo "<tr id='equipItemDetails" . $intCounter . "' class='hidden'><td colspan='5' class='itemDesc background" . ($intCounter % 2) . "'><b>Description:</b><br/>" . $arrCategoryNames['txtItemDesc'] . "<br/>
 									<form method='post' action='main.php?page=DisplayGameUI'>
 										<input type='hidden' name='itemID' value='" . $arrCategoryNames['intItemInstanceID'] . "'/>
+										<input type='hidden' name='itemType' value='" . $arrItemType[0] . "'/>
 										<button type='submit' name='itemAction' value='" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? "unequip'>Unequip" : "equip'>Equip") . "</button>
 										" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? "" : "<button type='submit' name='itemAction' value='drop'>Drop</button>") . "
 									</form></td><td></td><td></td>
@@ -56,7 +58,7 @@ class DisplayEquipInventory{
 					FROM tblitem
 						INNER JOIN tblcharacteritemxr
 						USING (intItemID)
-					WHERE (strItemType = 'Armour' OR strItemType = 'Accessory' OR strItemType = 'Weapon')
+					WHERE (strItemType LIKE 'Armour:%' OR strItemType = 'Accessory' OR strItemType LIKE 'Weapon:%')
 							AND intRPGCharacterID = " . $objDB->quote($_SESSION['objRPGCharacter']->getRPGCharacterID());
 		$rsResult = $objDB->query($strSQL);
 		$intCounter = 0;

@@ -1,0 +1,229 @@
+<?php
+
+require_once "Database.class";
+
+class RPGNPC{
+
+	private $_intNPCID;
+	private $_strNPCName;
+	private $_intMaxHP;
+	private $_intCurrentHP;
+	private $_intDamage;
+	private $_intDefence;
+	private $_intWeight;
+	private $_intHeight;
+	private $_dtmCreatedOn;
+	private $_strCreatedBy;
+	private $_dtmModifiedOn;
+	private $_strModifiedBy;
+	
+	public function RPGNPC($intNPCID = null){
+		if($intNPCID){
+			$this->loadNPCInfo($intNPCID);
+		}
+	}
+	
+	private function populateVarFromRow($arrNPCInfo){
+		$this->setNPCID($arrNPCInfo['intNPCID']);
+		$this->setNPCName($arrNPCInfo['strNPCName']);
+		$this->setMaxHP($arrNPCInfo['intMaxHP']);
+		$this->setCurrentHP($this->getMaxHP());
+		$this->setDamage($arrNPCInfo['intDamage']);
+		$this->setDefence($arrNPCInfo['intDefence']);
+		$this->setWeight($arrNPCInfo['intWeight']);
+		$this->setHeight($arrNPCInfo['intHeight']);
+		$this->setCreatedOn($arrNPCInfo['dtmCreatedOn']);
+		$this->setCreatedBy($arrNPCInfo['strCreatedBy']);
+		$this->setModifiedOn($arrNPCInfo['dtmModifiedOn']);
+		$this->setModifiedBy($arrNPCInfo['strModifiedBy']);
+	}
+	
+	private function loadNPCInfo($intNPCID){
+		$objDB = new Database();
+		$arrNPCInfo = array();
+			$strSQL = "SELECT *
+						FROM tblnpc
+							WHERE intNPCID = " . $objDB->quote($intNPCID);
+			$rsResult = $objDB->query($strSQL);
+			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+				$arrNPCInfo['intNPCID'] = $arrRow['intNPCID'];
+				$arrNPCInfo['strNPCName'] = $arrRow['strNPCName'];
+				$arrNPCInfo['intMaxHP'] = $arrRow['intMaxHP'];
+				$arrNPCInfo['intDamage'] = $arrRow['intDamage'];
+				$arrNPCInfo['intDefence'] = $arrRow['intDefence'];
+				$arrNPCInfo['intWeight'] = $arrRow['intWeight'];
+				$arrNPCInfo['intHeight'] = $arrRow['intHeight'];
+				$arrNPCInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
+				$arrNPCInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
+				$arrNPCInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
+				$arrNPCInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
+			}
+		$this->populateVarFromRow($arrNPCInfo);
+	}
+	
+	public function takeDamage($intDamage){
+		$this->setCurrentHP(max(0, intval($this->getCurrentHP()) - intval($intDamage)));
+		return $intDamage;
+	}
+	
+	public function isDead(){
+		return intval($this->getCurrentHP()) <= 0 ? 1 : 0;
+	}
+	
+	public function getEquippedArmour($strReturnVariable){
+		$objDB = new Database();
+		$strSQL = "SELECT strItemName, intDefence
+					FROM tblitem
+						INNER JOIN tblnpcitemxr
+						USING (intItemID)
+					WHERE strItemType LIKE 'Armour:%'
+						AND intNPCID = " . $objDB->quote($this->getNPCID()) . "
+						AND blnEquipped = 1";
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		return $arrRow[$strReturnVariable];
+	}
+	
+	public function getEquippedWeapon($strReturnVariable){
+		$objDB = new Database();
+		$strSQL = "SELECT strItemName, intDamage
+					FROM tblitem
+						INNER JOIN tblnpcitemxr
+						USING (intItemID)
+					WHERE strItemType LIKE 'Weapon:%'
+						AND intNPCID = " . $objDB->quote($this->getNPCID()) . "
+						AND blnEquipped = 1";
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		return $arrRow[$strReturnVariable];
+	}
+	
+	public function getRandomDrops(){
+		$objDB = new Database();
+		$arrDrops = array();
+		$strSQL = "SELECT intItemID, strItemName, intDropRating
+					FROM tblnpcitemxr
+						INNER JOIN tblitem
+						USING(intItemID)
+					WHERE blnDropped = 1
+						AND intNPCID = " . $objDB->quote($this->getNPCID());
+		$rsResult = $objDB->query($strSQL);
+		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+			$intRand = mt_rand(0, 10000);
+			if($intRand <= $arrRow['intDropRating']){
+				$arrDrops[$arrRow['intItemID']] = $arrRow['strItemName'];
+			}
+		}
+		return $arrDrops;
+	}
+	
+	public function getModifiedMaxHP(){
+		return $this->getMaxHP();
+	}
+	
+	public function getModifiedDamage(){
+		return intval($this->getDamage()) + intval($this->getEquippedWeapon('intDamage'));
+	}
+	
+	public function getModifiedDefence(){
+		return intval($this->getDefence()) + intval($this->getEquippedArmour('intDefence'));
+	}
+	
+	public function getNPCID(){
+		return $this->_intNPCID;
+	}
+	
+	public function setNPCID($intNPCID){
+		$this->_intNPCID = $intNPCID;
+	}
+	
+	public function getNPCName(){
+		return $this->_strNPCName;
+	}
+	
+	public function setNPCName($strNPCName){
+		$this->_strNPCName = $strNPCName;
+	}
+	
+	public function getMaxHP(){
+		return $this->_intMaxHP;
+	}
+	
+	public function setMaxHP($intMaxHP){
+		$this->_intMaxHP = $intMaxHP;
+	}
+	
+	public function getCurrentHP(){
+		return $this->_intCurrentHP;
+	}
+	
+	public function setCurrentHP($intCurrentHP){
+		$this->_intCurrentHP = $intCurrentHP;
+	}
+	
+	public function getDamage(){
+		return $this->_intDamage;
+	}
+	
+	public function setDamage($intDamage){
+		$this->_intDamage = $intDamage;
+	}
+	
+	public function getDefence(){
+		return $this->_intDefence;
+	}
+	
+	public function setDefence($intDefence){
+		$this->_intDefence = $intDefence;
+	}
+	
+	public function getWeight(){
+		return $this->_intWeight;
+	}
+	
+	public function setWeight($intWeight){
+		$this->_intWeight = $intWeight;
+	}
+	
+	public function getHeight(){
+		return $this->_intHeight;
+	}
+	
+	public function setHeight($intHeight){
+		$this->_intHeight = $intHeight;
+	}
+	
+	public function getCreatedOn(){
+		return $this->_dtmCreatedOn;
+	}
+	
+	public function setCreatedOn($dtmCreatedOn){
+		$this->_dtmCreatedOn = $dtmCreatedOn;
+	}
+	
+	public function getCreatedBy(){
+		return $this->_strCreatedBy;
+	}
+	
+	public function setCreatedBy($strCreatedBy){
+		$this->_strCreatedBy = $strCreatedBy;
+	}
+	
+	public function getModifiedOn(){
+		return $this->_dtmModifiedOn;
+	}
+	
+	public function setModifiedOn($dtmModifiedOn){
+		$this->_dtmModifiedOn = $dtmModifiedOn;
+	}
+	
+	public function getModifiedBy(){
+		return $this->_strModifiedBy;
+	}
+	
+	public function setModifiedBy($strModifiedBy){
+		$this->_strModifiedBy = $strModifiedBy;
+	}
+}
+
+?>

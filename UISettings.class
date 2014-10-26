@@ -5,12 +5,14 @@ class UISettings{
 	private $_strInventoryFrame;
 	private $_strEventFrame;
 	private $_strCharacterFrame;
+	private $_strCommandsFrame;
 	
 	public function UISettings(){
 		//defaults
 		$this->_strInventoryFrame = "Equipment";
-		$this->_strEventFrame = "EventWindow";
+		$this->_strEventFrame = "Event";
 		$this->_strCharacterFrame = "Info";
+		$this->_strCommandsFrame = "Event";
 	}
 	
 	public function getInventoryFrame(){
@@ -35,6 +37,14 @@ class UISettings{
 	
 	public function setCharacterFrame($strCharacterFrame){
 		$this->_strCharacterFrame = $strCharacterFrame;
+	}
+	
+	public function getCommandsFrame(){
+		return $this->_strCommandsFrame;
+	}
+	
+	public function setCommandsFrame($strCommandsFrame){
+		$this->_strCommandsFrame = $strCommandsFrame;
 	}
 }
 
