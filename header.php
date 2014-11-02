@@ -18,7 +18,8 @@ include_once "RPGCharacter.class";
 		<title>WGRPG</title>
 		<link rel="stylesheet" type="text/css" href="main.css" media="screen" />
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script src="JS/jquery.numeric.js"></script>
+		<script src="JS/jquery.numeric.js" type="text/javascript"></script>
+		<script src="JS/jquery.dotdotdot.js" type="text/javascript"></script>
 		<?php header('Content-Type: text/html; charset=ISO-8859-15');?>
 	</head>
 	<body>

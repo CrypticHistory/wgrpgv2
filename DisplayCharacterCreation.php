@@ -32,6 +32,17 @@
 					</select></td>
 				</tr>
 				<tr>
+					<td>Hair Length:</td>
+					<td><select name='strHairLength'>
+					<?php
+						$arrHairLengths = get_enum_values('tblrpgcharacter', 'strHairLength');
+						foreach($arrHairLengths as $key => $value){
+							echo "<option>" . $value . "</option>";
+						}
+					?>
+					</select></td>
+				</tr>
+				<tr>
 					<td>Eye Colour:</td>
 					<td><select name='strEyeColour'>
 					<?php

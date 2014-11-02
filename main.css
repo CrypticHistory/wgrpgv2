@@ -89,6 +89,19 @@ ul{
 	padding:5px;
 }
 
+.blogPostContents{
+	height:90px;
+	overflow-y:hidden;
+}
+
+.readmore{
+	display:none;
+}
+
+.paginate li{
+	display:inline;
+}
+
 .logo{
 	position:absolute;
 	left:44%;

@@ -23,6 +23,7 @@ class RPGCharacter{
 	private $_strPersonality;
 	private $_strFatStance;
 	private $_strHairColour;
+	private $_strHairLength;
 	private $_strEyeColour;
 	private $_strEthnicity;
 	private $_intMaxHP;
@@ -59,6 +60,7 @@ class RPGCharacter{
 		$this->setPersonality($arrCharacterInfo['strPersonality']);
 		$this->setFatStance($arrCharacterInfo['strFatStance']);
 		$this->setHairColour($arrCharacterInfo['strHairColour']);
+		$this->setHairLength($arrCharacterInfo['strHairLength']);
 		$this->setEyeColour($arrCharacterInfo['strEyeColour']);
 		$this->setEthnicity($arrCharacterInfo['strEthnicity']);
 		$this->setMaxHP($arrCharacterInfo['intMaxHP']);
@@ -96,6 +98,7 @@ class RPGCharacter{
 				$arrCharacterInfo['strPersonality'] = $arrRow['strPersonality'];
 				$arrCharacterInfo['strFatStance'] = $arrRow['strFatStance'];
 				$arrCharacterInfo['strHairColour'] = $arrRow['strHairColour'];
+				$arrCharacterInfo['strHairLength'] = $arrRow['strHairLength'];
 				$arrCharacterInfo['strEyeColour'] = $arrRow['strEyeColour'];
 				$arrCharacterInfo['strEthnicity'] = $arrRow['strEthnicity'];
 				$arrCharacterInfo['intMaxHP'] = $arrRow['intMaxHP'];
@@ -127,6 +130,7 @@ class RPGCharacter{
 						strPersonality = " . $objDB->quote($this->_strPersonality) . ",
 						strFatStance = " . $objDB->quote($this->_strFatStance) . ",
 						strHairColour = " . $objDB->quote($this->_strHairColour) . ",
+						strHairLength = " . $objDB->quote($this->_strHairLength) . ",
 						strEyeColour = " . $objDB->quote($this->_strEyeColour) . ",
 						strEthnicity = " . $objDB->quote($this->_strEthnicity) . ",
 						intMaxHP = " . $objDB->quote($this->_intMaxHP) . ",
@@ -137,12 +141,12 @@ class RPGCharacter{
 		$objDB->query($strSQL);
 	}
 	
-	public function createNewCharacter($strUserID, $strRPGCharacterName, $dblWeight, $intHeight, $strGender, $strOrientation, $strPersonality, $strFatStance, $strHairColour, $strEyeColour, $strEthnicity){
+	public function createNewCharacter($strUserID, $strRPGCharacterName, $dblWeight, $intHeight, $strGender, $strOrientation, $strPersonality, $strFatStance, $strHairColour, $strHairLength, $strEyeColour, $strEthnicity){
 		$objDB = new Database();
 		$strSQL = "INSERT INTO tblrpgcharacter
-					(strUserID, strRPGCharacterName, dblWeight, intHeight, strGender, strOrientation, strPersonality, strFatStance, strHairColour, strEyeColour, strEthnicity, dtmCreatedOn, strCreatedBy)
+					(strUserID, strRPGCharacterName, dblWeight, intHeight, strGender, strOrientation, strPersonality, strFatStance, strHairColour, strHairLength, strEyeColour, strEthnicity, dtmCreatedOn, strCreatedBy)
 						VALUES
-					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", '" . date('Y-m-d H:i:s') . "', 'system')";
+					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", '" . date('Y-m-d H:i:s') . "', 'system')";
 		$objDB->query($strSQL);
 		$intRPGCharacterID = $objDB->lastInsertID();
 		$this->loadRPGCharacterInfo($intRPGCharacterID);
@@ -322,10 +326,12 @@ class RPGCharacter{
 	
 	public function getEquippedArmour($strReturnVariable){
 		$objDB = new Database();
-		$strSQL = "SELECT intEventID, strItemName, intItemInstanceID, intDefence, strSize
+		$strSQL = "SELECT intEventID, strItemName, intItemInstanceID, intDefence, strSize, strXML, strItemType
 					FROM tblitem
 						INNER JOIN tblcharacteritemxr
-						USING (intItemID)
+							USING (intItemID)
+						INNER JOIN tblevent
+							USING (intEventID)
 					WHERE strItemType LIKE 'Armour:%'
 						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
 						AND blnEquipped = 1";
@@ -336,10 +342,12 @@ class RPGCharacter{
 	
 	public function getEquippedWeapon($strReturnVariable){
 		$objDB = new Database();
-		$strSQL = "SELECT intEventID, strItemName, intItemInstanceID, intDamage
+		$strSQL = "SELECT intEventID, strItemName, intItemInstanceID, intDamage, strXML, strItemType
 					FROM tblitem
 						INNER JOIN tblcharacteritemxr
-						USING (intItemID)
+							USING (intItemID)
+						INNER JOIN tblevent
+							USING (intEventID)
 					WHERE strItemType LIKE 'Weapon:%'
 						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
 						AND blnEquipped = 1";
@@ -426,6 +434,10 @@ class RPGCharacter{
 		$whole = floor($dblFeet);
 		$fraction = $dblFeet - $whole;
 		$intInches = round($fraction * intFEET_PER_INCH);
+		if($intInches == 12){
+			$whole++;
+			$intInches = 0;
+		}
 		return strval($whole) . "'" . strval($intInches) . "\"";
 	}
 	
@@ -604,6 +616,14 @@ class RPGCharacter{
 	
 	public function setHairColour($strHairColour){
 		$this->_strHairColour = $strHairColour;
+	}
+	
+	public function getHairLength(){
+		return $this->_strHairLength;
+	}
+	
+	public function setHairLength($strHairLength){
+		$this->_strHairLength = $strHairLength;
 	}
 	
 	public function getEyeColour(){
