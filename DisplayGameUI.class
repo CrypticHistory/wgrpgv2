@@ -35,9 +35,19 @@ class DisplayGameUI extends DataGameUI{
 	protected $_objCombatCommandsWindow;
 
 	public function DisplayGameUI(){
-		if(!isset($_SESSION['objUISettings'])){
-			$_SESSION['objUISettings'] = new UISettings();
+	// echo $_SESSION['objEnemy']->getBMI();
+		//load character
+		if(isset($_POST['strCharacterName'])){
+			$_SESSION['objRPGCharacter'] = new RPGCharacter($_POST['strCharacterName']);
+			unset($_SESSION['objUISettings']);
+			unset($_SESSION['objEnemy']);
 		}
+		
+		//load UI Settings
+		if(!isset($_SESSION['objUISettings'])){
+			$_SESSION['objUISettings'] = new UISettings($_SESSION['objRPGCharacter']->getRPGCharacterID());
+		}
+		
 		$this->_objCharacterInfo = new DisplayCharacterInfo();
 		$this->_objCharacterAppearance = new DisplayCharacterAppearance();
 		$this->_objCharacterSkills = new DisplayCharacterSkills();
@@ -230,6 +240,7 @@ class DisplayGameUI extends DataGameUI{
 			<fieldset class='compassFieldset'>
 			<legend>Compass</legend>
 				<div class='compassDiv'>
+					<?php if($_SESSION['objRPGCharacter']->getEventNodeID() == 0 || $_SESSION['objUISettings']->getEndOfEvent() == true){ ?>
 					<div class='compassNLine'>
 						<a href='main.php?page=DisplayGameUI&direction=north'><input class='compass' type='button' value='North'/></a>
 					</div>
@@ -240,6 +251,9 @@ class DisplayGameUI extends DataGameUI{
 					<div class='compassSLine'>
 						<a href='main.php?page=DisplayGameUI&direction=south'><input class='compass' type='button' value='South'/></a>
 					</div>
+					<?php } else { ?>
+					Traversing is disabled during this event.
+					<?php } ?>
 				</div>
 			</fieldset>
 		</div>

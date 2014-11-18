@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>any</end>
+	<dialog id="0">
+		<eventText>You pull the cuirass over your head and stick your arms through the holes, allowing it to rest on your chest. The strap slides down your right arm. When you adjust it, the other strap slides down your left arm. It seems this armour is too big to fit on your body.</eventText>
+	</dialog>
+	<dialog id="1">
+		<eventText>You pull the cuirass over your head and stick your arms through the sleeves. It rests on your chest a bit loosely, but it should fit. Because the chestpiece is too long, the skirt also fits loosely, starting below your waist and finishing at your knees.</eventText>
+	</dialog>
+	<dialog id="2">
+		<eventText>You pull the cuirass over your head and stick your arms through the sleeves. It fits a little loose, but still manageable.</eventText>
+	</dialog>
+	<dialog id="3">
+		<eventText>You pull the cuirass over your head and stick your arms through the sleeves. The cuirass fits perfectly on your chest, as do the straps on your shoulders. This armour should be sufficient in defending your upper body. Your skirt is just the right length to be fashionable, although it leaves your legs exposed. Still, the armour forms a cute blend of fashion and defence. </eventText>
+	</dialog>
+	<dialog id="4">
+		<eventText>You pull the cuirass over your head and stick your arms through the sleeves. Pulling the chestpiece down requires some effort, but you manage to succeed. The straps are tight around your arms. The skirt leaves your legs bare to oncoming attacks, but that is just the nature of the armour.</eventText>
+	</dialog>
+	<dialog id="5">
+		<eventText>You pull the cuirass over your head and find the holes of the sleeves with some difficulty. The chestpiece fits extremely tight against your breasts. You nearly struggle for breath, but you figure the defence this armour provides is too valuable. The skirt barely covers the upper portion of your thighs.</eventText>
+	</dialog>
+	<dialog id="6">
+		<eventText>You pull the cuirass over your head and find the holes of the sleeves with some difficulty. The chestpiece fits extremely tight against your breasts. You nearly struggle for breath, but you figure the defence this armour provides is too valuable. The skirt barely covers the upper portion of your thighs.</eventText>
+	</dialog>
+	<dialog id="7">
+		<eventText>You pull the cuirass over your head and find the holes of the sleeves with some difficulty. The chestpiece fits extremely tight against your breasts. You nearly struggle for breath, but you figure the defence this armour provides is too valuable. The skirt barely covers the upper portion of your thighs.</eventText>
+	</dialog>
+	<dialog id="8">
+		<eventText>You pull the cuirass down, but are immediately halted by your breasts. It will be impossible to fit this armour overtop your breasts unless you lose some weight.</eventText>
+	</dialog>
+	<dialog id="9">
+		<eventText>You pull the cuirass down, but are immediately halted by your breasts. It will be impossible to fit this armour overtop your breasts unless you lose some weight.</eventText>
+	</dialog>
+	<dialog id="10">
+		<eventText>Your armour has fallen right off. It seems you've lost too much weight.</eventText>
+	</dialog>
+	<dialog id="11">
+		<eventText>Your armour is becoming very loose on your frame. Lose anymore weight and it may fall off.</eventText>
+		<appearanceText>
+			You are wearing a very loose-fitting <![CDATA[<b>]]>leather cuirass<![CDATA[</b>]]>.
+			The chestpiece slaps against your body with every step and the straps nearly slide down your sleeves.
+		</appearanceText>
+	</dialog>
+	<dialog id="12">
+		<eventText>Your armour is now a bit loose on your frame.</eventText>
+		<appearanceText>
+			You are wearing a loose-fitting <![CDATA[<b>]]>leather cuirass<![CDATA[</b>]]>.
+			Ocasionally your straps slide down your shoulders, and you have to readjust to keep the armour from falling down.
+		</appearanceText>
+	</dialog>
+	<dialog id="13">
+		<eventText>Your armour now fits perfectly on your frame.</eventText>
+		<appearanceText>
+			You are wearing a <![CDATA[<b>]]>leather cuirass.<![CDATA[</b>]]>
+		</appearanceText>
+	</dialog>
+	<dialog id="14">
+		<eventText>Your armour is now tight on your frame.</eventText>
+		<appearanceText>
+			You are wearing a tight-fitting <![CDATA[<b>]]>leather cuirass.<![CDATA[</b>]]>
+		</appearanceText>
+	</dialog>
+	<dialog id="15">
+		<eventText>Your armour is now uncomfortably tight on your frame.</eventText>
+		<appearanceText>
+			You are wearing an uncomfortably tight-fitting <![CDATA[<b>]]>leather cuirass.<![CDATA[</b>]]>
+			Your entire upper body is pressed hard against the leather armour, to the point where it is affecting your breathing. The small amount of room inside the armour causes you to suck in your belly constantly.
+			The skirt barely covers your upper thighs and leaves nothing to the imagination.
+		</appearanceText>
+	</dialog>
+	<dialog id="16">
+		<eventText>Your armour is now uncomfortably tight on your frame.</eventText>
+		<appearanceText>
+			You are wearing an uncomfortably tight-fitting <![CDATA[<b>]]>leather cuirass.<![CDATA[</b>]]>
+			Your entire upper body is pressed hard against the leather armour, to the point where it is affecting your breathing. The small amount of room inside the armour causes you to suck in your belly constantly.
+			The skirt barely covers your upper thighs and leaves nothing to the imagination.
+		</appearanceText>
+	</dialog>
+	<dialog id="17">
+		<eventText>Your armour is now uncomfortably tight on your frame.</eventText>
+		<appearanceText>
+			You are wearing an uncomfortably tight-fitting <![CDATA[<b>]]>leather cuirass.<![CDATA[</b>]]>
+			Your entire upper body is pressed hard against the leather armour, to the point where it is affecting your breathing. The small amount of room inside the armour causes you to suck in your belly constantly.
+			The skirt barely covers your upper thighs and leaves nothing to the imagination.
+		</appearanceText>
+	</dialog>
+	<dialog id="18">
+		<eventText>Your armour has become way too tight, to the point where can hardly breath. For your own safety, you decide it best to take off the armour. However, the act of pulling off the cuirass proves to be quite the struggle, leaving you panting. Your belly heaves in and out as you try to catch your breath.</eventText>
+	</dialog>
+</event>

@@ -1,18 +1,38 @@
 <?php
 
+include_once "Database.class";
+
 class UISettings{
 
 	private $_strInventoryFrame;
 	private $_strEventFrame;
 	private $_strCharacterFrame;
 	private $_strCommandsFrame;
+	private $_arrOverrides;
+	private $_blnEndOfEvent;
+	private $_intRPGCharacterID;
 	
-	public function UISettings(){
+	public function UISettings($intRPGCharacterID){
 		//defaults
+		$this->_intRPGCharacterID = $intRPGCharacterID;
 		$this->_strInventoryFrame = "Equipment";
 		$this->_strEventFrame = "Event";
 		$this->_strCharacterFrame = "Info";
 		$this->_strCommandsFrame = "Event";
+		$this->_arrOverrides = array();
+		$this->loadOverrides();
+		$this->_blnEndOfEvent = false;
+	}
+	
+	public function loadOverrides(){
+		$objDB = new Database();
+		$strSQL = "SELECT intOverrideID
+						FROM tblcharacteroverridexr
+						WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
+		$rsResult = $objDB->query($strSQL);
+		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+			$this->_arrOverrides[$arrRow['intOverrideID']] = $arrRow['intOverrideID'];
+		}
 	}
 	
 	public function getInventoryFrame(){
@@ -45,6 +65,37 @@ class UISettings{
 	
 	public function setCommandsFrame($strCommandsFrame){
 		$this->_strCommandsFrame = $strCommandsFrame;
+	}
+	
+	public function getOverrides(){
+		return $this->_arrOverrides;
+	}
+	
+	public function addToOverrides($intOverrideID){
+		$this->_arrOverrides[$intOverrideID] = $intOverrideID;
+		$objDB = new Database();
+		$strSQL = "INSERT INTO tblcharacteroverridexr
+						(intRPGCharacterID, intOverrideID)
+					VALUES
+						(" . $objDB->quote($this->_intRPGCharacterID) . ", " . $objDB->quote($intOverrideID) . ")";
+		$objDB->query($strSQL);
+	}
+	
+	public function removeFromOverrides($intOverrideID){
+		unset($this->_arrOverrides[$intOverrideID]);
+		$objDB = new Database();
+		$strSQL = "DELETE FROM tblcharacteroverridexr
+					WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID) . "
+						AND intOverrideID = " . $objDB->quote($intOverrideID);
+		$objDB->query($strSQL);
+	}
+	
+	public function getEndOfEvent(){
+		return $this->_blnEndOfEvent;
+	}
+	
+	public function setEndOfEvent($blnEndOfEvent){
+		$this->_blnEndOfEvent = $blnEndOfEvent;
 	}
 }
 

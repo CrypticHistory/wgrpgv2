@@ -108,6 +108,14 @@ ul{
 	top:10%;
 }
 
+.prefix{
+	color:#520B6B !important;
+}
+
+.suffix{
+	color:#520B6B !important;
+}
+
 hr{
 	border:1px solid #FFFFFF;
 }

@@ -1,172 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <event>
-	<end>0</end>
-	<end>1</end>
-	<end>2</end>
-	<end>3</end>
-	<end>4</end>
-	<end>5</end>
-	<end>6</end>
-	<end>7</end>
-	<end>8</end>
-	<end>9</end>
-	<end>10</end>
-	<end>11</end>
-	<end>12</end>
-	<end>13</end>
-	<end>14</end>
-	<end>15</end>
-	<end>16</end>
-	<end>17</end>
-	<end>18</end>
+	<end>any</end>
 	<dialog id="0">
-		<eventText>
-			You throw the tank top over your head but you have trouble finding the holes for your arms. The top fits on you like a tent, clearly several sizes too large for your frame.
-			You take the tanktop off, dissatisfied with its extremely loose fit.
-			Holding the blue jeans against your waist, you can immediately tell they're too large as well.
-			Tough luck.
-		</eventText>
+		<eventText>You throw the tank top over your head but you have trouble finding the holes for your arms. The top fits on you like a tent, clearly several sizes too large for your frame. You take the tanktop off, dissatisfied with its extremely loose fit. Holding the blue jeans against your waist, you can immediately tell they're too large as well. Tough luck.</eventText>
 	</dialog>
 	<dialog id="1">
-		<eventText>
-			You throw the tank top over your head and slide your arms through the holes. It's a super loose fit on your frame.
-			Holding the blue jeans to your waist, you can tell they will also be too large. However, you try them on anyways.
-			They sag below your waist, on the verge of falling off.
-			Lose any more weight and they surely will.
-		</eventText>
+		<eventText>You throw the tank top over your head and slide your arms through the holes. It's a super loose fit on your frame. Holding the blue jeans to your waist, you can tell they will also be too large. However, you try them on anyways. They sag below your waist, on the verge of falling off. Lose any more weight and they surely will.</eventText>
 	</dialog>
 	<dialog id="2">
-		<eventText>
-			You throw the tank top over your head and slide your arms through the holes. It's a loose fit, but it's manageable.
-			The jeans are next. You pull them up to your waist and have no problems buttoning them up.
-			They slide a little bit down your waist, possibly a bit too large.
-			Gain a little bit more weight and these will fit perfectly.
-		</eventText>
+		<eventText>You throw the tank top over your head and slide your arms through the holes. It's a loose fit, but it's manageable. The jeans are next. You pull them up to your waist and have no problems buttoning them up. They slide a little bit down your waist, possibly a bit too large. Gain a little bit more weight and these will fit perfectly.</eventText>
 	</dialog>
 	<dialog id="3">
-		<eventText>
-			You throw the tank top over your head and slide your arms through the holes easily. It fits perfect on your frame.
-			The jeans are next. You pull them up to your waist and have no problems buttoning them up.
-			The jeans are also a perfect fit.
-			It's your lucky day!
-		</eventText>
+		<eventText>You throw the tank top over your head and slide your arms through the holes easily. It fits perfect on your frame. The jeans are next. You pull them up to your waist and have no problems buttoning them up. The jeans are also a perfect fit. It's your lucky day!</eventText>
 	</dialog>
 	<dialog id="4">
-		<eventText>
-			You throw the tank top over your head and slide your arms through the holes. It's a bit of a tight fit on your frame.
-			The jeans are next. You pull them up to your waist and manage to button them up.
-			They're a bit snug around your hips, but still a decent fit.
-		</eventText>
+		<eventText>You throw the tank top over your head and slide your arms through the holes. It's a bit of a tight fit on your frame. The jeans are next. You pull them up to your waist and manage to button them up. They're a bit snug around your hips, but still a decent fit.</eventText>
 	</dialog>
 	<dialog id="5">
-		<eventText>
-			You throw the tank top over your head and struggle to slide your arms through the holes.
-			After a bit of difficulty, you can pull down the tank top to your waist. It exposes a bit of your belly, clearly a few sizes too small.
-			The jeans are next. You pull them up to your waist and struggle to button them.
-			Eventually you get it, however they're very tight around your waist.
-			Sigh... you may need to consider a diet.
-		</eventText>
+		<eventText>You throw the tank top over your head and struggle to slide your arms through the holes. After a bit of difficulty, you can pull down the tank top to your waist. It exposes a bit of your belly, clearly a few sizes too small. The jeans are next. You pull them up to your waist and struggle to button them. Eventually you get it, however they're very tight around your waist. Sigh... you may need to consider a diet.</eventText>
 	</dialog>
 	<dialog id="6">
-		<eventText>
-			You throw the tank top over your head and can barely fit your thick arms through the holes.
-			After a long struggle, you finally pull down the tank top to your waist. It slides back up to your bra-line, clearly several sizes too small.
-			The jeans are next. You can hardly pull them up to your waist, but you eventually manage.
-			Miraculously, you're able to button them, but it may not be long before they pop.
-			Should you gain any more weight, the future of these jeans will be grim.
-		</eventText>
+		<eventText>You throw the tank top over your head and can barely fit your thick arms through the holes. After a long struggle, you finally pull down the tank top to your waist. It slides back up to your bra-line, clearly several sizes too small. The jeans are next. You can hardly pull them up to your waist, but you eventually manage. Miraculously, you're able to button them, but it may not be long before they pop. Should you gain any more weight, the future of these jeans will be grim.</eventText>
 	</dialog>
 	<dialog id="7">
-		<eventText>
-			You throw the tank top over your head and can hardly fit your chubby arms through the holes.
-			After a long struggle, you finally pull down the tank top to your waist but it immediately rides back up to your bra-line, clearly several sizes too small.
-			The jeans are next. The seams groan as you pull them up to your waist.
-			Your fat ass is pressed hard against the fabrics of the jeans.
-			You manage to zip the jeans halfway up, but it will be near-impossible to button them.
-		</eventText>
+		<eventText>You throw the tank top over your head and can hardly fit your chubby arms through the holes. After a long struggle, you finally pull down the tank top to your waist but it immediately rides back up to your bra-line, clearly several sizes too small. The jeans are next. The seams groan as you pull them up to your waist. Your fat ass is pressed hard against the fabrics of the jeans. You manage to zip the jeans halfway up, but it will be near-impossible to button them.</eventText>
 	</dialog>
 	<dialog id="8">
-		<eventText>
-			You throw the tank top over your head, but after a struggling for a bit, you find that your flabby arms cannot fit through the holes.
-			After fighting to pull the jeans beyond your thunder thighs, you hit an insurmountable obstacle - your fat ass.
-			It becomes clear that your ass is just too damn big to fit into the jeans.
-			Seeing as you're already bursting at the seams, and the jeans aren't fully up yet, it might be best to admit defeat.
-			Sigh... nothing fits anymore...
-		</eventText>
+		<eventText>You throw the tank top over your head, but after a struggling for a bit, you find that your flabby arms cannot fit through the holes. After fighting to pull the jeans beyond your thunder thighs, you hit an insurmountable obstacle - your fat ass. It becomes clear that your ass is just too damn big to fit into the jeans. Seeing as you're already bursting at the seams, and the jeans aren't fully up yet, it might be best to admit defeat. Sigh... nothing fits anymore...</eventText>
 	</dialog>
 	<dialog id="9">
-		<eventText>
-			You throw the tank top over your head but immediately discover that your chunky arms are way too big to fit through the holes.
-			You don't want to tear the shirt, so you decide to not go any further.
-			It's laughable that you even thought the jeans would fit. Holding them to your waist, they're clearly designed for somebody half your size.
-			It's almost comical how small they look compared to your massive thunder thighs and bountiful hips.
-			God... how depressing...
-		</eventText>
+		<eventText>You throw the tank top over your head but immediately discover that your chunky arms are way too big to fit through the holes. You don't want to tear the shirt, so you decide to not go any further. It's laughable that you even thought the jeans would fit. Holding them to your waist, they're clearly designed for somebody half your size. It's almost comical how small they look compared to your massive thunder thighs and bountiful hips. God... how depressing...</eventText>
 	</dialog>
 	<dialog id="10">
-		<eventText>
-			Your jeans have fallen right off. Your tank top fits like a tent on your frame. It'll be impossible to wear these unless you gain a considerable amount of weight.
-		</eventText>
+		<eventText>Your jeans have fallen right off. Your tank top fits like a tent on your frame. It'll be impossible to wear these unless you gain a considerable amount of weight.</eventText>
 	</dialog>
 	<dialog id="11">
-		<eventText>
-			Your jeans are becoming extremely loose around your waist. They sag down, showing your panties.
-		</eventText>
+		<eventText>Your jeans are becoming extremely loose around your waist. They sag down, showing your panties.</eventText>
 		<appearanceText>
 			You are wearing a very loose-fitting <![CDATA[<b>]]>tanktop and jeans<![CDATA[</b>]]>. You have to constantly pull up your jeans in order to keep them from falling down.
 		</appearanceText>
 	</dialog>
 	<dialog id="12">
-		<eventText>
-			Your jeans are now loose around your waist.
-		</eventText>
+		<eventText>Your jeans are now loose around your waist.</eventText>
 		<appearanceText>
 			You are wearing a loose-fitting <![CDATA[<b>]]>tanktop with jeans<![CDATA[</b>]]>. The jeans sag slightly around your waist, and every so often you have to pull them up.
 		</appearanceText>
 	</dialog>
 	<dialog id="13">
-		<eventText>
-			Your jeans and tank top now fit perfectly on your frame.
-		</eventText>
+		<eventText>Your jeans and tank top now fit perfectly on your frame.</eventText>
 		<appearanceText>
 			You are wearing a <![CDATA[<b>]]>tanktop and jeans.<![CDATA[</b>]]>
 		</appearanceText>
 	</dialog>
 	<dialog id="14">
-		<eventText>
-			Your jeans are now snug around your waist. Your tank top is a bit snug around your belly.
-		</eventText>
+		<eventText>Your jeans are now snug around your waist. Your tank top is a bit snug around your belly.</eventText>
 		<appearanceText>
 			You are wearing a snug-fitting <![CDATA[<b>]]>tanktop and jeans.<![CDATA[</b>]]>
 		</appearanceText>
 	</dialog>
 	<dialog id="15">
-		<eventText>
-			Your jeans are now tight around your waist. Your tank top rides up, exposing a bit of your lower stomach.
-		</eventText>
+		<eventText>Your jeans are now tight around your waist. Your tank top rides up, exposing a bit of your lower stomach.</eventText>
 		<appearanceText>
 			You are wearing a tight-fitting <![CDATA[<b>]]>tanktop and jeans.<![CDATA[</b>]]> The jeans press into your midsection, causing your fat to hang over the waistband slightly. Aware that your tanktop is riding up, you suck in and attempt to pull the hem over your lovehandles. This proves to be futile, as your shirt immediately slides back up and exposes a good portion of your belly.
 		</appearanceText>
 	</dialog>
 	<dialog id="16">
-		<eventText>
-			Your jeans are now uncomfortably tight around your waist. Your tank top rides up, exposing your deep naval.
-		</eventText>
+		<eventText>Your jeans are now uncomfortably tight around your waist. Your tank top rides up, exposing your deep naval.</eventText>
 		<appearanceText>
 			You are wearing a very tight-fitting <![CDATA[<b>]]>tanktop and jeans.<![CDATA[</b>]]> The jeans are digging deeply into your midsection, causing your fat to hang over your waistband. Every step causes your jeans to groan at the seams. It's futile to even attempt pulling your tank top over your prominent belly, so you let it hang, completely exposed.
 		</appearanceText>
 	</dialog>
 	<dialog id="17">
-		<eventText>
-			Your jeans begin to creak and groan at the seams. Gain any more weight and they will burst. Your tank top rides up to your bra-line, completely exposing your bare belly. The sleeves are tight around your flabby arms.
-		</eventText>
+		<eventText>Your jeans begin to creak and groan at the seams. Gain any more weight and they will burst. Your tank top rides up to your bra-line, completely exposing your bare belly. The sleeves are tight around your flabby arms.</eventText>
 		<appearanceText>
 			You are wearing a skin-tight <![CDATA[<b>]]>tanktop and jeans<![CDATA[</b>]]>. The jeans are pressed hard against your behind, nearly tearing the seams. A considerable amount of fat hangs over your waistband. Your tanktop has ridden so far up that your gut is impossible to cover up, even while sucking in.
 		</appearanceText>
 	</dialog>
 	<dialog id="18">
-		<eventText>
-			The button on your jeans bursts open, and they unzip. The fabrics erupt in resounding groans and tears. You glance behind you to find a massive hole in your jeans, exposing your butt. These jeans have had it. Your tank top is also a goner, as you notice the sleeves are ripped due to battling with your immense arm fat. Sigh... you need to find a tailor to fix these clothes, otherwise they are unwearable.
-		</eventText>
+		<eventText>The button on your jeans bursts open, and they unzip. The fabrics erupt in resounding groans and tears. You glance behind you to find a massive hole in your jeans, exposing your butt. These jeans have had it. Your tank top is also a goner, as you notice the sleeves are ripped due to battling with your immense arm fat. Sigh... you need to find a tailor to fix these clothes, otherwise they are unwearable.</eventText>
 	</dialog>
 </event>

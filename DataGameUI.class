@@ -7,12 +7,7 @@ include_once 'RPGTime.class';
 class DataGameUI{
 	
 	public function DataGameUI(){
-		
-		//load character
-		if(isset($_POST['strCharacterName'])){
-			$_SESSION['objRPGCharacter'] = new RPGCharacter($_POST['strCharacterName']);
-		}
-		
+	
 		$this->handleEvents();
 		$this->handleTicks();
 	}
@@ -22,6 +17,7 @@ class DataGameUI{
 		// when EventID is 1, standstill occurs, otherwise unique event happens
 		$blnAllowedMove = $this->isAllowedMove($strDirection);
 		if($blnAllowedMove){
+			$_SESSION['objUISettings']->setEndOfEvent(false);
 			$objFloor = new RPGFloor($_SESSION['objRPGCharacter']->getFloor());
 			$objFloor->setApplicableEvents($_SESSION['objRPGCharacter']->getRPGCharacterID());
 			$intEventID = $objFloor->generateRandomEvent();
@@ -65,33 +61,17 @@ class DataGameUI{
 			}
 		}
 		else{
-			unset($_SESSION['objEnemy']);
 			$_SESSION['objUISettings']->setEventFrame('Event');
 			$_SESSION['objUISettings']->setCommandsFrame('Event');
 		}
 		
 		$_SESSION['objRPGCharacter']->checkEndOfEvent();
-		
-		if(isset($_POST['itemAction']) && isset($_POST['itemID'])){
-			if($_POST['itemAction'] == 'use'){
-				$_SESSION['objRPGCharacter']->eatItem($_POST['itemID'], $_POST['itemHPHeal']);
-			}
-			elseif($_POST['itemAction'] == 'drop'){
-				$_SESSION['objRPGCharacter']->dropItem($_POST['itemID']);
-			}
-			elseif($_POST['itemAction'] == 'equip'){
-				$strEquipFunction = 'equip' . $_POST['itemType'];
-				$_SESSION['objRPGCharacter']->$strEquipFunction($_POST['itemID']);
-			}
-			elseif($_POST['itemAction'] == 'unequip'){
-				$_SESSION['objRPGCharacter']->unequipItem($_POST['itemID']);
-			}
-		}
 	}
 	
 	public function handleTicks(){
 		$_SESSION['objRPGCharacter']->setTime(RPGTime::addTickToTime($_SESSION['objRPGCharacter']->getTime()));
 		$_SESSION['objRPGCharacter']->digestItems();
+		$_SESSION['objRPGCharacter']->tickStatusEffects();
 		$_SESSION['objRPGCharacter']->save();
 	}	
 }

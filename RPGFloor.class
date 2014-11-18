@@ -2,6 +2,7 @@
 
 require_once "Database.class";
 include_once "Lottery.class";
+include_once "RPGEvent.class";
 
 class RPGFloor{
 
@@ -74,10 +75,15 @@ class RPGFloor{
 	public function generateRandomEvent(){
 		$objLottery = new Lottery();
 		foreach($this->getApplicableEvents() as $key => $value){
-			$objLottery->addEntry($key, $value);
+			$objEvent = new RPGEvent($key);
+			if($objEvent->getForcedEvent() == true){
+				return $key;
+			}
+			else{
+				$objLottery->addEntry($key, $value);
+			}
 		}
 		return $objLottery->getWinner();
-		// return $this->getApplicableEvents()[array_rand($this->getApplicableEvents())];
 	}
 	
 	public function getFloorID(){

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>12</end>
+	<end>17</end>
+	<dialog id='0'>
+		<eventText><![CDATA[<i>]]>Pick yourself up off the ground.<![CDATA[</i>]]>
+		
+			Eyes open to a dimly lit cavern. There are torches on either side of you, lighting a dirt passage stretching for what seems like miles. Lifting yourself up, you stand with caution. Survival instincts begin to kick in. Senses intensify spectacularly. Behind you is a brick wall, cold to the touch. Dust coats your fingertips. The only way is forward.		
+
+			<![CDATA[<i>]]>Beep beep. Beep beep.<![CDATA[</i>]]>
+
+			A shrill mechanical sound emitting from your wristwatch that you hadn't known you possessed until now. On closer inspection, the watch does not tell the time; it poses a question in digital fashion.
+
+			<![CDATA[<i>]]>What is your weapon of choice?<![CDATA[</i>]]></eventText>
+		<option id='1' action='giveItem~3'>Blunt</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>You choose a blunt. In a flash of light, a blunt weapon falls to the ground. You reach for it. The watch now issues a command.
+
+			<![CDATA[<i>]]>Press onward.<![CDATA[</i>]]></eventText>
+		<option id='2' action='addOverride~3'>Continue</option>
+	</dialog>
+	<dialog id='2'>
+		<eventText>The watch illuminates the path for you. As you continue, you hear a faint buzzing ahead of you. Curious, you proceed toward the sound.
+
+			The buzzing becomes clearer, as does a floating silhouette before you. A wide area is revealed at the end of the tunnel, the levitating silhouette in the centre.
+
+			Aware of your presence, the figure flies toward you, revealing itself as a youthful female fairy.
+
+			"Hello! I am Seraphine, the tutorial fairy! I'm here to provide you with information to help you on your journey! But first, let me get your name, adventurer!"
+
+			She stares you directly in the eyes.
+
+			"{getRPGCharacterName}! What a pretty name! Okay! Let's get down to business! You should equip a weapon! It's easy, just go to your 'Equipment' inventory tab, click on a weapon, then click 'Equip'! Did ya get all that??"</eventText>
+		<option id='3' action='removeOverride~3'>Yes</option>
+	</dialog>
+	<dialog id='3'>
+		<eventText>"Okay! Now it's time to learn how to fight! Defend against my attack! Here I come!"</eventText>
+		<option id='4'>Defend</option>
+	</dialog>
+	<dialog id='4'>
+		<eventText>You block Seraphine's advance, nullifying all damage.
+		
+			"Wow! You're a natural! I bet you can't block this next attack though! Get ready!"
+
+			Seraphine charges up a powerful attack, omitting a purple aura.</eventText>
+		<option id='5'>Defend</option>
+	</dialog>
+	<dialog id='5'>
+		<eventText>You attempt to block Seraphine's attack, but it proves to be too much for you to handle. The force of her blow knocks you over.
+
+			"Hehe! That was a Strong Attack that I just dealt! It differs from a regular attack, in that you will not be able to defend against it by normal means! Pay attention to your enemies and be careful not to block their strong attacks!"
+
+			"Oh, it looks like you're injured! I can help with that! Here, take this potion!"
+
+			Seraphine hands you a potion.
+
+			"Drink it the same way you equipped your weapon, except the button should say 'Use' this time!"
+
+			You feel revitalized after drinking the potion. Your wounds have been healed!</eventText>
+		<option id='6'>Continue</option>
+	</dialog>
+	<dialog id='6'>
+		<eventText>"Taking hits like that unguarded will really hurt! You will need some good armour to defend yourself! Here, take this armour!"</eventText>
+		<option id='7' action='giveItemWithSetEnchants~4~M~1~2'>Accept</option>
+	</dialog>
+	<dialog id='7'>
+		<eventText>"Equip that armour the same way you equipped your weapon! It's enchanted, so it will provide stat boosts when you wear it!"</eventText>
+		<option id='8'>Done</option>
+	</dialog>
+	<dialog id='8'>
+		<eventText>"Scan your armour with your wristwatch to see the hidden stats on it! Click the armour in your inventory with the (E) next to it, symbolizing that it's equipped currently, then click on View Enchants to see more information! You might need a higher ranked Enchant skill in order to view the stats, however!"
+
+			"Since your Enchant rank is too low, I'll explain those stats to you! You won't be able to take the armour off unless it is torn off or the enchant is removed! Additionally, you gain one to three pounds per action while wearing this armour. On the bright side, the armour will adjust to whatever weight you gain or lose! But, the only thing you'll be doing right now is gaining weight! Because I'm going to force feed you cupcakes now! Teehee!"
+
+			Seraphine charges at you, cupcake in hand. You must fight!</eventText>
+		<option id='9' action='setCombat~2'>Prepare yourself!</option>
+	</dialog>
+	<dialog id='9'>
+		<eventText>Battle in progress.</eventText>
+		<option id='10'>Player is Victorious.</option>
+		<option id='11'>Player is Defeated.</option>
+	</dialog>
+	<dialog id='10'>
+		<eventText>Seraphine groans and collapses to the ground in defeat.
+		
+		"Okay... you win! Please spare me! I have children!"
+		
+		You could kill her, but then you'd be running around in her enchanted armour, gaining weight with every step.</eventText>
+		<option id='12' action='removeEnchantsFromEquippedArmour~'>Let her live if she disenchants your armour.</option>
+		<option id='13'>Let her live... but give her a taste of her own medicine</option>
+	</dialog>
+	<dialog id='11'>
+		<eventText>You collapse to the ground in injury. You are defeated.</eventText>
+	</dialog>
+	<dialog id='12'>
+		<eventText>"Oh, that's easy! I'm a bit tired after that fight, but I should have enough energy!"
+		
+		Seraphine picks herself up off the floor. She raises her arms and closes her eyes. You feel pressure being released from your body, and your clothes begin to feel looser.
+		
+		"There! All done!" she exclaims. "Umm... if it's not too much to ask, can you take me with you? I'm kind of in a lot of pain right now and can't fly..." She looks at you with puppy-dog eyes.
+		
+		You a step forward, and proceed to kick her square in the face. You're in no position to trust somebody who was just force-feeding you cupcakes a minute ago.</eventText>
+	</dialog>
+	<dialog id='13'>
+		<eventText>You will spare Seraphine's life, on one condition: she will allow YOU to force-feed HER with cupcakes. Afterall, revenge is sweet.
+		
+		Seraphine's face contorts upon hearing your proposal. She stares at the ground.
+
+		"Okay..."
+		
+		She waves her hand to transmute a tray stacked with cupcakes. She gets on her knees and places her palms on her lap. Her eyes close, and her mouth opens.</eventText>
+		<option id='14'>Feed her</option>
+	</dialog>
+	<dialog id='14'>
+		<eventText>You grab a cupcake from the stack and insert it into Seraphine's open mouth. She begins to chew slowly, and eventually swallows. She opens her mouth again without resistance.</eventText>
+		
+		<eventText precondition='EnemyBMI&gt;30&amp;EnemyBMI&lt;40'>The excess calories are beginning to manifest themselves in Seraphine's body. You notice her figure looks much fuller now, especially her now protruding belly which is jam packed with all the cupcakes you've been feeding her.</eventText>
+		<eventText precondition='EnemyBMI&gt;39&amp;EnemyBMI&lt;50'>The cupcakes are beginning to take their toll on Seraphine's figure. Her breasts have grown a few cup sizes since you started feeding her. Her arms and thighs are quite plump. Her gut continues to grow bigger, packed to the brim with sweets.</eventText>
+		<eventText precondition='EnemyBMI&gt;49'>It's impossible to hide how massive Seraphine has become since you started force feeding her. She has a very obvious double chin, sagging breasts, a monstrous gut and supathick thighs. She's a full-blown fatty now.</eventText>
+		<option id='14' action='EnemyGainWeight~2'>Feed her more</option>
+		<option id='15'>Rub her belly</option>
+		<option id='16'>Tease her</option>
+		<option id='17'>Stop feeding her</option>
+	</dialog>
+	<dialog id='15'>
+		<eventText precondition='EnemyBMI&lt;30'>You pat her belly with both hands, moving them in circular motion. Seraphine grimaces slightly, but remains composed.</eventText>
+		<eventText precondition='EnemyBMI&gt;29&amp;EnemyBMI&lt;40'>You slap Seraphine's belly and laugh as she visibly winces from the impact. Her rolls continue to jiggle for a few seconds before halting. You rub your hands over the soft surface continuously as Seraphine struggles to stay composed.</eventText>
+		<eventText precondition='EnemyBMI&gt;39&amp;EnemyBMI&lt;50'>You grab Seraphine's belly and jiggle it, watching the ocean of her flesh ripple vigorously from the motion. You then pat her belly down and rub it in a circular motion, amazed at how soft it's become.</eventText>
+		<eventText precondition='EnemyBMI&gt;49'>You heft Seraphine's gut in your arms and let it fall, watching it jiggle profusely from the motion. You then pat her belly down and rub it in a circular motion, amazed at how utterly massive it's gotten.</eventText>
+		<option id='14' action='EnemyGainWeight~2'>Feed her more</option>
+		<option id='15'>Rub her belly</option>
+		<option id='16'>Tease her</option>
+		<option id='17'>Stop feeding her</option>
+	</dialog>
+	<dialog id='16'>
+		<eventText precondition='EnemyBMI&lt;30'>"Hope you enjoy cupcakes, my little piggy. You're going to get so fat, and there's nothing you can do about it."</eventText>		
+		<eventText precondition='EnemyBMI&gt;29&amp;EnemyBMI&lt;40'>"My my, not so little anymore, huh piggy? I know you can't resist these sweets, it's futile to even try."</eventText>		
+		<eventText precondition='EnemyBMI&gt;39&amp;EnemyBMI&lt;50'>"My god, you've gotten so fat. Have you ever considered dieting? Of course not. Because all you want to do is sit on your ass and indulge on sweets, isn't that right my dear?"</eventText>		
+		<eventText precondition='EnemyBMI&gt;49'>"I can't even jokingly call you a little piggy anymore, you're much too big for that. You look more like a beached whale now."</eventText>		
+		<option id='14' action='EnemyGainWeight~2'>Feed her more</option>
+		<option id='15'>Rub her belly</option>
+		<option id='16'>Tease her</option>
+		<option id='17'>Stop feeding her</option>
+	</dialog>
+	<dialog id='17'>
+		<eventText>Well, that's enough of that. You ignore Seraphine's pleading and continue on your path.</eventText>
+	</dialog>
+</event>

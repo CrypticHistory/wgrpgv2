@@ -12,7 +12,9 @@ class DisplayCombatCommandsWindow{
 			<div class='commandsDiv' id='commandsDivCombatCommands'>
 				<form method='post' action='combat.php'>
 					<button type='submit' name='command' value='attack'>Attack</button>
+					<?php if($_SESSION['objEnemy']->getNPCName() != 'Seraphine the Tutorial Fairy'){?>
 					<button type='submit' name='command' value='flee'>Flee</button>
+					<?php } ?>
 				</form>
 			</div>
 		

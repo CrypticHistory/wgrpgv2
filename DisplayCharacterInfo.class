@@ -67,6 +67,31 @@ class DisplayCharacterInfo{
 						<td class='borderTop' colspan='2'>&nbsp;</td>
 					</tr>
 				</table>
+				<table align='center'>
+					<tr>
+						<tr>
+						<th class='tableHeader borderBottom statHeader' colspan='2'>Status Effects</th>
+					</tr>
+					<?php
+						$arrStatusEffectList = $_SESSION['objRPGCharacter']->getStatusEffectList();
+						if(!empty($arrStatusEffectList)){
+							$intCounter = 0;
+							foreach($arrStatusEffectList as $key => $objStatusEffect){
+								echo
+								"<tr>
+									<td class='background" . ($intCounter % 2) . "'>" . $objStatusEffect->getStatusEffectName() . "</td>
+								</tr>";
+								$intCounter++;
+							}
+						}
+						else{
+							echo "<tr><td class='background1'>None</td></tr>";
+						}
+					?>
+					<tr>
+						<td class='borderTop' colspan='2'>&nbsp;</td>
+					</tr>
+				</table>
 			</div>
 		
 		<?php

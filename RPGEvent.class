@@ -9,6 +9,7 @@ class RPGEvent{
 	private $_txtEventDesc;
 	private $_strXML;
 	private $_blnRepeating;
+	private $_blnForcedEvent;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
@@ -26,6 +27,7 @@ class RPGEvent{
 		$this->setEventDesc($arrEventInfo['txtEventDesc']);
 		$this->setXML($arrEventInfo['strXML']);
 		$this->setRepeating($arrEventInfo['blnRepeating']);
+		$this->setForcedEvent($arrEventInfo['blnForcedEvent']);
 		$this->setCreatedOn($arrEventInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrEventInfo['strCreatedBy']);
 		$this->setModifiedOn($arrEventInfo['dtmModifiedOn']);
@@ -45,6 +47,7 @@ class RPGEvent{
 				$arrEventInfo['txtEventDesc'] = $arrRow['txtEventDesc'];
 				$arrEventInfo['strXML'] = $arrRow['strXML'];
 				$arrEventInfo['blnRepeating'] = $arrRow['blnRepeating'];
+				$arrEventInfo['blnForcedEvent'] = $arrRow['blnForcedEvent'];
 				$arrEventInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrEventInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrEventInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
@@ -91,6 +94,14 @@ class RPGEvent{
 	
 	public function setRepeating($blnRepeating){
 		$this->_blnRepeating = $blnRepeating;
+	}
+	
+	public function getForcedEvent(){
+		return $this->_blnForcedEvent;
+	}
+	
+	public function setForcedEvent($blnForcedEvent){
+		$this->_blnForcedEvent = $blnForcedEvent;
 	}
 	
 	public function getCreatedOn(){

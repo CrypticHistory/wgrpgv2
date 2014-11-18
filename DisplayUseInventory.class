@@ -10,6 +10,7 @@ class DisplayUseInventory{
 		ob_start(); ?>
 		
 			<div class='inventoryDiv hidden' id='inventoryDivConsumable'>
+				<?php if($_SESSION['objRPGCharacter']->getEventNodeID() == 0 || $_SESSION['objUISettings']->getEndOfEvent() == true){?>
 				<table>
 					<tr>
 						<th class='itemNameHeader borderBottom'>Item Name:</th>
@@ -27,8 +28,8 @@ class DisplayUseInventory{
 							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['intCalories'] . "</td>";
 							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['intHPHeal'] . "</td>";
 							echo "</tr>";
-							echo "<tr id='useItemDetails" . $intCounter . "' class='hidden'><td colspan='3' class='itemDesc background" . ($intCounter % 2) . "'><b>Description:</b><br/>" . $arrCategoryNames['txtItemDesc'] . "<br/>
-									<form method='post' action='main.php?page=DisplayGameUI'>
+							echo "<tr id='useItemDetails" . $intCounter . "' class='hidden'><td colspan='4' class='itemDesc background" . ($intCounter % 2) . "'><b>Description:</b><br/>" . $arrCategoryNames['txtItemDesc'] . "<br/>
+									<form method='post' action='command.php'>
 										<input type='hidden' name='itemID' value='" . $arrCategoryNames['intItemInstanceID'] . "'/>
 										<input type='hidden' name='itemHPHeal' value='" . $arrCategoryNames['intHPHeal'] . "'/>
 										<button type='submit' name='itemAction' value='use'>Use</button>
@@ -39,6 +40,9 @@ class DisplayUseInventory{
 						}
 					?>
 				</table>
+				<?php } else { ?>
+					Your use inventory is locked during this event.
+				<?php } ?>
 			</div>
 		
 		<?php
