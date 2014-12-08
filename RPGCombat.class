@@ -1,0 +1,199 @@
+<?php
+
+	class RPGCombat{
+	
+		private $_arrCombatMessage;
+		private $_intCurrPlayerWait;
+		private $_intCurrEnemyWait;
+		private $_objPlayer;
+		private $_objEnemy;
+		private $_strFirstTurn; // who gets to attack first
+		private $_strCombatState; // in progress, victory, defeat, fled
+		private $_strNextTurn; // who attacks next
+	
+		public function RPGCombat($objPlayer, $objEnemy, $strFirstTurn){
+			$this->_objPlayer = $objPlayer;
+			$this->_objEnemy = $objEnemy;
+			$this->_strFirstTurn = $strFirstTurn;
+			$this->_arrCombatMessage = array();
+		}
+	
+		public function initiateCombat(){
+			$this->_arrCombatMessage[] = '<b>Attack In Progress: ' . $this->_objEnemy->getNPCName() . '</b>';
+			$this->_strCombatState = 'In Progress';
+			$this->_intCurrPlayerWait = $this->_objPlayer->getWaitTime('Standard');
+			$this->_intCurrEnemyWait = $this->_objEnemy->getWaitTime('Standard');
+			if($this->_strFirstTurn == 'Player'){
+				$this->_strNextTurn = 'Player';
+			}
+			else{
+				$this->_strNextTurn = 'Opponent';
+			}
+		}
+		
+		public function determineNextTurn(){
+		
+			// check if anyone died
+			if($this->_objEnemy->isDead()){
+				$this->_strCombatState = 'Victory';
+				
+				// exp gain
+				$intExpGain = $this->_objEnemy->getExperienceGiven();
+				$this->_objPlayer->gainExperience($intExpGain);
+				
+				// roll for loot
+				$arrDrops = $this->_objEnemy->getRandomDrops();
+				$intCounter = 1;
+				foreach($arrDrops as $key => $value){
+					$this->_objPlayer->giveItem($key);
+					$this->_arrCombatMessage[] = '<br/><br/>Loot received:<br/>' . $intCounter . ') ' . $value . '<br/>';
+					$intCounter++;
+				}
+				
+			}
+			else if($this->_objPlayer->isDead()){
+				$this->_strCombatState = 'Defeat';
+			}
+			else{
+				// determine the next turn using AGI formula
+				if($this->_intCurrPlayerWait <= $this->_intCurrEnemyWait){
+					$this->_strNextTurn = 'Player';
+				}
+				else{
+					$this->_strNextTurn = 'Opponent';
+				}
+			}
+			
+		}
+		
+		public function playerAttack(){
+			$this->_intCurrPlayerWait += $this->_objPlayer->getWaitTime('Standard');
+			$intEnemyBlockRoll = mt_rand(1, 100);
+			$intPlayerCritRoll = mt_rand(1, 100);
+			
+			if($intEnemyBlockRoll <= $this->_objEnemy->getModifiedBlockRate()){
+				$intBlockedDamageModifier = $this->_objEnemy->getModifiedBlock();
+			}
+			else{
+				$intBlockedDamageModifier = 1.0;
+			}
+			
+			if($intPlayerCritRoll <= $this->_objPlayer->getModifiedCritRate()){
+				$intCritDamageModifier = $this->_objPlayer->getModifiedCritDamage();
+				$blnCrit = true;
+			}
+			else{
+				$intCritDamageModifier = 1.0;
+				$blnCrit = false;
+			}
+			
+			if($this->_objPlayer->getEquippedWeapon('strStatDamage') === null || $this->_objPlayer->getEquippedWeapon('strStatDamage') == 'Strength'){
+				$intDamage = $this->_objEnemy->takeDamage(round((($this->_objPlayer->getModifiedDamage() * $intCritDamageModifier) - $this->_objEnemy->getModifiedDefence()) * $intBlockedDamageModifier));
+			}
+			else if($this->_objPlayer->getEquippedWeapon('strStatDamage') == 'Intelligence'){
+				$intDamage = $this->_objEnemy->takeDamage(round((($this->_objPlayer->getModifiedMagicDamage() * $intCritDamageModifier) - $this->_objEnemy->getModifiedMagicDefence()) * $intBlockedDamageModifier));	
+			}
+			
+			if($blnBlocked && !$blnCrit){
+				$this->_arrCombatMessage[] = "<br/>" . $this->_objEnemy->getNPCName() . " blocks your attack, taking " . $intDamage . " damage.";
+			}
+			else if($blnBlocked && $blnCrit){
+				$this->_arrCombatMessage[] = "<br/>" . $this->_objEnemy->getNPCName() . " blocks your critical attack, taking " . $intDamage . " damage.";
+			}
+			else if(!$blnBlocked && $blnCrit){
+				$this->_arrCombatMessage[] = "<br/>You hit " . $this->_objEnemy->getNPCName() . "'s weak spot, inflicting " . $intDamage . " damage.";
+			}
+			else if(!$blnBlocked && !$blnCrit){
+				$this->_arrCombatMessage[] = '<br/>' . $this->_objEnemy->getNPCName() . ' takes ' . $intDamage . ' damage from your attack.';
+			}
+		}
+		
+		public function playerDefend(){
+			// todo
+		}
+		
+		public function playerSkill(){
+			// todo
+		}
+		
+		public function playerWait(){
+			// todo
+		}
+		
+		public function playerFlee(){
+			$this->_arrCombatMessage[] = '<br/>You fled from the battle.';
+			$this->_strCombatState = 'Fled';
+		}
+		
+		public function enemyTurn(){
+			// todo: include AI file
+			$this->_intCurrEnemyWait += $this->_objEnemy->getWaitTime('Standard');
+			$intPlayerBlockRoll = mt_rand(1, 100);
+			$intEnemyCritRoll = mt_rand(1, 100);
+			
+			if($intPlayerBlockRoll <= $this->_objPlayer->getModifiedBlockRate()){
+				$intBlockedDamageModifier = $this->_objPlayer->getModifiedBlock();
+				$blnBlocked = true;
+			}
+			else{
+				$intBlockedDamageModifier = 1.0;
+				$blnBlocked = false;
+			}
+			
+			if($intEnemyCritRoll <= $this->_objEnemy->getModifiedCritRate()){
+				$intCritDamageModifier = $this->_objEnemy->getModifiedCritDamage();
+				$blnCrit = true;
+			}
+			else{
+				$intCritDamageModifier = 1.0;
+				$blnCrit = false;
+			}
+			
+			if($this->_objEnemy->getEquippedWeapon('strStatDamage') === null || $this->_objEnemy->getEquippedWeapon('strStatDamage') == 'Strength'){
+				$intDamage = $this->_objPlayer->takeDamage(round((($this->_objEnemy->getModifiedDamage() * $intCritDamageModifier) - $this->_objPlayer->getModifiedDefence()) * $intBlockedDamageModifier));
+			}
+			else if($this->_objEnemy->getEquippedWeapon('strStatDamage') == 'Intelligence'){
+				$intDamage = $this->_objPlayer->takeDamage(round((($this->_objEnemy->getModifiedMagicDamage() * $intCritDamageModifier) - $this->_objPlayer->getModifiedMagicDefence()) * $intBlockedDamageModifier));
+			}
+			
+			if($blnBlocked && !$blnCrit){
+				$this->_arrCombatMessage[] = "<br/>You block " . $this->_objEnemy->getNPCName() . "'s attack, taking " . $intDamage . " damage.";
+			}
+			else if($blnBlocked && $blnCrit){
+				$this->_arrCombatMessage[] = "<br/>You block " . $this->_objEnemy->getNPCName() . "'s critical attack, taking " . $intDamage . " damage.";
+			}
+			else if(!$blnBlocked && $blnCrit){
+				$this->_arrCombatMessage[] = "<br/>" . $this->_objEnemy->getNPCName() . " hits your weak spot, inflicting " . $intDamage . " damage.";
+			}
+			else if(!$blnBlocked && !$blnCrit){
+				$this->_arrCombatMessage[] = '<br/>You take ' . $intDamage . ' damage from ' . $this->_objEnemy->getNPCName() . '\'s attack.';
+			}
+		}
+		
+		public function getPlayer(){
+			return $this->_objPlayer;
+		}
+		
+		public function getEnemy(){
+			return $this->_objEnemy;
+		}
+		
+		public function getCombatMessage(){
+			return $this->_arrCombatMessage;
+		}
+		
+		public function getCombatState(){
+			return $this->_strCombatState;
+		}
+		
+		public function getFirstTurn(){
+			return $this->_strFirstTurn;
+		}
+		
+		public function getNextTurn(){
+			return $this->_strNextTurn;
+		}
+		
+	}
+
+?>

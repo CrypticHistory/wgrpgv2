@@ -3,6 +3,7 @@
 include_once 'DialogConditionFactory.class';
 include_once 'RPGNPC.class';
 include_once 'RPGTime.class';
+include_once 'RPGCombat.class';
 
 class DataGameUI{
 	
@@ -52,17 +53,16 @@ class DataGameUI{
 			$this->traverse($_GET['direction']);
 		}
 		
-		if($_SESSION['objRPGCharacter']->getCombat() != 0){
-			$_SESSION['objUISettings']->setEventFrame('Combat');
-			$_SESSION['objUISettings']->setCommandsFrame('Combat');
-			if(!isset($_SESSION['objEnemy'])){
-				$_SESSION['objEnemy'] = new RPGNPC($_SESSION['objRPGCharacter']->getCombat());
-				$_SESSION['strCombatMessage'] = "<b>Attack In Progress : " . $_SESSION['objEnemy']->getNPCName() . "</b><br/>";
+		if($_SESSION['objRPGCharacter']->getCombat()[0] != 0){
+		
+			if(!isset($_SESSION['objCombat'])){
+				$objEnemy = new RPGNPC($_SESSION['objRPGCharacter']->getCombat()[0]);
+				$_SESSION['objCombat'] = new RPGCombat($_SESSION['objRPGCharacter'], $objEnemy, $_SESSION['objRPGCharacter']->getCombat()[1]);
+				$_SESSION['objUISettings']->setEventFrame('Combat');
+				$_SESSION['objUISettings']->setCommandsFrame('Combat');
+				$_SESSION['objCombat']->initiateCombat();
 			}
-		}
-		else{
-			$_SESSION['objUISettings']->setEventFrame('Event');
-			$_SESSION['objUISettings']->setCommandsFrame('Event');
+			
 		}
 		
 		$_SESSION['objRPGCharacter']->checkEndOfEvent();

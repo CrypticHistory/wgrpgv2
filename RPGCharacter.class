@@ -2,6 +2,7 @@
 
 require_once "Database.class";
 include_once "RPGItem.class";
+include_once "RPGStats.class";
 include_once "RPGStatusEffect.class";
 include_once "constants.php";
 
@@ -27,11 +28,13 @@ class RPGCharacter{
 	private $_strHairLength;
 	private $_strEyeColour;
 	private $_strEthnicity;
-	private $_intMaxHP;
+	private $_objStats;
 	private $_intCurrentHP;
-	private $_intDamage;
-	private $_intDefence;
-	private $_intCombat;
+	private $_intExperience;
+	private $_intRequiredExperience;
+	private $_intLevel;
+	private $_intStatPoints;
+	private $_arrCombat;
 	private $_arrGearStatusEffects;
 	private $_arrStatusEffectList;
 	private $_arrGearOverrides;
@@ -68,17 +71,17 @@ class RPGCharacter{
 		$this->setHairLength($arrCharacterInfo['strHairLength']);
 		$this->setEyeColour($arrCharacterInfo['strEyeColour']);
 		$this->setEthnicity($arrCharacterInfo['strEthnicity']);
-		$this->setMaxHP($arrCharacterInfo['intMaxHP']);
 		$this->setCurrentHP($arrCharacterInfo['intCurrentHP']);
-		$this->setDamage($arrCharacterInfo['intDamage']);
-		$this->setDefence($arrCharacterInfo['intDefence']);
+		$this->setExperience($arrCharacterInfo['intExperience']);
+		$this->setLevel($arrCharacterInfo['intLevel']);
+		$this->setStatPoints($arrCharacterInfo['intStatPoints']);
 		$this->setCreatedOn($arrCharacterInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrCharacterInfo['strCreatedBy']);
 		$this->setModifiedOn($arrCharacterInfo['dtmModifiedOn']);
 		$this->setModifiedBy($arrCharacterInfo['strModifiedBy']);
 	}
 	
-	private function loadRPGCharacterInfo($intRPGCharacterID){
+	private function loadRPGCharacterInfo($intRPGCharacterID, $blnNewStats = false){
 		$objDB = new Database();
 		$arrCharacterInfo = array();
 			$strSQL = "SELECT *
@@ -106,17 +109,24 @@ class RPGCharacter{
 				$arrCharacterInfo['strHairLength'] = $arrRow['strHairLength'];
 				$arrCharacterInfo['strEyeColour'] = $arrRow['strEyeColour'];
 				$arrCharacterInfo['strEthnicity'] = $arrRow['strEthnicity'];
-				$arrCharacterInfo['intMaxHP'] = $arrRow['intMaxHP'];
 				$arrCharacterInfo['intCurrentHP'] = $arrRow['intCurrentHP'];
-				$arrCharacterInfo['intDamage'] = $arrRow['intDamage'];
-				$arrCharacterInfo['intDefence'] = $arrRow['intDefence'];
+				$arrCharacterInfo['intExperience'] = $arrRow['intExperience'];
+				$arrCharacterInfo['intLevel'] = $arrRow['intLevel'];
+				$arrCharacterInfo['intStatPoints'] = $arrRow['intStatPoints'];
 				$arrCharacterInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrCharacterInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrCharacterInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
 				$arrCharacterInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
 			}
 		$this->populateVarFromRow($arrCharacterInfo);
+		$this->_objStats = new RPGStats($intRPGCharacterID);
+		if($blnNewStats == true){
+			$this->_objStats->createNewEntry();
+		}
+		$this->_objStats->loadBaseStats();
+		$this->_objStats->loadAbilityStats();
 		$this->loadStatusEffects();
+		$this->_intRequiredExperience = $this->loadRequiredExperience();
 	}
 	
 	public function save(){
@@ -139,12 +149,13 @@ class RPGCharacter{
 						strHairLength = " . $objDB->quote($this->_strHairLength) . ",
 						strEyeColour = " . $objDB->quote($this->_strEyeColour) . ",
 						strEthnicity = " . $objDB->quote($this->_strEthnicity) . ",
-						intMaxHP = " . $objDB->quote($this->_intMaxHP) . ",
 						intCurrentHP = " . $objDB->quote($this->_intCurrentHP) . ",
-						intDamage = " . $objDB->quote($this->_intDamage) . ",
-						intDefence = " . $objDB->quote($this->_intDefence) . "
+						intExperience = " . $objDB->quote($this->_intExperience) . ",
+						intLevel = " . $objDB->quote($this->_intLevel) . ",
+						intStatPoints = " . $objDB->quote($this->_intStatPoints) . "
 						WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
 		$objDB->query($strSQL);
+		$this->_objStats->saveAll();
 	}
 	
 	public function createNewCharacter($strUserID, $strRPGCharacterName, $dblWeight, $intHeight, $strGender, $strOrientation, $strPersonality, $strFatStance, $strHairColour, $strHairLength, $strEyeColour, $strEthnicity){
@@ -155,7 +166,7 @@ class RPGCharacter{
 					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", 2, '" . date('Y-m-d H:i:s') . "', 'system')";
 		$objDB->query($strSQL);
 		$intRPGCharacterID = $objDB->lastInsertID();
-		$this->loadRPGCharacterInfo($intRPGCharacterID);
+		$this->loadRPGCharacterInfo($intRPGCharacterID, true);
 	}
 	
 	public function addToCharacterEventLog($intEventID){
@@ -180,6 +191,7 @@ class RPGCharacter{
 		$rsResult = $objDB->query($strSQL);
 		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
 			$this->_arrStatusEffectList[$arrRow['intCharacterStatusEffectXRID']] = new RPGStatusEffect($arrRow['intStatusEffectID']);
+			$this->_objStats->addToStats('Status Effect', $this->_arrStatusEffectList[$arrRow['intCharacterStatusEffectXRID']]->getStatName(), $this->_arrStatusEffectList[$arrRow['intCharacterStatusEffectXRID']]->getStatChangeMax());
 			$this->_arrStatusEffectList[$arrRow['intCharacterStatusEffectXRID']]->setTimeRemaining($arrRow['intTimeRemaining']);
 			$this->_arrStatusEffectList[$arrRow['intCharacterStatusEffectXRID']]->setItemInstanceID($arrRow['intItemInstanceID']);
 			if(!is_null($arrRow['intItemInstanceID'])){
@@ -297,7 +309,6 @@ class RPGCharacter{
 				$this->_arrGearOverrides[$intItemInstanceID][] = $arrRow['intSuffixOverrideID'];
 				$this->addGearOverrides($intItemInstanceID);
 			}
-			var_dump($this->_arrGearOverrides);
 			$this->_arrStatusEffectList[$objDB->lastInsertID()] = new RPGStatusEffect($arrRow['intSuffixStatusEffectID']);
 			$this->_arrStatusEffectList[$objDB->lastInsertID()]->setTimeRemaining($arrRow['intSuffixDuration']);
 			$this->_arrStatusEffectList[$objDB->lastInsertID()]->setItemInstanceID($intItemInstanceID);
@@ -326,15 +337,19 @@ class RPGCharacter{
 	
 	public function addGearOverrides($intItemInstanceID){
 		$objDB = new Database();
-		foreach($this->_arrGearOverrides[$intItemInstanceID] as $key => $intOverrideID){
-			$this->addOverride($intOverrideID);
+		if(isset($this->_arrGearOverrides[$intItemInstanceID])){
+			foreach($this->_arrGearOverrides[$intItemInstanceID] as $key => $intOverrideID){
+				$this->addOverride($intOverrideID);
+			}
 		}
 	}
 	
 	public function removeGearOverrides($intItemInstanceID){
 		$objDB = new Database();
-		foreach($this->_arrGearOverrides[$intItemInstanceID] as $key => $intOverrideID){
-			$this->removeOverride($intOverrideID);
+		if(isset($this->_arrGearOverrides[$intItemInstanceID])){
+			foreach($this->_arrGearOverrides[$intItemInstanceID] as $key => $intOverrideID){
+				$this->removeOverride($intOverrideID);
+			}
 		}
 		unset($this->_arrGearOverrides[$intItemInstanceID]);
 	}
@@ -367,7 +382,7 @@ class RPGCharacter{
 	}
 	
 	public function healHP($intHPHeal){
-		$this->setCurrentHP(min(intval($this->getMaxHP()), (intval($this->getCurrentHP()) + intval($intHPHeal))));
+		$this->setCurrentHP(min($this->getModifiedMaxHP(), ($this->getCurrentHP() + $intHPHeal)));
 	}
 	
 	public function equipArmour($intItemInstanceID){
@@ -512,7 +527,7 @@ class RPGCharacter{
 	
 	public function getEquippedArmour($strReturnVariable){
 		$objDB = new Database();
-		$strSQL = "SELECT intEventID, strItemName, intItemInstanceID, intDefence, strSize, strXML, strItemType
+		$strSQL = "SELECT intEventID, strItemName, intItemInstanceID, intDefence, intMagicDefence, strSize, strXML, strItemType
 					FROM tblitem
 						INNER JOIN tblcharacteritemxr
 							USING (intItemID)
@@ -528,7 +543,7 @@ class RPGCharacter{
 	
 	public function getEquippedWeapon($strReturnVariable){
 		$objDB = new Database();
-		$strSQL = "SELECT intEventID, strItemName, intItemInstanceID, intDamage, strXML, strItemType
+		$strSQL = "SELECT intEventID, strItemName, intItemInstanceID, intDamage, intMagicDamage, strStatDamage, strXML, strItemType
 					FROM tblitem
 						INNER JOIN tblcharacteritemxr
 							USING (intItemID)
@@ -644,8 +659,8 @@ class RPGCharacter{
 	}
 	
 	public function takeDamage($intDamage){
-		$intDamage = max(0, $intDamage);
-		$this->setCurrentHP(intval($this->getCurrentHP()) - intval($intDamage));
+		$intDamage = max(1, $intDamage);
+		$this->setCurrentHP($this->getCurrentHP() - $intDamage);
 		return $intDamage;
 	}
 	
@@ -654,23 +669,7 @@ class RPGCharacter{
 	}
 	
 	public function reviveCharacter(){
-		$this->setCurrentHP($this->getMaxHP());
-	}
-	
-	public function getModifiedMaxHP(){
-		return $this->getMaxHP();
-	}
-	
-	public function getModifiedDamage(){
-		return intval($this->getDamage()) + intval($this->getEquippedWeapon('intDamage'));
-	}
-	
-	public function getModifiedDefence(){
-		return intval($this->getDefence()) + intval($this->getEquippedArmour('intDefence'));
-	}
-	
-	public function getModifiedWeight(){
-		return intval($this->getWeight()) + intval($this->_arrStatModifiers['Weight']);
+		$this->setCurrentHP($this->getModifiedMaxHP());
 	}
 	
 	public function getRPGCharacterID(){
@@ -841,36 +840,36 @@ class RPGCharacter{
 		$this->_strEthnicity = $strEthnicity;
 	}
 	
-	public function getMaxHP(){
-		return $this->_intMaxHP;
+	public function getExperience(){
+		return $this->_intExperience;
 	}
 	
-	public function setMaxHP($intMaxHP){
-		$this->_intMaxHP = $intMaxHP;
+	public function setExperience($intExperience){
+		$this->_intExperience = $intExperience;
 	}
 	
-	public function getCurrentHP(){
-		return $this->_intCurrentHP;
+	public function getRequiredExperience(){
+		return $this->_intRequiredExperience;
 	}
 	
-	public function setCurrentHP($intCurrentHP){
-		$this->_intCurrentHP = $intCurrentHP;
+	public function setRequiredExperience($intRequiredExperience){
+		$this->_intRequiredExperience = $intRequiredExperience;
 	}
 	
-	public function getDamage(){
-		return $this->_intDamage;
+	public function getLevel(){
+		return $this->_intLevel;
 	}
 	
-	public function setDamage($intDamage){
-		$this->_intDamage = $intDamage;
+	public function setLevel($intLevel){
+		$this->_intLevel = $intLevel;
 	}
 	
-	public function getDefence(){
-		return $this->_intDefence;
+	public function getStatPoints(){
+		return $this->_intStatPoints;
 	}
 	
-	public function setDefence($intDefence){
-		$this->_intDefence = $intDefence;
+	public function setStatPoints($intStatPoints){
+		$this->_intStatPoints = $intStatPoints;
 	}
 	
 	public function getEventID(){
@@ -897,15 +896,99 @@ class RPGCharacter{
 		$this->_intArmourRipLevel = $intArmourRipLevel;
 	}
 	
-	public function setCombat($intNPCID){
-		$this->_intCombat = $intNPCID;
+	public function setCombat($intNPCID, $strFirstTurn){
+		$this->_arrCombat[0] = $intNPCID;
+		$this->_arrCombat[1] = $strFirstTurn;
 		if(isset($_SESSION['objUISettings']->getOverrides()[3])){
 			$this->removeOverride(3);
 		}
 	}
 	
+	public function gainExperience($intExpGain){
+		$this->_intExperience += $intExpGain;
+		if($this->_intExperience >= $this->_intRequiredExperience){
+			$this->levelUp();
+			$this->save();
+		}
+	}
+	
+	public function levelUp(){
+		$this->_intLevel++;
+		$this->_intExperience = 0;
+		$this->_intRequiredExperience = $this->loadRequiredExperience();
+		$this->setStatPoints($this->getStatPoints() + 5);
+		$this->setCurrentHP($this->getModifiedMaxHP());
+		$this->save();
+	}
+	
+	public function loadRequiredExperience(){
+		$objDB = new Database();
+		$strSQL = "SELECT intExpToLvl
+					FROM tblexperiencechart
+					WHERE intLevelID = " . $objDB->quote($this->_intLevel);
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		return $arrRow['intExpToLvl'];
+	}
+	
+	public function getCurrentHP(){
+		return $this->_intCurrentHP;
+	}
+	
+	public function setCurrentHP($intCurrentHP){
+		$this->_intCurrentHP = $intCurrentHP;
+	}
+	
+	public function getModifiedMaxHP(){
+		return round($this->_objStats->getBaseStats()['intMaxHP'] + ($this->_objStats->getCombinedStats('intVitality') / 2));
+	}
+	
 	public function getCombat(){
-		return $this->_intCombat;
+		return $this->_arrCombat;
+	}
+	
+	public function getStats(){
+		return $this->_objStats;
+	}
+	
+	public function getWaitTime($strWaitType){
+		if($strWaitType == 'Standard'){
+			// standard attack
+			return round(250 - ($this->_objStats->getBaseStats()['intAgility'] / 2));
+		}
+		// skills will add on or decrease wait time by some amount
+	}
+	
+	public function getModifiedDamage(){
+		return round(($this->_objStats->getCombinedStats('intStrength') / 2) + $this->getEquippedWeapon('intDamage'));
+	}
+	
+	public function getModifiedMagicDamage(){
+		return round(($this->_objStats->getCombinedStats('intIntelligence') / 2) + $this->getEquippedWeapon('intMagicDamage'));
+	}
+	
+	public function getModifiedDefence(){
+		return round(($this->_objStats->getCombinedStats('intStrength') / 4) + $this->getEquippedArmour('intDefence'));
+	}
+	
+	public function getModifiedMagicDefence(){
+		return round(($this->_objStats->getCombinedStats('intIntelligence') / 4) + $this->getEquippedArmour('intMagicDefence'));
+	}
+	
+	public function getModifiedBlockRate(){
+		return round($this->_objStats->getCombinedStats('intVitality') / 4);
+	}
+	
+	public function getModifiedBlock(){
+		return 0.6;
+	}
+	
+	public function getModifiedCritRate(){
+		return round($this->_objStats->getCombinedStats('intDexterity') / 4);
+	}
+	
+	public function getModifiedCritDamage(){
+		return 1.5;
 	}
 }
 

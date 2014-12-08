@@ -10,7 +10,13 @@ class DisplayCombatWindow{
 		ob_start(); ?>
 		
 			<div class='eventDiv' id='eventDivCombatWindow'>
-				<?=$_SESSION['strCombatMessage']?>
+				<?php
+				
+					foreach($_SESSION['objCombat']->getCombatMessage() as $key => $strCombatMessage){
+						echo $strCombatMessage;
+					}
+					
+				?>
 			</div>
 		
 		<?php

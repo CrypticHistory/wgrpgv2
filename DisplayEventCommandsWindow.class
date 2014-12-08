@@ -8,7 +8,7 @@ class DisplayEventCommandsWindow{
 	
 	public static function toHTML(){
 		ob_start(); ?>
-
+		
 			<div class='commandsDiv' id='commandsDivEventCommands'>
 				<form method='post' action='command.php'>
 					<?php

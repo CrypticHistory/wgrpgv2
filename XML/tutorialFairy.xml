@@ -2,6 +2,7 @@
 <event>
 	<end>12</end>
 	<end>17</end>
+	<end>18</end>
 	<dialog id='0'>
 		<eventText><![CDATA[<i>]]>Pick yourself up off the ground.<![CDATA[</i>]]>
 		
@@ -74,15 +75,14 @@
 			"Since your Enchant rank is too low, I'll explain those stats to you! You won't be able to take the armour off unless it is torn off or the enchant is removed! Additionally, you gain one to three pounds per action while wearing this armour. On the bright side, the armour will adjust to whatever weight you gain or lose! But, the only thing you'll be doing right now is gaining weight! Because I'm going to force feed you cupcakes now! Teehee!"
 
 			Seraphine charges at you, cupcake in hand. You must fight!</eventText>
-		<option id='9' action='setCombat~2'>Prepare yourself!</option>
+		<option id='9' action='setCombat~2~Opponent'>Prepare yourself!</option>
 	</dialog>
 	<dialog id='9'>
-		<eventText>Battle in progress.</eventText>
-		<option id='10'>Player is Victorious.</option>
-		<option id='11'>Player is Defeated.</option>
+		<eventText>You exited the game in the middle of a battle, and any progress you made during the battle has been lost. Press continue to resume your game.</eventText>
+		<option id='18'>Continue</option>
 	</dialog>
 	<dialog id='10'>
-		<eventText>Seraphine groans and collapses to the ground in defeat.
+		<eventText>Seraphine groans.
 		
 		"Okay... you win! Please spare me! I have children!"
 		
@@ -145,5 +145,8 @@
 	</dialog>
 	<dialog id='17'>
 		<eventText>Well, that's enough of that. You ignore Seraphine's pleading and continue on your path.</eventText>
+	</dialog>
+	<dialog id='18'>
+		<eventText></eventText>
 	</dialog>
 </event>

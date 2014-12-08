@@ -3,74 +3,60 @@
 	include_once 'RPGCharacter.class';
 	include_once 'RPGUser.class';
 	include_once 'RPGNPC.class';
+	include_once 'RPGCombat.class';
 	include_once 'UISettings.class';
 	
 	session_start();
 
 	if(isset($_POST['command'])){
-		// player turn
-		$blnBattleOver = false;
-		
-		$objEnemy = $_SESSION['objEnemy'];
-		$objChar = $_SESSION['objRPGCharacter'];
-		
-		// flee
-		if($_POST['command'] == 'flee'){
-			$objChar->setCombat(0);
-			$objChar->setEventNodeID(2);
-			$blnBattleOver = true;
+	
+		if($_POST['command'] == 'end'){
+			$_SESSION['objEnemy'] = $_SESSION['objCombat']->getEnemy();
+			$_SESSION['objRPGCharacter']->setCombat(0, NULL);
+			$_SESSION['objUISettings']->setEventFrame('Event');
+			$_SESSION['objUISettings']->setCommandsFrame('Event');
+			if($_SESSION['objCombat']->getCombatState() == 'Victory'){
+				$_SESSION['objRPGCharacter']->setEventNodeID($_SESSION['objRPGCharacter']->getEventNodeID() + 1);
+			}
+			else if($_SESSION['objCombat']->getCombatState() == 'Defeat'){
+				$_SESSION['objRPGCharacter']->setEventNodeID($_SESSION['objRPGCharacter']->getEventNodeID() + 2);
+			}
+			else if($_SESSION['objCombat']->getCombatState() == 'Fled'){
+				$_SESSION['objRPGCharacter']->setEventNodeID($_SESSION['objRPGCharacter']->getEventNodeID() - 1);
+			}
+			unset($_SESSION['objCombat']);
 		}
-		
-		// attack
-		if($_POST['command'] == 'attack'){
-		
-			// player performs a standard attack
-			$intDamage = $objEnemy->takeDamage(intval($objChar->getModifiedDamage()) - intval($objEnemy->getModifiedDefence()));
-			$_SESSION['strCombatMessage'] .= '<br/>' . $objEnemy->getNPCName() . ' takes ' . $intDamage . ' damage.';
-			
-			// enemy is dead after the player's turn
-			if($objEnemy->isDead()){
-			
-				// roll for loot
-				$arrDrops = $objEnemy->getRandomDrops();
-				$intCounter = 1;
-				foreach($arrDrops as $key => $value){
-					$objChar->giveItem($key);
-					$_SESSION['strLootMessage'] = 'Loot received:<br/>' . $intCounter . ') ' . $value . '<br/>';
-					$intCounter++;
+		else{
+			if($_SESSION['objCombat']->getFirstTurn() == 'Player'){
+				$strFunction = 'player' . $_POST['command'];
+				
+				$_SESSION['objCombat']->$strFunction();
+				
+				$_SESSION['objCombat']->determineNextTurn();
+				
+				while($_SESSION['objCombat']->getNextTurn() == 'Opponent' && $_SESSION['objCombat']->getCombatState() == 'In Progress'){
+					$_SESSION['objCombat']->enemyTurn();
+					$_SESSION['objCombat']->determineNextTurn();
+				}
+			}
+			else{
+				while($_SESSION['objCombat']->getNextTurn() == 'Opponent' && $_SESSION['objCombat']->getCombatState() == 'In Progress'){
+					$_SESSION['objCombat']->enemyTurn();
+					$_SESSION['objCombat']->determineNextTurn();
 				}
 				
-				// end of combat, prepare to move back to event mode
-				$objEnemy->setCurrentHP(0);
-				$objChar->setCombat(0);
-				$objChar->setEventNodeID($objChar->getEventNodeID() + 1);
-				$blnBattleOver = true;
+				$strFunction = 'player' . $_POST['command'];
 				
+				$_SESSION['objCombat']->$strFunction();
+				
+				$_SESSION['objCombat']->determineNextTurn();
 			}
 			
+			// update session
+			$_SESSION['objRPGCharacter'] = $_SESSION['objCombat']->getPlayer();
+			$_SESSION['objRPGCharacter']->save();
 		}
 		
-		// enemy turn
-		if(!$blnBattleOver){
-		
-			// enemy performs a standard attack
-			$intDamage = $objChar->takeDamage(intval($objEnemy->getModifiedDamage()) - intval($objChar->getModifiedDefence()));
-			$_SESSION['strCombatMessage'] .= '<br/>You take ' . $intDamage . ' damage.';
-			
-			// character is dead after the enemy's turn
-			if($objChar->isDead()){
-				$objChar->setCurrentHP(0);
-				$objChar->setCombat(0);
-				$objChar->setEventNodeID($objChar->getEventNodeID() + 2);
-			}
-			
-		}
-		
-		// update session
-		$_SESSION['strCombatMessage'] .= '<br/>';
-		$_SESSION['objEnemy'] = $objEnemy;
-		$_SESSION['objRPGCharacter'] = $objChar;
-		$_SESSION['objRPGCharacter']->save();
 	}
 	
 	header('Location: main.php?page=DisplayGameUI');

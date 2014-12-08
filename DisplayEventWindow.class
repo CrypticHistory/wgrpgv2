@@ -11,10 +11,6 @@ class DisplayEventWindow{
 		
 			<div class='eventDiv' id='eventDivEventWindow'>
 				<?php
-				if(isset($_SESSION['strCombatMessage'])){
-					echo $_SESSION['strCombatMessage'] . "<br/>";
-					unset($_SESSION['strCombatMessage']);
-				}
 				
 				$intCounter = 0;
 				$objEvent = new RPGEvent($_SESSION['objRPGCharacter']->getEventID());
@@ -25,11 +21,6 @@ class DisplayEventWindow{
 						echo self::extractVariables(nl2br($value));
 					}
 					$intCounter++;
-				}
-				
-				if(isset($_SESSION['strLootMessage'])){
-					echo '<br/>' . $_SESSION['strLootMessage'];
-					unset($_SESSION['strLootMessage']);
 				}
 				
 				echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck() . "</i>";

@@ -60,17 +60,17 @@ class DialogConditionFactory {
 		if(strpos($strAction, '+')){
 			$variable = explode('+', $strAction);
 			$function = 'set' . $variable[0];
-			$_SESSION[$strSession]->$function(intval($_SESSION['objRPGCharacter']->getWeight()) + intval($variable[1]));
+			$_SESSION[$strSession]->$function(intval($_SESSION[$strSession]->getWeight()) + intval($variable[1]));
 		}
 		else if(strpos($strAction, '-')){
 			$variable = explode('-', $strAction);
 			$function = 'set' . $variable[0];
-			$_SESSION[$strSession]->$function(intval($_SESSION['objRPGCharacter']->getWeight()) - intval($variable[1]));
+			$_SESSION[$strSession]->$function(intval($_SESSION[$strSession]->getWeight()) - intval($variable[1]));
 		}
 		else if(strpos($strAction, '*')){
 			$variable = explode('*', $strAction);
 			$function = 'set' . $variable[0];
-			$_SESSION[$strSession]->$function(floatval($variable[1]) * floatval($_SESSION['objRPGCharacter']->getWeight()));
+			$_SESSION[$strSession]->$function(floatval($variable[1]) * floatval($_SESSION[$strSession]->getWeight()));
 		}
 		else if(strpos($strAction, '~')){
 			$function = explode('~', $strAction);

@@ -1,17 +1,17 @@
 <?php
 
 require_once "Database.class";
+require_once "RPGNPCStats.class";
 
 class RPGNPC{
 
 	private $_intNPCID;
 	private $_strNPCName;
-	private $_intMaxHP;
 	private $_intCurrentHP;
-	private $_intDamage;
-	private $_intDefence;
+	private $_objStats;
 	private $_intWeight;
 	private $_intHeight;
+	private $_intExperienceGiven;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
@@ -26,12 +26,9 @@ class RPGNPC{
 	private function populateVarFromRow($arrNPCInfo){
 		$this->setNPCID($arrNPCInfo['intNPCID']);
 		$this->setNPCName($arrNPCInfo['strNPCName']);
-		$this->setMaxHP($arrNPCInfo['intMaxHP']);
-		$this->setCurrentHP($this->getMaxHP());
-		$this->setDamage($arrNPCInfo['intDamage']);
-		$this->setDefence($arrNPCInfo['intDefence']);
 		$this->setWeight($arrNPCInfo['intWeight']);
 		$this->setHeight($arrNPCInfo['intHeight']);
+		$this->setExperienceGiven($arrNPCInfo['intExperienceGiven']);
 		$this->setCreatedOn($arrNPCInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrNPCInfo['strCreatedBy']);
 		$this->setModifiedOn($arrNPCInfo['dtmModifiedOn']);
@@ -48,21 +45,23 @@ class RPGNPC{
 			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
 				$arrNPCInfo['intNPCID'] = $arrRow['intNPCID'];
 				$arrNPCInfo['strNPCName'] = $arrRow['strNPCName'];
-				$arrNPCInfo['intMaxHP'] = $arrRow['intMaxHP'];
-				$arrNPCInfo['intDamage'] = $arrRow['intDamage'];
-				$arrNPCInfo['intDefence'] = $arrRow['intDefence'];
 				$arrNPCInfo['intWeight'] = $arrRow['intWeight'];
 				$arrNPCInfo['intHeight'] = $arrRow['intHeight'];
+				$arrNPCInfo['intExperienceGiven'] = $arrRow['intExperienceGiven'];
 				$arrNPCInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrNPCInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrNPCInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
 				$arrNPCInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
 			}
 		$this->populateVarFromRow($arrNPCInfo);
+		$this->_objStats = new RPGNPCStats($intNPCID);
+		$this->_objStats->loadBaseStats();
+		$this->setCurrentHP($this->_objStats->getBaseStats()['intMaxHP']);
 	}
 	
 	public function takeDamage($intDamage){
-		$this->setCurrentHP(max(0, intval($this->getCurrentHP()) - intval($intDamage)));
+		$intDamage = max(1, $intDamage);
+		$this->setCurrentHP($this->getCurrentHP() - $intDamage);
 		return $intDamage;
 	}
 	
@@ -70,9 +69,17 @@ class RPGNPC{
 		return intval($this->getCurrentHP()) <= 0 ? 1 : 0;
 	}
 	
+	public function getCurrentHP(){
+		return $this->_intCurrentHP;
+	}
+	
+	public function setCurrentHP($intCurrentHP){
+		$this->_intCurrentHP = $intCurrentHP;
+	}
+	
 	public function getEquippedArmour($strReturnVariable){
 		$objDB = new Database();
-		$strSQL = "SELECT strItemName, intDefence
+		$strSQL = "SELECT strItemName, intDefence, intMagicDefence
 					FROM tblitem
 						INNER JOIN tblnpcitemxr
 						USING (intItemID)
@@ -86,7 +93,7 @@ class RPGNPC{
 	
 	public function getEquippedWeapon($strReturnVariable){
 		$objDB = new Database();
-		$strSQL = "SELECT strItemName, intDamage
+		$strSQL = "SELECT strItemName, intDamage, intMagicDamage, strStatDamage
 					FROM tblitem
 						INNER JOIN tblnpcitemxr
 						USING (intItemID)
@@ -126,15 +133,51 @@ class RPGNPC{
 	}
 	
 	public function getModifiedMaxHP(){
-		return $this->getMaxHP();
+		return round($this->_objStats->getBaseStats()['intMaxHP'] + ($this->_objStats->getBaseStats()['intVitality'] / 2));
 	}
 	
 	public function getModifiedDamage(){
-		return intval($this->getDamage()) + intval($this->getEquippedWeapon('intDamage'));
+		return round(($this->_objStats->getBaseStats()['intStrength'] / 2) + $this->getEquippedWeapon('intDamage'));
+	}
+	
+	public function getModifiedMagicDamage(){
+		return round(($this->_objStats->getBaseStats()['intIntelligence'] / 2) + $this->getEquippedWeapon('intMagicDamage'));
 	}
 	
 	public function getModifiedDefence(){
-		return intval($this->getDefence()) + intval($this->getEquippedArmour('intDefence'));
+		return round(($this->_objStats->getBaseStats()['intStrength'] / 4) + $this->getEquippedArmour('intDefence'));
+	}
+	
+	public function getModifiedMagicDefence(){
+		return round(($this->_objStats->getBaseStats()['intIntelligence'] / 4) + $this->getEquippedArmour('intMagicDefence'));
+	}
+	
+	public function getModifiedBlockRate(){
+		return round($this->_objStats->getBaseStats()['intVitality'] / 4);
+	}
+	
+	public function getModifiedBlock(){
+		return 0.6;
+	}
+	
+	public function getModifiedCritRate(){
+		return round($this->_objStats->getBaseStats()['intDexterity'] / 4);
+	}
+	
+	public function getModifiedCritDamage(){
+		return 1.5;
+	}
+	
+	public function getWaitTime($strWaitType){
+		if($strWaitType == 'Standard'){
+			// standard attack
+			return round(250 - ($this->_objStats->getBaseStats()['intAgility'] / 2));
+		}
+		// skills will add on or decrease wait time by some amount
+	}
+	
+	public function getStats(){
+		return $this->_objStats;
 	}
 	
 	public function getNPCID(){
@@ -153,38 +196,6 @@ class RPGNPC{
 		$this->_strNPCName = $strNPCName;
 	}
 	
-	public function getMaxHP(){
-		return $this->_intMaxHP;
-	}
-	
-	public function setMaxHP($intMaxHP){
-		$this->_intMaxHP = $intMaxHP;
-	}
-	
-	public function getCurrentHP(){
-		return $this->_intCurrentHP;
-	}
-	
-	public function setCurrentHP($intCurrentHP){
-		$this->_intCurrentHP = $intCurrentHP;
-	}
-	
-	public function getDamage(){
-		return $this->_intDamage;
-	}
-	
-	public function setDamage($intDamage){
-		$this->_intDamage = $intDamage;
-	}
-	
-	public function getDefence(){
-		return $this->_intDefence;
-	}
-	
-	public function setDefence($intDefence){
-		$this->_intDefence = $intDefence;
-	}
-	
 	public function getWeight(){
 		return $this->_intWeight;
 	}
@@ -199,6 +210,14 @@ class RPGNPC{
 	
 	public function setHeight($intHeight){
 		$this->_intHeight = $intHeight;
+	}
+	
+	public function getExperienceGiven(){
+		return $this->_intExperienceGiven;
+	}
+	
+	public function setExperienceGiven($intExperienceGiven){
+		$this->_intExperienceGiven = $intExperienceGiven;
 	}
 	
 	public function getCreatedOn(){
