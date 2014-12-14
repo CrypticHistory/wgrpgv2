@@ -163,7 +163,7 @@ class RPGCharacter{
 		$strSQL = "INSERT INTO tblrpgcharacter
 					(strUserID, strRPGCharacterName, dblWeight, intHeight, strGender, strOrientation, strPersonality, strFatStance, strHairColour, strHairLength, strEyeColour, strEthnicity, intEventID, dtmCreatedOn, strCreatedBy)
 						VALUES
-					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", 2, '" . date('Y-m-d H:i:s') . "', 'system')";
+					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", 1, '" . date('Y-m-d H:i:s') . "', 'system')";
 		$objDB->query($strSQL);
 		$intRPGCharacterID = $objDB->lastInsertID();
 		$this->loadRPGCharacterInfo($intRPGCharacterID, true);
@@ -201,6 +201,20 @@ class RPGCharacter{
 				$this->_arrGearOverrides[$arrRow['intItemInstanceID']][] = $arrRow['intOverrideID'];
 			}
 		}
+	}
+	
+	public function addToStatusEffects($udfInsertID, $intStatusEffectID){
+		$this->_arrStatusEffectList[$udfInsertID] = new RPGStatusEffect($intStatusEffectID);
+		if($this->_arrStatusEffectList[$udfInsertID]->getOverrideID() != NULL){
+			$this->addOverride($this->_arrStatusEffectList[$udfInsertID]->getOverrideID());
+		}
+	}
+	
+	public function removeFromStatusEffects($udfInsertID){
+		if($this->_arrStatusEffectList[$udfInsertID]->getOverrideID() != NULL){
+			$this->removeOverride($this->_arrStatusEffectList[$udfInsertID]->getOverrideID());
+		}
+		unset($this->_arrStatusEffectList[$udfInsertID]);
 	}
 	
 	public function giveItem($intItemID, $strClothingSize = null){
@@ -905,7 +919,9 @@ class RPGCharacter{
 	}
 	
 	public function gainExperience($intExpGain){
-		$this->_intExperience += $intExpGain;
+		if($this->getLevel() != 10){
+			$this->_intExperience += $intExpGain;
+		}
 		if($this->_intExperience >= $this->_intRequiredExperience){
 			$this->levelUp();
 			$this->save();
@@ -954,7 +970,7 @@ class RPGCharacter{
 	public function getWaitTime($strWaitType){
 		if($strWaitType == 'Standard'){
 			// standard attack
-			return round(250 - ($this->_objStats->getBaseStats()['intAgility'] / 2));
+			return round(250 - (($this->_objStats->getCombinedStats('intAgility') - ($this->_objStats->getCombinedStats('intAgility') * $this->getImmobilityFactor())) / 2));
 		}
 		// skills will add on or decrease wait time by some amount
 	}
@@ -989,6 +1005,10 @@ class RPGCharacter{
 	
 	public function getModifiedCritDamage(){
 		return 1.5;
+	}
+	
+	public function getImmobilityFactor(){
+		return max(0, ((($this->getBMI() / 40) / 10) - (($this->_objStats->getCombinedStats('intWillpower') / 2) / 100)));
 	}
 }
 
