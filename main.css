@@ -166,7 +166,7 @@ hr{
 .inventoryDiv{
 	overflow-y:scroll;
 	width:100%;
-	height:95%;
+	height:93%;
 	background-color:#EBE2D1;
 	border:1px solid grey;
 	clear:both;
@@ -177,6 +177,15 @@ hr{
 	font-weight:bold;
 	font-size:1.0em;
 	text-align:left;
+}
+
+.goldLine{
+	background-color:#EBE2D1;
+	font-weight:bold;
+	text-align:center;
+	border-bottom:1px solid grey;
+	border-left:1px solid grey;
+	border-right:1px solid grey;
 }
 
 .borderTop{

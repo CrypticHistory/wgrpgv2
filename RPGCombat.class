@@ -40,6 +40,14 @@
 				// exp gain
 				$intExpGain = $this->_objEnemy->getExperienceGiven();
 				$this->_objPlayer->gainExperience($intExpGain);
+				$this->_arrCombatMessage[] = '<br/><br/>You gained <b>' . $intExpGain . ' experience</b> from the battle.';
+				
+				// receive money
+				if($this->_objEnemy->getGoldDropMax() != 0){
+					$intMoneyGain = mt_rand($this->_objEnemy->getGoldDropMin(), $this->_objEnemy->getGoldDropMax());
+					$this->_objPlayer->receiveGold($intMoneyGain);
+					$this->_arrCombatMessage[] = '<br/>You picked up <b>' . $intMoneyGain . ' gold</b> from the enemy\'s remains.';
+				}
 				
 				// roll for loot
 				$arrDrops = $this->_objEnemy->getRandomDrops();

@@ -34,6 +34,7 @@ class RPGCharacter{
 	private $_intRequiredExperience;
 	private $_intLevel;
 	private $_intStatPoints;
+	private $_intGold;
 	private $_arrCombat;
 	private $_arrGearStatusEffects;
 	private $_arrStatusEffectList;
@@ -75,6 +76,7 @@ class RPGCharacter{
 		$this->setExperience($arrCharacterInfo['intExperience']);
 		$this->setLevel($arrCharacterInfo['intLevel']);
 		$this->setStatPoints($arrCharacterInfo['intStatPoints']);
+		$this->setGold($arrCharacterInfo['intGold']);
 		$this->setCreatedOn($arrCharacterInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrCharacterInfo['strCreatedBy']);
 		$this->setModifiedOn($arrCharacterInfo['dtmModifiedOn']);
@@ -113,6 +115,7 @@ class RPGCharacter{
 				$arrCharacterInfo['intExperience'] = $arrRow['intExperience'];
 				$arrCharacterInfo['intLevel'] = $arrRow['intLevel'];
 				$arrCharacterInfo['intStatPoints'] = $arrRow['intStatPoints'];
+				$arrCharacterInfo['intGold'] = $arrRow['intGold'];
 				$arrCharacterInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrCharacterInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrCharacterInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
@@ -153,6 +156,7 @@ class RPGCharacter{
 						intExperience = " . $objDB->quote($this->_intExperience) . ",
 						intLevel = " . $objDB->quote($this->_intLevel) . ",
 						intStatPoints = " . $objDB->quote($this->_intStatPoints) . "
+						intGold = " . $objDB->quote($this->_intGold) . "
 						WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
 		$objDB->query($strSQL);
 		$this->_objStats->saveAll();
@@ -1009,6 +1013,18 @@ class RPGCharacter{
 	
 	public function getImmobilityFactor(){
 		return max(0, ((($this->getBMI() / 40) / 10) - (($this->_objStats->getCombinedStats('intWillpower') / 2) / 100)));
+	}
+	
+	public function receiveGold($intGold){
+		$this->_intGold += $intGold;
+	}
+	
+	public function getGold(){
+		return $this->_intGold;
+	}
+	
+	public function setGold($intGold){
+		$this->_intGold = $intGold;
 	}
 }
 

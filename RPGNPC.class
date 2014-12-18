@@ -12,6 +12,8 @@ class RPGNPC{
 	private $_intWeight;
 	private $_intHeight;
 	private $_intExperienceGiven;
+	private $_intGoldDropMin;
+	private $_intGoldDropMax;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
@@ -29,6 +31,8 @@ class RPGNPC{
 		$this->setWeight($arrNPCInfo['intWeight']);
 		$this->setHeight($arrNPCInfo['intHeight']);
 		$this->setExperienceGiven($arrNPCInfo['intExperienceGiven']);
+		$this->setGoldDropMin($arrNPCInfo['intGoldDropMin']);
+		$this->setGoldDropMax($arrNPCInfo['intGoldDropMax']);
 		$this->setCreatedOn($arrNPCInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrNPCInfo['strCreatedBy']);
 		$this->setModifiedOn($arrNPCInfo['dtmModifiedOn']);
@@ -48,6 +52,8 @@ class RPGNPC{
 				$arrNPCInfo['intWeight'] = $arrRow['intWeight'];
 				$arrNPCInfo['intHeight'] = $arrRow['intHeight'];
 				$arrNPCInfo['intExperienceGiven'] = $arrRow['intExperienceGiven'];
+				$arrNPCInfo['intGoldDropMin'] = $arrRow['intGoldDropMin'];
+				$arrNPCInfo['intGoldDropMax'] = $arrRow['intGoldDropMax'];
 				$arrNPCInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrNPCInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrNPCInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
@@ -218,6 +224,22 @@ class RPGNPC{
 	
 	public function setExperienceGiven($intExperienceGiven){
 		$this->_intExperienceGiven = $intExperienceGiven;
+	}
+	
+	public function getGoldDropMin(){
+		return $this->_intGoldDropMin;
+	}
+	
+	public function setGoldDropMin($intGoldDropMin){
+		$this->_intGoldDropMin = $intGoldDropMin;
+	}
+	
+	public function getGoldDropMax(){
+		return $this->_intGoldDropMax;
+	}
+	
+	public function setGoldDropMax($intGoldDropMax){
+		$this->_intGoldDropMax = $intGoldDropMax;
 	}
 	
 	public function getCreatedOn(){

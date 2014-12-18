@@ -13,6 +13,10 @@ class DisplayCharacterInfo{
 		<script type='text/javascript'>
 
 		$(document).ready(function(){
+			$('input[type=number]').numeric();
+			$('input[type=number]').keypress(function(e){
+				return false;
+			});
 			intStrengthDiff = 0;
 			intIntelligenceDiff = 0;
 			intAgilityDiff = 0;
@@ -22,7 +26,7 @@ class DisplayCharacterInfo{
 			intStatDiff = intStrengthDiff + intIntelligenceDiff + intAgilityDiff + intVitalityDiff + intWillpowerDiff + intDexterityDiff;
 			$('input[type=number]').numeric();
 			
-			$('#strengthInput').bind('keyup mouseup', function(){
+			$('#strengthInput').bind('input', function(){
 				intBaseStrength = <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intStrength'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intStrength']?>;
 				intStrengthDiff = $('#strengthInput').val() - intBaseStrength;
 				intStatDiff = intStrengthDiff + intIntelligenceDiff + intAgilityDiff + intVitalityDiff + intWillpowerDiff + intDexterityDiff;
@@ -32,7 +36,7 @@ class DisplayCharacterInfo{
 				$('#intSpentStats').val(intStatDiff);
 			});
 			
-			$('#intelligenceInput').bind('keyup mouseup', function(){
+			$('#intelligenceInput').bind('input', function(){
 				intBaseIntelligence = <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intIntelligence'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intIntelligence']?>;
 				intIntelligenceDiff = $('#intelligenceInput').val() - intBaseIntelligence;
 				intStatDiff = intStrengthDiff + intIntelligenceDiff + intAgilityDiff + intVitalityDiff + intWillpowerDiff + intDexterityDiff;
@@ -42,7 +46,7 @@ class DisplayCharacterInfo{
 				$('#intSpentStats').val(intStatDiff);
 			});
 			
-			$('#agilityInput').bind('keyup mouseup', function(){
+			$('#agilityInput').bind('input', function(){
 				intBaseAgility = <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intAgility'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intAgility']?>;
 				intAgilityDiff = $('#agilityInput').val() - intBaseAgility;
 				intStatDiff = intStrengthDiff + intIntelligenceDiff + intAgilityDiff + intVitalityDiff + intWillpowerDiff + intDexterityDiff;
@@ -52,7 +56,7 @@ class DisplayCharacterInfo{
 				$('#intSpentStats').val(intStatDiff);
 			});
 			
-			$('#vitalityInput').bind('keyup mouseup', function(){
+			$('#vitalityInput').bind('input', function(){
 				intBaseVitality = <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intVitality'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intVitality']?>;
 				intVitalityDiff = $('#vitalityInput').val() - intBaseVitality;
 				intStatDiff = intStrengthDiff + intIntelligenceDiff + intAgilityDiff + intVitalityDiff + intWillpowerDiff + intDexterityDiff;
@@ -62,7 +66,7 @@ class DisplayCharacterInfo{
 				$('#intSpentStats').val(intStatDiff);
 			});
 			
-			$('#willpowerInput').bind('keyup mouseup', function(){
+			$('#willpowerInput').bind('input', function(){
 				intBaseWillpower = <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intWillpower'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intWillpower']?>;
 				intWillpowerDiff = $('#willpowerInput').val() - intBaseWillpower;
 				intStatDiff = intStrengthDiff + intIntelligenceDiff + intAgilityDiff + intVitalityDiff + intWillpowerDiff + intDexterityDiff;
@@ -72,7 +76,7 @@ class DisplayCharacterInfo{
 				$('#intSpentStats').val(intStatDiff);
 			});
 			
-			$('#dexterityInput').bind('keyup mouseup', function(){
+			$('#dexterityInput').bind('input', function(){
 				intBaseDexterity = <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intDexterity'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intDexterity']?>;
 				intDexterityDiff = $('#dexterityInput').val() - intBaseDexterity;
 				intStatDiff = intStrengthDiff + intIntelligenceDiff + intAgilityDiff + intVitalityDiff + intWillpowerDiff + intDexterityDiff;

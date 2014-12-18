@@ -242,6 +242,8 @@ class DisplayGameUI extends DataGameUI{
 			
 			?>
 			
+			<div class='goldLine'>Gold: <?=$_SESSION['objRPGCharacter']->getGold()?></div>
+			
 			</fieldset>
 			
 			<fieldset class='worldFieldset'>
