@@ -69,6 +69,30 @@ class RPGStatusEffect{
 		$this->populateVarFromRow($arrStatusEffectInfo);
 	}
 	
+	public function create($intRPGCharacterID, $intItemInstanceID = null){
+		$objDB = new Database();
+		$strSQL = "INSERT INTO tblcharacterstatuseffectxr
+					(intRPGCharacterID, intStatusEffectID, intItemInstanceID, intTimeRemaining)
+						VALUES
+					(" . $objDB->quote($intRPGCharacterID) . ", " . $objDB->quote($this->_intStatusEffectID) . ", " . ($intItemInstanceID != null ? $objDB->quote($intItemInstanceID) : "null") . ", " . $objDB->quote($this->_intDuration) . ")";
+		$objDB->query($strSQL);
+	}
+	
+	public function save($intRPGCharacterID, $intItemInstanceID = null){
+		$objDB = new Database();
+		$strSQL = "UPDATE tblcharacterstatuseffectxr
+					SET intTimeRemaining = " . ($this->_intTimeRemaining != null ? $objDB->quote($this->_intTimeRemaining) : $objDB->quote($this->_intDuration)) . "
+					WHERE intRPGCharacterID = " . $objDB->quote($intRPGCharacterID) . ", intStatusEffectID = " . $objDB->quote($this->_intStatusEffectID);
+		$objDB->query($strSQL);
+	}
+	
+	public function remove($intRPGCharacterID){
+		$objDB = new Database();
+		$strSQL = "DELETE FROM tblcharacterstatuseffectxr
+					WHERE intRPGCharacterID = " . $objDB->quote($intRPGCharacterID) . " AND intStatusEffectID = " . $objDB->quote($this->_intStatusEffectID);
+		$objDB->query($strSQL);
+	}
+	
 	public function tickStatusEffect(){
 		$this->_intTimeRemaining = intval($this->_intTimeRemaining) - 1;
 	}
