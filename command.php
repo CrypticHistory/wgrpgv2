@@ -15,6 +15,11 @@
 		}
 	}
 	
+	if(isset($_POST['return'])){
+		$_SESSION['objUISettings']->setEventFrame('Event');
+		$_SESSION['objUISettings']->setCommandsFrame('Event');
+	}
+	
 	if(isset($_POST['itemAction']) && isset($_POST['itemID'])){
 		if($_POST['itemAction'] == 'use'){
 			$_SESSION['objRPGCharacter']->eatItem($_POST['itemID'], $_POST['itemHPHeal']);

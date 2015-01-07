@@ -5,29 +5,20 @@
 	
 	session_start();
 
-	if(isset($_POST['intStrength'])){
-		$_SESSION['objRPGCharacter']->getStats()->setAbilityStats('intStrength', $_POST['intStrength'] - $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intStrength']);
+	$intCombinedStats = $_POST['intStrength'] + $_POST['intIntelligence'] + $_POST['intAgility'] + $_POST['intVitality'] + $_POST['intWillpower'] + $_POST['intDexterity'];
+	if($intCombinedStats <= $_SESSION['objRPGCharacter']->getStatPoints()){
+		$_SESSION['objRPGCharacter']->getStats()->setAbilityStats('intStrength', $_POST['intStrength'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intStrength']);
+		$_SESSION['objRPGCharacter']->getStats()->setAbilityStats('intIntelligence', $_POST['intIntelligence'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intIntelligence']);
+		$_SESSION['objRPGCharacter']->getStats()->setAbilityStats('intAgility', $_POST['intAgility'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intAgility']);
+		$_SESSION['objRPGCharacter']->getStats()->setAbilityStats('intVitality', $_POST['intVitality'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intVitality']);
+		$_SESSION['objRPGCharacter']->getStats()->setAbilityStats('intWillpower', $_POST['intWillpower'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intWillpower']);
+		$_SESSION['objRPGCharacter']->getStats()->setAbilityStats('intDexterity', $_POST['intDexterity'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intDexterity']);
+		$_SESSION['objRPGCharacter']->setStatPoints(max(0, ($_SESSION['objRPGCharacter']->getStatPoints() - $intCombinedStats)));
+		$_SESSION['objRPGCharacter']->getStats()->saveAbilityStats();
 	}
-	if(isset($_POST['intIntelligence'])){
-		$_SESSION['objRPGCharacter']->getStats()->setAbilityStats('intIntelligence', $_POST['intIntelligence'] - $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intIntelligence']);
+	else{
+		$_SESSION['strStatError'] = 'Error: Stats entered exceeds maximum allocated stat points.';
 	}
-	if(isset($_POST['intAgility'])){
-		$_SESSION['objRPGCharacter']->getStats()->setAbilityStats('intAgility', $_POST['intAgility'] - $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intAgility']);
-	}
-	if(isset($_POST['intVitality'])){
-		$_SESSION['objRPGCharacter']->getStats()->setAbilityStats('intVitality', $_POST['intVitality'] - $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intVitality']);
-	}
-	if(isset($_POST['intWillpower'])){
-		$_SESSION['objRPGCharacter']->getStats()->setAbilityStats('intWillpower', $_POST['intWillpower'] - $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intWillpower']);
-	}
-	if(isset($_POST['intDexterity'])){
-		$_SESSION['objRPGCharacter']->getStats()->setAbilityStats('intDexterity', $_POST['intDexterity'] - $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intDexterity']);
-	}
-	if(isset($_POST['intSpentStats'])){
-		$_SESSION['objRPGCharacter']->setStatPoints(max(0, ($_SESSION['objRPGCharacter']->getStatPoints() - $_POST['intSpentStats'])));
-	}
-	
-	$_SESSION['objRPGCharacter']->getStats()->saveAbilityStats();
 	
 	header('Location: main.php?page=DisplayGameUI');
 	exit;

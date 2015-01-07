@@ -9,86 +9,6 @@ class DisplayCharacterInfo{
 	public function toHTML(){
 		ob_start(); ?>
 		
-		<script src="JS/jquery.numeric.js" type="text/javascript"></script>
-		<script type='text/javascript'>
-
-		$(document).ready(function(){
-			$('input[type=number]').numeric();
-			$('input[type=number]').keypress(function(e){
-				return false;
-			});
-			intStrengthDiff = 0;
-			intIntelligenceDiff = 0;
-			intAgilityDiff = 0;
-			intVitalityDiff = 0;
-			intWillpowerDiff = 0;
-			intDexterityDiff = 0;
-			intStatDiff = intStrengthDiff + intIntelligenceDiff + intAgilityDiff + intVitalityDiff + intWillpowerDiff + intDexterityDiff;
-			$('input[type=number]').numeric();
-			
-			$('#strengthInput').bind('input', function(){
-				intBaseStrength = <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intStrength'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intStrength']?>;
-				intStrengthDiff = $('#strengthInput').val() - intBaseStrength;
-				intStatDiff = intStrengthDiff + intIntelligenceDiff + intAgilityDiff + intVitalityDiff + intWillpowerDiff + intDexterityDiff;
-				if(intStatDiff > <?=$_SESSION['objRPGCharacter']->getStatPoints()?>){
-					$('#strengthInput').val($('#strengthInput').val() - 1);
-				}
-				$('#intSpentStats').val(intStatDiff);
-			});
-			
-			$('#intelligenceInput').bind('input', function(){
-				intBaseIntelligence = <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intIntelligence'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intIntelligence']?>;
-				intIntelligenceDiff = $('#intelligenceInput').val() - intBaseIntelligence;
-				intStatDiff = intStrengthDiff + intIntelligenceDiff + intAgilityDiff + intVitalityDiff + intWillpowerDiff + intDexterityDiff;
-				if(intStatDiff > <?=$_SESSION['objRPGCharacter']->getStatPoints()?>){
-					$('#intelligenceInput').val($('#intelligenceInput').val() - 1);
-				}
-				$('#intSpentStats').val(intStatDiff);
-			});
-			
-			$('#agilityInput').bind('input', function(){
-				intBaseAgility = <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intAgility'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intAgility']?>;
-				intAgilityDiff = $('#agilityInput').val() - intBaseAgility;
-				intStatDiff = intStrengthDiff + intIntelligenceDiff + intAgilityDiff + intVitalityDiff + intWillpowerDiff + intDexterityDiff;
-				if(intStatDiff > <?=$_SESSION['objRPGCharacter']->getStatPoints()?>){
-					$('#agilityInput').val($('#agilityInput').val() - 1);
-				}
-				$('#intSpentStats').val(intStatDiff);
-			});
-			
-			$('#vitalityInput').bind('input', function(){
-				intBaseVitality = <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intVitality'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intVitality']?>;
-				intVitalityDiff = $('#vitalityInput').val() - intBaseVitality;
-				intStatDiff = intStrengthDiff + intIntelligenceDiff + intAgilityDiff + intVitalityDiff + intWillpowerDiff + intDexterityDiff;
-				if(intStatDiff > <?=$_SESSION['objRPGCharacter']->getStatPoints()?>){
-					$('#vitalityInput').val($('#vitalityInput').val() - 1);
-				}
-				$('#intSpentStats').val(intStatDiff);
-			});
-			
-			$('#willpowerInput').bind('input', function(){
-				intBaseWillpower = <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intWillpower'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intWillpower']?>;
-				intWillpowerDiff = $('#willpowerInput').val() - intBaseWillpower;
-				intStatDiff = intStrengthDiff + intIntelligenceDiff + intAgilityDiff + intVitalityDiff + intWillpowerDiff + intDexterityDiff;
-				if(intStatDiff > <?=$_SESSION['objRPGCharacter']->getStatPoints()?>){
-					$('#willpowerInput').val($('#willpowerInput').val() - 1);
-				}
-				$('#intSpentStats').val(intStatDiff);
-			});
-			
-			$('#dexterityInput').bind('input', function(){
-				intBaseDexterity = <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intDexterity'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intDexterity']?>;
-				intDexterityDiff = $('#dexterityInput').val() - intBaseDexterity;
-				intStatDiff = intStrengthDiff + intIntelligenceDiff + intAgilityDiff + intVitalityDiff + intWillpowerDiff + intDexterityDiff;
-				if(intStatDiff > <?=$_SESSION['objRPGCharacter']->getStatPoints()?>){
-					$('#dexterityInput').val($('#dexterityInput').val() - 1);
-				}
-				$('#intSpentStats').val(intStatDiff);
-			});
-		});
-
-		</script>
-		
 			<div class='characterDiv hidden' id='characterDivInfo'>
 				<table align='center'>
 					<tr>
@@ -135,9 +55,10 @@ class DisplayCharacterInfo{
 						<th class='tableHeader borderBottom statHeader' colspan='2'>Combat Stats</th>
 					</tr>
 					<?php if($_SESSION['objRPGCharacter']->getStatPoints() != 0){?>
-						<form method='post' action='statgain.php'>
-						<input type='hidden' id='intSpentStats' name='intSpentStats' value='0'/>
-						<tr><td>You have <span id='unspentStats'><?=$_SESSION['objRPGCharacter']->getStatPoints()?></span> unspent stat points!</td><td><button type='submit'>Save</button></td></tr>
+						<form method='post' action='changeEventWindow.php'>
+							<tr><td>You have <span id='unspentStats'><?=$_SESSION['objRPGCharacter']->getStatPoints()?></span> unspent stat points!</td><td><button type='submit'>Spend</button></td></tr>
+							<input type='hidden' name='changeTo' value='StatGain'/>
+						</form>
 					<?php } ?>
 					<tr>
 						<td class='background0'>Level:</td><td class='background0' id='charLevel'><?=$_SESSION['objRPGCharacter']->getLevel()?></td>
@@ -152,62 +73,37 @@ class DisplayCharacterInfo{
 					<tr>
 						<td class='background1'>Strength:</td><td class='background1' id='charStrength'>
 							<?php $intCombinedStrength = $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intStrength'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intStrength']; ?>
-							<?php if($_SESSION['objRPGCharacter']->getStatPoints() == 0){ ?>
 							<?=$intCombinedStrength?>
-							<?php } else { ?>
-							<input type='number' id='strengthInput' value='<?=$intCombinedStrength?>' type='text' class='' max='<?=$intCombinedStrength + $_SESSION['objRPGCharacter']->getStatPoints()?>' min='<?=$intCombinedStrength?>' name='intStrength'/>
-							<?php } ?>
 						</td>
 					</tr>
 					<tr>
 						<td class='background0'>Intelligence:</td><td class='background0' id='charIntelligence'>
 							<?php $intCombinedIntelligence = $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intIntelligence'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intIntelligence']; ?>
-							<?php if($_SESSION['objRPGCharacter']->getStatPoints() == 0){ ?>
 							<?=$intCombinedIntelligence?>
-							<?php } else { ?>
-							<input type='number' id='intelligenceInput' value='<?=$intCombinedIntelligence?>' type='text' class='' max='<?=$intCombinedIntelligence + $_SESSION['objRPGCharacter']->getStatPoints()?>' min='<?=$intCombinedIntelligence?>' name='intIntelligence'/>
-							<?php } ?>
 						</td>
 					</tr>
 					<tr>
 						<td class='background1'>Agility:</td><td class='background1' id='charAgility'>
 							<?php $intCombinedAgility = $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intAgility'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intAgility']; ?>
-							<?php if($_SESSION['objRPGCharacter']->getStatPoints() == 0){ ?>
 							<?=$intCombinedAgility?>
-							<?php } else { ?>
-							<input type='number' id='agilityInput' value='<?=$intCombinedAgility?>' type='text' class='' max='<?=$intCombinedAgility + $_SESSION['objRPGCharacter']->getStatPoints()?>' min='<?=$intCombinedAgility?>' name='intAgility'/>
-							<?php } ?>
 						</td>
 					</tr>
 					<tr>
 						<td class='background0'>Vitality:</td><td class='background0' id='charVitality'>
 							<?php $intCombinedVitality = $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intVitality'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intVitality']; ?>
-							<?php if($_SESSION['objRPGCharacter']->getStatPoints() == 0){ ?>
 							<?=$intCombinedVitality?>
-							<?php } else { ?>
-							<input type='number' id='vitalityInput' value='<?=$intCombinedVitality?>' type='text' class='' max='<?=$intCombinedVitality + $_SESSION['objRPGCharacter']->getStatPoints()?>' min='<?=$intCombinedVitality?>' name='intVitality'/>
-							<?php } ?>
 						</td>
 					</tr>
 					<tr>
 						<td class='background1'>Willpower:</td><td class='background1' id='charWillpower'>
 							<?php $intCombinedWillpower = $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intWillpower'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intWillpower']; ?>
-							<?php if($_SESSION['objRPGCharacter']->getStatPoints() == 0){ ?>
 							<?=$intCombinedWillpower?>
-							<?php } else { ?>
-							<input type='number' id='willpowerInput' value='<?=$intCombinedWillpower?>' type='text' class='' max='<?=$intCombinedWillpower + $_SESSION['objRPGCharacter']->getStatPoints()?>' min='<?=$intCombinedWillpower?>' name='intWillpower'/>
-							<?php } ?>
 						</td>
 					</tr>
 					<tr>
 						<td class='background0'>Dexterity:</td><td class='background0' id='charDexterity'>
 							<?php $intCombinedDexterity = $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intDexterity'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intDexterity']; ?>
-							<?php if($_SESSION['objRPGCharacter']->getStatPoints() == 0){ ?>
 							<?=$intCombinedDexterity?>
-							<?php } else { ?>
-							<input type='number' id='dexterityInput' value='<?=$intCombinedDexterity?>' type='text' class='' max='<?=$intCombinedDexterity + $_SESSION['objRPGCharacter']->getStatPoints()?>' min='<?=$intCombinedDexterity?>' name='intDexterity'/>
-							<?php } ?>
-							</form>
 						</td>
 					</tr>
 					<tr>

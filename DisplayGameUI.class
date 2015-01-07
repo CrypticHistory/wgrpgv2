@@ -12,12 +12,14 @@ include_once "DisplayCharacterSkills.class";
 include_once "DisplayCharacterQuests.class";
 include_once "DisplayEventWindow.class";
 include_once "DisplayCombatWindow.class";
+include_once "DisplayStatGainWindow.class";
 include_once "DisplayUseInventory.class";
 include_once "DisplayEquipInventory.class";
 include_once "DisplayMiscInventory.class";
 include_once "DisplayQuestInventory.class";
 include_once "DisplayEventCommandsWindow.class";
 include_once "DisplayCombatCommandsWindow.class";
+include_once "DisplayReturnCommandsWindow.class";
 
 class DisplayGameUI extends DataGameUI{
 
@@ -27,12 +29,14 @@ class DisplayGameUI extends DataGameUI{
 	protected $_objCharacterQuests;
 	protected $_objEventWindow;
 	protected $_objCombatWindow;
+	protected $_objStatGainWindow;
 	protected $_objUseInventory;
 	protected $_objEquipInventory;
 	protected $_objMiscInventory;
 	protected $_objQuestInventory;
 	protected $_objEventCommandsWindow;
 	protected $_objCombatCommandsWindow;
+	protected $_objReturnCommandsWindow;
 
 	public function DisplayGameUI(){
 		//load character
@@ -61,12 +65,14 @@ class DisplayGameUI extends DataGameUI{
 		$this->_objCharacterQuests = new DisplayCharacterQuests();
 		$this->_objEventWindow = new DisplayEventWindow();
 		$this->_objCombatWindow = new DisplayCombatWindow();
+		$this->_objStatGainWindow = new DisplayStatGainWindow();
 		$this->_objUseInventory = new DisplayUseInventory();
 		$this->_objEquipInventory = new DisplayEquipInventory();
 		$this->_objMiscInventory = new DisplayMiscInventory();
 		$this->_objQuestInventory = new DisplayQuestInventory();
 		$this->_objEventCommandsWindow = new DisplayEventCommandsWindow();
 		$this->_objCombatCommandsWindow = new DisplayCombatCommandsWindow();
+		$this->_objReturnCommandsWindow = new DisplayReturnCommandsWindow();
 		$this->DataGameUI();
 	}
 	
