@@ -53,7 +53,7 @@
 							intBlockRate = " . $objDB->quote($this->_arrBaseStats['intBlockRate']) . ",
 							intBlockReduction = " . $objDB->quote($this->_arrBaseStats['intBlockReduction']) . "
 							WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
-			$objDB->quote($strSQL);
+			$objDB->query($strSQL);
 		}
 		
 		public function saveAbilityStats(){
@@ -66,7 +66,7 @@
 							intWillpower = " . $objDB->quote($this->_arrAbilityStats['intWillpower']) . ",
 							intDexterity = " . $objDB->quote($this->_arrAbilityStats['intDexterity']) . "
 							WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
-			$objDB->quote($strSQL);
+			$objDB->query($strSQL);
 		}
 		
 		public function saveAll(){
