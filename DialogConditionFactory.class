@@ -59,18 +59,21 @@ class DialogConditionFactory {
 		}
 		if(strpos($strAction, '+')){
 			$variable = explode('+', $strAction);
-			$function = 'set' . $variable[0];
-			$_SESSION[$strSession]->$function(intval($_SESSION[$strSession]->getWeight()) + intval($variable[1]));
+			$setFunction = 'set' . $variable[0];
+			$getFunction = 'get' . $variable[0];
+			$_SESSION[$strSession]->$setFunction(intval($_SESSION[$strSession]->$getFunction()) + intval($variable[1]));
 		}
 		else if(strpos($strAction, '-')){
 			$variable = explode('-', $strAction);
-			$function = 'set' . $variable[0];
-			$_SESSION[$strSession]->$function(intval($_SESSION[$strSession]->getWeight()) - intval($variable[1]));
+			$setfunction = 'set' . $variable[0];
+			$getFunction = 'get' . $variable[0];
+			$_SESSION[$strSession]->$setFunction(intval($_SESSION[$strSession]->$getFunction()) - intval($variable[1]));
 		}
 		else if(strpos($strAction, '*')){
 			$variable = explode('*', $strAction);
-			$function = 'set' . $variable[0];
-			$_SESSION[$strSession]->$function(floatval($variable[1]) * floatval($_SESSION[$strSession]->getWeight()));
+			$setFunction = 'set' . $variable[0];
+			$getFunction = 'get' . $variable[0];
+			$_SESSION[$strSession]->$setFunction(floatval($variable[1]) * floatval($_SESSION[$strSession]->$getFunction()));
 		}
 		else if(strpos($strAction, '~')){
 			$function = explode('~', $strAction);
