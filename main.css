@@ -156,6 +156,7 @@ hr{
 }
 
 .characterDiv{
+	padding-left:2px;
 	overflow-y:scroll;
 	width:100%;
 	height:95%;
@@ -230,6 +231,7 @@ hr{
 
 .compassDiv{
 	padding-top:9px;
+	padding-left:2px;
 	width:100%;
 	height:100%;
 	background-color:#EBE2D1;

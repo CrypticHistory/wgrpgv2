@@ -8,8 +8,11 @@ class UISettings{
 	private $_strEventFrame;
 	private $_strCharacterFrame;
 	private $_strCommandsFrame;
+	private $_strNavigationFrame;
 	private $_arrOverrides;
-	private $_blnEndOfEvent;
+	private $_blnDisableTraversal;
+	private $_blnDisableInv;
+	private $_blnDisableStats;
 	private $_intRPGCharacterID;
 	
 	public function UISettings($intRPGCharacterID){
@@ -19,9 +22,12 @@ class UISettings{
 		$this->_strEventFrame = "Event";
 		$this->_strCharacterFrame = "Info";
 		$this->_strCommandsFrame = "Event";
+		$this->_strNavigationFrame = "Compass";
 		$this->_arrOverrides = array();
 		$this->loadOverrides();
-		$this->_blnEndOfEvent = false;
+		$this->_blnDisableTraversal = true;
+		$this->_blnDisableInv = true;
+		$this->_blnDisableStats = false;
 	}
 	
 	public function loadOverrides(){
@@ -90,12 +96,36 @@ class UISettings{
 		$objDB->query($strSQL);
 	}
 	
-	public function getEndOfEvent(){
-		return $this->_blnEndOfEvent;
+	public function getDisableTraversal(){
+		return $this->_blnDisableTraversal;
 	}
 	
-	public function setEndOfEvent($blnEndOfEvent){
-		$this->_blnEndOfEvent = $blnEndOfEvent;
+	public function setDisableTraversal($blnDisableTraversal){
+		$this->_blnDisableTraversal = $blnDisableTraversal;
+	}
+	
+	public function getDisableInv(){
+		return $this->_blnDisableInv;
+	}
+	
+	public function setDisableInv($blnDisableInv){
+		$this->_blnDisableInv = $blnDisableInv;
+	}
+	
+	public function getDisableStats(){
+		return $this->_blnDisableStats;
+	}
+	
+	public function setDisableStats($blnDisableStats){
+		$this->_blnDisableStats = $blnDisableStats;
+	}
+	
+	public function getNavigationFrame(){
+		return $this->_strNavigationFrame;
+	}
+	
+	public function setNavigationFrame($strNavigationFrame){
+		$this->_strNavigationFrame = $strNavigationFrame;
 	}
 }
 

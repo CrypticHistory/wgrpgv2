@@ -4,6 +4,8 @@ include_once 'DialogConditionFactory.class';
 include_once 'RPGNPC.class';
 include_once 'RPGTime.class';
 include_once 'RPGCombat.class';
+include_once 'RPGFloor.class';
+include_once 'constants.php';
 
 class DataGameUI{
 	
@@ -13,59 +15,116 @@ class DataGameUI{
 		$this->handleTicks();
 	}
 	
-	public function traverse($strDirection){
-		// moves within current floor and generates a new event
-		// when EventID is 1, standstill occurs, otherwise unique event happens
-		$blnAllowedMove = $this->isAllowedMove($strDirection);
-		if($blnAllowedMove){
-			$_SESSION['objUISettings']->setEndOfEvent(false);
-			$objFloor = new RPGFloor($_SESSION['objRPGCharacter']->getFloor());
-			$objFloor->setApplicableEvents($_SESSION['objRPGCharacter']->getRPGCharacterID());
-			$intEventID = $objFloor->generateRandomEvent();
-		}
-		else{
-			$intEventID = 1;
-		}
+	public static function traverse(){
+		$objFloor = new RPGFloor($_SESSION['objRPGCharacter']->getFloor());
+		$objFloor->setApplicableEvents($_SESSION['objRPGCharacter']->getRPGCharacterID());
+		$intEventID = $objFloor->generateRandomEvent();
 		$_SESSION['objRPGCharacter']->setEventID($intEventID);		
 		$_SESSION['objRPGCharacter']->setEventNodeID(0);
 	}
 	
-	public function isAllowedMove($strDirection){
-		if($strDirection == 'north'){
-			return 1;
-		}
-		else if($strDirection == 'south'){
-			return 1;
-		}
-		else if($strDirection == 'east'){
-			return 1;
-		}
-		else if($strDirection == 'west'){
-			return 1;
-		}
-		else{
-			return 0;
-		}
-	}
-	
 	public function handleEvents(){
-		if(isset($_GET['direction'])){
-			$this->traverse($_GET['direction']);
+		global $arrStateNames;
+		global $arrStateValues;
+		
+		$objFloor = new RPGFloor($_SESSION['objRPGCharacter']->getFloor());
+
+		// check end of event, if we're inside an event then change state to Event (this is needed because we could be in the first state or end of an event in which case the state will change to allow movement)
+		$blnEndOfEvent = $_SESSION['objRPGCharacter']->checkEndOfEvent();
+		if($_SESSION['objRPGCharacter']->getStateID() == 3 && !$blnEndOfEvent && $_SESSION['objRPGCharacter']->getEventNodeID() != 0 && $_SESSION['objRPGCharacter']->getCombat()[0] == 0){
+			$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
+		}
+		else if($blnEndOfEvent && $_SESSION['objRPGCharacter']->getStateID() != 9){
+			$_SESSION['objRPGCharacter']->setStateID($arrStateValues[$objFloor->getFloorType()]);
 		}
 		
-		if($_SESSION['objRPGCharacter']->getCombat()[0] != 0){
+		// if initiated combat from an event
+		if($_SESSION['objRPGCharacter']->getCombat()[0] != 0 && !isset($_SESSION['objCombat'])){
+			$objEnemy = new RPGNPC($_SESSION['objRPGCharacter']->getCombat()[0]);
+			$_SESSION['objCombat'] = new RPGCombat($_SESSION['objRPGCharacter'], $objEnemy, $_SESSION['objRPGCharacter']->getCombat()[1]);
+			$_SESSION['objCombat']->initiateCombat();
+			$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Combat']);
+		}
 		
-			if(!isset($_SESSION['objCombat'])){
-				$objEnemy = new RPGNPC($_SESSION['objRPGCharacter']->getCombat()[0]);
-				$_SESSION['objCombat'] = new RPGCombat($_SESSION['objRPGCharacter'], $objEnemy, $_SESSION['objRPGCharacter']->getCombat()[1]);
+		// enable/disable menus and such according to state we're in
+		switch($arrStateNames[$_SESSION['objRPGCharacter']->getStateID()]){
+			case "Tutorial":
+				$_SESSION['objUISettings']->setDisableTraversal(true);
+				$_SESSION['objUISettings']->setDisableInv(false);
+				$_SESSION['objUISettings']->setDisableStats(true);
+				$_SESSION['objUISettings']->setEventFrame('Event');
+				$_SESSION['objUISettings']->setCommandsFrame('Event');
+				$_SESSION['objUISettings']->setNavigationFrame('Compass');
+				break;
+			case "Event":
+				if($_SESSION['objRPGCharacter']->getEventNodeID() > 0){
+					$_SESSION['objUISettings']->setDisableTraversal(true);
+					$_SESSION['objUISettings']->setDisableInv(true);
+					$_SESSION['objUISettings']->setDisableStats(true);
+				}
+				$_SESSION['objUISettings']->setEventFrame('Event');
+				$_SESSION['objUISettings']->setCommandsFrame('Event');
+				$_SESSION['objUISettings']->setNavigationFrame('Compass');
+				break;
+			case "Combat":
+				$_SESSION['objUISettings']->setDisableTraversal(true);
+				$_SESSION['objUISettings']->setDisableInv(true);
+				$_SESSION['objUISettings']->setDisableStats(true);
 				$_SESSION['objUISettings']->setEventFrame('Combat');
 				$_SESSION['objUISettings']->setCommandsFrame('Combat');
-				$_SESSION['objCombat']->initiateCombat();
-			}
-			
-		}
-		
-		$_SESSION['objRPGCharacter']->checkEndOfEvent();
+				$_SESSION['objUISettings']->setNavigationFrame('Compass');
+				break;
+			case "Field":
+				$_SESSION['objUISettings']->setDisableTraversal(false);
+				$_SESSION['objUISettings']->setDisableInv(false);
+				$_SESSION['objUISettings']->setDisableStats(false);
+				$_SESSION['objUISettings']->setEventFrame('Event');
+				$_SESSION['objUISettings']->setCommandsFrame('Event');
+				$_SESSION['objUISettings']->setNavigationFrame('Compass');
+				break;
+			case "Dungeon":
+				$_SESSION['objUISettings']->setDisableTraversal(false);
+				$_SESSION['objUISettings']->setDisableInv(false);
+				$_SESSION['objUISettings']->setDisableStats(false);
+				$_SESSION['objUISettings']->setEventFrame('Event');
+				$_SESSION['objUISettings']->setCommandsFrame('Event');
+				$_SESSION['objUISettings']->setNavigationFrame('Compass');
+				break;
+			case "Town":
+				$_SESSION['objUISettings']->setDisableTraversal(false);
+				$_SESSION['objUISettings']->setDisableInv(false);
+				$_SESSION['objUISettings']->setDisableStats(false);
+				$_SESSION['objUISettings']->setEventFrame('Town');
+				$_SESSION['objUISettings']->setCommandsFrame('Town');
+				$_SESSION['objUISettings']->setNavigationFrame('Menu');
+				break;
+			case "Stats":
+				$_SESSION['objUISettings']->setDisableTraversal(true);
+				$_SESSION['objUISettings']->setDisableInv(true);
+				$_SESSION['objUISettings']->setDisableStats(false);
+				$_SESSION['objUISettings']->setEventFrame('StatGain');
+				$_SESSION['objUISettings']->setCommandsFrame('Return');
+				$_SESSION['objUISettings']->setNavigationFrame('Compass');
+				break;
+			case "Shop":
+				$_SESSION['objUISettings']->setDisableTraversal(true);
+				$_SESSION['objUISettings']->setDisableInv(false);
+				$_SESSION['objUISettings']->setDisableStats(true);
+				$_SESSION['objUISettings']->setEventFrame('Shop');
+				$_SESSION['objUISettings']->setCommandsFrame('Return');
+				$_SESSION['objUISettings']->setNavigationFrame('Compass');
+				break;
+			default:
+				$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Tutorial']);
+				$_SESSION['objUISettings']->setDisableTraversal(true);
+				$_SESSION['objUISettings']->setDisableInv(false);
+				$_SESSION['objUISettings']->setDisableStats(true);
+				$_SESSION['objUISettings']->setEventFrame('Event');
+				$_SESSION['objUISettings']->setCommandsFrame('Event');
+				$_SESSION['objUISettings']->setNavigationFrame('Compass');
+				break;
+		}	
+
 	}
 	
 	public function handleTicks(){

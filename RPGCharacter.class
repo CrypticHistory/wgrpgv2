@@ -19,6 +19,7 @@ class RPGCharacter{
 	private $_strTime;
 	private $_intEventID;
 	private $_intEventNodeID;
+	private $_intStateID;
 	private $_intArmourRipLevel;
 	private $_strGender;
 	private $_strOrientation;
@@ -63,6 +64,7 @@ class RPGCharacter{
 		$this->setTime($arrCharacterInfo['strTime']);
 		$this->setEventID($arrCharacterInfo['intEventID']);
 		$this->setEventNodeID($arrCharacterInfo['intEventNodeID']);
+		$this->setStateID($arrCharacterInfo['intStateID']);
 		$this->setArmourRipLevel($arrCharacterInfo['intArmourRipLevel']);
 		$this->setGender($arrCharacterInfo['strGender']);
 		$this->setOrientation($arrCharacterInfo['strOrientation']);
@@ -102,6 +104,7 @@ class RPGCharacter{
 				$arrCharacterInfo['strTime'] = $arrRow['strTime'];
 				$arrCharacterInfo['intEventID'] = $arrRow['intEventID'];
 				$arrCharacterInfo['intEventNodeID'] = $arrRow['intEventNodeID'];
+				$arrCharacterInfo['intStateID'] = $arrRow['intStateID'];
 				$arrCharacterInfo['intArmourRipLevel'] = $arrRow['intArmourRipLevel'];
 				$arrCharacterInfo['strGender'] = $arrRow['strGender'];
 				$arrCharacterInfo['strOrientation'] = $arrRow['strOrientation'];
@@ -143,6 +146,7 @@ class RPGCharacter{
 						strTime = " . $objDB->quote($this->_strTime) . ",
 						intEventID = " . $objDB->quote($this->_intEventID) . ",
 						intEventNodeID = " . $objDB->quote($this->_intEventNodeID) . ",
+						intStateID = " . $objDB->quote($this->_intStateID) . ",
 						intArmourRipLevel = " . $objDB->quote($this->_intArmourRipLevel) . ",
 						strGender = " . $objDB->quote($this->_strGender) . ",
 						strOrientation = " . $objDB->quote($this->_strOrientation) . ",
@@ -165,12 +169,12 @@ class RPGCharacter{
 		$this->_objStats->saveAll();
 	}
 	
-	public function createNewCharacter($strUserID, $strRPGCharacterName, $dblWeight, $intHeight, $strGender, $strOrientation, $strPersonality, $strFatStance, $strHairColour, $strHairLength, $strEyeColour, $strEthnicity){
+	public function createNewCharacter($strUserID, $strRPGCharacterName, $dblWeight, $intHeight, $strGender, $strOrientation, $strPersonality, $strFatStance, $strHairColour, $strHairLength, $strEyeColour, $strEthnicity, $intStateID){
 		$objDB = new Database();
 		$strSQL = "INSERT INTO tblrpgcharacter
-					(strUserID, strRPGCharacterName, dblWeight, intHeight, strGender, strOrientation, strPersonality, strFatStance, strHairColour, strHairLength, strEyeColour, strEthnicity, intEventID, dtmCreatedOn, strCreatedBy)
+					(strUserID, strRPGCharacterName, dblWeight, intHeight, strGender, strOrientation, strPersonality, strFatStance, strHairColour, strHairLength, strEyeColour, strEthnicity, intStateID, intEventID, dtmCreatedOn, strCreatedBy)
 						VALUES
-					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", 1, '" . date('Y-m-d H:i:s') . "', 'system')";
+					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", 8, 2, '" . date('Y-m-d H:i:s') . "', 'system')";
 		$objDB->query($strSQL);
 		$intRPGCharacterID = $objDB->lastInsertID();
 		$this->loadRPGCharacterInfo($intRPGCharacterID, true);
@@ -671,16 +675,19 @@ class RPGCharacter{
 	}
 	
 	public function checkEndOfEvent(){
+		global $arrStateValues;
+		$blnEndOfEvent = false;
 		$objEvent = new RPGEvent($this->getEventID());
 		$objXML = new RPGXMLReader($objEvent->getXML());
 		if((in_array($this->getEventNodeID(), (array)$objXML->getEndNodes())) || $objXML->getEndNodes() == 'any'){
 			$this->addToCharacterEventLog($this->getEventID());
-			$_SESSION['objUISettings']->setEndOfEvent(true);
 			$this->removeOverride(3);
 			if(isset($_SESSION['objEnemy'])){
 				unset($_SESSION['objEnemy']);
 			}
+			$blnEndOfEvent = true;
 		}
+		return $blnEndOfEvent;
 	}
 	
 	public function takeDamage($intDamage){
@@ -922,6 +929,8 @@ class RPGCharacter{
 	}
 	
 	public function setCombat($intNPCID, $strFirstTurn){
+		global $arrStateValues;
+		$this->setStateID($arrStateValues["Combat"]);
 		$this->_arrCombat[0] = $intNPCID;
 		$this->_arrCombat[1] = $strFirstTurn;
 		if(isset($_SESSION['objUISettings']->getOverrides()[3])){
@@ -935,7 +944,6 @@ class RPGCharacter{
 		}
 		if($this->_intExperience >= $this->_intRequiredExperience){
 			$this->levelUp();
-			$this->save();
 		}
 	}
 	
@@ -981,7 +989,7 @@ class RPGCharacter{
 	public function getWaitTime($strWaitType){
 		if($strWaitType == 'Standard'){
 			// standard attack
-			return round(250 - (($this->_objStats->getCombinedStats('intAgility') - ($this->_objStats->getCombinedStats('intAgility') * $this->getImmobilityFactor())) / 2));
+			return round(250 - ($this->_objStats->getCombinedStats('intAgility') / 2) + (250 * $this->getImmobilityFactor()));
 		}
 		// skills will add on or decrease wait time by some amount
 	}
@@ -1032,6 +1040,14 @@ class RPGCharacter{
 	
 	public function setGold($intGold){
 		$this->_intGold = $intGold;
+	}
+	
+	public function getStateID(){
+		return $this->_intStateID;
+	}
+	
+	public function setStateID($intStateID){
+		$this->_intStateID = $intStateID;
 	}
 }
 

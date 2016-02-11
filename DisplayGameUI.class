@@ -13,6 +13,7 @@ include_once "DisplayCharacterQuests.class";
 include_once "DisplayEventWindow.class";
 include_once "DisplayCombatWindow.class";
 include_once "DisplayStatGainWindow.class";
+include_once "DisplayTownWindow.class";
 include_once "DisplayUseInventory.class";
 include_once "DisplayEquipInventory.class";
 include_once "DisplayMiscInventory.class";
@@ -20,6 +21,9 @@ include_once "DisplayQuestInventory.class";
 include_once "DisplayEventCommandsWindow.class";
 include_once "DisplayCombatCommandsWindow.class";
 include_once "DisplayReturnCommandsWindow.class";
+include_once "DisplayTownCommandsWindow.class";
+include_once "DisplayNavigationCompassWindow.class";
+include_once "DisplayNavigationMenuWindow.class";
 
 class DisplayGameUI extends DataGameUI{
 
@@ -27,6 +31,7 @@ class DisplayGameUI extends DataGameUI{
 	protected $_objCharacterAppearance;
 	protected $_objCharacterSkills;
 	protected $_objCharacterQuests;
+	protected $_objTownWindow;
 	protected $_objEventWindow;
 	protected $_objCombatWindow;
 	protected $_objStatGainWindow;
@@ -37,6 +42,9 @@ class DisplayGameUI extends DataGameUI{
 	protected $_objEventCommandsWindow;
 	protected $_objCombatCommandsWindow;
 	protected $_objReturnCommandsWindow;
+	protected $_objTownCommandsWindow;
+	protected $_objNavigationCompassWindow;
+	protected $_objNavigationMenuWindow;
 
 	public function DisplayGameUI(){
 		//load character
@@ -66,6 +74,7 @@ class DisplayGameUI extends DataGameUI{
 		$this->_objEventWindow = new DisplayEventWindow();
 		$this->_objCombatWindow = new DisplayCombatWindow();
 		$this->_objStatGainWindow = new DisplayStatGainWindow();
+		$this->_objTownWindow = new DisplayTownWindow();
 		$this->_objUseInventory = new DisplayUseInventory();
 		$this->_objEquipInventory = new DisplayEquipInventory();
 		$this->_objMiscInventory = new DisplayMiscInventory();
@@ -73,6 +82,9 @@ class DisplayGameUI extends DataGameUI{
 		$this->_objEventCommandsWindow = new DisplayEventCommandsWindow();
 		$this->_objCombatCommandsWindow = new DisplayCombatCommandsWindow();
 		$this->_objReturnCommandsWindow = new DisplayReturnCommandsWindow();
+		$this->_objTownCommandsWindow = new DisplayTownCommandsWindow();
+		$this->_objNavigationCompassWindow = new DisplayNavigationCompassWindow();
+		$this->_objNavigationMenuWindow = new DisplayNavigationMenuWindow();
 		$this->DataGameUI();
 	}
 	
@@ -194,6 +206,7 @@ class DisplayGameUI extends DataGameUI{
 			}
 		?>
 		
+		
 		<div class='navDiv'>
 			<a href='index.php'>Main</a>
 		</div>
@@ -272,23 +285,13 @@ class DisplayGameUI extends DataGameUI{
 			</fieldset>
 			
 			<fieldset class='compassFieldset'>
-			<legend>Compass</legend>
-				<div class='compassDiv'>
-					<?php if($_SESSION['objRPGCharacter']->getEventNodeID() == 0 || $_SESSION['objUISettings']->getEndOfEvent() == true){ ?>
-					<div class='compassNLine'>
-						<a href='main.php?page=DisplayGameUI&direction=north'><input class='compass' type='button' value='North'/></a>
-					</div>
-					<div class='compassMidLine'>
-						<a href='main.php?page=DisplayGameUI&direction=west'><input class='fL compass' type='button' value='West'/></a>
-						<a href='main.php?page=DisplayGameUI&direction=east'><input class='fR compass' type='button' value='East'/></a>
-					</div>
-					<div class='compassSLine'>
-						<a href='main.php?page=DisplayGameUI&direction=south'><input class='compass' type='button' value='South'/></a>
-					</div>
-					<?php } else { ?>
-					Traversing is disabled during this event.
-					<?php } ?>
-				</div>
+			<legend>Navigation</legend>
+			<?php
+			
+			$strNavigationObject = "_objNavigation" . $_SESSION['objUISettings']->getNavigationFrame() . "Window";
+			$this->$strNavigationObject->toHTML();
+			
+			?>
 			</fieldset>
 		</div>
 		

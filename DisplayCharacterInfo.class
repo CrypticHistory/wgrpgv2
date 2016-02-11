@@ -54,7 +54,7 @@ class DisplayCharacterInfo{
 					<tr>
 						<th class='tableHeader borderBottom statHeader' colspan='2'>Combat Stats</th>
 					</tr>
-					<?php if($_SESSION['objRPGCharacter']->getStatPoints() != 0){?>
+					<?php if($_SESSION['objRPGCharacter']->getStatPoints() != 0 && !$_SESSION['objUISettings']->getDisableStats()){?>
 						<form method='post' action='changeEventWindow.php'>
 							<tr><td>You have <span id='unspentStats'><?=$_SESSION['objRPGCharacter']->getStatPoints()?></span> unspent stat points!</td><td><button type='submit'>Spend</button></td></tr>
 							<input type='hidden' name='changeTo' value='StatGain'/>

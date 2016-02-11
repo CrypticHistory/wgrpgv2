@@ -12,7 +12,7 @@
 				}
 			?>
 			</select>
-			<input type='submit' value='Load'/>
+			<input type='submit' value='Load' <?=(empty($arrCharacters) ? "disabled" : "")?>/>
 		</form>
 		<br/>
 

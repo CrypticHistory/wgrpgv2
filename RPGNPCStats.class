@@ -71,6 +71,10 @@
 		public function setBaseStats($strIndex, $intValue){
 			$this->_arrBaseStats[$strIndex] = $intValue;
 		}
+		
+		public function getCombinedStats($strIndex){
+			return $this->_arrBaseStats[$strIndex];
+		}
 	}
 
 ?>

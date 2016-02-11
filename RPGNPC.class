@@ -2,6 +2,7 @@
 
 require_once "Database.class";
 require_once "RPGNPCStats.class";
+include_once "constants.php";
 
 class RPGNPC{
 
@@ -177,7 +178,7 @@ class RPGNPC{
 	public function getWaitTime($strWaitType){
 		if($strWaitType == 'Standard'){
 			// standard attack
-			return round(250 - ($this->_objStats->getBaseStats()['intAgility'] / 2));
+			return round(250 - ($this->_objStats->getCombinedStats('intAgility') / 2) + (250 * $this->getImmobilityFactor()));
 		}
 		// skills will add on or decrease wait time by some amount
 	}
@@ -272,6 +273,26 @@ class RPGNPC{
 	
 	public function setModifiedBy($strModifiedBy){
 		$this->_strModifiedBy = $strModifiedBy;
+	}
+	
+	public function getImmobilityFactor(){
+		return max(0, ((($this->getBMI() / 40) / 10) - (($this->_objStats->getCombinedStats('intWillpower') / 2) / 100)));
+	}
+	
+	public function getBMI(){
+		return ($this->getWeight() / dblLBS_PER_KG) / pow($this->getHeight() / 100, 2);
+	}
+	
+	public function getHeightInFeet(){
+		$dblFeet = $this->getHeight() / dblCM_PER_FOOT;
+		$whole = floor($dblFeet);
+		$fraction = $dblFeet - $whole;
+		$intInches = round($fraction * intFEET_PER_INCH);
+		if($intInches == 12){
+			$whole++;
+			$intInches = 0;
+		}
+		return strval($whole) . "'" . strval($intInches) . "\"";
 	}
 }
 

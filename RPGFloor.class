@@ -9,6 +9,7 @@ class RPGFloor{
 	private $_intFloorID;
 	private $_strFloorName;
 	private $_txtEntryText;
+	private $_strFloorType;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
@@ -25,6 +26,7 @@ class RPGFloor{
 		$this->setFloorID($arrFloorInfo['intFloorID']);
 		$this->setFloorName($arrFloorInfo['strFloorName']);
 		$this->setEntryText($arrFloorInfo['txtEntryText']);
+		$this->setFloorType($arrFloorInfo['strFloorType']);
 		$this->setCreatedOn($arrFloorInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrFloorInfo['strCreatedBy']);
 		$this->setModifiedOn($arrFloorInfo['dtmModifiedOn']);
@@ -42,6 +44,7 @@ class RPGFloor{
 				$arrFloorInfo['intFloorID'] = $arrRow['intFloorID'];
 				$arrFloorInfo['strFloorName'] = $arrRow['strFloorName'];
 				$arrFloorInfo['txtEntryText'] = $arrRow['txtEntryText'];
+				$arrFloorInfo['strFloorType'] = $arrRow['strFloorType'];
 				$arrFloorInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrFloorInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrFloorInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
@@ -108,6 +111,14 @@ class RPGFloor{
 	
 	public function setEntryText($txtEntryText){
 		$this->_txtEntryText = $txtEntryText;
+	}
+	
+	public function getFloorType(){
+		return $this->_strFloorType;
+	}
+	
+	public function setFloorType($strFloorType){
+		$this->_strFloorType = $strFloorType;
 	}
 	
 	public function getCreatedOn(){

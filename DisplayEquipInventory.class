@@ -10,7 +10,7 @@ class DisplayEquipInventory{
 		ob_start(); ?>
 		
 			<div class='inventoryDiv hidden' id='inventoryDivEquipment'>
-				<?php if($_SESSION['objRPGCharacter']->getEventNodeID() == 0 || isset($_SESSION['objUISettings']->getOverrides()[3]) || $_SESSION['objUISettings']->getEndOfEvent() == true){?>
+				<?php if(!$_SESSION['objUISettings']->getDisableInv()){?>
 				<table>
 					<tr>
 						<th class='itemNameHeader borderBottom'>Item Name:</th>

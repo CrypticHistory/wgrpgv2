@@ -10,6 +10,8 @@
 		private $_strFirstTurn; // who gets to attack first
 		private $_strCombatState; // in progress, victory, defeat, fled
 		private $_strNextTurn; // who attacks next
+		private $_strPrevTurn; // who attacked last
+		private $_blnEnemyConsecutiveAttacks = false; // to output exhausted message
 	
 		public function RPGCombat($objPlayer, $objEnemy, $strFirstTurn){
 			$this->_objPlayer = $objPlayer;
@@ -19,15 +21,17 @@
 		}
 	
 		public function initiateCombat(){
-			$this->_arrCombatMessage[] = '<b>Attack In Progress: ' . $this->_objEnemy->getNPCName() . '</b>';
+			$this->_arrCombatMessage[] = '<b>Attack In Progress: ' . $this->_objEnemy->getNPCName() . '</b><br/>';
 			$this->_strCombatState = 'In Progress';
 			$this->_intCurrPlayerWait = $this->_objPlayer->getWaitTime('Standard');
 			$this->_intCurrEnemyWait = $this->_objEnemy->getWaitTime('Standard');
 			if($this->_strFirstTurn == 'Player'){
 				$this->_strNextTurn = 'Player';
+				$this->_strPrevTurn = 'Player';
 			}
 			else{
 				$this->_strNextTurn = 'Opponent';
+				$this->_strPrevTurn = 'Opponent';
 			}
 		}
 		
@@ -69,21 +73,37 @@
 				}
 				else{
 					$this->_strNextTurn = 'Opponent';
+					// consecutive opponent attacks means you were too exhausted to move
+					if($this->_strPrevTurn == 'Opponent' && $this->_strNextTurn == 'Opponent'){
+						$this->_arrCombatMessage[] = "<br/><b>Player Turn:</b> You stop to catch your breath, too exhausted to move. ";
+						if($this->_objPlayer->getBMI() > 40 && $this->_objPlayer->getBMI() <= 60){
+							$this->_arrCombatMessage[] = "Clearly the excess pounds have really done a number on your stamina.";
+						}
+						else if($this->_objPlayer->getBMI() > 60 && $this->_objPlayer->getBMI() <= 80){
+							$this->_arrCombatMessage[] = "Your belly heaves up and down with each deep breath you take. Fighting with this much extra weight puts you at a massive disadvantage on the battlefield.";
+						}
+						else if($this->_objPlayer->getBMI() > 80){
+							$this->_arrCombatMessage[] = "Despite your best efforts, maneuvering your oversized body in combat has proven to be too much for you. As your enemy prepares to charge at you again, you wonder if your sluggishness on the battlefield may lead to your demise.";
+						}
+					}
 				}
 			}
 			
 		}
 		
 		public function playerAttack(){
+			$this->_strPrevTurn = "Player";
 			$this->_intCurrPlayerWait += $this->_objPlayer->getWaitTime('Standard');
 			$intEnemyBlockRoll = mt_rand(1, 100);
 			$intPlayerCritRoll = mt_rand(1, 100);
 			
 			if($intEnemyBlockRoll <= $this->_objEnemy->getModifiedBlockRate()){
 				$intBlockedDamageModifier = $this->_objEnemy->getModifiedBlock();
+				$blnBlocked = true;
 			}
 			else{
 				$intBlockedDamageModifier = 1.0;
+				$blnBlocked = false;
 			}
 			
 			if($intPlayerCritRoll <= $this->_objPlayer->getModifiedCritRate()){
@@ -103,16 +123,16 @@
 			}
 			
 			if($blnBlocked && !$blnCrit){
-				$this->_arrCombatMessage[] = "<br/>" . $this->_objEnemy->getNPCName() . " blocks your attack, taking " . $intDamage . " damage.";
+				$this->_arrCombatMessage[] = "<br/><b>Player Turn:</b> You attack " . $this->_objEnemy->getNPCName() . ", but you are blocked, dealing " . $intDamage . " damage.";
 			}
 			else if($blnBlocked && $blnCrit){
-				$this->_arrCombatMessage[] = "<br/>" . $this->_objEnemy->getNPCName() . " blocks your critical attack, taking " . $intDamage . " damage.";
+				$this->_arrCombatMessage[] = "<br/><b>Player Turn:</b> You land a critical attack against " . $this->_objEnemy->getNPCName() . ", but it is blocked, dealing " . $intDamage . " damage.";
 			}
 			else if(!$blnBlocked && $blnCrit){
-				$this->_arrCombatMessage[] = "<br/>You hit " . $this->_objEnemy->getNPCName() . "'s weak spot, inflicting " . $intDamage . " damage.";
+				$this->_arrCombatMessage[] = "<br/><b>Player Turn:</b> You land a critical attack against " . $this->_objEnemy->getNPCName() . ", inflicting " . $intDamage . " damage.";
 			}
 			else if(!$blnBlocked && !$blnCrit){
-				$this->_arrCombatMessage[] = '<br/>' . $this->_objEnemy->getNPCName() . ' takes ' . $intDamage . ' damage from your attack.';
+				$this->_arrCombatMessage[] = '<br/><b>Player Turn:</b> You attack ' . $this->_objEnemy->getNPCName() . ', dealing ' . $intDamage . ' damage.';
 			}
 		}
 		
@@ -135,6 +155,7 @@
 		
 		public function enemyTurn(){
 			// todo: include AI file
+			$this->_strPrevTurn = "Opponent";
 			$this->_intCurrEnemyWait += $this->_objEnemy->getWaitTime('Standard');
 			$intPlayerBlockRoll = mt_rand(1, 100);
 			$intEnemyCritRoll = mt_rand(1, 100);
@@ -165,16 +186,16 @@
 			}
 			
 			if($blnBlocked && !$blnCrit){
-				$this->_arrCombatMessage[] = "<br/>You block " . $this->_objEnemy->getNPCName() . "'s attack, taking " . $intDamage . " damage.";
+				$this->_arrCombatMessage[] = "<br/><b>Enemy Turn:</b> " . $this->_objEnemy->getNPCName() . " attacks you, but you manage to block it, taking " . $intDamage . " damage.";
 			}
 			else if($blnBlocked && $blnCrit){
-				$this->_arrCombatMessage[] = "<br/>You block " . $this->_objEnemy->getNPCName() . "'s critical attack, taking " . $intDamage . " damage.";
+				$this->_arrCombatMessage[] = "<br/><b>Enemy Turn:</b> " . $this->_objEnemy->getNPCName() . " lands a critical attack against you, but you block it, taking " . $intDamage . " damage.";
 			}
 			else if(!$blnBlocked && $blnCrit){
-				$this->_arrCombatMessage[] = "<br/>" . $this->_objEnemy->getNPCName() . " hits your weak spot, inflicting " . $intDamage . " damage.";
+				$this->_arrCombatMessage[] = "<br/><b>Enemy Turn:</b> " . $this->_objEnemy->getNPCName() . " lands a critical attack against you, inflicting " . $intDamage . " damage.";
 			}
 			else if(!$blnBlocked && !$blnCrit){
-				$this->_arrCombatMessage[] = '<br/>You take ' . $intDamage . ' damage from ' . $this->_objEnemy->getNPCName() . '\'s attack.';
+				$this->_arrCombatMessage[] = '<br/><b>Enemy Turn:</b> ' . $this->_objEnemy->getNPCName() . ' attacks you, dealing ' . $intDamage . ' damage.';
 			}
 		}
 		

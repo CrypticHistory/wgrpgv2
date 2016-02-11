@@ -6,8 +6,8 @@
 	session_start();
 
 	if(isset($_POST['changeTo'])){
-		$_SESSION['objUISettings']->setEventFrame('StatGain');
-		$_SESSION['objUISettings']->setCommandsFrame('Return');
+		//TODO: if statement since this always changes to stat window
+		$_SESSION['objRPGCharacter']->setStateID(9);
 	}
 	
 	header('Location: main.php?page=DisplayGameUI');

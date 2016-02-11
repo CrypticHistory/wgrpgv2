@@ -5,6 +5,7 @@
 	include_once 'RPGNPC.class';
 	include_once 'RPGCombat.class';
 	include_once 'UISettings.class';
+	include_once 'constants.php';
 	
 	session_start();
 
@@ -13,8 +14,7 @@
 		if($_POST['command'] == 'end'){
 			$_SESSION['objEnemy'] = $_SESSION['objCombat']->getEnemy();
 			$_SESSION['objRPGCharacter']->setCombat(0, NULL);
-			$_SESSION['objUISettings']->setEventFrame('Event');
-			$_SESSION['objUISettings']->setCommandsFrame('Event');
+			$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
 			if($_SESSION['objCombat']->getCombatState() == 'Victory'){
 				$_SESSION['objRPGCharacter']->setEventNodeID($_SESSION['objRPGCharacter']->getEventNodeID() + 1);
 			}

@@ -4,9 +4,14 @@
 	include_once 'RPGUser.class';
 	include_once 'RPGCharacter.class';
 	include_once 'RPGNPC.class';
+	include_once 'RPGFloor.class';
 	include_once 'UISettings.class';
+	include_once 'DataGameUI.class';
+	include_once 'constants.php';
 	
 	session_start();
+	
+	global $arrStateValues;
 
 	if(isset($_POST['command'])){
 		$_SESSION['objRPGCharacter']->setEventNodeID($_POST['command']);
@@ -15,9 +20,13 @@
 		}
 	}
 	
+	if(isset($_POST['traverse'])){
+		DataGameUI::traverse();
+	}
+	
 	if(isset($_POST['return'])){
-		$_SESSION['objUISettings']->setEventFrame('Event');
-		$_SESSION['objUISettings']->setCommandsFrame('Event');
+		$objFloor = new RPGFloor($_SESSION['objRPGCharacter']->getFloor());
+		$_SESSION['objRPGCharacter']->setStateID($arrStateValues[$objFloor->getFloorType()]);
 	}
 	
 	if(isset($_POST['itemAction']) && isset($_POST['itemID'])){
