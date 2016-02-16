@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<type>Forced Event</type>
+	<end>0</end>
+	<dialog id="0">
+		<eventText>Arms shaking with fatigue, eyes tearing from effort, you stumble into a stone stairway. Your body nearly collapses upon the steps before you catch yourself heavily on your palm. Ungh... is this finally it? Can you get out? You look up, letting your neck crane as you peer up the long path you still must trek. A light shines down from a cracked doorway! Escape! Adrenaline surges through your limbs, your equipment’s weight gone from your shoulders as you right yourself.
+
+					Your feet take one step, then another, before you begin to scramble up the stair toward the light. Your fatigue is a distant memory as the promise of escape looms before your very eyes. Legs pumping, lungs gasping, eyes straining, you finally reach the doors and PUSH! The stone door resists your push initially, before you redouble your efforts and put your full shoulder into the door. 
+
+					Stone scrapes against stone. a loud rasping sound echoes through the cavern behind you as the doors slowly grind open at your muscles' hard fought request. Light floods your visions, momentarily blinding you as the door finally edges open enough for you to slip through. 
+
+					What greets you is a welcome sight indeed. You emerge at the top of an ornate platform, a huge rectangle that leads up to the entrance you have just opened. After a few dozen feet the platform slowly slopes down with a stairway leading in all directions. Your vision stretches across the city - your home. Buildings rise from the ground in all shapes and sizes. It stretches around the ring of the tower rising behind you. Smoke rises from the old man's blacksmith, a sweet scent reaches your nose from the bakery nearby, and... blades clash in the arena.
+
+					Damn, you were just there the other day, getting your pass to try out the first floor. Guess you'll have to go back to turn the bounty in. They'll be thrilled. The tower finally opened, there's hope for the city again. We can do this... after a nap.
+		
+					{getRPGCharacterName}! {getRPGCharacterName}'s back! A loud, familiar voice dimly reaches you. Darkness rings your vision. Gosh, a nap sure sounds nice... 
+
+					"Hold on! N-!" The welcome darkness takes you.
+		</eventText>
+		<option id="0" action="setTownID~1">Continue</option>
+	</dialog>
+</event>

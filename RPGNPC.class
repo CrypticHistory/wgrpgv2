@@ -15,6 +15,9 @@ class RPGNPC{
 	private $_intExperienceGiven;
 	private $_intGoldDropMin;
 	private $_intGoldDropMax;
+	private $_objEquippedWeapon;
+	private $_objEquippedArmour;
+	private $_objEquippedSecondary;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
@@ -61,6 +64,9 @@ class RPGNPC{
 				$arrNPCInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
 			}
 		$this->populateVarFromRow($arrNPCInfo);
+		$this->_objEquippedArmour = $this->loadEquippedArmour();
+		$this->_objEquippedWeapon = $this->loadEquippedWeapon();
+		$this->_objEquippedSecondary = $this->loadEquippedSecondary();
 		$this->_objStats = new RPGNPCStats($intNPCID);
 		$this->_objStats->loadBaseStats();
 		$this->setCurrentHP($this->_objStats->getBaseStats()['intMaxHP']);
@@ -84,32 +90,51 @@ class RPGNPC{
 		$this->_intCurrentHP = $intCurrentHP;
 	}
 	
-	public function getEquippedArmour($strReturnVariable){
+	public function loadEquippedArmour(){
 		$objDB = new Database();
-		$strSQL = "SELECT strItemName, intDefence, intMagicDefence
+		$strSQL = "SELECT intItemID
 					FROM tblitem
 						INNER JOIN tblnpcitemxr
-						USING (intItemID)
+							USING (intItemID)
 					WHERE strItemType LIKE 'Armour:%'
 						AND intNPCID = " . $objDB->quote($this->getNPCID()) . "
 						AND blnEquipped = 1";
 		$rsResult = $objDB->query($strSQL);
 		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		return $arrRow[$strReturnVariable];
+		$objArmour = new RPGItem($arrRow['intItemID']);
+		return $objArmour;
 	}
 	
-	public function getEquippedWeapon($strReturnVariable){
+	public function loadEquippedWeapon(){
 		$objDB = new Database();
-		$strSQL = "SELECT strItemName, intDamage, intMagicDamage, strStatDamage
+		$strSQL = "SELECT intItemID
 					FROM tblitem
 						INNER JOIN tblnpcitemxr
-						USING (intItemID)
+							USING (intItemID)
 					WHERE strItemType LIKE 'Weapon:%'
+						AND (strHandType = 'Primary' OR strHandType = 'Both')
 						AND intNPCID = " . $objDB->quote($this->getNPCID()) . "
 						AND blnEquipped = 1";
 		$rsResult = $objDB->query($strSQL);
 		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		return $arrRow[$strReturnVariable];
+		$objWeapon = new RPGItem($arrRow['intItemID']);
+		return $objWeapon;
+	}
+	
+	public function loadEquippedSecondary(){
+		$objDB = new Database();
+		$strSQL = "SELECT intItemID
+					FROM tblitem
+						INNER JOIN tblnpcitemxr
+							USING (intItemID)
+					WHERE strItemType LIKE 'Weapon:%'
+						AND strHandType = 'Secondary'
+						AND intNPCID = " . $objDB->quote($this->getNPCID()) . "
+						AND blnEquipped = 1";
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		$objSecondary = new RPGItem($arrRow['intItemID']);
+		return $objSecondary;
 	}
 	
 	public function getRandomDrops(){
@@ -144,23 +169,23 @@ class RPGNPC{
 	}
 	
 	public function getModifiedDamage(){
-		return round(($this->_objStats->getBaseStats()['intStrength'] / 2) + $this->getEquippedWeapon('intDamage'));
+		return round(($this->_objStats->getBaseStats()['intStrength'] / 2) + $this->getEquippedWeapon()->getDamage());
 	}
 	
 	public function getModifiedMagicDamage(){
-		return round(($this->_objStats->getBaseStats()['intIntelligence'] / 2) + $this->getEquippedWeapon('intMagicDamage'));
+		return round(($this->_objStats->getBaseStats()['intIntelligence'] / 2) + $this->getEquippedWeapon()->getMagicDamage());
 	}
 	
 	public function getModifiedDefence(){
-		return round(($this->_objStats->getBaseStats()['intStrength'] / 4) + $this->getEquippedArmour('intDefence'));
+		return round(($this->_objStats->getBaseStats()['intVitality'] / 4) + $this->getEquippedArmour()->getDefence());
 	}
 	
 	public function getModifiedMagicDefence(){
-		return round(($this->_objStats->getBaseStats()['intIntelligence'] / 4) + $this->getEquippedArmour('intMagicDefence'));
+		return round(($this->_objStats->getBaseStats()['intIntelligence'] / 4) + $this->getEquippedArmour()->getMagicDefence());
 	}
 	
 	public function getModifiedBlockRate(){
-		return round($this->_objStats->getBaseStats()['intVitality'] / 4);
+		return round($this->_objStats->getBaseStats()['intAgility'] / 4);
 	}
 	
 	public function getModifiedBlock(){
@@ -209,6 +234,30 @@ class RPGNPC{
 	
 	public function setWeight($intWeight){
 		$this->_intWeight = $intWeight;
+	}
+	
+	public function getEquippedArmour(){
+		return $this->_objEquippedArmour;
+	}
+	
+	public function setEquippedArmour($objArmour){
+		$this->_objEquippedArmour = $objArmour;
+	}
+	
+	public function getEquippedWeapon(){
+		return $this->_objEquippedWeapon;
+	}
+	
+	public function setEquippedWeapon($objWeapon){
+		$this->_objEquippedWeapon = $objWeapon;
+	}
+	
+	public function getEquippedSecondary(){
+		return $this->_objEquippedSecondary;
+	}
+	
+	public function setEquippedSecondary($objSecondary){
+		$this->_objEquippedSecondary = $objSecondary;
 	}
 	
 	public function getHeight(){
@@ -276,7 +325,7 @@ class RPGNPC{
 	}
 	
 	public function getImmobilityFactor(){
-		return max(0, ((($this->getBMI() / 40) / 10) - (($this->_objStats->getCombinedStats('intWillpower') / 2) / 100)));
+		return max(0, ((($this->getBMI() / 40) / 10) - (($this->_objStats->getCombinedStats('intStrength') / 4) / 100)));
 	}
 	
 	public function getBMI(){

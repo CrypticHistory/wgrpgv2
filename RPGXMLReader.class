@@ -20,6 +20,10 @@ class RPGXMLReader {
 		return $this->_objXML->dialog[intval($intID)]->appearanceText;
 	}
 	
+	public function getEventText($intID){
+		return $this->_objXML->dialog[intval($intID)]->eventText[0];
+	}
+	
 	public function getCommandList($intID){
 		return $this->_objXML->dialog[intval($intID)]->option;
 	}
@@ -56,6 +60,9 @@ class RPGXMLReader {
 		return ($this->_objXML->dialog[intval($intID)]->eventText[intval($key)]->attributes()->action != null);
 	}
 	
+	public function getEventType(){
+		return $this->_objXML->type;
+	}
 }
 
 ?>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<type>Forced Combat</type>
+	<end>1</end>
+	<end>3</end>
+	<end>5</end>
+	<end>6</end>
+	<dialog id="0">
+		<eventText>You hear the clinking of metal. A silhouette appears in the distance. As you come closer, you can tell this figure is armed. It rears its head and snarls at you, aware of your presence.</eventText>
+		<option id="2" action="setCombat~1~Player">Prepare yourself!</option>
+	</dialog>
+	<dialog id="1">
+		<eventText>You flee from the encounter.</eventText>
+	</dialog>
+	<dialog id="2">
+		<eventText>You exited the game in the middle of a battle, and any progress you made during the battle has been lost. Press continue to resume your game.</eventText>
+		<option id="8">Continue</option>
+	</dialog>
+	<dialog id="3">
+		<eventText>The goblin collapses to the ground in injury. You are victorious.</eventText>
+	</dialog>
+	<dialog id="4">
+		<eventText>You collapse to the ground in injury. You are defeated.</eventText>
+		<option id="5" action="reviveCharacter~">Continue</option>
+	</dialog>
+	<dialog id="5">
+		<eventText>You revived miraculously. Go forth and conquer.</eventText>
+	</dialog>
+	<dialog id="6">
+		<eventText></eventText>
+	</dialog>
+</event>

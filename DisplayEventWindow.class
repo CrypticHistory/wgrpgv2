@@ -12,6 +12,12 @@ class DisplayEventWindow{
 			<div class='eventDiv' id='eventDivEventWindow'>
 				<?php
 				
+				if($_SESSION['objRPGCharacter']->getEquipClothingText() !== null){
+					echo "<i>" . $_SESSION['objRPGCharacter']->getEquipClothingText() . "</i>";
+					echo "<br/><br/>";
+					$_SESSION['objRPGCharacter']->setEquipClothingText(null);
+				}
+				
 				$intCounter = 0;
 				$objEvent = new RPGEvent($_SESSION['objRPGCharacter']->getEventID());
 				$objXML = new RPGXMLReader($objEvent->getXML());
@@ -24,6 +30,7 @@ class DisplayEventWindow{
 				}
 				
 				echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck() . "</i>";
+				
 				?>
 			</div>
 		

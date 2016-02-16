@@ -10,7 +10,17 @@ class DisplayTownWindow{
 		ob_start(); ?>
 		
 			<div class='eventDiv' id='eventDivTownWindow'>
+				<?php
+	
+				if($_SESSION['objRPGCharacter']->getEquipClothingText() !== null){
+					echo "<i>" . $_SESSION['objRPGCharacter']->getEquipClothingText() . "</i>";
+					echo "<br/><br/>";
+					$_SESSION['objRPGCharacter']->setEquipClothingText(null);
+				}
 				
+				echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck() . "</i>";
+					
+				?>
 			</div>
 		
 		<?php
@@ -18,6 +28,15 @@ class DisplayTownWindow{
 		ob_end_clean();
 		
 		echo $strHTML;
+	}
+	
+	public static function extractVariables($text){
+		if(preg_match_all('/{(.*?)}/', $text, $matches)){
+			foreach($matches[1] as $key => $value){
+				$text = str_replace($matches[0][$key], $_SESSION['objRPGCharacter']->$value(), $text);
+			}
+		}
+		return $text;
 	}
 
 }

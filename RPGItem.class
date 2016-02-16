@@ -4,6 +4,7 @@ require_once "Database.class";
 
 class RPGItem{
 
+	private $_intItemInstanceID;
 	private $_intItemID;
 	private $_strItemName;
 	private $_txtItemDesc;
@@ -15,6 +16,9 @@ class RPGItem{
 	private $_intMagicDefence;
 	private $_strStatDamage;
 	private $_strSize;
+	private $_strXML;
+	private $_strItemType;
+	private $_strHandType;
 	private $_intEventID;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
@@ -38,6 +42,8 @@ class RPGItem{
 		$this->setDefence($arrItemInfo['intDefence']);
 		$this->setMagicDefence($arrItemInfo['intMagicDefence']);
 		$this->setStatDamage($arrItemInfo['strStatDamage']);
+		$this->setItemType($arrItemInfo['strItemType']);
+		$this->setHandType($arrItemInfo['strHandType']);
 		$this->setEventID($arrItemInfo['intEventID']);
 		$this->setCreatedOn($arrItemInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrItemInfo['strCreatedBy']);
@@ -63,6 +69,8 @@ class RPGItem{
 				$arrItemInfo['intDefence'] = $arrRow['intDefence'];
 				$arrItemInfo['intMagicDefence'] = $arrRow['intMagicDefence'];
 				$arrItemInfo['strStatDamage'] = $arrRow['strStatDamage'];
+				$arrItemInfo['strItemType'] = $arrRow['strItemType'];
+				$arrItemInfo['strHandType'] = $arrRow['strHandType'];
 				$arrItemInfo['intEventID'] = $arrRow['intEventID'];
 				$arrItemInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrItemInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
@@ -72,12 +80,40 @@ class RPGItem{
 		$this->populateVarFromRow($arrItemInfo);
 	}
 	
+	public function equip($intItemInstanceID){
+		$this->_intItemInstanceID = $intItemInstanceID;
+		$objDB = new Database();
+		$strSQL = "UPDATE tblcharacteritemxr
+					SET blnEquipped = 1
+					WHERE intItemInstanceID = " . $objDB->quote($this->_intItemInstanceID);
+		$objDB->query($strSQL);
+	}
+	
+	public function unequip() {
+		$objDB = new Database();
+		$strSQL = "UPDATE tblcharacteritemxr
+					SET blnEquipped = 0
+					WHERE intItemInstanceID = " . $objDB->quote($this->_intItemInstanceID);
+		$objDB->query($strSQL);
+        foreach ($this as $key => $value) {
+            $this->$key = null;  //set to null instead of unsetting
+        }
+    }
+	
 	public function getItemID(){
 		return $this->_intItemID;
 	}
 	
 	public function setItemID($intItemID){
 		$this->_intItemID = $intItemID;
+	}
+	
+	public function getItemInstanceID(){
+		return $this->_intItemInstanceID;
+	}
+	
+	public function setItemInstanceID($intItemInstanceID){
+		$this->_intItemInstanceID = $intItemInstanceID;
 	}
 	
 	public function getItemName(){
@@ -158,6 +194,38 @@ class RPGItem{
 	
 	public function setStatDamage($strStatDamage){
 		$this->_strStatDamage = $strStatDamage;
+	}
+	
+	public function getSize(){
+		return $this->_strSize;
+	}
+	
+	public function setSize($strSize){
+		$this->_strSize = $strSize;
+	}
+	
+	public function getXML(){
+		return $this->_strXML;
+	}
+	
+	public function setXML($strXML){
+		$this->_strXML = $strXML;
+	}
+	
+	public function getItemType(){
+		return $this->_strItemType;
+	}
+	
+	public function setItemType($strItemType){
+		$this->_strItemType = $strItemType;
+	}
+	
+	public function getHandType(){
+		return $this->_strHandType;
+	}
+	
+	public function setHandType($strHandType){
+		$this->_strHandType = $strHandType;
 	}
 	
 	public function getCreatedOn(){

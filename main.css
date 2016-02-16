@@ -66,6 +66,8 @@ ul{
   float:left;
   background-color: #EBE2D1;
   border: 5px solid #FFFFFF;
+  min-height:780px;
+  overflow-y:scroll;
 }
 
 .login{

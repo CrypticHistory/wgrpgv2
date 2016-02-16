@@ -94,11 +94,26 @@
 		public function playerAttack(){
 			$this->_strPrevTurn = "Player";
 			$this->_intCurrPlayerWait += $this->_objPlayer->getWaitTime('Standard');
-			$intEnemyBlockRoll = mt_rand(1, 100);
+			
+			// block or evade based on shield
+			if($this->_objEnemy->getEquippedSecondary()->getItemType() == 'Shield'){
+				$blnShield = true;
+				$intEnemyBlockRoll = mt_rand(1, 100);
+			}
+			else{
+				$blnShield = false;
+				$intEnemyBlockRoll = mt_rand(1, 200);
+			}
+			
 			$intPlayerCritRoll = mt_rand(1, 100);
 			
 			if($intEnemyBlockRoll <= $this->_objEnemy->getModifiedBlockRate()){
-				$intBlockedDamageModifier = $this->_objEnemy->getModifiedBlock();
+				if($blnShield){
+					$intBlockedDamageModifier = $this->_objPlayer->getModifiedBlock();
+				}
+				else{
+					$intBlockedDamageModifier = 0.0;
+				}
 				$blnBlocked = true;
 			}
 			else{
@@ -115,18 +130,18 @@
 				$blnCrit = false;
 			}
 			
-			if($this->_objPlayer->getEquippedWeapon('strStatDamage') === null || $this->_objPlayer->getEquippedWeapon('strStatDamage') == 'Strength'){
+			if($this->_objPlayer->getEquippedWeapon()->getStatDamage() === null || $this->_objPlayer->getEquippedWeapon()->getStatDamage() == 'Strength'){
 				$intDamage = $this->_objEnemy->takeDamage(round((($this->_objPlayer->getModifiedDamage() * $intCritDamageModifier) - $this->_objEnemy->getModifiedDefence()) * $intBlockedDamageModifier));
 			}
-			else if($this->_objPlayer->getEquippedWeapon('strStatDamage') == 'Intelligence'){
+			else if($this->_objPlayer->getEquippedWeapon()->getStatDamage() == 'Intelligence'){
 				$intDamage = $this->_objEnemy->takeDamage(round((($this->_objPlayer->getModifiedMagicDamage() * $intCritDamageModifier) - $this->_objEnemy->getModifiedMagicDefence()) * $intBlockedDamageModifier));	
 			}
 			
 			if($blnBlocked && !$blnCrit){
-				$this->_arrCombatMessage[] = "<br/><b>Player Turn:</b> You attack " . $this->_objEnemy->getNPCName() . ", but you are blocked, dealing " . $intDamage . " damage.";
+				$this->_arrCombatMessage[] = "<br/><b>Player Turn:</b> You attack " . $this->_objEnemy->getNPCName() . ", but you are " . ($blnShield ? "blocked" : "dodged") . ", dealing " . $intDamage . " damage.";
 			}
 			else if($blnBlocked && $blnCrit){
-				$this->_arrCombatMessage[] = "<br/><b>Player Turn:</b> You land a critical attack against " . $this->_objEnemy->getNPCName() . ", but it is blocked, dealing " . $intDamage . " damage.";
+				$this->_arrCombatMessage[] = "<br/><b>Player Turn:</b> You land a critical attack against " . $this->_objEnemy->getNPCName() . ", but it is " . ($blnShield ? "blocked" : "dodged") . " dealing " . $intDamage . " damage.";
 			}
 			else if(!$blnBlocked && $blnCrit){
 				$this->_arrCombatMessage[] = "<br/><b>Player Turn:</b> You land a critical attack against " . $this->_objEnemy->getNPCName() . ", inflicting " . $intDamage . " damage.";
@@ -157,11 +172,26 @@
 			// todo: include AI file
 			$this->_strPrevTurn = "Opponent";
 			$this->_intCurrEnemyWait += $this->_objEnemy->getWaitTime('Standard');
-			$intPlayerBlockRoll = mt_rand(1, 100);
+			
+			// block or evade based on shield
+			if($this->_objPlayer->getEquippedSecondary()->getItemType() == 'Shield'){
+				$blnShield = true;
+				$intPlayerBlockRoll = mt_rand(1, 100);
+			}
+			else{
+				$blnShield = false;
+				$intPlayerBlockRoll = mt_rand(1, 200);
+			}
+			
 			$intEnemyCritRoll = mt_rand(1, 100);
 			
 			if($intPlayerBlockRoll <= $this->_objPlayer->getModifiedBlockRate()){
-				$intBlockedDamageModifier = $this->_objPlayer->getModifiedBlock();
+				if($blnShield){
+					$intBlockedDamageModifier = $this->_objPlayer->getModifiedBlock();
+				}
+				else{
+					$intBlockedDamageModifier = 0.0;
+				}
 				$blnBlocked = true;
 			}
 			else{
@@ -178,18 +208,18 @@
 				$blnCrit = false;
 			}
 			
-			if($this->_objEnemy->getEquippedWeapon('strStatDamage') === null || $this->_objEnemy->getEquippedWeapon('strStatDamage') == 'Strength'){
+			if($this->_objEnemy->getEquippedWeapon()->getStatDamage() === null || $this->_objEnemy->getEquippedWeapon()->getStatDamage() == 'Strength'){
 				$intDamage = $this->_objPlayer->takeDamage(round((($this->_objEnemy->getModifiedDamage() * $intCritDamageModifier) - $this->_objPlayer->getModifiedDefence()) * $intBlockedDamageModifier));
 			}
-			else if($this->_objEnemy->getEquippedWeapon('strStatDamage') == 'Intelligence'){
+			else if($this->_objEnemy->getEquippedWeapon()->getStatDamage() == 'Intelligence'){
 				$intDamage = $this->_objPlayer->takeDamage(round((($this->_objEnemy->getModifiedMagicDamage() * $intCritDamageModifier) - $this->_objPlayer->getModifiedMagicDefence()) * $intBlockedDamageModifier));
 			}
 			
 			if($blnBlocked && !$blnCrit){
-				$this->_arrCombatMessage[] = "<br/><b>Enemy Turn:</b> " . $this->_objEnemy->getNPCName() . " attacks you, but you manage to block it, taking " . $intDamage . " damage.";
+				$this->_arrCombatMessage[] = "<br/><b>Enemy Turn:</b> " . $this->_objEnemy->getNPCName() . " attacks you, but you manage to " . ($blnShield ? "block" : "dodge") . " it, taking " . $intDamage . " damage.";
 			}
 			else if($blnBlocked && $blnCrit){
-				$this->_arrCombatMessage[] = "<br/><b>Enemy Turn:</b> " . $this->_objEnemy->getNPCName() . " lands a critical attack against you, but you block it, taking " . $intDamage . " damage.";
+				$this->_arrCombatMessage[] = "<br/><b>Enemy Turn:</b> " . $this->_objEnemy->getNPCName() . " lands a critical attack against you, but you " . ($blnShield ? "block" : "dodge") . " it, taking " . $intDamage . " damage.";
 			}
 			else if(!$blnBlocked && $blnCrit){
 				$this->_arrCombatMessage[] = "<br/><b>Enemy Turn:</b> " . $this->_objEnemy->getNPCName() . " lands a critical attack against you, inflicting " . $intDamage . " damage.";

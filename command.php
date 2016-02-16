@@ -21,27 +21,55 @@
 	}
 	
 	if(isset($_POST['traverse'])){
-		DataGameUI::traverse();
+		$objFloor = new RPGFloor($_SESSION['objRPGCharacter']->getFloor());
+		$objFloor->setApplicableEvents($_SESSION['objRPGCharacter']->getRPGCharacterID());
+		$intEventID = $objFloor->generateRandomEvent();
+		$_SESSION['objRPGCharacter']->setEventID($intEventID);		
+		$_SESSION['objRPGCharacter']->setEventNodeID(0);
+		$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
+	}
+	
+	if(isset($_POST['exit'])){
+		// if character has viewed the exit first floor event once before
+		if($_SESSION['objRPGCharacter']->hasViewedEvent(11)){
+			// give them the short leave tower event
+			$_SESSION['objRPGCharacter']->setEventID(12);
+			$_SESSION['objRPGCharacter']->setEventNodeID(0);
+		}
+		else{
+			// give them the long leave tower event
+			$_SESSION['objRPGCharacter']->setEventID(11);
+			$_SESSION['objRPGCharacter']->setEventNodeID(0);
+		}
+		$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Town']);
 	}
 	
 	if(isset($_POST['return'])){
-		$objFloor = new RPGFloor($_SESSION['objRPGCharacter']->getFloor());
-		$_SESSION['objRPGCharacter']->setStateID($arrStateValues[$objFloor->getFloorType()]);
+		if($_SESSION['objRPGCharacter']->getTownID() == NULL){
+			$objFloor = new RPGFloor($_SESSION['objRPGCharacter']->getFloor());
+			$_SESSION['objRPGCharacter']->setStateID($arrStateValues[$objFloor->getFloorType()]);
+		}
+		else{
+			$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Town']);
+		}
 	}
 	
 	if(isset($_POST['itemAction']) && isset($_POST['itemID'])){
-		if($_POST['itemAction'] == 'use'){
-			$_SESSION['objRPGCharacter']->eatItem($_POST['itemID'], $_POST['itemHPHeal']);
-		}
-		elseif($_POST['itemAction'] == 'drop'){
-			$_SESSION['objRPGCharacter']->dropItem($_POST['itemID']);
-		}
-		elseif($_POST['itemAction'] == 'equip'){
-			$strEquipFunction = 'equip' . $_POST['itemType'];
-			$_SESSION['objRPGCharacter']->$strEquipFunction($_POST['itemID']);
-		}
-		elseif($_POST['itemAction'] == 'unequip'){
-			$_SESSION['objRPGCharacter']->unequipItem($_POST['itemID']);
+		if($_SESSION['objRPGCharacter']->hasItem($_POST['itemID'])){
+			if($_POST['itemAction'] == 'use'){
+				$_SESSION['objRPGCharacter']->eatItem($_POST['itemID'], $_POST['itemHPHeal']);
+			}
+			elseif($_POST['itemAction'] == 'drop'){
+				$_SESSION['objRPGCharacter']->dropItem($_POST['itemID']);
+			}
+			elseif($_POST['itemAction'] == 'equip'){
+				$strEquipFunction = 'equip' . $_POST['itemType'];
+				$_SESSION['objRPGCharacter']->$strEquipFunction($_POST['itemID']);
+			}
+			elseif($_POST['itemAction'] == 'unequip'){
+				$strUnequipFunction = 'unequip' . $_POST['itemType'];
+				$_SESSION['objRPGCharacter']->$strUnequipFunction($_POST['itemID']);
+			}
 		}
 	}
 	

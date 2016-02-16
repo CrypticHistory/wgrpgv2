@@ -13,14 +13,7 @@ class DataGameUI{
 	
 		$this->handleEvents();
 		$this->handleTicks();
-	}
-	
-	public static function traverse(){
-		$objFloor = new RPGFloor($_SESSION['objRPGCharacter']->getFloor());
-		$objFloor->setApplicableEvents($_SESSION['objRPGCharacter']->getRPGCharacterID());
-		$intEventID = $objFloor->generateRandomEvent();
-		$_SESSION['objRPGCharacter']->setEventID($intEventID);		
-		$_SESSION['objRPGCharacter']->setEventNodeID(0);
+		
 	}
 	
 	public function handleEvents(){
@@ -28,16 +21,11 @@ class DataGameUI{
 		global $arrStateValues;
 		
 		$objFloor = new RPGFloor($_SESSION['objRPGCharacter']->getFloor());
-
-		// check end of event, if we're inside an event then change state to Event (this is needed because we could be in the first state or end of an event in which case the state will change to allow movement)
-		$blnEndOfEvent = $_SESSION['objRPGCharacter']->checkEndOfEvent();
-		if($_SESSION['objRPGCharacter']->getStateID() == 3 && !$blnEndOfEvent && $_SESSION['objRPGCharacter']->getEventNodeID() != 0 && $_SESSION['objRPGCharacter']->getCombat()[0] == 0){
-			$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
-		}
-		else if($blnEndOfEvent && $_SESSION['objRPGCharacter']->getStateID() != 9){
-			$_SESSION['objRPGCharacter']->setStateID($arrStateValues[$objFloor->getFloorType()]);
-		}
+		$objEvent = new RPGEvent($_SESSION['objRPGCharacter']->getEventID());
+		$objXML = new RPGXMLReader($objEvent->getXML());
 		
+		$blnEndOfEvent = $_SESSION['objRPGCharacter']->checkEndOfEvent();
+			
 		// if initiated combat from an event
 		if($_SESSION['objRPGCharacter']->getCombat()[0] != 0 && !isset($_SESSION['objCombat'])){
 			$objEnemy = new RPGNPC($_SESSION['objRPGCharacter']->getCombat()[0]);
@@ -45,7 +33,7 @@ class DataGameUI{
 			$_SESSION['objCombat']->initiateCombat();
 			$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Combat']);
 		}
-		
+
 		// enable/disable menus and such according to state we're in
 		switch($arrStateNames[$_SESSION['objRPGCharacter']->getStateID()]){
 			case "Tutorial":
@@ -57,10 +45,15 @@ class DataGameUI{
 				$_SESSION['objUISettings']->setNavigationFrame('Compass');
 				break;
 			case "Event":
-				if($_SESSION['objRPGCharacter']->getEventNodeID() > 0){
+				if((($objXML->getEventType() == "Forced Combat" || $objXML->getEventType() == "Forced Event") && !$blnEndOfEvent) || ($_SESSION['objRPGCharacter']->getEventNodeID() != 0 && !$blnEndOfEvent)){
 					$_SESSION['objUISettings']->setDisableTraversal(true);
 					$_SESSION['objUISettings']->setDisableInv(true);
 					$_SESSION['objUISettings']->setDisableStats(true);
+				}
+				else{
+					$_SESSION['objUISettings']->setDisableTraversal(false);
+					$_SESSION['objUISettings']->setDisableInv(false);
+					$_SESSION['objUISettings']->setDisableStats(false);
 				}
 				$_SESSION['objUISettings']->setEventFrame('Event');
 				$_SESSION['objUISettings']->setCommandsFrame('Event');
@@ -75,14 +68,6 @@ class DataGameUI{
 				$_SESSION['objUISettings']->setNavigationFrame('Compass');
 				break;
 			case "Field":
-				$_SESSION['objUISettings']->setDisableTraversal(false);
-				$_SESSION['objUISettings']->setDisableInv(false);
-				$_SESSION['objUISettings']->setDisableStats(false);
-				$_SESSION['objUISettings']->setEventFrame('Event');
-				$_SESSION['objUISettings']->setCommandsFrame('Event');
-				$_SESSION['objUISettings']->setNavigationFrame('Compass');
-				break;
-			case "Dungeon":
 				$_SESSION['objUISettings']->setDisableTraversal(false);
 				$_SESSION['objUISettings']->setDisableInv(false);
 				$_SESSION['objUISettings']->setDisableStats(false);

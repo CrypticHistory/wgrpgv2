@@ -34,6 +34,7 @@ class DisplayUseInventory{
 										<input type='hidden' name='itemHPHeal' value='" . $arrCategoryNames['intHPHeal'] . "'/>
 										<button type='submit' name='itemAction' value='use'>Use</button>
 										<button type='submit' name='itemAction' value='drop'>Drop</button>
+										<a href=\"javascript:viewItem(" . $arrCategoryNames['intItemID'] . ", '" . $arrCategoryNames['strItemName'] . "');\"><button type='button' id='viewButton" . $arrCategoryNames['intItemInstanceID'] . "'>View</button></a> 
 									</form></td><td></td><td></td>
 								  </tr>";
 							$intCounter++;
@@ -55,7 +56,7 @@ class DisplayUseInventory{
 	private function getUseInventory(){
 		$arrReturn = array();
 		$objDB = new Database();
-		$strSQL = "SELECT intItemInstanceID, strItemName, txtItemDesc, strItemType, intCalories, intHPHeal
+		$strSQL = "SELECT intItemInstanceID, strItemName, txtItemDesc, strItemType, intItemID, intCalories, intHPHeal
 					FROM tblitem
 						INNER JOIN tblcharacteritemxr
 						USING (intItemID)
@@ -71,6 +72,7 @@ class DisplayUseInventory{
 			$arrReturn[$intCounter]['strItemType'] = $arrRow['strItemType'];
 			$arrReturn[$intCounter]['intHPHeal'] = $arrRow['intHPHeal'];
 			$arrReturn[$intCounter]['intCalories'] = $arrRow['intCalories'];
+			$arrReturn[$intCounter]['intItemID'] = $arrRow['intItemID'];
 			$intCounter++;
 		}
 		return $arrReturn;

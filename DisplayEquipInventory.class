@@ -45,6 +45,7 @@ class DisplayEquipInventory{
 										<input type='hidden' name='itemType' value='" . $arrItemType[0] . "'/>
 										<button type='submit' name='itemAction'" . $strDisabled . "value='" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? "unequip'>Unequip" : "equip'>Equip") . "</button>
 										" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? "" : "<button type='submit' name='itemAction' value='drop'>Drop</button>") . "
+										<a href=\"javascript:viewItem(" . $arrCategoryNames['intItemID'] . ", '" . $arrCategoryNames['strItemName'] . "');\"><button type='button' id='viewButton" . $arrCategoryNames['intItemInstanceID'] . "'>View</button></a> 
 									</form></td><td></td><td></td>
 								  </tr>";
 							$intCounter++;
@@ -66,7 +67,7 @@ class DisplayEquipInventory{
 	private function getEquipInventory(){
 		$arrReturn = array();
 		$objDB = new Database();
-		$strSQL = "SELECT tblcharacteritemxr.intItemInstanceID as intItemInstanceID, strItemName, txtItemDesc, strItemType, intDamage, intDefence, strSize, tblSuffix.strEnchantName as strSuffix, tblPrefix.strEnchantName as strPrefix
+		$strSQL = "SELECT tblcharacteritemxr.intItemInstanceID as intItemInstanceID, strItemName, txtItemDesc, intItemID, strItemType, intDamage, intDefence, strSize, tblSuffix.strEnchantName as strSuffix, tblPrefix.strEnchantName as strPrefix
 					FROM tblitem
 						INNER JOIN tblcharacteritemxr
 							USING (intItemID)
@@ -84,6 +85,7 @@ class DisplayEquipInventory{
 			$arrReturn[$intCounter]['intItemInstanceID'] = $arrRow['intItemInstanceID'];
 			$arrReturn[$intCounter]['strItemName'] = $arrRow['strItemName'];
 			$arrReturn[$intCounter]['txtItemDesc'] = $arrRow['txtItemDesc'];
+			$arrReturn[$intCounter]['intItemID'] = $arrRow['intItemID'];
 			$arrReturn[$intCounter]['strItemType'] = $arrRow['strItemType'];
 			$arrReturn[$intCounter]['intDamage'] = $arrRow['intDamage'];
 			$arrReturn[$intCounter]['intDefence'] = $arrRow['intDefence'];

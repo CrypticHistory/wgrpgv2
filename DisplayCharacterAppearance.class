@@ -19,9 +19,9 @@ class DisplayCharacterAppearance{
 				<?=getStareDownText($_SESSION['objRPGCharacter']->getBMI())?>
 				<br/><br/>
 				<?php 
-					$objArmourXMLFile = $_SESSION['objRPGCharacter']->getEquippedArmour('strXML'); 
+					$objArmourXMLFile = $_SESSION['objRPGCharacter']->getEquippedArmour()->getXML(); 
 					if(isset($objArmourXMLFile)){
-						$objArmourXML = new RPGXMLReader($_SESSION['objRPGCharacter']->getEquippedArmour('strXML'));
+						$objArmourXML = new RPGXMLReader($_SESSION['objRPGCharacter']->getEquippedArmour()->getXML());
 						echo $objArmourXML->getAppearanceText($_SESSION['objRPGCharacter']->getArmourRipLevel());
 					}
 					else{
@@ -29,7 +29,7 @@ class DisplayCharacterAppearance{
 					}
 				?>
 				<br/><br/>
-				<?=getFPEquipmentText($_SESSION['objRPGCharacter']->getEquippedWeapon('strItemName'))?>
+				<?=getFPEquipmentText($_SESSION['objRPGCharacter']->getEquippedWeapon()->getItemName())?>
 				<br/><br/>
 				Naturally, it's difficult to examine your entire appearance in first-person. You should seek out a <b>full-body mirror</b> to have a better look at yourself.
 			</div>

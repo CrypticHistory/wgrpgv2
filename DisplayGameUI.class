@@ -113,6 +113,11 @@ class DisplayGameUI extends DataGameUI{
 				
 				$('form').preventDoubleSubmission();
 				
+				$("#viewItemDiv").dialog({
+                    width: 600,
+					autoOpen: false
+				});
+				
 				$("#inventoryTabHeading<?=$_SESSION['objUISettings']->getInventoryFrame()?>").addClass('currentTab');
 				$("#inventoryDiv<?=$_SESSION['objUISettings']->getInventoryFrame()?>").removeClass('hidden');
 				$("#characterTabHeading<?=$_SESSION['objUISettings']->getCharacterFrame()?>").addClass('currentTab');
@@ -187,6 +192,30 @@ class DisplayGameUI extends DataGameUI{
 					$('#' + strItemTab + 'Item' + intItemRow).addClass('selectedRow');
 				}
 			}
+			
+			function viewItem(intItemID, strItemName){
+				txtItemDescLong = "";
+				$.ajax({
+						url: 'UISettingsAJAX.php',
+						async: true,
+						type: 'post',
+						contentType: "application/x-www-form-urlencoded;charset=ISO-8859-15",
+						data: {
+							action: 'setViewItemDialog',
+							intItemID: intItemID
+						},
+						success: function(data){
+							txtItemDescLong = data;
+							$("#viewItemDiv").html('<p>' + txtItemDescLong + '</p>');
+							$("#viewItemDiv").dialog('option', 'title', strItemName);
+							$("#viewItemDiv").dialog('open');
+						},
+						error: function(textStatus, errorThrown){
+							alert(textStatus);
+						}
+				});
+			}
+			
 		</script>
 
 		<?php
@@ -206,6 +235,7 @@ class DisplayGameUI extends DataGameUI{
 			}
 		?>
 		
+		<div id='viewItemDiv'></div>
 		
 		<div class='navDiv'>
 			<a href='index.php'>Main</a>
