@@ -1,12 +1,14 @@
 <?php
 
 require_once "Database.class";
+include_once "RPGStatChange.class";
 
 class RPGEnchant{
 
 	private $_intEnchantID;
 	private $_strEnchantName;
 	private $_strEnchantType;
+	private $_arrStatChanges;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
@@ -26,6 +28,7 @@ class RPGEnchant{
 		$this->setCreatedBy($arrEnchantInfo['strCreatedBy']);
 		$this->setModifiedOn($arrEnchantInfo['dtmModifiedOn']);
 		$this->setModifiedBy($arrEnchantInfo['strModifiedBy']);
+		$this->setStatChanges(array());
 	}
 	
 	private function loadEnchantInfo($intEnchantID){
@@ -38,13 +41,32 @@ class RPGEnchant{
 			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
 				$arrEnchantInfo['intEnchantID'] = $arrRow['intEnchantID'];
 				$arrEnchantInfo['strEnchantName'] = $arrRow['strEnchantName'];
-				$arrEnchantInfo['strENchantType'] = $arrRow['strEnchantType'];
+				$arrEnchantInfo['strEnchantType'] = $arrRow['strEnchantType'];
 				$arrEnchantInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrEnchantInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrEnchantInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
 				$arrEnchantInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
 			}
 		$this->populateVarFromRow($arrEnchantInfo);
+		$this->loadStatChanges();
+	}
+	
+	private function loadStatChanges(){
+		$objDB = new Database();
+		$strSQL = "SELECT * FROM tblenchantstatchanges
+					WHERE intEnchantID = " . $this->_intEnchantID;
+		$rsResult = $objDB->query($strSQL);
+		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+			$this->_arrStatChanges[$arrRow['intStatChangeID']] = new RPGStatChange($arrRow['intStatChangeID']);
+		}
+	}
+	
+	public function getStatChanges(){
+		return $this->_arrStatChanges;
+	}
+	
+	public function setStatChanges($arrStatChanges){
+		$this->_arrStatChanges = $arrStatChanges;
 	}
 	
 	public function getEnchantID(){

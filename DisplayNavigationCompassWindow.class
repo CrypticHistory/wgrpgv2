@@ -29,7 +29,7 @@ class DisplayNavigationCompassWindow{
 				<?php } ?>
 				<form action='command.php' method='post'>
 					<input name='traverse' class='fL compass' type='submit' value='Explore'/>
-					<input name='exit' class='fL compass' type='submit' value='Return to Town'/>
+					<input name='exitField' class='fL compass' type='submit' value='Return to Town'/>
 				</form>
 				<?php } else { ?>
 				Traversing is currently disabled.

@@ -1,6 +1,7 @@
 <?php
 
 require_once "Database.class";
+include_once "RPGEnchant.class";
 
 class RPGItem{
 
@@ -20,6 +21,8 @@ class RPGItem{
 	private $_strItemType;
 	private $_strHandType;
 	private $_intEventID;
+	private $_objSuffix;
+	private $_objPrefix;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
@@ -49,6 +52,8 @@ class RPGItem{
 		$this->setCreatedBy($arrItemInfo['strCreatedBy']);
 		$this->setModifiedOn($arrItemInfo['dtmModifiedOn']);
 		$this->setModifiedBy($arrItemInfo['strModifiedBy']);
+		$this->setPrefix(null);
+		$this->setSuffix(null);
 	}
 	
 	private function loadItemInfo($intItemID){
@@ -78,6 +83,69 @@ class RPGItem{
 				$arrItemInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
 			}
 		$this->populateVarFromRow($arrItemInfo);
+		$this->loadEnchants();
+	}
+	
+	private function loadEnchants(){
+		$objDB = new Database();
+		$strSQL = "SELECT intSuffixEnchantID, intPrefixEnchantID
+					FROM tbliteminstanceenchant
+						WHERE intItemInstanceID = " . $objDB->quote($this->_intItemInstanceID);
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		if(isset($arrRow['intPrefixEnchantID'])){
+			$this->_objPrefix = new RPGEnchant($arrRow['intPrefixEnchantID']);
+		}
+		if(isset($arrRow['intSuffixEnchantID'])){
+			$this->_objSuffix = new RPGEnchant($arrRow['intSuffixEnchantID']);
+		}
+	}
+	
+	public function saveEnchants(){
+		$objDB = new Database();
+		$strSQL = "SELECT intItemInstanceID FROM tbliteminstanceenchant
+					WHERE intItemInstanceID = " . $objDB->quote($this->_intItemInstanceID);
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		if(isset($arrRow['intItemInstanceID'])){
+			$strSQL = "UPDATE tbliteminstanceenchant SET intPrefixEnchantID = " . $objDB->quote($this->_objPrefix->getEnchantID()) . ", intSuffixEnchantID = " . $objDB->quote($this->_objSuffix->getEnchantID()) . "
+						WHERE intItemInstanceID = " . $objDB->quote($this->_intItemInstanceID);
+			$objDB->query($strSQL);
+		}
+		else{
+			$strSQL = "INSERT INTO tbliteminstanceenchant (intItemInstanceID, intPrefixEnchantID, intSuffixEnchantID)
+						VALUES (" . $objDB->quote($this->_intItemInstanceID) . ", " . $objDB->quote($this->_objPrefix->getEnchantID()) . ", " . $objDB->quote($this->_objSuffix->getEnchantID()) . ")";
+			$objDB->query($strSQL);
+		}
+	}
+	
+	public function setPrefix($objPrefix){
+		$this->_objPrefix = $objPrefix;
+	}
+	
+	public function setSuffix($objSuffix){
+		$this->_objSuffix = $objSuffix;
+	}
+	
+	public function getPrefix(){
+		return $this->_objPrefix;
+	}
+	
+	public function getSuffix(){
+		return $this->_objSuffix;
+	}
+	
+	public function removePrefix(){
+		$this->_objPrefix = null;
+	}
+	
+	public function removeSuffix(){
+		$this->_objSuffix = null;
+	}
+	
+	public function removeEnchants(){
+		$this->_objPrefix = null;
+		$this->_objSuffix = null;
 	}
 	
 	public function equip($intItemInstanceID){

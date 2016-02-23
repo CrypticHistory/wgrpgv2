@@ -56,6 +56,17 @@ class RPGEvent{
 		$this->populateVarFromRow($arrEventInfo);
 	}
 	
+	public function getLinkName($intLocationID){
+		$objDB = new Database();
+		$strSQL = "SELECT strLinkName
+					FROM tbllocationeventlink
+						WHERE intLocationID = " . $objDB->quote($intLocationID) . "
+							AND intEventID = " . $objDB->quote($this->_intEventID);
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		return $arrRow['strLinkName'];
+	}
+	
 	public function getEventID(){
 		return $this->_intEventID;
 	}

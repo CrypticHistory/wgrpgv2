@@ -1,5 +1,7 @@
 <?php
 
+include_once "RPGLocation.class";
+
 class DisplayTownWindow{
 
 	public function DisplayTownWindow(){
@@ -17,6 +19,10 @@ class DisplayTownWindow{
 					echo "<br/><br/>";
 					$_SESSION['objRPGCharacter']->setEquipClothingText(null);
 				}
+				
+				$objLocation = new RPGLocation($_SESSION['objRPGCharacter']->getLocationID());
+				
+				echo $objLocation->getDescription() . "<br/><br/>";
 				
 				echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck() . "</i>";
 					

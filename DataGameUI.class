@@ -20,6 +20,9 @@ class DataGameUI{
 		global $arrStateNames;
 		global $arrStateValues;
 		
+		// town events are accessed using the URL ($_GET)
+		$this->handleTownEvents();
+		
 		$objFloor = new RPGFloor($_SESSION['objRPGCharacter']->getFloor());
 		$objEvent = new RPGEvent($_SESSION['objRPGCharacter']->getEventID());
 		$objXML = new RPGXMLReader($objEvent->getXML());
@@ -56,8 +59,14 @@ class DataGameUI{
 					$_SESSION['objUISettings']->setDisableStats(false);
 				}
 				$_SESSION['objUISettings']->setEventFrame('Event');
-				$_SESSION['objUISettings']->setCommandsFrame('Event');
-				$_SESSION['objUISettings']->setNavigationFrame('Compass');
+				if($blnEndOfEvent && $_SESSION['objRPGCharacter']->getTownID != NULL){
+					$_SESSION['objUISettings']->setCommandsFrame('Return');	
+					$_SESSION['objUISettings']->setNavigationFrame('Menu');
+				}
+				else{
+					$_SESSION['objUISettings']->setCommandsFrame('Event');	
+					$_SESSION['objUISettings']->setNavigationFrame('Compass');
+				}
 				break;
 			case "Combat":
 				$_SESSION['objUISettings']->setDisableTraversal(true);
@@ -110,6 +119,39 @@ class DataGameUI{
 				break;
 		}	
 
+	}
+	
+	public function handleTownEvents(){
+		global $arrStateValues;
+		
+		if(isset($_GET['EventID'])){
+			$objEvent = new RPGEvent($_GET['EventID']);
+			$objXML = new RPGXMLReader($objEvent->getXML());
+			
+			$blnConditionsPassed = false;
+			foreach($objXML->getPrecondition() as $key => $value){
+				if (DialogConditionFactory::evaluatePrecondition($value)){
+					$blnConditionsPassed = true;
+				}
+				else{
+					$blnConditionsPassed = false;
+				}
+			}
+			
+			if($blnConditionsPassed){
+				$_SESSION['objRPGCharacter']->setEventID($objEvent->getEventID());
+				$_SESSION['objRPGCharacter']->setEventNodeID(0);
+				$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
+			}
+		}
+		
+		if(isset($_GET['LocationID'])){
+			// are there any requirements for locations?
+			if($_SESSION['objRPGCharacter']->getTownID() != NULL){
+				$_SESSION['objRPGCharacter']->setLocationID($_GET['LocationID']);
+			}
+		}
+		
 	}
 	
 	public function handleTicks(){

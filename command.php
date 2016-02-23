@@ -14,13 +14,14 @@
 	global $arrStateValues;
 
 	if(isset($_POST['command'])){
+		// todo: security so they can't inject $_POST
 		$_SESSION['objRPGCharacter']->setEventNodeID($_POST['command']);
 		if(isset($_POST['eventAction' . $_POST['command']])){
 			DialogConditionFactory::evaluateAction($_POST['eventAction' . $_POST['command']]);
 		}
 	}
 	
-	if(isset($_POST['traverse'])){
+	if(isset($_POST['traverse']) && $_SESSION['objRPGCharacter']->getTownID() == NULL){
 		$objFloor = new RPGFloor($_SESSION['objRPGCharacter']->getFloor());
 		$objFloor->setApplicableEvents($_SESSION['objRPGCharacter']->getRPGCharacterID());
 		$intEventID = $objFloor->generateRandomEvent();
@@ -29,7 +30,8 @@
 		$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
 	}
 	
-	if(isset($_POST['exit'])){
+	if(isset($_POST['exitField'])){
+		// todo: security to check if the "exit flag" for the floor is true to allow them to exit whenever they want
 		// if character has viewed the exit first floor event once before
 		if($_SESSION['objRPGCharacter']->hasViewedEvent(11)){
 			// give them the short leave tower event
@@ -44,6 +46,11 @@
 		$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Town']);
 	}
 	
+	if(isset($_POST['exitTown'])){
+		// todo: security to check if the "exit flag" is set to true to allow them to exit town
+		// what must be true: in Tower Entrance location (hub), time of day is afternoon (this will be added later)
+	}
+	
 	if(isset($_POST['return'])){
 		if($_SESSION['objRPGCharacter']->getTownID() == NULL){
 			$objFloor = new RPGFloor($_SESSION['objRPGCharacter']->getFloor());
@@ -55,6 +62,7 @@
 	}
 	
 	if(isset($_POST['itemAction']) && isset($_POST['itemID'])){
+		// will there even be weapon/item requirements?
 		if($_SESSION['objRPGCharacter']->hasItem($_POST['itemID'])){
 			if($_POST['itemAction'] == 'use'){
 				$_SESSION['objRPGCharacter']->eatItem($_POST['itemID'], $_POST['itemHPHeal']);

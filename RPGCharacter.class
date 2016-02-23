@@ -22,6 +22,7 @@ class RPGCharacter{
 	private $_intEventNodeID;
 	private $_intStateID;
 	private $_intTownID;
+	private $_intLocationID;
 	private $_intArmourRipLevel;
 	private $_strGender;
 	private $_strOrientation;
@@ -72,6 +73,7 @@ class RPGCharacter{
 		$this->setEventNodeID($arrCharacterInfo['intEventNodeID']);
 		$this->setStateID($arrCharacterInfo['intStateID']);
 		$this->setTownID($arrCharacterInfo['intTownID']);
+		$this->setLocationID($arrCharacterInfo['intLocationID']);
 		$this->setArmourRipLevel($arrCharacterInfo['intArmourRipLevel']);
 		$this->setGender($arrCharacterInfo['strGender']);
 		$this->setOrientation($arrCharacterInfo['strOrientation']);
@@ -113,6 +115,7 @@ class RPGCharacter{
 				$arrCharacterInfo['intEventNodeID'] = $arrRow['intEventNodeID'];
 				$arrCharacterInfo['intStateID'] = $arrRow['intStateID'];
 				$arrCharacterInfo['intTownID'] = $arrRow['intTownID'];
+				$arrCharacterInfo['intLocationID'] = $arrRow['intLocationID'];
 				$arrCharacterInfo['intArmourRipLevel'] = $arrRow['intArmourRipLevel'];
 				$arrCharacterInfo['strGender'] = $arrRow['strGender'];
 				$arrCharacterInfo['strOrientation'] = $arrRow['strOrientation'];
@@ -159,6 +162,7 @@ class RPGCharacter{
 						intEventNodeID = " . $objDB->quote($this->_intEventNodeID) . ",
 						intStateID = " . $objDB->quote($this->_intStateID) . ",
 						intTownID = " . $objDB->quote($this->_intTownID) . ",
+						intLocationID = " . $objDB->quote($this->_intLocationID) . ",
 						intArmourRipLevel = " . $objDB->quote($this->_intArmourRipLevel) . ",
 						strGender = " . $objDB->quote($this->_strGender) . ",
 						strOrientation = " . $objDB->quote($this->_strOrientation) . ",
@@ -184,9 +188,9 @@ class RPGCharacter{
 	public function createNewCharacter($strUserID, $strRPGCharacterName, $dblWeight, $intHeight, $strGender, $strOrientation, $strPersonality, $strFatStance, $strHairColour, $strHairLength, $strEyeColour, $strEthnicity){
 		$objDB = new Database();
 		$strSQL = "INSERT INTO tblrpgcharacter
-					(strUserID, strRPGCharacterName, dblWeight, intHeight, strGender, strOrientation, strPersonality, strFatStance, strHairColour, strHairLength, strEyeColour, strEthnicity, intStateID, intEventID, intTownID, dtmCreatedOn, strCreatedBy)
+					(strUserID, strRPGCharacterName, dblWeight, intHeight, strGender, strOrientation, strPersonality, strFatStance, strHairColour, strHairLength, strEyeColour, strEthnicity, intStateID, intEventID, intTownID, intLocationID, dtmCreatedOn, strCreatedBy)
 						VALUES
-					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", 8, 2, NULL, '" . date('Y-m-d H:i:s') . "', 'system')";
+					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", 8, 2, NULL, 0, '" . date('Y-m-d H:i:s') . "', 'system')";
 		$objDB->query($strSQL);
 		$intRPGCharacterID = $objDB->lastInsertID();
 		$this->loadRPGCharacterInfo($intRPGCharacterID, true);
@@ -759,7 +763,9 @@ class RPGCharacter{
 		$objEvent = new RPGEvent($this->getEventID());
 		$objXML = new RPGXMLReader($objEvent->getXML());
 		if((in_array($this->getEventNodeID(), (array)$objXML->getEndNodes())) || $objXML->getEndNodes() == 'any'){
-			$this->addToCharacterEventLog($this->getEventID());
+			if(!$this->hasViewedEvent($this->getEventID())){
+				$this->addToCharacterEventLog($this->getEventID());
+			}	
 			$this->removeOverride(3);
 			if(isset($_SESSION['objEnemy'])){
 				unset($_SESSION['objEnemy']);
@@ -1135,6 +1141,14 @@ class RPGCharacter{
 	
 	public function setTownID($intTownID){
 		$this->_intTownID = $intTownID;
+	}
+	
+	public function getLocationID(){
+		return $this->_intLocationID;
+	}
+	
+	public function setLocationID($intLocationID){
+		$this->_intLocationID = $intLocationID;
 	}
 }
 

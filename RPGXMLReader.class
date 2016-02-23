@@ -40,6 +40,10 @@ class RPGXMLReader {
 		return $this->_objXML->dialog[intval($intID)]->option[intval($key)]->attributes()->precondition;
 	}
 	
+	public function getPrecondition(){
+		return $this->_objXML->precondition;
+	}
+	
 	public function hasCommandPrecondition($intID, $key){
 		return ($this->_objXML->dialog[intval($intID)]->option[intval($key)]->attributes()->precondition != null);
 	}

@@ -67,7 +67,6 @@ ul{
   background-color: #EBE2D1;
   border: 5px solid #FFFFFF;
   min-height:780px;
-  overflow-y:scroll;
 }
 
 .login{
@@ -87,21 +86,8 @@ ul{
 }
 
 .blogPost{
-	width:630px;
+	width:908px;
 	padding:5px;
-}
-
-.blogPostContents{
-	height:90px;
-	overflow-y:hidden;
-}
-
-.readmore{
-	display:none;
-}
-
-.paginate li{
-	display:inline;
 }
 
 .logo{
