@@ -43,7 +43,6 @@
 			$_SESSION['objRPGCharacter']->setEventID(11);
 			$_SESSION['objRPGCharacter']->setEventNodeID(0);
 		}
-		$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Town']);
 	}
 	
 	if(isset($_POST['exitTown'])){

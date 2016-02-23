@@ -33,7 +33,7 @@ class DisplayTownCommandsWindow{
 				
 				if($objLocation->getLocationID() == 1){
 					foreach($arrFloorLinks as $objFloor){
-						echo "<button type='button'>Floor " . $objFloor->getFloorID() . "</button>";
+						echo "<a href='main.php?page=DisplayGameUI&EnterFloorID=" . $objFloor->getFloorID() . "'><button type='button'>Floor " . $objFloor->getFloorID() . "</button></a>";
 					}
 				}
 				

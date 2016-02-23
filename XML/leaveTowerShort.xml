@@ -3,8 +3,8 @@
 	<type>Forced Event</type>
 	<end>0</end>
 	<dialog id="0">
-		<eventText>You leave the tower and enter the town of Ambellika.
+		<eventText>You leave the tower and enter the town of Turici.
 		</eventText>
-		<option id="0" action="setTownID~1">Continue</option>
+		<option id="0" action="exitFloor~1">Continue</option>
 	</dialog>
 </event>

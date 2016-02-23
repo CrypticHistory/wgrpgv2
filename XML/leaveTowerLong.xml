@@ -17,6 +17,6 @@
 
 					"Hold on! N-!" The welcome darkness takes you.
 		</eventText>
-		<option id="0" action="setTownID~1">Continue</option>
+		<option id="0" action="exitFloor~6">Continue</option>
 	</dialog>
 </event>

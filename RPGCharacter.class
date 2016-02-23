@@ -16,6 +16,7 @@ class RPGCharacter{
 	private $_dblWeight;
 	private $_intDigestionRate;
 	private $_intFloorID;
+	private $_intCurrentFloorID;
 	private $_intDay;
 	private $_strTime;
 	private $_intEventID;
@@ -67,6 +68,7 @@ class RPGCharacter{
 		$this->setWeight($arrCharacterInfo['dblWeight']);
 		$this->setDigestionRate($arrCharacterInfo['intDigestionRate']);
 		$this->setFloor($arrCharacterInfo['intFloorID']);
+		$this->setCurrentFloorID($arrCharacterInfo['intCurrentFloorID']);
 		$this->setDay($arrCharacterInfo['intDay']);
 		$this->setTime($arrCharacterInfo['strTime']);
 		$this->setEventID($arrCharacterInfo['intEventID']);
@@ -109,6 +111,7 @@ class RPGCharacter{
 				$arrCharacterInfo['dblWeight'] = $arrRow['dblWeight'];
 				$arrCharacterInfo['intDigestionRate'] = $arrRow['intDigestionRate'];
 				$arrCharacterInfo['intFloorID'] = $arrRow['intFloorID'];
+				$arrCharacterInfo['intCurrentFloorID'] = $arrRow['intCurrentFloorID'];
 				$arrCharacterInfo['intDay'] = $arrRow['intDay'];
 				$arrCharacterInfo['strTime'] = $arrRow['strTime'];
 				$arrCharacterInfo['intEventID'] = $arrRow['intEventID'];
@@ -155,6 +158,7 @@ class RPGCharacter{
 					SET intHeight = " . $objDB->quote($this->_intHeight) . ",
 						dblWeight = " . $objDB->quote($this->_dblWeight) . ",
 						intFloorID = " . $objDB->quote($this->_intFloorID) . ",
+						intCurrentFloorID = " . $objDB->quote($this->_intCurrentFloorID) . ",
 						intDigestionRate = " . $objDB->quote($this->_intDigestionRate) . ",
 						intDay = " . $objDB->quote($this->_intDay) . ",
 						strTime = " . $objDB->quote($this->_strTime) . ",
@@ -188,9 +192,9 @@ class RPGCharacter{
 	public function createNewCharacter($strUserID, $strRPGCharacterName, $dblWeight, $intHeight, $strGender, $strOrientation, $strPersonality, $strFatStance, $strHairColour, $strHairLength, $strEyeColour, $strEthnicity){
 		$objDB = new Database();
 		$strSQL = "INSERT INTO tblrpgcharacter
-					(strUserID, strRPGCharacterName, dblWeight, intHeight, strGender, strOrientation, strPersonality, strFatStance, strHairColour, strHairLength, strEyeColour, strEthnicity, intStateID, intEventID, intTownID, intLocationID, dtmCreatedOn, strCreatedBy)
+					(strUserID, strRPGCharacterName, dblWeight, intHeight, strGender, strOrientation, strPersonality, strFatStance, strHairColour, strHairLength, strEyeColour, strEthnicity, intStateID, intEventID, intTownID, intLocationID, intCurrentFloorID, dtmCreatedOn, strCreatedBy)
 						VALUES
-					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", 8, 2, NULL, 0, '" . date('Y-m-d H:i:s') . "', 'system')";
+					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", 8, 2, NULL, 0, 1, '" . date('Y-m-d H:i:s') . "', 'system')";
 		$objDB->query($strSQL);
 		$intRPGCharacterID = $objDB->lastInsertID();
 		$this->loadRPGCharacterInfo($intRPGCharacterID, true);
@@ -1149,6 +1153,34 @@ class RPGCharacter{
 	
 	public function setLocationID($intLocationID){
 		$this->_intLocationID = $intLocationID;
+	}
+	
+	public function enterFloor($intFloorID){
+		global $arrStateValues;
+		$this->setTownID(0);
+		$this->setLocationID(NULL);
+		$this->setCurrentFloorID($intFloorID);
+		$this->setStateID($arrStateValues['Field']);
+		$this->setEventID(1);
+		$this->setEventNodeID(0);
+		$this->save();
+	}
+	
+	public function exitFloor($intLocationID){
+		global $arrStateValues;
+		$this->setTownID(1);
+		$this->setLocationID($intLocationID);
+		$this->setCurrentFloorID(NULL);
+		$this->setStateID($arrStateValues['Town']);
+		$this->save();
+	}
+	
+	public function getCurrentFloorID(){
+		return $this->_intCurrentFloorID;
+	}
+	
+	public function setCurrentFloorID($intCurrentFloorID){
+		$this->_intCurrentFloorID = $intCurrentFloorID;
 	}
 }
 
