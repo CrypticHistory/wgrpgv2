@@ -1,7 +1,7 @@
 <?php
 
-require_once "Database.class";
-include_once "RPGEnchant.class";
+require_once "Database.php";
+include_once "RPGEnchant.php";
 
 class RPGItem{
 
@@ -18,6 +18,7 @@ class RPGItem{
 	private $_strStatDamage;
 	private $_strSize;
 	private $_strXML;
+	private $_intQuantity;
 	private $_strItemType;
 	private $_strHandType;
 	private $_intEventID;
@@ -274,6 +275,14 @@ class RPGItem{
 	
 	public function getXML(){
 		return $this->_strXML;
+	}
+	
+	public function getQuantity(){
+		return $this->_intQuantity;
+	}
+	
+	public function setQuantity($intQuantity){
+		$this->_intQuantity = $intQuantity;
 	}
 	
 	public function setXML($strXML){

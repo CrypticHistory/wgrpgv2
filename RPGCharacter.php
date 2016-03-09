@@ -1,10 +1,10 @@
 <?php
 
-require_once "Database.class";
-include_once "RPGItem.class";
-include_once "RPGStats.class";
-include_once "RPGStatusEffect.class";
-include_once "RPGXMLReader.class";
+require_once "Database.php";
+include_once "RPGItem.php";
+include_once "RPGStats.php";
+include_once "RPGStatusEffect.php";
+include_once "RPGXMLReader.php";
 include_once "constants.php";
 
 class RPGCharacter{
@@ -217,6 +217,14 @@ class RPGCharacter{
 		$rsResult = $objDB->query($strSQL);
 		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
 		return (isset($arrRow['intEventID']) ? true : false);
+	}
+	
+	public function setViewedEvent($intEventID){
+		$objDB = new Database();
+		$strSQL = "INSERT INTO tblcharactereventxr
+					(intEventID, intRPGCharacterID, dtmDateAdded) VALUES
+					(" . $objDB->quote($intEventID) . ", " . $objDB->quote($this->_intRPGCharacterID) . ", NOW())";
+		$rsResult = $objDB->query($strSQL);
 	}
 	
 	public function loadStatusEffects(){
@@ -565,7 +573,7 @@ class RPGCharacter{
 		$intCharacterBMI = $this->getBMI();
 		$intBMIDifference = $intCharacterBMI - $intClothingBMI;
 		
-		if(isset($_SESSION['objUISettings']->getOverrides()[1])){
+		if(isset($_SESSION['objUISettings']->getOverrides()[1]) || $arrRow['strSize'] == 'Stretch'){
 			$this->setArmourRipLevel(15); //uncomfortably tight
 			$intNode = 5;
 			$blnReturn = true;
@@ -780,7 +788,7 @@ class RPGCharacter{
 	}
 	
 	public function takeDamage($intDamage){
-		$intDamage = max(1, $intDamage);
+		$intDamage = max(0, $intDamage);
 		$this->setCurrentHP($this->getCurrentHP() - $intDamage);
 		return $intDamage;
 	}
@@ -1163,7 +1171,6 @@ class RPGCharacter{
 		$this->setStateID($arrStateValues['Field']);
 		$this->setEventID(1);
 		$this->setEventNodeID(0);
-		$this->save();
 	}
 	
 	public function exitFloor($intLocationID){
@@ -1172,7 +1179,6 @@ class RPGCharacter{
 		$this->setLocationID($intLocationID);
 		$this->setCurrentFloorID(NULL);
 		$this->setStateID($arrStateValues['Town']);
-		$this->save();
 	}
 	
 	public function getCurrentFloorID(){

@@ -1,15 +1,15 @@
 <?php
 	require_once 'constants.php';
 	require_once 'common.php';
-	require_once "Database.class";
+	require_once "Database.php";
 	require_once 'users.php';
-	require_once 'RPGUser.class';
+	require_once 'RPGUser.php';
 	
 	$blnPageFlag = false;
 	
-	if(isset($_GET['page']) && file_exists($_GET['page'] . ".class")){
+	if(isset($_GET['page']) && file_exists($_GET['page'] . ".php")){
 		$blnPageFlag = true;
-		include_once $_GET['page'] . ".class";
+		include_once $_GET['page'] . ".php";
 	}
 	
 	if(!isset($_SESSION)){

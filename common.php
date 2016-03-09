@@ -1,6 +1,6 @@
 <?php
 
-	include_once "Database.class";
+	include_once "Database.php";
 
 	function get_enum_values( $table, $field ){
 		$objDB = new Database();

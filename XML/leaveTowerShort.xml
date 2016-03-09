@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <event>
 	<type>Forced Event</type>
-	<end>0</end>
+	<end>1</end>
 	<dialog id="0">
 		<eventText>You leave the tower and enter the town of Turici.
 		</eventText>

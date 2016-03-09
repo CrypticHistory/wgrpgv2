@@ -1,6 +1,6 @@
 <?php
 
-include_once "UISettings.class";
+include_once "UISettings.php";
 
 class DisplayNavigationCompassWindow{
 

@@ -10,19 +10,19 @@
 	}
 	
 	function setInventoryFrame(){
-		include_once "UISettings.class";
+		include_once "UISettings.php";
 		session_start();
 		$_SESSION['objUISettings']->setInventoryFrame($_POST['strInventoryFrame']);
 	}
 	
 	function setCharacterFrame(){
-		include_once "UISettings.class";
+		include_once "UISettings.php";
 		session_start();
 		$_SESSION['objUISettings']->setCharacterFrame($_POST['strCharacterFrame']);
 	}
 	
 	function setViewItemDialog(){
-		include_once "Database.class";
+		include_once "Database.php";
 		session_start();
 		if(isset($_POST['intItemID'])){
 			$objDB = new Database();

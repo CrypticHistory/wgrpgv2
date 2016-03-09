@@ -1,6 +1,6 @@
 <?php
 
-include_once "RPGLocation.class";
+include_once "RPGLocation.php";
 
 class DisplayTownWindow{
 

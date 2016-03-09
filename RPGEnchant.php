@@ -1,7 +1,7 @@
 <?php
 
-require_once "Database.class";
-include_once "RPGStatChange.class";
+require_once "Database.php";
+include_once "RPGStatChange.php";
 
 class RPGEnchant{
 

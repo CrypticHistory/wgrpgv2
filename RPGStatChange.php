@@ -1,7 +1,7 @@
 <?php
 
-require_once "Database.class";
-include_once "RPGStatusEffect.class";
+require_once "Database.php";
+include_once "RPGStatusEffect.php";
 
 class RPGStatChange{
 

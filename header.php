@@ -1,12 +1,11 @@
 <?php 
 
-include_once "Database.class";
+include_once "Database.php";
 include_once 'constants.php';
 include_once "common.php";
 include_once "users.php";
-include_once "RPGUser.class";
-include_once "BlogPost.class";
-include_once "RPGCharacter.class";
+include_once "RPGUser.php";
+include_once "RPGCharacter.php";
 
 @session_start();
 

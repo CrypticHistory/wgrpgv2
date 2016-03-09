@@ -1,7 +1,7 @@
 <?php
 
-	include_once "Database.class";
-	include_once "RPGEvent.class";
+	include_once "Database.php";
+	include_once "RPGEvent.php";
 	
 	class RPGLocation {
 		
@@ -102,12 +102,32 @@
 			$arrReturn = array();
 			$strSQL = "SELECT intToLocationID
 						FROM tbllocationxrlink
-							WHERE intFromLocationID = " . $objDB->quote($this->_intLocationID);
+							INNER JOIN tbllocation
+								ON tbllocationxrlink.intToLocationID = tbllocation.intLocationID
+							WHERE intFromLocationID = " . $objDB->quote($this->_intLocationID) . "
+								AND strLocationType = 'Building'";
 			$rsResult = $objDB->query($strSQL);
 			while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
 				$arrReturn[] = new RPGLocation($arrRow['intToLocationID']);
 			}
 			return $arrReturn;
+		}
+		
+		public function getHubLinks(){
+			$objDB = new Database();
+			$arrReturn = array();
+			$strSQL = "SELECT intToLocationID
+						FROM tbllocationxrlink
+							INNER JOIN tbllocation
+								ON tbllocationxrlink.intToLocationID = tbllocation.intLocationID
+							WHERE intFromLocationID = " . $objDB->quote($this->_intLocationID) . "
+								AND strLocationType = 'Hub'";
+			$rsResult = $objDB->query($strSQL);
+			while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+				$arrReturn[] = new RPGLocation($arrRow['intToLocationID']);
+			}
+			return $arrReturn;
+			
 		}
 		
 		public function getLocationShopLinks(){
@@ -120,8 +140,7 @@
 							WHERE intLocationID = " . $objDB->quote($this->_intLocationID);
 			$rsResult = $objDB->query($strSQL);
 			while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
-				// todo: make RPGShop.class
-				// $arrReturn[] = new RPGShop($arrRow['intShopID']);
+				$arrReturn[] = new RPGShop($arrRow['intShopID']);
 			}
 			return $arrReturn;
 		}

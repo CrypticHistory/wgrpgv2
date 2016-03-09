@@ -1,29 +1,30 @@
 <?php
 
-include_once 'DataGameUI.class';
-include_once 'RPGCharacter.class';
-include_once 'RPGFloor.class';
-include_once 'RPGEvent.class';
-include_once 'RPGXMLReader.class';
-include_once 'UISettings.class';
-include_once "DisplayCharacterInfo.class";
-include_once "DisplayCharacterAppearance.class";
-include_once "DisplayCharacterSkills.class";
-include_once "DisplayCharacterQuests.class";
-include_once "DisplayEventWindow.class";
-include_once "DisplayCombatWindow.class";
-include_once "DisplayStatGainWindow.class";
-include_once "DisplayTownWindow.class";
-include_once "DisplayUseInventory.class";
-include_once "DisplayEquipInventory.class";
-include_once "DisplayMiscInventory.class";
-include_once "DisplayQuestInventory.class";
-include_once "DisplayEventCommandsWindow.class";
-include_once "DisplayCombatCommandsWindow.class";
-include_once "DisplayReturnCommandsWindow.class";
-include_once "DisplayTownCommandsWindow.class";
-include_once "DisplayNavigationCompassWindow.class";
-include_once "DisplayNavigationMenuWindow.class";
+include_once 'DataGameUI.php';
+include_once 'RPGCharacter.php';
+include_once 'RPGFloor.php';
+include_once 'RPGEvent.php';
+include_once 'RPGXMLReader.php';
+include_once 'UISettings.php';
+include_once "DisplayCharacterInfo.php";
+include_once "DisplayCharacterAppearance.php";
+include_once "DisplayCharacterSkills.php";
+include_once "DisplayCharacterQuests.php";
+include_once "DisplayEventWindow.php";
+include_once "DisplayCombatWindow.php";
+include_once "DisplayStatGainWindow.php";
+include_once "DisplayTownWindow.php";
+include_once "DisplayShopWindow.php";
+include_once "DisplayUseInventory.php";
+include_once "DisplayEquipInventory.php";
+include_once "DisplayMiscInventory.php";
+include_once "DisplayQuestInventory.php";
+include_once "DisplayEventCommandsWindow.php";
+include_once "DisplayCombatCommandsWindow.php";
+include_once "DisplayReturnCommandsWindow.php";
+include_once "DisplayTownCommandsWindow.php";
+include_once "DisplayNavigationCompassWindow.php";
+include_once "DisplayNavigationMenuWindow.php";
 
 class DisplayGameUI extends DataGameUI{
 
@@ -35,6 +36,7 @@ class DisplayGameUI extends DataGameUI{
 	protected $_objEventWindow;
 	protected $_objCombatWindow;
 	protected $_objStatGainWindow;
+	protected $_objShopWindow;
 	protected $_objUseInventory;
 	protected $_objEquipInventory;
 	protected $_objMiscInventory;
@@ -53,6 +55,12 @@ class DisplayGameUI extends DataGameUI{
 			unset($_SESSION['objEnemy']);
 			unset($_SESSION['objCombat']);
 			$_SESSION['objRPGCharacter'] = new RPGCharacter($_POST['strCharacterName']);
+			if($_SESSION['objRPGCharacter']->getTownID() != NULL){
+				// Town State
+				$_SESSION['objRPGCharacter']->setStateID(4);
+				// Home Location
+				$_SESSION['objRPGCharacter']->setLocationID(6);
+			}
 		}
 		
 		if(isset($_SESSION['blnNewCharacter'])){
@@ -75,6 +83,7 @@ class DisplayGameUI extends DataGameUI{
 		$this->_objCombatWindow = new DisplayCombatWindow();
 		$this->_objStatGainWindow = new DisplayStatGainWindow();
 		$this->_objTownWindow = new DisplayTownWindow();
+		$this->_objShopWindow = new DisplayShopWindow();
 		$this->_objUseInventory = new DisplayUseInventory();
 		$this->_objEquipInventory = new DisplayEquipInventory();
 		$this->_objMiscInventory = new DisplayMiscInventory();

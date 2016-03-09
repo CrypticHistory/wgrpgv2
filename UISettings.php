@@ -1,6 +1,6 @@
 <?php
 
-include_once "Database.class";
+include_once "Database.php";
 
 class UISettings{
 

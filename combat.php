@@ -1,10 +1,10 @@
 <?php
 
-	include_once 'RPGCharacter.class';
-	include_once 'RPGUser.class';
-	include_once 'RPGNPC.class';
-	include_once 'RPGCombat.class';
-	include_once 'UISettings.class';
+	include_once 'RPGCharacter.php';
+	include_once 'RPGUser.php';
+	include_once 'RPGNPC.php';
+	include_once 'RPGCombat.php';
+	include_once 'UISettings.php';
 	include_once 'constants.php';
 	
 	session_start();

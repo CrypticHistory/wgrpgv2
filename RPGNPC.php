@@ -1,7 +1,7 @@
 <?php
 
-require_once "Database.class";
-require_once "RPGNPCStats.class";
+require_once "Database.php";
+require_once "RPGNPCStats.php";
 include_once "constants.php";
 
 class RPGNPC{

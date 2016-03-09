@@ -1,6 +1,6 @@
 <?php
 
-include_once "RPGLocation.class";
+include_once "RPGLocation.php";
 
 class DisplayTownCommandsWindow{
 
@@ -18,27 +18,27 @@ class DisplayTownCommandsWindow{
 				$objLocation = new RPGLocation($_SESSION['objRPGCharacter']->getLocationID());
 				$arrEventLinks = $objLocation->getLocationEventLinks();
 				$arrShopLinks = $objLocation->getLocationShopLinks();
+				$arrXRLinks = $objLocation->getLocationXRLinks();
 				if($objLocation->getLocationID() == 1){
 					$arrFloorLinks = $objLocation->getFloorLinks($_SESSION['objRPGCharacter']);
 				}
-				$arrXRLinks = $objLocation->getLocationXRLinks();
+				
+				foreach($arrXRLinks as $objXRLocation){
+					echo "<a href='main.php?page=DisplayGameUI&LocationID=" . $objXRLocation->getLocationID() . "'><button type='button'>" . $objLocation->getLinkName($objXRLocation->getLocationID()) . "</button></a>";
+				}
 				
 				foreach($arrEventLinks as $objEvent){
 					echo "<a href='main.php?page=DisplayGameUI&LocationID=" . $objLocation->getLocationID() . "&EventID=" . $objEvent->getEventID() . "'><button type='button'>" . $objEvent->getLinkName($objLocation->getLocationID()) . "</button></a>";
 				}
 				
 				foreach($arrShopLinks as $objShop){
-					// create RPGShop.class first
+					echo "<a href='main.php?page=DisplayGameUI&LocationID=" . $objLocation->getLocationID() . "&ShopID=" . $objShop->getShopID() . "'><button type='button'>" . $objShop->getLinkName($objLocation->getLocationID()) . "</button></a>";
 				}
 				
 				if($objLocation->getLocationID() == 1){
 					foreach($arrFloorLinks as $objFloor){
 						echo "<a href='main.php?page=DisplayGameUI&EnterFloorID=" . $objFloor->getFloorID() . "'><button type='button'>Floor " . $objFloor->getFloorID() . "</button></a>";
 					}
-				}
-				
-				foreach($arrXRLinks as $objXRLocation){
-					echo "<a href='main.php?page=DisplayGameUI&LocationID=" . $objXRLocation->getLocationID() . "'><button type='button'>" . $objLocation->getLinkName($objXRLocation->getLocationID()) . "</button></a>";
 				}
 				
 				?>

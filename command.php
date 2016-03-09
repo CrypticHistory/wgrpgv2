@@ -1,12 +1,12 @@
 <?php
 
-	include_once 'DialogConditionFactory.class';
-	include_once 'RPGUser.class';
-	include_once 'RPGCharacter.class';
-	include_once 'RPGNPC.class';
-	include_once 'RPGFloor.class';
-	include_once 'UISettings.class';
-	include_once 'DataGameUI.class';
+	include_once 'DialogConditionFactory.php';
+	include_once 'RPGUser.php';
+	include_once 'RPGCharacter.php';
+	include_once 'RPGNPC.php';
+	include_once 'RPGFloor.php';
+	include_once 'UISettings.php';
+	include_once 'DataGameUI.php';
 	include_once 'constants.php';
 	
 	session_start();
@@ -37,11 +37,14 @@
 			// give them the short leave tower event
 			$_SESSION['objRPGCharacter']->setEventID(12);
 			$_SESSION['objRPGCharacter']->setEventNodeID(0);
+			$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
 		}
 		else{
 			// give them the long leave tower event
 			$_SESSION['objRPGCharacter']->setEventID(11);
 			$_SESSION['objRPGCharacter']->setEventNodeID(0);
+			$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
+			$_SESSION['objRPGCharacter']->setViewedEvent(11);
 		}
 	}
 	

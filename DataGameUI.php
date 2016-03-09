@@ -1,10 +1,10 @@
 <?php
 
-include_once 'DialogConditionFactory.class';
-include_once 'RPGNPC.class';
-include_once 'RPGTime.class';
-include_once 'RPGCombat.class';
-include_once 'RPGFloor.class';
+include_once 'DialogConditionFactory.php';
+include_once 'RPGNPC.php';
+include_once 'RPGTime.php';
+include_once 'RPGCombat.php';
+include_once 'RPGFloor.php';
 include_once 'constants.php';
 
 class DataGameUI{
@@ -22,7 +22,6 @@ class DataGameUI{
 
 		// town events are accessed using the URL ($_GET)
 		$this->handleTownEvents();
-		
 		$objEvent = new RPGEvent($_SESSION['objRPGCharacter']->getEventID());
 		$objXML = new RPGXMLReader($objEvent->getXML());
 		
@@ -130,34 +129,37 @@ class DataGameUI{
 			}
 		}
 		
-		if(isset($_GET['EventID'])){
-			$objEvent = new RPGEvent($_GET['EventID']);
-			$objXML = new RPGXMLReader($objEvent->getXML());
+		if($_SESSION['objRPGCharacter']->getTownID() != NULL){
 			
-			$blnConditionsPassed = false;
-			foreach($objXML->getPrecondition() as $key => $value){
-				if (DialogConditionFactory::evaluatePrecondition($value)){
-					$blnConditionsPassed = true;
+			if(isset($_GET['EventID'])){
+				$objEvent = new RPGEvent($_GET['EventID']);
+				$objXML = new RPGXMLReader($objEvent->getXML());
+				
+				$blnConditionsPassed = false;
+				foreach($objXML->getPrecondition() as $key => $value){
+					if (DialogConditionFactory::evaluatePrecondition($value)){
+						$blnConditionsPassed = true;
+					}
+					else{
+						$blnConditionsPassed = false;
+					}
 				}
-				else{
-					$blnConditionsPassed = false;
+				
+				if($blnConditionsPassed){
+					$_SESSION['objRPGCharacter']->setEventID($objEvent->getEventID());
+					$_SESSION['objRPGCharacter']->setEventNodeID(0);
+					$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
 				}
 			}
-			
-			if($blnConditionsPassed){
-				$_SESSION['objRPGCharacter']->setEventID($objEvent->getEventID());
-				$_SESSION['objRPGCharacter']->setEventNodeID(0);
-				$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
+			else if(isset($_GET['ShopID'])){
+				$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Shop']);
 			}
-		}
-		
-		if(isset($_GET['LocationID'])){
-			// are there any requirements for locations?
-			if($_SESSION['objRPGCharacter']->getTownID() != NULL){
+			
+			if(isset($_GET['LocationID'])){
 				$_SESSION['objRPGCharacter']->setLocationID($_GET['LocationID']);
 			}
+			
 		}
-		
 	}
 	
 	public function handleTicks(){

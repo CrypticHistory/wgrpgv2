@@ -1,7 +1,7 @@
 <?php
 
-	include_once 'RPGCharacter.class';
-	include_once 'UISettings.class';
+	include_once 'RPGCharacter.php';
+	include_once 'UISettings.php';
 	
 	session_start();
 

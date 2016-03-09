@@ -1,8 +1,8 @@
 <?php
 
-require_once "Database.class";
-include_once "Lottery.class";
-include_once "RPGEvent.class";
+require_once "Database.php";
+include_once "Lottery.php";
+include_once "RPGEvent.php";
 
 class RPGFloor{
 

@@ -1,6 +1,6 @@
 <?php
 
-require_once "Database.class";
+require_once "Database.php";
 
 class RPGEvent{
 
