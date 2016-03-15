@@ -22,7 +22,7 @@
 	<head>
 		<title>WGRPG</title>
 		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-		<script src="code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+		<script src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
 		<?php header('Content-Type: text/html; charset=ISO-8859-15');
 		if($blnPageFlag){
