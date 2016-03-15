@@ -166,6 +166,7 @@ hr{
 	font-weight:bold;
 	font-size:1.0em;
 	text-align:left;
+	background-color:#EBE2D1 !important;
 }
 
 .goldLine{
@@ -179,6 +180,11 @@ hr{
 
 .borderTop{
 	border-top:1px solid #CFCFCF;
+	background-color:#EBE2D1 !important;
+}
+
+.innerBorder {
+	margin:0 auto;
 }
 
 .worldFieldset{
@@ -256,8 +262,8 @@ hr{
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
-	width: 30%;
-	height: 30%;
+	width: 120px;
+	height: 30px;
 }
 
 .hidden{
@@ -308,16 +314,44 @@ hr{
 	border-bottom:1px solid #CFCFCF;
 }
 
-.background0{
+.charTable tr:nth-child(even){
 	background-color:#F5F5F5;
 }
 
-.background1{
+.charTable tr:nth-child(odd){
 	background-color:#E8E8E8;
 }
 
+.invTable tbody tr{
+	background-color:#F5F5F5;
+}
+
+.invTable tbody tr:nth-child(4n), .invTable tbody tr:nth-child(4n-1){
+	background-color:#E8E8E8;
+}
+
+.quantityWidth{
+	width:30px;
+}
+
+#sellDiv{
+	height:200px;
+	border:1px solid grey;
+}
+
+span.node { border: 1px solid black; border-radius: 2px; background-color: #ccc;margin-left: 5px;}
+span.close {padding-left: 5px; color: red;cursor: pointer;}
+
 .pointer{
 	cursor:pointer;
+}
+
+.underline{
+	text-decoration:underline;
+}
+
+.bold{
+	font-weight:bold;
 }
 
 .selectedRow{

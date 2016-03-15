@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <event>
+	<precondition>TownID=NULL</precondition>
 	<end>any</end>
 	<dialog id="0">
 		<eventText>You pull the cuirass over your head and stick your arms through the holes, allowing it to rest on your chest. The strap slides down your right arm. When you adjust it, the other strap slides down your left arm. It seems this armour is too big to fit on your body.</eventText>

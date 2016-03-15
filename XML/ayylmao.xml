@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <event>
 	<end>2</end>
+	<precondition>CurrentFloorID=1</precondition>
 	<dialog id="0">
 		<eventText>There's a pale alien with glazed-over eyes. Looks like it's high on that good shit. Talk to it?</eventText>
 		<option id="1" action="giveItem~2~M">Yes</option>

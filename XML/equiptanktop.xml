@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <event>
 	<end>any</end>
+	<precondition>TownID=NULL</precondition>
 	<dialog id="0">
 		<eventText>You throw the tank top over your head but you have trouble finding the holes for your arms. The top fits on you like a tent, clearly several sizes too large for your frame. You take the tanktop off, dissatisfied with its extremely loose fit. Holding the blue jeans against your waist, you can immediately tell they're too large as well. Tough luck.</eventText>
 	</dialog>

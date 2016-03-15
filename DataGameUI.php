@@ -60,6 +60,12 @@ class DataGameUI{
 				if($blnEndOfEvent && $_SESSION['objRPGCharacter']->getTownID() != NULL){
 					$_SESSION['objUISettings']->setCommandsFrame('Return');	
 					$_SESSION['objUISettings']->setNavigationFrame('Menu');
+					$_SESSION['objUISettings']->setDisableTraversal(true);
+				}
+				else if(!$blnEndOfEvent && $_SESSION['objRPGCharacter']->getTownID() != NULL){
+					$_SESSION['objUISettings']->setCommandsFrame('Event');	
+					$_SESSION['objUISettings']->setNavigationFrame('Compass');
+					$_SESSION['objUISettings']->setDisableTraversal(true);
 				}
 				else{
 					$_SESSION['objUISettings']->setCommandsFrame('Event');	
@@ -130,6 +136,7 @@ class DataGameUI{
 		}
 		
 		if($_SESSION['objRPGCharacter']->getTownID() != NULL){
+			// todo: verify with eventlinkxr or shoplinkxr that they are allowed to view the event/shop
 			
 			if(isset($_GET['EventID'])){
 				$objEvent = new RPGEvent($_GET['EventID']);
@@ -137,11 +144,11 @@ class DataGameUI{
 				
 				$blnConditionsPassed = false;
 				foreach($objXML->getPrecondition() as $key => $value){
-					if (DialogConditionFactory::evaluatePrecondition($value)){
-						$blnConditionsPassed = true;
+					if (!DialogConditionFactory::evaluateCondition($value)){
+						$blnConditionsPassed = false;
 					}
 					else{
-						$blnConditionsPassed = false;
+						$blnConditionsPassed = true;
 					}
 				}
 				

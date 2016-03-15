@@ -2,6 +2,7 @@
 
 require_once "Database.php";
 include_once "RPGItem.php";
+include_once "RPGTime.php";
 include_once "RPGStats.php";
 include_once "RPGStatusEffect.php";
 include_once "RPGXMLReader.php";
@@ -192,9 +193,9 @@ class RPGCharacter{
 	public function createNewCharacter($strUserID, $strRPGCharacterName, $dblWeight, $intHeight, $strGender, $strOrientation, $strPersonality, $strFatStance, $strHairColour, $strHairLength, $strEyeColour, $strEthnicity){
 		$objDB = new Database();
 		$strSQL = "INSERT INTO tblrpgcharacter
-					(strUserID, strRPGCharacterName, dblWeight, intHeight, strGender, strOrientation, strPersonality, strFatStance, strHairColour, strHairLength, strEyeColour, strEthnicity, intStateID, intEventID, intTownID, intLocationID, intCurrentFloorID, dtmCreatedOn, strCreatedBy)
+					(strUserID, strRPGCharacterName, dblWeight, intHeight, strGender, strOrientation, strPersonality, strFatStance, strHairColour, strHairLength, strEyeColour, strEthnicity, intStateID, intEventID, intLocationID, intCurrentFloorID, dtmCreatedOn, strCreatedBy)
 						VALUES
-					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", 8, 2, NULL, 0, 1, '" . date('Y-m-d H:i:s') . "', 'system')";
+					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", 8, 2, 0, 1, '" . date('Y-m-d H:i:s') . "', 'system')";
 		$objDB->query($strSQL);
 		$intRPGCharacterID = $objDB->lastInsertID();
 		$this->loadRPGCharacterInfo($intRPGCharacterID, true);
@@ -725,16 +726,17 @@ class RPGCharacter{
 		return $arrRow == false ? false : true;
 	}
 	
-	public function digestItems(){
+	public function digestItems($intHours = null){
 		$objDB = new Database();
 		
 		$strSQL = "SELECT intItemInstanceID, intCaloriesRemaining
 					FROM tblcharacteritemxr
-					WHERE blnDigesting = 1";
+						WHERE blnDigesting = 1
+							AND intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
 		$rsResult = $objDB->query($strSQL);
 		
 		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
-			$intNewCalories = $arrRow['intCaloriesRemaining'] - $this->getDigestionRate();
+			$intNewCalories = $arrRow['intCaloriesRemaining'] - ($this->getDigestionRate() * ($intHours * 4));
 			$blnDelete = $intNewCalories <= 0 ? 1 : 0;
 			
 			if($blnDelete){
@@ -1179,6 +1181,11 @@ class RPGCharacter{
 		$this->setLocationID($intLocationID);
 		$this->setCurrentFloorID(NULL);
 		$this->setStateID($arrStateValues['Town']);
+	}
+	
+	public function getSleep($intHours){
+		$this->setTime(RPGTime::addHoursToTime($_SESSION['objRPGCharacter']->getTime(), $intHours));
+		$this->digestItems($intHours);
 	}
 	
 	public function getCurrentFloorID(){

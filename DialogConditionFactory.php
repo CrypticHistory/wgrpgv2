@@ -33,19 +33,19 @@ class DialogConditionFactory {
 				return (intval($_SESSION[$strSession]->$function()) < intval($variable[1]));
 			}
 			else if(strpos($strCondition, '>=')){
-				$variable = explode('>', $strCondition);
+				$variable = explode('>=', $strCondition);
 				$function = 'get' . $variable[0];
 				return (intval($_SESSION[$strSession]->$function()) >= intval($variable[1]));
 			}
 			else if(strpos($strCondition, '<=')){
-				$variable = explode('>', $strCondition);
+				$variable = explode('<=', $strCondition);
 				$function = 'get' . $variable[0];
 				return (intval($_SESSION[$strSession]->$function()) <= intval($variable[1]));
 			}
 			else if(strpos($strCondition, '=')){
-				$variable = explode('>', $strCondition);
+				$variable = explode('=', $strCondition);
 				$function = 'get' . $variable[0];
-				return (intval($_SESSION[$strSession]->$function()) == intval($variable[1]));
+				return ($_SESSION[$strSession]->$function() == $variable[1]);
 			}
 		}
 	}

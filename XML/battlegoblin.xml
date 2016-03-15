@@ -3,6 +3,7 @@
 	<end>2</end>
 	<end>6</end>
 	<end>7</end>
+	<precondition>CurrentFloorID=1</precondition>
 	<dialog id="0">
 		<eventText>You approach a silhouette. Should you continue onward?</eventText>
 		<option id="1">Yes</option>

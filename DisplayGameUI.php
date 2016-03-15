@@ -49,20 +49,6 @@ class DisplayGameUI extends DataGameUI{
 	protected $_objNavigationMenuWindow;
 
 	public function DisplayGameUI(){
-		//load character
-		if(isset($_POST['strCharacterName'])){
-			unset($_SESSION['objUISettings']);
-			unset($_SESSION['objEnemy']);
-			unset($_SESSION['objCombat']);
-			$_SESSION['objRPGCharacter'] = new RPGCharacter($_POST['strCharacterName']);
-			if($_SESSION['objRPGCharacter']->getTownID() != NULL){
-				// Town State
-				$_SESSION['objRPGCharacter']->setStateID(4);
-				// Home Location
-				$_SESSION['objRPGCharacter']->setLocationID(6);
-			}
-		}
-		
 		if(isset($_SESSION['blnNewCharacter'])){
 			unset($_SESSION['objUISettings']);
 			unset($_SESSION['objEnemy']);
@@ -223,6 +209,11 @@ class DisplayGameUI extends DataGameUI{
 							alert(textStatus);
 						}
 				});
+			}
+			
+			function update_rows() {
+				$("tr:even").css("background-color", "#aaa").find('a').removeClass('sam').addClass('sams');
+				$("tr:odd").css("background-color", "#eee").find('a').removeClass('sams').addClass('sam');
 			}
 			
 		</script>

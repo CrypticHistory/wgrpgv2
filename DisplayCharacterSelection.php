@@ -1,8 +1,19 @@
 <?php include_once "header.php"; ?>
 
+<script>
+	function checkDelete(){
+		if(!confirm("Are you sure you want to delete this character?")){
+			return false;
+		}
+		else{
+			$('#deleteButton').prop('type', 'submit');
+		}
+	}
+</script>
+
 <div class='mainWindow'>
 	<div class='content'>
-		<form action='main.php?page=DisplayGameUI' method='post'>
+		<form id='charForm' action='character.php' method='post'>
 			Existing Character: 
 			<select name='strCharacterName'>
 			<?php
@@ -12,7 +23,8 @@
 				}
 			?>
 			</select>
-			<input type='submit' value='Load' <?=(empty($arrCharacters) ? "disabled" : "")?>/>
+			<input type='submit' name='charAction' value='Load' <?=(empty($arrCharacters) ? "disabled" : "")?>/>
+			<input type='button' id='deleteButton' onclick='checkDelete()' name='charAction' value='Delete' <?=(empty($arrCharacters) ? "disabled" : "")?>/>
 		</form>
 		<br/>
 

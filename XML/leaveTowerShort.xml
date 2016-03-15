@@ -2,6 +2,7 @@
 <event>
 	<type>Forced Event</type>
 	<end>1</end>
+	<precondition>CurrentFloorID=1</precondition>
 	<dialog id="0">
 		<eventText>You leave the tower and enter the town of Turici.
 		</eventText>

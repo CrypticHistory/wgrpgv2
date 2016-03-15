@@ -1,11 +1,14 @@
 <?php
+	require_once "../dbconfig.php";
+
 	class Database{
 	
 		private $_objDB;
 		
 		public function __construct(){
+			global $DBUSER, $DBPASS;
 			try{
-				$this->_objDB = new PDO('mysql:host=localhost;dbname=dbwgrpg', 'root', '');
+				$this->_objDB = new PDO("mysql:host=localhost;dbname=dbwgrpg", $DBUSER, $DBPASS);
 			}
 			catch(PDOException $e){
 				print "Error: " . $e->getMessage() . "<br/>";

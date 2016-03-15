@@ -10,8 +10,6 @@
 	$intPurchasePrice = 0;
 	$arrItemsPurchased = array();
 	
-	var_dump($_POST);
-	
 	for($i=0; $i<count($_POST['itemID']);$i++){
 		$intPurchasePrice += $_POST['price'][$i] * $_POST['quantity'][$i];
 		$tmpItem = new RPGItem($_POST['itemID'][$i]);

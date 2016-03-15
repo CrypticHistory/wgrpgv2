@@ -22,6 +22,7 @@ class RPGItem{
 	private $_strItemType;
 	private $_strHandType;
 	private $_intEventID;
+	private $_intSellPrice;
 	private $_objSuffix;
 	private $_objPrefix;
 	private $_dtmCreatedOn;
@@ -49,6 +50,7 @@ class RPGItem{
 		$this->setItemType($arrItemInfo['strItemType']);
 		$this->setHandType($arrItemInfo['strHandType']);
 		$this->setEventID($arrItemInfo['intEventID']);
+		$this->setSellPrice($arrItemInfo['intSellPrice']);
 		$this->setCreatedOn($arrItemInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrItemInfo['strCreatedBy']);
 		$this->setModifiedOn($arrItemInfo['dtmModifiedOn']);
@@ -78,6 +80,7 @@ class RPGItem{
 				$arrItemInfo['strItemType'] = $arrRow['strItemType'];
 				$arrItemInfo['strHandType'] = $arrRow['strHandType'];
 				$arrItemInfo['intEventID'] = $arrRow['intEventID'];
+				$arrItemInfo['intSellPrice'] = $arrRow['intSellPrice'];
 				$arrItemInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrItemInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrItemInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
@@ -255,6 +258,14 @@ class RPGItem{
 	
 	public function setEventID($intEventID){
 		$this->_intEventID = $intEventID;
+	}
+	
+	public function getSellPrice(){
+		return $this->_intSellPrice;
+	}
+	
+	public function setSellPrice($intSellPrice){
+		$this->_intSellPrice = $intSellPrice;
 	}
 	
 	public function getStatDamage(){

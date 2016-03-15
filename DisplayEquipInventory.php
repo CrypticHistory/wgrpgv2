@@ -9,16 +9,27 @@ class DisplayEquipInventory{
 	public function toHTML(){
 		ob_start(); ?>
 		
+			<script type='text/javascript'>
+				$(function() {
+					$( ".invTable > tbody > tr > #itemName" ).draggable({
+						cancel: ".equipped",
+						appendTo: "body",
+						helper: "clone"
+					});
+				});
+			</script>
+		
 			<div class='inventoryDiv hidden' id='inventoryDivEquipment'>
 				<?php if(!$_SESSION['objUISettings']->getDisableInv()){?>
-				<table>
-					<tr>
-						<th class='itemNameHeader borderBottom'>Item Name:</th>
-						<th class='itemTypeHeader borderBottom'>Type:</th>
-						<th class='damageHeader borderBottom'>DMG:</th>
-						<th class='defenceHeader borderBottom'>DEF:</th>
-						<th class='sizeHeader borderBottom'>Size:</th>
-					</tr>
+				<table class='invTable'>
+					<thead>
+						<th class='itemNameHeader borderBottom'>Item Name</th>
+						<th class='itemTypeHeader borderBottom'>Type</th>
+						<th class='damageHeader borderBottom'>DMG</th>
+						<th class='defenceHeader borderBottom'>DEF</th>
+						<th class='sizeHeader borderBottom'>Size</th>
+					</thead>
+					<tbody>
 					<?php
 						$arrUseItems = $this->getEquipInventory();
 						$intCounter = 0;
@@ -33,11 +44,14 @@ class DisplayEquipInventory{
 							}
 							
 							echo "<tr class='textCenter' id='equipItem" . $intCounter . "'>";
-							echo "<td class='pointer background" . ($intCounter % 2) . "'><a href=\"javascript:showItemDetails('equip', '" . $intCounter . "');\"><span class='prefix'>" . $arrCategoryNames['strPrefix'] . "</span> <span class='suffix'>" . $arrCategoryNames['strSuffix'] . "</span> " . $arrCategoryNames['strItemName'] . "</a>" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? " (E)" : "") . "</td>";
-							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrItemType[1] . "</td>";
-							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['intDamage'] . "</td>";
-							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['intDefence'] . "</td>";
-							echo "<td class='background" . ($intCounter % 2) . "'>" . $arrCategoryNames['strSize'] . "</td>";
+							echo "<td id='itemName' class='" . (($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID'])) ? "equipped" : "") . "'><a href=\"javascript:showItemDetails('equip', '" . $intCounter . "');\"><span class='prefix'>" . $arrCategoryNames['strPrefix'] . "</span> <span class='suffix'>" . $arrCategoryNames['strSuffix'] . "</span> " . $arrCategoryNames['strItemName'] . "</a>" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? " (E)" : "") . "</td>";
+							echo "<td class='hidden' name='itemInstanceID'>" . $arrCategoryNames['intItemInstanceID'] . "</td>";
+							echo "<td class='hidden' name='itemID'>" . $arrCategoryNames['intItemID'] . "</td>";
+							echo "<td class='hidden' name='itemSellPrice'>" . $arrCategoryNames['intSellPrice'] . "</td>";
+							echo "<td>" . $arrItemType[1] . "</td>";
+							echo "<td>" . $arrCategoryNames['intDamage'] . "</td>";
+							echo "<td>" . $arrCategoryNames['intDefence'] . "</td>";
+							echo "<td>" . $arrCategoryNames['strSize'] . "</td>";
 							echo "</tr>";
 							echo "<tr id='equipItemDetails" . $intCounter . "' class='hidden'><td colspan='5' class='itemDesc background" . ($intCounter % 2) . "'><b>Description:</b><br/>" . $arrCategoryNames['txtItemDesc'] . "
 									<form method='post' action='command.php'>
@@ -51,6 +65,7 @@ class DisplayEquipInventory{
 							$intCounter++;
 						}
 					?>
+					</tbody>
 				</table>
 				<?php } else { ?>
 					Your equipment inventory is locked during this event.
@@ -67,7 +82,7 @@ class DisplayEquipInventory{
 	private function getEquipInventory(){
 		$arrReturn = array();
 		$objDB = new Database();
-		$strSQL = "SELECT tblcharacteritemxr.intItemInstanceID as intItemInstanceID, strItemName, txtItemDesc, intItemID, strItemType, intDamage, intDefence, strSize, tblSuffix.strEnchantName as strSuffix, tblPrefix.strEnchantName as strPrefix
+		$strSQL = "SELECT tblcharacteritemxr.intItemInstanceID as intItemInstanceID, strItemName, txtItemDesc, intItemID, intSellPrice, strItemType, intDamage, intDefence, strSize, tblSuffix.strEnchantName as strSuffix, tblPrefix.strEnchantName as strPrefix
 					FROM tblitem
 						INNER JOIN tblcharacteritemxr
 							USING (intItemID)
@@ -89,6 +104,7 @@ class DisplayEquipInventory{
 			$arrReturn[$intCounter]['strItemType'] = $arrRow['strItemType'];
 			$arrReturn[$intCounter]['intDamage'] = $arrRow['intDamage'];
 			$arrReturn[$intCounter]['intDefence'] = $arrRow['intDefence'];
+			$arrReturn[$intCounter]['intSellPrice'] = $arrRow['intSellPrice'];
 			$arrReturn[$intCounter]['strSize'] = $arrRow['strSize'];
 			$arrReturn[$intCounter]['strPrefix'] = !is_null($arrRow['strPrefix']) ? '[' . $arrRow['strPrefix'] . ']' : '';
 			$arrReturn[$intCounter]['strSuffix'] = !is_null($arrRow['strSuffix']) ? '[' . $arrRow['strSuffix'] . ']' : '';

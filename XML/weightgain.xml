@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <event>
 	<end>5</end>
+	<precondition>CurrentFloorID=1</precondition>
 	<dialog id='0'>
 		<eventText>An androgynous looking fairy enters your field of vision. Talk to it? </eventText>
 		<option id='1'>Yes</option>

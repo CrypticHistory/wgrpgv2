@@ -5,6 +5,7 @@
 	<end>3</end>
 	<end>5</end>
 	<end>6</end>
+	<precondition>CurrentFloorID=1</precondition>
 	<dialog id="0">
 		<eventText>You hear the clinking of metal. A silhouette appears in the distance. As you come closer, you can tell this figure is armed. It rears its head and snarls at you, aware of your presence.</eventText>
 		<option id="2" action="setCombat~1~Player">Prepare yourself!</option>

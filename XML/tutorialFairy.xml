@@ -3,6 +3,7 @@
 	<end>12</end>
 	<end>17</end>
 	<end>18</end>
+	<precondition>CurrentFloorID=1</precondition>
 	<dialog id='0'>
 		<eventText><![CDATA[<i>]]>Pick yourself up off the ground.<![CDATA[</i>]]>
 		

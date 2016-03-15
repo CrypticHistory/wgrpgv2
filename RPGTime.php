@@ -20,6 +20,18 @@ class RPGTime {
 		return implode(':', $arrTime);
 	}
 	
+	public static function addHoursToTime($strTime, $intHours){
+		$arrTime = explode(':', $strTime);
+		if(($arrTime[0] + $intHours) > 23){
+			$arrTime[0] = ($arrTime[0] + $intHours) % 24;
+			self::incrementDay();
+		}
+		else{
+			$arrTime[0] = $arrTime[0] + $intHours;
+		}
+		return implode(':', $arrTime);
+	}
+	
 	public static function incrementDay(){
 		$_SESSION['objRPGCharacter']->setDay(intval($_SESSION['objRPGCharacter']->getDay()) + 1);
 	}
