@@ -57,12 +57,12 @@ class DataGameUI{
 					$_SESSION['objUISettings']->setDisableStats(false);
 				}
 				$_SESSION['objUISettings']->setEventFrame('Event');
-				if($blnEndOfEvent && $_SESSION['objRPGCharacter']->getTownID() != NULL){
+				if($blnEndOfEvent && $_SESSION['objRPGCharacter']->getTownID() == 1){
 					$_SESSION['objUISettings']->setCommandsFrame('Return');	
 					$_SESSION['objUISettings']->setNavigationFrame('Menu');
 					$_SESSION['objUISettings']->setDisableTraversal(true);
 				}
-				else if(!$blnEndOfEvent && $_SESSION['objRPGCharacter']->getTownID() != NULL){
+				else if(!$blnEndOfEvent && $_SESSION['objRPGCharacter']->getTownID() == 1){
 					$_SESSION['objUISettings']->setCommandsFrame('Event');	
 					$_SESSION['objUISettings']->setNavigationFrame('Compass');
 					$_SESSION['objUISettings']->setDisableTraversal(true);
@@ -135,7 +135,7 @@ class DataGameUI{
 			}
 		}
 		
-		if($_SESSION['objRPGCharacter']->getTownID() != NULL){
+		if($_SESSION['objRPGCharacter']->getTownID() == 1){
 			// todo: verify with eventlinkxr or shoplinkxr that they are allowed to view the event/shop
 			
 			if(isset($_GET['EventID'])){

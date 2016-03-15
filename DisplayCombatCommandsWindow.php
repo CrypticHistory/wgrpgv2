@@ -10,6 +10,7 @@ class DisplayCombatCommandsWindow{
 		ob_start(); ?>
 
 			<div class='commandsDiv' id='commandsDivCombatCommands'>
+				<?php if(isset($_SESSION['objCombat'])){ ?>
 				<form method='post' action='combat.php'>
 					<?php if($_SESSION['objCombat']->getCombatState() != 'In Progress'){ ?>
 						<button type='submit' name='command' value='end'>Continue</button>
@@ -20,6 +21,11 @@ class DisplayCombatCommandsWindow{
 						<?php } 
 					} ?>
 				</form>
+				<?php } else { ?>
+				<form method='post' action='command.php'>
+					<button type='submit' name='return' value='return'>Return</button>
+				</form>
+				<?php } ?>
 			</div>
 		
 		<?php

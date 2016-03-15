@@ -146,6 +146,7 @@ class RPGCharacter{
 		$this->_objStats = new RPGStats($intRPGCharacterID);
 		if($blnNewStats == true){
 			$this->_objStats->createNewEntry();
+			$this->setTownID(0);
 		}
 		$this->_objStats->loadBaseStats();
 		$this->_objStats->loadAbilityStats();
