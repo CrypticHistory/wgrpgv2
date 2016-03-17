@@ -16,10 +16,6 @@ class RPGXMLReader {
 		return $this->_objXML->dialog[intval($intID)]->eventText;
 	}
 	
-	public function getAppearanceText($intID){
-		return $this->_objXML->dialog[intval($intID)]->appearanceText;
-	}
-	
 	public function getEventText($intID){
 		return $this->_objXML->dialog[intval($intID)]->eventText[0];
 	}

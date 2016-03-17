@@ -21,8 +21,13 @@ class DisplayCharacterAppearance{
 				<?php 
 					$objArmourXMLFile = $_SESSION['objRPGCharacter']->getEquippedArmour()->getXML(); 
 					if(isset($objArmourXMLFile)){
-						$objArmourXML = new RPGXMLReader($_SESSION['objRPGCharacter']->getEquippedArmour()->getXML());
-						echo $objArmourXML->getAppearanceText($_SESSION['objRPGCharacter']->getArmourRipLevel());
+						$objArmourXML = new RPGOutfitReader($_SESSION['objRPGCharacter']->getEquippedArmour()->getXML());
+						$armourRipLevel = $_SESSION['objRPGCharacter']->getArmourRipLevel();
+						if(isset($_SESSION['objUISettings']->getOverrides()[1]) || $_SESSION['objRPGCharacter']->getEquippedArmour()->getSize() == 'Stretch'){
+							$armourRipLevel = 4;
+						}
+						$node = $objArmourXML->findNodeAtBMI('appearance', $armourRipLevel);
+						echo $node[0]->text;
 					}
 					else{
 						echo "You are not wearing any clothes or armour.<br/>" . getBellyText($_SESSION['objRPGCharacter']->getBMI());

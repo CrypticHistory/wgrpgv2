@@ -43,7 +43,7 @@ class DisplayUseInventory{
 							echo "</tr>";
 							echo "<tr id='useItemDetails" . $intCounter . "' class='hidden'><td colspan='4' class='itemDesc'><b>Description:</b><br/>" . $arrCategoryNames['txtItemDesc'] . "<br/>
 									<form method='post' action='command.php'>
-										<input type='hidden' name='itemID' value='" . $arrCategoryNames['intItemInstanceID'] . "'/>
+										<input type='hidden' name='itemInstanceID' value='" . $arrCategoryNames['intItemInstanceID'] . "'/>
 										<input type='hidden' name='itemHPHeal' value='" . $arrCategoryNames['intHPHeal'] . "'/>
 										<button type='submit' name='itemAction' value='use'>Use</button>
 										<button type='submit' name='itemAction' value='drop'>Drop</button>

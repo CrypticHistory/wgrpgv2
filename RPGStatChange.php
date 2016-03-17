@@ -5,7 +5,7 @@ include_once "RPGStatusEffect.php";
 
 class RPGStatChange{
 
-	private $_intStatChangeID;
+	private $_intEnchantStatChangeID;
 	private $_intEnchantID;
 	private $_strStatName;
 	private $_intStatChangeMin;
@@ -19,11 +19,11 @@ class RPGStatChange{
 	}
 	
 	private function populateVarFromRow($arrStatChangeInfo){
-		$this->setStatChangeID($arrEnchantInfo['intStatChangeID']);
-		$this->setEnchantID($arrEnchantInfo['intEnchantID']);
-		$this->setStatName($arrEnchantInfo['strStatName']);
-		$this->setStatChangeMin($arrEnchantInfo['intStatChangeMin']);
-		$this->setStatChangeMax($arrEnchantInfo['intStatChangeMax']);
+		$this->setEnchantStatChangeID($arrStatChangeInfo['intEnchantStatChangeID']);
+		$this->setEnchantID($arrStatChangeInfo['intEnchantID']);
+		$this->setStatName($arrStatChangeInfo['strStatName']);
+		$this->setStatChangeMin($arrStatChangeInfo['intStatChangeMin']);
+		$this->setStatChangeMax($arrStatChangeInfo['intStatChangeMax']);
 		$this->setStatusEffect(new RPGStatusEffect($arrStatChangeInfo['intStatusEffectID']));
 	}
 	
@@ -32,10 +32,10 @@ class RPGStatChange{
 		$arrStatChangeInfo = array();
 			$strSQL = "SELECT *
 						FROM tblenchantstatchanges
-							WHERE intStatChangeID = " . $objDB->quote($intStatChangeID);
+							WHERE intEnchantStatChangeID = " . $objDB->quote($intStatChangeID);
 			$rsResult = $objDB->query($strSQL);
 			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
-				$arrStatChangeInfo['intStatChangeID'] = $arrRow['intEnchantStatChangeID'];
+				$arrStatChangeInfo['intEnchantStatChangeID'] = $arrRow['intEnchantStatChangeID'];
 				$arrStatChangeInfo['intEnchantID'] = $arrRow['intEnchantID'];
 				$arrStatChangeInfo['strStatName'] = $arrRow['strStatName'];
 				$arrStatChangeInfo['intStatChangeMax'] = $arrRow['intStatChangeMax'];
@@ -45,12 +45,12 @@ class RPGStatChange{
 		$this->populateVarFromRow($arrStatChangeInfo);
 	}
 	
-	public function getStatChangeID(){
-		return $this->_intStatChangeID;
+	public function getEnchantStatChangeID(){
+		return $this->_intEnchantStatChangeID;
 	}
 	
-	public function setStatChangeID($intStatChangeID){
-		$this->_intStatChangeID = $intStatChangeID;
+	public function setEnchantStatChangeID($intEnchantStatChangeID){
+		$this->_intEnchantStatChangeID = $intEnchantStatChangeID;
 	}
 	
 	public function getEnchantID(){

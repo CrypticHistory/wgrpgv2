@@ -2,6 +2,7 @@
 
 require_once "Database.php";
 include_once "RPGEnchant.php";
+include_once "RPGOutfitReader.php";
 
 class RPGItem{
 
@@ -21,7 +22,6 @@ class RPGItem{
 	private $_intQuantity;
 	private $_strItemType;
 	private $_strHandType;
-	private $_intEventID;
 	private $_intSellPrice;
 	private $_objSuffix;
 	private $_objPrefix;
@@ -30,7 +30,10 @@ class RPGItem{
 	private $_dtmModifiedOn;
 	private $_strModifiedBy;
 	
-	public function RPGItem($intItemID = null){
+	public function RPGItem($intItemID = null, $intItemInstanceID = null){
+		if($intItemInstanceID){
+			$this->_intItemInstanceID = $intItemInstanceID;
+		}
 		if($intItemID){
 			$this->loadItemInfo($intItemID);
 		}
@@ -49,7 +52,6 @@ class RPGItem{
 		$this->setStatDamage($arrItemInfo['strStatDamage']);
 		$this->setItemType($arrItemInfo['strItemType']);
 		$this->setHandType($arrItemInfo['strHandType']);
-		$this->setEventID($arrItemInfo['intEventID']);
 		$this->setSellPrice($arrItemInfo['intSellPrice']);
 		$this->setCreatedOn($arrItemInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrItemInfo['strCreatedBy']);
@@ -79,7 +81,6 @@ class RPGItem{
 				$arrItemInfo['strStatDamage'] = $arrRow['strStatDamage'];
 				$arrItemInfo['strItemType'] = $arrRow['strItemType'];
 				$arrItemInfo['strHandType'] = $arrRow['strHandType'];
-				$arrItemInfo['intEventID'] = $arrRow['intEventID'];
 				$arrItemInfo['intSellPrice'] = $arrRow['intSellPrice'];
 				$arrItemInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrItemInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
@@ -87,7 +88,14 @@ class RPGItem{
 				$arrItemInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
 			}
 		$this->populateVarFromRow($arrItemInfo);
-		$this->loadEnchants();
+		if(isset($this->_intItemInstanceID)){
+			$this->loadEnchants();
+			$arrItemType = explode(":", $this->getItemType());
+			if($arrItemType[0] == 'Armour'){
+				$this->_strSize = $this->loadSize();
+				$this->_strXML = $this->loadXMLName();
+			}
+		}
 	}
 	
 	private function loadEnchants(){
@@ -103,6 +111,26 @@ class RPGItem{
 		if(isset($arrRow['intSuffixEnchantID'])){
 			$this->_objSuffix = new RPGEnchant($arrRow['intSuffixEnchantID']);
 		}
+	}
+	
+	private function loadXMLName(){
+		$objDB = new Database();
+		$strSQL = "SELECT strXML
+					FROM tblclothingdesc
+						WHERE intItemID = " . $objDB->quote($this->_intItemID);
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		return $arrRow['strXML'];
+	}
+		
+	private function loadSize(){
+		$objDB = new Database();
+		$strSQL = "SELECT strSize
+					FROM tblcharacteritemxr
+						WHERE intItemInstanceID = " . $objDB->quote($this->_intItemInstanceID);
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		return $arrRow['strSize'];
 	}
 	
 	public function saveEnchants(){
@@ -152,8 +180,7 @@ class RPGItem{
 		$this->_objSuffix = null;
 	}
 	
-	public function equip($intItemInstanceID){
-		$this->_intItemInstanceID = $intItemInstanceID;
+	public function equip(){
 		$objDB = new Database();
 		$strSQL = "UPDATE tblcharacteritemxr
 					SET blnEquipped = 1
@@ -252,14 +279,6 @@ class RPGItem{
 		$this->_intMagicDefence = $intMagicDefence;
 	}
 	
-	public function getEventID(){
-		return $this->_intEventID;
-	}
-	
-	public function setEventID($intEventID){
-		$this->_intEventID = $intEventID;
-	}
-	
 	public function getSellPrice(){
 		return $this->_intSellPrice;
 	}
@@ -284,20 +303,12 @@ class RPGItem{
 		$this->_strSize = $strSize;
 	}
 	
-	public function getXML(){
-		return $this->_strXML;
-	}
-	
 	public function getQuantity(){
 		return $this->_intQuantity;
 	}
 	
 	public function setQuantity($intQuantity){
 		$this->_intQuantity = $intQuantity;
-	}
-	
-	public function setXML($strXML){
-		$this->_strXML = $strXML;
 	}
 	
 	public function getItemType(){
@@ -314,6 +325,30 @@ class RPGItem{
 	
 	public function setHandType($strHandType){
 		$this->_strHandType = $strHandType;
+	}
+	
+	public function getAppearanceText(){
+		return $this->_arrAppearanceText;
+	}
+	
+	public function setAppearanceText($arrAppearanceText){
+		$this->_arrAppearanceText = $arrAppearanceText;
+	}
+	
+	public function getResponseText(){
+		return $this->_arrResponseText;
+	}
+	
+	public function setResponseText($arrResponseText){
+		$this->_arrResponseText = $arrResponseText;
+	}
+	
+	public function getEquipText(){
+		return $this->_arrEquipText;
+	}
+	
+	public function setEquipText($arrEquipText){
+		$this->_arrEquipText = $arrEquipText;
 	}
 	
 	public function getCreatedOn(){
@@ -346,6 +381,14 @@ class RPGItem{
 	
 	public function setModifiedBy($strModifiedBy){
 		$this->_strModifiedBy = $strModifiedBy;
+	}
+	
+	public function getXML(){
+		return $this->_strXML;
+	}
+	
+	public function setXML($strXML){
+		$this->_strXML = $strXML;
 	}
 }
 

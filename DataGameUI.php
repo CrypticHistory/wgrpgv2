@@ -10,10 +10,8 @@ include_once 'constants.php';
 class DataGameUI{
 	
 	public function DataGameUI(){
-	
 		$this->handleEvents();
 		$this->handleTicks();
-		
 	}
 	
 	public function handleEvents(){

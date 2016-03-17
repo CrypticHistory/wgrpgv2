@@ -57,7 +57,7 @@ class RPGEnchant{
 					WHERE intEnchantID = " . $this->_intEnchantID;
 		$rsResult = $objDB->query($strSQL);
 		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
-			$this->_arrStatChanges[$arrRow['intStatChangeID']] = new RPGStatChange($arrRow['intStatChangeID']);
+			$this->_arrStatChanges[$arrRow['intEnchantStatChangeID']] = new RPGStatChange($arrRow['intEnchantStatChangeID']);
 		}
 	}
 	

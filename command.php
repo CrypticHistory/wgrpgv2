@@ -63,22 +63,22 @@
 		}
 	}
 	
-	if(isset($_POST['itemAction']) && isset($_POST['itemID'])){
+	if(isset($_POST['itemAction']) && isset($_POST['itemInstanceID'])){
 		// will there even be weapon/item requirements?
-		if($_SESSION['objRPGCharacter']->hasItem($_POST['itemID'])){
+		if($_SESSION['objRPGCharacter']->hasItem($_POST['itemInstanceID'])){
 			if($_POST['itemAction'] == 'use'){
-				$_SESSION['objRPGCharacter']->eatItem($_POST['itemID'], $_POST['itemHPHeal']);
+				$_SESSION['objRPGCharacter']->eatItem($_POST['itemInstanceID'], $_POST['itemHPHeal']);
 			}
 			elseif($_POST['itemAction'] == 'drop'){
-				$_SESSION['objRPGCharacter']->dropItem($_POST['itemID']);
+				$_SESSION['objRPGCharacter']->dropItem($_POST['itemInstanceID']);
 			}
 			elseif($_POST['itemAction'] == 'equip'){
 				$strEquipFunction = 'equip' . $_POST['itemType'];
-				$_SESSION['objRPGCharacter']->$strEquipFunction($_POST['itemID']);
+				$_SESSION['objRPGCharacter']->$strEquipFunction($_POST['itemInstanceID'], $_POST['itemID']);
 			}
 			elseif($_POST['itemAction'] == 'unequip'){
 				$strUnequipFunction = 'unequip' . $_POST['itemType'];
-				$_SESSION['objRPGCharacter']->$strUnequipFunction($_POST['itemID']);
+				$_SESSION['objRPGCharacter']->$strUnequipFunction();
 			}
 		}
 	}

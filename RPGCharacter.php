@@ -6,6 +6,7 @@ include_once "RPGTime.php";
 include_once "RPGStats.php";
 include_once "RPGStatusEffect.php";
 include_once "RPGXMLReader.php";
+include_once "RPGOutfitReader.php";
 include_once "constants.php";
 
 class RPGCharacter{
@@ -229,6 +230,53 @@ class RPGCharacter{
 		$rsResult = $objDB->query($strSQL);
 	}
 	
+	public function loadEquippedArmour(){
+		$objDB = new Database();
+		$strSQL = "SELECT intItemID, intItemInstanceID
+					FROM tblitem
+						INNER JOIN tblcharacteritemxr
+							USING (intItemID)
+					WHERE strItemType LIKE 'Armour:%'
+						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
+						AND blnEquipped = 1";
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		$objArmour = new RPGItem($arrRow['intItemID'], $arrRow['intItemInstanceID']);
+		return $objArmour;
+	}
+	
+	public function loadEquippedWeapon(){
+		$objDB = new Database();
+		$strSQL = "SELECT intItemID, intItemInstanceID
+					FROM tblitem
+						INNER JOIN tblcharacteritemxr
+							USING (intItemID)
+					WHERE strItemType LIKE 'Weapon:%'
+						AND (strHandType = 'Primary' OR strHandType = 'Both')
+						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
+						AND blnEquipped = 1";
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		$objWeapon = new RPGItem($arrRow['intItemID'], $arrRow['intItemInstanceID']);
+		return $objWeapon;
+	}
+	
+	public function loadEquippedSecondary(){
+		$objDB = new Database();
+		$strSQL = "SELECT intItemID, intItemInstanceID
+					FROM tblitem
+						INNER JOIN tblcharacteritemxr
+							USING (intItemID)
+					WHERE strItemType LIKE 'Weapon:%'
+						AND strHandType = 'Secondary'
+						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
+						AND blnEquipped = 1";
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		$objSecondary = new RPGItem($arrRow['intItemID'], $arrRow['intItemInstanceID']);
+		return $objSecondary;
+	}
+	
 	public function loadStatusEffects(){
 		$objDB = new Database();
 		$this->_arrStatusEffectList = array();
@@ -252,66 +300,6 @@ class RPGCharacter{
 				}
 			}
 		}
-	}
-	
-	public function loadEquippedArmour(){
-		$objDB = new Database();
-		$strSQL = "SELECT intEventID, intItemID, strItemName, intItemInstanceID, intDefence, intMagicDefence, strSize, strXML, strItemType
-					FROM tblitem
-						INNER JOIN tblcharacteritemxr
-							USING (intItemID)
-						INNER JOIN tblevent
-							USING (intEventID)
-					WHERE strItemType LIKE 'Armour:%'
-						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
-						AND blnEquipped = 1";
-		$rsResult = $objDB->query($strSQL);
-		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		$objArmour = new RPGItem($arrRow['intItemID']);
-		$objArmour->setItemInstanceID($arrRow['intItemInstanceID']);
-		$objArmour->setSize($arrRow['strSize']);
-		$objArmour->setXML($arrRow['strXML']);
-		return $objArmour;
-	}
-	
-	public function loadEquippedWeapon(){
-		$objDB = new Database();
-		$strSQL = "SELECT intEventID, intItemID, strItemName, intItemInstanceID, intDamage, intMagicDamage, strStatDamage, strXML, strItemType
-					FROM tblitem
-						INNER JOIN tblcharacteritemxr
-							USING (intItemID)
-						INNER JOIN tblevent
-							USING (intEventID)
-					WHERE strItemType LIKE 'Weapon:%'
-						AND (strHandType = 'Primary' OR strHandType = 'Both')
-						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
-						AND blnEquipped = 1";
-		$rsResult = $objDB->query($strSQL);
-		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		$objWeapon = new RPGItem($arrRow['intItemID']);
-		$objWeapon->setItemInstanceID($arrRow['intItemInstanceID']);
-		$objWeapon->setXML($arrRow['strXML']);
-		return $objWeapon;
-	}
-	
-	public function loadEquippedSecondary(){
-		$objDB = new Database();
-		$strSQL = "SELECT intEventID, intItemID, strItemName, intItemInstanceID, intDamage, intMagicDamage, strStatDamage, strXML, strItemType
-					FROM tblitem
-						INNER JOIN tblcharacteritemxr
-							USING (intItemID)
-						INNER JOIN tblevent
-							USING (intEventID)
-					WHERE strItemType LIKE 'Weapon:%'
-						AND strHandType = 'Secondary'
-						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
-						AND blnEquipped = 1";
-		$rsResult = $objDB->query($strSQL);
-		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		$objSecondary = new RPGItem($arrRow['intItemID']);
-		$objSecondary->setItemInstanceID($arrRow['intItemInstanceID']);
-		$objSecondary->setXML($arrRow['strXML']);
-		return $objSecondary;
 	}
 	
 	public function addToStatusEffects($udfInsertID, $intStatusEffectID){
@@ -523,30 +511,33 @@ class RPGCharacter{
 		$this->setCurrentHP(min($this->getModifiedMaxHP(), ($this->getCurrentHP() + $intHPHeal)));
 	}
 	
-	public function equipArmour($intItemInstanceID){
+	public function equipArmour($intItemInstanceID, $intItemID){
 		$this->unequipArmour();
-		if(isset($_SESSION['objUISettings']->getOverrides()[3]) || $this->clothingCheck($intItemInstanceID, true)){
-			$this->_objEquippedArmour->equip($intItemInstanceID);
-			$this->_objEquippedArmour = $this->loadEquippedArmour();
+		$this->_objEquippedArmour = new RPGItem($intItemID, $intItemInstanceID);
+		if(isset($_SESSION['objUISettings']->getOverrides()[3]) || $this->equipClothingCheck()){
+			$this->_objEquippedArmour->equip();
 			$this->addGearStatusEffects($intItemInstanceID);
 		}
+		else{
+			$this->unequipArmour();
+		}	
 	}
 	
-	public function equipWeapon($intItemInstanceID){
+	public function equipWeapon($intItemInstanceID, $intItemID){
 		$this->unequipWeapon();
-		$this->_objEquippedWeapon->equip($intItemInstanceID);
-		$this->_objEquippedWeapon = $this->loadEquippedWeapon();
+		$this->_objEquippedWeapon = new RPGItem($intItemID, $intItemInstanceID);
+		$this->_objEquippedWeapon->equip();
 		if($this->_objEquippedWeapon->getHandType() == 'Both'){
 			$this->unequipSecondary();
 		}
 		$this->addGearStatusEffects($intItemInstanceID);
 	}
 	
-	public function equipSecondary($intItemInstanceID){
+	public function equipSecondary($intItemInstanceID, $intItemID){
 		if($this->getEquippedWeapon()->getHandType() != "Both"){
 			$this->unquipSecondary();
-			$this->_objEquippedSecondary->equip($intItemInstanceID);
-			$this->_objEquippedSecondary = $this->loadEquippedSecondary();
+			$this->_objEquippedSecondary = new RPGItem($intItemID, $intItemInstanceID);
+			$this->_objEquippedSecondary->equip();
 			$this->addGearStatusEffects($intItemInstanceID);
 		}
 	}
@@ -559,112 +550,66 @@ class RPGCharacter{
 		$_SESSION['objUISettings']->removeFromOverrides($intOverrideID);
 	}
 	
-	public function clothingCheck($intItemInstanceID, $blnSetEvent){
-		$objDB = new Database();
+	public function equipClothingCheck(){
 		global $arrClothingSizes;
-		$strSQL = "SELECT strSize, intEventID, strXML
-					FROM tblitem
-						INNER JOIN tblcharacteritemxr
-							USING (intItemID)
-						INNER JOIN tblevent
-							USING (intEventID)
-					WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
-		$rsResult = $objDB->query($strSQL);
-		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		$intClothingBMI = $arrClothingSizes[$arrRow['strSize']];
+		$intClothingBMI = $arrClothingSizes[$this->_objEquippedArmour->getSize()];
 		$intCharacterBMI = $this->getBMI();
-		$intBMIDifference = $intCharacterBMI - $intClothingBMI;
+		$intBMIDifference = round($intCharacterBMI - $intClothingBMI);
 		
-		if(isset($_SESSION['objUISettings']->getOverrides()[1]) || $arrRow['strSize'] == 'Stretch'){
-			$this->setArmourRipLevel(15); //uncomfortably tight
-			$intNode = 5;
+		if(isset($_SESSION['objUISettings']->getOverrides()[1]) || $this->_objEquippedArmour->getSize() == 'Stretch'){
+			$intBMIDifference = 4;
+		}
+		
+		$objXML = new RPGOutfitReader($this->getEquippedArmour()->getXML());
+		$node = $objXML->findNodeBetweenBMI('equip', $intBMIDifference);
+		$this->setEquipClothingText(strval($node[0]->text));
+		if($node[0]->wearable == 'true'){
 			$blnReturn = true;
+			$this->setArmourRipLevel(intval($node[0]->responseBMI));
 		}
-		else if($intBMIDifference <= -6){
-			$this->setArmourRipLevel(10);
-			$intNode = 0;
-			$blnReturn = false;
-		}	
-		else if($intBMIDifference > -6 && $intBMIDifference <= -4){
-			$this->setArmourRipLevel(11);
-			$intNode = 1;
-			$blnReturn = true;
-		}
-		else if($intBMIDifference > -4 && $intBMIDifference <= -2){
-			$this->setArmourRipLevel(12);
-			$intNode = 2;
-			$blnReturn = true;
-		}
-		else if($intBMIDifference > -2 && $intBMIDifference <= 2){
-			$this->setArmourRipLevel(13);
-			$intNode = 3;
-			$blnReturn = true;
-		}
-		else if($intBMIDifference > 2 && $intBMIDifference <= 4){
-			$this->setArmourRipLevel(14);
-			$intNode = 4;
-			$blnReturn = true;
-		}
-		else if($intBMIDifference > 4 && $intBMIDifference <= 6){
-			$this->setArmourRipLevel(15);
-			$intNode = 5;
-			$blnReturn = true;
-		}
-		else if($intBMIDifference > 6 && $intBMIDifference <= 8){
-			$this->setArmourRipLevel(16);
-			$intNode = 6;
-			$blnReturn = true;
-		}
-		else if($intBMIDifference > 8 && $intBMIDifference <= 10){
-			$this->setArmourRipLevel(17);
-			$intNode = 7;
-			$blnReturn = true;
-		}
-		else if($intBMIDifference > 10 && $intBMIDifference <= 12){
-			$this->setArmourRipLevel(18);
-			$intNode = 8;
-			$blnReturn = false;
-		}
-		else if($intBMIDifference > 12){
-			$this->setArmourRipLevel(18);
-			$intNode = 9;
+		else{
 			$blnReturn = false;
 		}
 		
-		if($blnSetEvent){
-			$objXMLReader = new RPGXMLReader($arrRow['strXML']);
-			$this->setEquipClothingText(strval($objXMLReader->getEventText($intNode)));
-		}
-
 		return $blnReturn;
 	}
 	
 	public function ripClothingCheck(){
-		$intEventID = $this->getEquippedArmour()->getEventID();
-		$intPrevArmourRipLevel = $this->getArmourRipLevel();
-		$intCurrentArmour = $this->getEquippedArmour()->getItemInstanceID();
-		
-		if(isset($intCurrentArmour)){
-			$blnWearable = $this->clothingCheck($intCurrentArmour, false);
-		}
-		else{
+		if($this->getEquippedArmour()->getXML() == null){
 			return "";
 		}
-		
-		if($intPrevArmourRipLevel != $this->getArmourRipLevel()){
-			$objEvent = new RPGEvent($intEventID);
-			$objXML = new RPGXMLReader($objEvent->getXML());
-			$strReturn = $objXML->getEventTextList($this->getArmourRipLevel());
-		}
 		else{
-			$strReturn = "";
+			global $arrClothingSizes;
+			$objXML = new RPGOutfitReader($this->getEquippedArmour()->getXML());
+			$intClothingBMI = $arrClothingSizes[$this->_objEquippedArmour->getSize()];
+			$intCharacterBMI = $this->getBMI();
+			
+			$intPrevArmourRipLevel = $this->getArmourRipLevel();
+			$intBMIDifference = round($intCharacterBMI - $intClothingBMI);
+			
+			$node = $objXML->findNodeBetweenBMI('equip', $intBMIDifference);
+			$blnChange = false;
+			
+			if($intPrevArmourRipLevel != $node[0]->responseBMI){
+				$this->setArmourRipLevel(intval($node[0]->responseBMI));
+				$blnChange = true;
+			}
+			
+			if($blnChange){
+				$node = $objXML->findNodeAtBMI('response', $this->getArmourRipLevel());
+				if(isset($node[0]->effect) && ($node[0]->effect == 'rip' || $node[0]->effect == 'fall')){
+					$this->unequipArmour();
+				}
+				return "<br/><br/>" . $node[0]->text;
+			}
+			else{
+				return "";
+			}
 		}
+	}
+	
+	public function getOutfitAppearance(){
 		
-		if(!$blnWearable){
-			$this->unequipArmour();
-		}
-		
-		return "<br/><br/>" . $strReturn;
 	}
 	
 	public function getEquippedArmour(){
@@ -727,7 +672,7 @@ class RPGCharacter{
 		return $arrRow == false ? false : true;
 	}
 	
-	public function digestItems($intHours = null){
+	public function digestItems($intHours = 0.25){
 		$objDB = new Database();
 		
 		$strSQL = "SELECT intItemInstanceID, intCaloriesRemaining
