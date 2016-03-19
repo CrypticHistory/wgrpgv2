@@ -1,7 +1,7 @@
 <?php
 
 // Name of the file
-$filename = 'dbwgrpg.sql';
+$filename = 'sqlscript2.sql';
 // MySQL username
 $mysql_username = 'Cryptic';
 // MySQL password
@@ -15,7 +15,7 @@ catch(PDOException $e){
 	print "Error: " . $e->getMessage() . "<br/>";
 	die();
 }
-
+$objDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 // Temporary variable, used to store current query
 $templine = '';
 // Read in entire file
@@ -33,7 +33,12 @@ foreach ($lines as $line)
 	if (substr(trim($line), -1, 1) == ';')
 	{
 		// Perform the query
-		$objDB->query($templine);
+		try{
+			$objDB->query($templine);
+		}
+		catch(PDOException $e){
+			echo $e->getMessage();
+		}
 		// Reset temp variable to empty
 		$templine = '';
 	}

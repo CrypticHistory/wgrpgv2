@@ -257,6 +257,11 @@ hr{
 	clear:both;
 }
 
+.ui-tooltip-content {
+    font-size:10pt;
+    font-family:Helvetica;
+}
+
 .compass{
 	background-color: #CFCFCF;
     border-radius: 10px;

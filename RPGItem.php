@@ -88,12 +88,14 @@ class RPGItem{
 				$arrItemInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
 			}
 		$this->populateVarFromRow($arrItemInfo);
+		$arrItemType = explode(":", $this->getItemType());
+		if($arrItemType[0] == 'Armour'){
+			$this->_strXML = $this->loadXMLName();
+		}
 		if(isset($this->_intItemInstanceID)){
 			$this->loadEnchants();
-			$arrItemType = explode(":", $this->getItemType());
 			if($arrItemType[0] == 'Armour'){
 				$this->_strSize = $this->loadSize();
-				$this->_strXML = $this->loadXMLName();
 			}
 		}
 	}

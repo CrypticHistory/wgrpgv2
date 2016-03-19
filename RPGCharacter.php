@@ -557,7 +557,7 @@ class RPGCharacter{
 		$intBMIDifference = round($intCharacterBMI - $intClothingBMI);
 		
 		if(isset($_SESSION['objUISettings']->getOverrides()[1]) || $this->_objEquippedArmour->getSize() == 'Stretch'){
-			$intBMIDifference = 4;
+			$intBMIDifference = 0;
 		}
 		
 		$objXML = new RPGOutfitReader($this->getEquippedArmour()->getXML());
@@ -587,6 +587,10 @@ class RPGCharacter{
 			$intPrevArmourRipLevel = $this->getArmourRipLevel();
 			$intBMIDifference = round($intCharacterBMI - $intClothingBMI);
 			
+			if(isset($_SESSION['objUISettings']->getOverrides()[1]) || $this->_objEquippedArmour->getSize() == 'Stretch'){
+				$intBMIDifference = 0;
+			}
+			
 			$node = $objXML->findNodeBetweenBMI('equip', $intBMIDifference);
 			$blnChange = false;
 			
@@ -606,10 +610,6 @@ class RPGCharacter{
 				return "";
 			}
 		}
-	}
-	
-	public function getOutfitAppearance(){
-		
 	}
 	
 	public function getEquippedArmour(){

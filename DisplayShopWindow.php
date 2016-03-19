@@ -21,6 +21,10 @@ class DisplayShopWindow{
 						echo "$('#sellLink').click();";
 					}?>
 					
+					  $(function() {
+						$('#sizeTooltip').tooltip();
+					  });
+					
 					$('input[type=text]').numeric();
 					$('input[type=text]').keypress(function(event) {
 					  if ( event.which == 45 || event.which == 189 ) {
@@ -106,13 +110,15 @@ class DisplayShopWindow{
 				
 				if($blnShowShop){		
 				global $arrNumberedClothingSizes;
+				global $arrClothingSizes;
+				$strClosestClothingSize = array_search(DisplayShopWindow::getClosest($_SESSION['objRPGCharacter']->getBMI(), array_values($arrClothingSizes)), $arrClothingSizes);
 				?>
 				<h3>Shop : <?=$objShop->getShopName()?></h3>
 				<fieldset>
 					<legend><span id='buyLink' class='underline pointer bold'>Buy</span> | <span id='sellLink' class='underline pointer'>Sell</span></legend>
 					<form method='post' action='shoptransactionbuy.php' id='buyForm'>
 						<table class='charTable'>
-							<th class='tableHeader'>Item Name</th><th class='tableHeader'>Price</th><?=(($objShop->getShopType() == 'Tailor') ? "<th class='tableHeader'>Size</th>" : "")?><th class='tableHeader'>Quantity</th>
+							<th class='tableHeader'>Item Name</th><th class='tableHeader'>Price</th><?=(($objShop->getShopType() == 'Tailor') ? "<th class='tableHeader'>Size <img id='sizeTooltip' class='pointer' title='The recommended size for your weight and height is selected by default.' src='tooltip.png'/></th>" : "")?><th class='tableHeader'>Quantity</th>
 							<?php
 							
 							foreach($objShop->getShopInv() as $arrItemDetails){
@@ -120,9 +126,10 @@ class DisplayShopWindow{
 								echo "<input type='hidden' name='price[]' value='" . $arrItemDetails['dblPrice'] . "'/>";
 								echo "<tr><td>" . $arrItemDetails['objItem']->getItemName() . "</td><td>" . $arrItemDetails['dblPrice'] . "</td>";
 								if($objShop->getShopType() == 'Tailor'){
-									echo "<td><select name='size[]'>";
+									echo "<td><select name='size[]' autocomplete='off'>";
 									foreach($arrNumberedClothingSizes as $key => $val){
-										echo "<option>" . $val . "</option>";
+										$strSelected = ($strClosestClothingSize == $val) ? " selected" : "";
+										echo "<option" . $strSelected . ">" . $val . "</option>";
 									}
 									echo "</select></td>";
 								}
@@ -158,6 +165,16 @@ class DisplayShopWindow{
 		ob_end_clean();
 		
 		echo $strHTML;
+	}
+	
+	public static function getClosest($search, $arr) {
+	   $closest = null;
+	   foreach ($arr as $key => $val) {
+		  if ($closest === null || abs($search - $closest) > abs($val - $search)) {
+			 $closest = $val;
+		  }
+	   }
+	   return $closest;
 	}
 
 }

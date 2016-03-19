@@ -24,7 +24,7 @@ class DisplayCharacterAppearance{
 						$objArmourXML = new RPGOutfitReader($_SESSION['objRPGCharacter']->getEquippedArmour()->getXML());
 						$armourRipLevel = $_SESSION['objRPGCharacter']->getArmourRipLevel();
 						if(isset($_SESSION['objUISettings']->getOverrides()[1]) || $_SESSION['objRPGCharacter']->getEquippedArmour()->getSize() == 'Stretch'){
-							$armourRipLevel = 4;
+							$armourRipLevel = 0;
 						}
 						$node = $objArmourXML->findNodeAtBMI('appearance', $armourRipLevel);
 						echo $node[0]->text;
