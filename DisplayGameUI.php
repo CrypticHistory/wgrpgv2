@@ -234,95 +234,107 @@ class DisplayGameUI extends DataGameUI{
 				exit;
 			}
 		?>
-		
-		<div id='viewItemDiv'></div>
-		
-		<div class='navDiv'>
-			<a href='index.php'>Main</a>
-		</div>
-		
 		<div class='mainDiv'>
 		
-			<fieldset class='leftFieldset'>
-			<legend>Character</legend>
+			<div id='viewItemDiv'></div>
 			
-			<?php
+			<div class='navDiv'>
+				<a href='index.php'>Main</a>
+			</div>
 			
-			$arrCharTabHeadings = array("Info", "Appearance", "Skills", "Quests");
-			$arrCharTabObjects = array("_objCharacterInfo", "_objCharacterAppearance", "_objCharacterSkills", "_objCharacterQuests");
+			<div class='wrapDiv'>
 			
-			foreach($arrCharTabHeadings as $intTabID => $strTabTitle){
-				echo "<div class='characterTabHeading' id='characterTabHeading" . $strTabTitle . "' onclick=\"switchCharacterTab('" . $strTabTitle . "')\">" . $strTabTitle . "</div>";
-			}
+				<fieldset class='leftFieldset'>
+				<legend>Character</legend>
+				
+				<?php
+				
+				$arrCharTabHeadings = array("Info", "Appearance", "Skills", "Quests");
+				$arrCharTabObjects = array("_objCharacterInfo", "_objCharacterAppearance", "_objCharacterSkills", "_objCharacterQuests");
+				
+				foreach($arrCharTabHeadings as $intTabID => $strTabTitle){
+					echo "<div class='characterTabHeading' id='characterTabHeading" . $strTabTitle . "' onclick=\"switchCharacterTab('" . $strTabTitle . "')\">" . $strTabTitle . "</div>";
+				}
+				
+				foreach($arrCharTabObjects as $intTabID => $strObjectName){
+					echo $this->$strObjectName->toHTML();
+				}
+				
+				?>
+					
+				</fieldset>
+					
+				<fieldset class='middleFieldset'>
+				<legend>Events</legend>
+				<?php
+				
+				$strEventObject = "_obj" . $_SESSION['objUISettings']->getEventFrame() . "Window";
+				$this->$strEventObject->toHTML();
+				
+				?>
+				</fieldset>
+				
+			</div>
 			
-			foreach($arrCharTabObjects as $intTabID => $strObjectName){
-				echo $this->$strObjectName->toHTML();
-			}
+			<div class='containerDiv'>
+				
+				<fieldset class='rightFieldset'>
+				<legend>Inventory</legend>
+				
+				<?php
+				
+				$arrInvTabHeadings = array("Equipment", "Consumable", "Misc", "Quest");
+				$arrInvTabObjects = array("_objEquipInventory", "_objUseInventory", "_objMiscInventory", "_objQuestInventory");
+				
+				foreach($arrInvTabHeadings as $intTabID => $strTabTitle){
+					echo "<div class='inventoryTabHeading' id='inventoryTabHeading" . $strTabTitle . "' onclick=\"switchInventoryTab('" . $strTabTitle . "')\">" . $strTabTitle . "</div>";
+				}
+				
+				foreach($arrInvTabObjects as $intTabID => $strObjectName){
+					echo $this->$strObjectName->toHTML();
+				}
+				
+				?>
+				
+				<div class='goldLine'>Gold: <?=$_SESSION['objRPGCharacter']->getGold()?></div>
+				
+				</fieldset>
+				
+			</div>
 			
-			?>
+			<div class='containerDiv'>
 			
-			</fieldset>
+				<fieldset class='worldFieldset'>
+				<legend>World</legend>
+					<div class='worldDiv'>
+						Floor: <?=$_SESSION['objRPGCharacter']->getFloor()?><br/>
+						Day: <?=$_SESSION['objRPGCharacter']->getDay()?><br/>
+						Time: <?=$_SESSION['objRPGCharacter']->getTime()?>
+					</div>
+				</fieldset>
+				
+				<fieldset class='commandsFieldset'>
+				<legend>Commands</legend>
+				<?php
+				
+				$strCommandsObject = "_obj" . $_SESSION['objUISettings']->getCommandsFrame() . "CommandsWindow";
+				$this->$strCommandsObject->toHTML();
+				
+				?>
+				</fieldset>
+				
+				<fieldset class='compassFieldset'>
+				<legend>Navigation</legend>
+				<?php
+				
+				$strNavigationObject = "_objNavigation" . $_SESSION['objUISettings']->getNavigationFrame() . "Window";
+				$this->$strNavigationObject->toHTML();
+				
+				?>
+				</fieldset>
+				
+			</div>
 			
-			<fieldset class='middleFieldset'>
-			<legend>Events</legend>
-			<?php
-			
-			$strEventObject = "_obj" . $_SESSION['objUISettings']->getEventFrame() . "Window";
-			$this->$strEventObject->toHTML();
-			
-			?>
-			</fieldset>
-			
-			<fieldset class='rightFieldset'>
-			<legend>Inventory</legend>
-			
-			<?php
-			
-			$arrInvTabHeadings = array("Equipment", "Consumable", "Misc", "Quest");
-			$arrInvTabObjects = array("_objEquipInventory", "_objUseInventory", "_objMiscInventory", "_objQuestInventory");
-			
-			foreach($arrInvTabHeadings as $intTabID => $strTabTitle){
-				echo "<div class='inventoryTabHeading' id='inventoryTabHeading" . $strTabTitle . "' onclick=\"switchInventoryTab('" . $strTabTitle . "')\">" . $strTabTitle . "</div>";
-			}
-			
-			foreach($arrInvTabObjects as $intTabID => $strObjectName){
-				echo $this->$strObjectName->toHTML();
-			}
-			
-			?>
-			
-			<div class='goldLine'>Gold: <?=$_SESSION['objRPGCharacter']->getGold()?></div>
-			
-			</fieldset>
-			
-			<fieldset class='worldFieldset'>
-			<legend>World</legend>
-				<div class='worldDiv'>
-					Floor: <?=$_SESSION['objRPGCharacter']->getFloor()?><br/>
-					Day: <?=$_SESSION['objRPGCharacter']->getDay()?><br/>
-					Time: <?=$_SESSION['objRPGCharacter']->getTime()?>
-				</div>
-			</fieldset>
-			
-			<fieldset class='commandsFieldset'>
-			<legend>Commands</legend>
-			<?php
-			
-			$strCommandsObject = "_obj" . $_SESSION['objUISettings']->getCommandsFrame() . "CommandsWindow";
-			$this->$strCommandsObject->toHTML();
-			
-			?>
-			</fieldset>
-			
-			<fieldset class='compassFieldset'>
-			<legend>Navigation</legend>
-			<?php
-			
-			$strNavigationObject = "_objNavigation" . $_SESSION['objUISettings']->getNavigationFrame() . "Window";
-			$this->$strNavigationObject->toHTML();
-			
-			?>
-			</fieldset>
 		</div>
 		
 		<?php

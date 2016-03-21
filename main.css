@@ -34,7 +34,22 @@ ul{
 }
 
 .mainDiv{
-	margin-top:10px;
+	width:90%;
+	margin:0 auto;
+}
+
+.containerDiv{
+	white-space:nowrap;
+}
+
+.wrapDiv{
+	white-space:normal;
+}
+
+.secondDiv{
+	display:block;
+	white-space:nowrap;
+	float:left;
 }
 
 .navigation{
@@ -86,7 +101,7 @@ ul{
 }
 
 .blogPost{
-	width:908px;
+	width:auto;
 	padding:5px;
 }
 
@@ -117,21 +132,21 @@ hr{
 }
 
 .leftFieldset{
-	width:25%;
-	height:72%;
+	width:480px;
+	height:700px;
 	float:left;
 }
 
 .middleFieldset{
-	width:44%;
-	height:72%;
+	width:42.5%;
+	height:700px;
 	float:left;
 }
 
 .rightFieldset{
-	width:25%;
-	height:72%;
-	float:left;
+	width:480px;
+	height:700px;
+	display:inline;
 }
 
 .eventDiv{
@@ -147,7 +162,7 @@ hr{
 	padding-left:2px;
 	overflow-y:scroll;
 	width:100%;
-	height:95%;
+	height:96.5%;
 	background-color:#EBE2D1;
 	border:1px solid grey;
 }
@@ -155,7 +170,7 @@ hr{
 .inventoryDiv{
 	overflow-y:scroll;
 	width:100%;
-	height:93%;
+	height:93.5%;
 	background-color:#EBE2D1;
 	border:1px solid grey;
 	clear:both;
@@ -188,24 +203,30 @@ hr{
 }
 
 .worldFieldset{
-	margin-top:5px;
-	float:left;
-	width:25%;
+	width:480px;
 	height:18%;
+	float:left;
 }
 
 .commandsFieldset{
-	margin-top:5px;
-	float:left;
-	width:44%;
+	width:42.5%;
 	height:18%;
+	float:left;
 }
 
 .compassFieldset{
-	margin-top:5px;
-	float:left;
-	width:25%;
+	width:480px;
 	height:18%;
+	display:inline;
+}
+
+fieldset, input {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+fieldset {
+    margin:0;
 }
 
 .worldDiv{
@@ -227,13 +248,46 @@ hr{
 	padding-top:9px;
 	padding-left:2px;
 	width:100%;
-	height:100%;
+	height:94%;
 	background-color:#EBE2D1;
 	border:1px solid grey;
 }
 
 .compassNLine{
 	text-align:center;
+}
+
+@media only screen and (max-width: 1440px) {
+    body{
+		overflow-y:scroll;
+	}
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+
+    div.commandsDiv {
+        height:91% !important;
+    }
+	
+	div.worldDiv {
+        height:91% !important;
+    }
+	
+	div.compassDiv {
+        height:85% !important;
+    }
+	
+	div.inventoryDiv {
+		height:92% !important;
+	}
+	
+	div.characterDiv {
+		height:94% !important;
+	}
+	
+	div.eventDiv {
+		height:98% !important;
+	}
 }
 
 .fL{

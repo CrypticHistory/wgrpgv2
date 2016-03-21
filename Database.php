@@ -8,7 +8,7 @@
 		public function __construct(){
 			global $DBUSER, $DBPASS;
 			try{
-				$this->_objDB = new PDO("mysql:host=localhost;dbname=dbwgrpg", $DBUSER, $DBPASS);
+				$this->_objDB = new PDO("mysql:host=localhost;dbname=dbwgrpg", "root", "");
 			}
 			catch(PDOException $e){
 				print "Error: " . $e->getMessage() . "<br/>";
