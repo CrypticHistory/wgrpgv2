@@ -174,7 +174,7 @@ class DataGameUI{
 		
 		// immobility debuff
 		if($_SESSION['objRPGCharacter']->getImmobilityFactor() > 0.04 && !isset($_SESSION['objUISettings']->getOverrides()[4])){
-			$_SESSION['objRPGCharacter']->addToStatusEffects('Burdened by Weight', 4);
+			$_SESSION['objRPGCharacter']->addToStatusEffects('Burdened by Weight');
 		}
 		else if($_SESSION['objRPGCharacter']->getImmobilityFactor() < 0.04 && isset($_SESSION['objUISettings']->getOverrides()[4])){
 			$_SESSION['objRPGCharacter']->removeFromStatusEffects('Burdened by Weight');		

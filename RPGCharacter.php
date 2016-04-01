@@ -46,9 +46,7 @@ class RPGCharacter{
 	private $_intStatPoints;
 	private $_intGold;
 	private $_arrCombat;
-	private $_arrGearStatusEffects;
 	private $_arrStatusEffectList;
-	private $_arrGearOverrides;
 	private $_arrStatModifiers;
 	private $_strEquipClothingText;
 	private $_dtmCreatedOn;
@@ -151,6 +149,10 @@ class RPGCharacter{
 		}
 		$this->_objStats->loadBaseStats();
 		$this->_objStats->loadAbilityStats();
+		if(!isset($_SESSION['objUISettings'])){
+			$_SESSION['objUISettings'] = new UISettings($this->_intRPGCharacterID);
+			$_SESSION['objUISettings']->loadOverrides();
+		}
 		$this->loadStatusEffects();
 		$this->_intRequiredExperience = $this->loadRequiredExperience();
 	}
@@ -280,7 +282,7 @@ class RPGCharacter{
 	public function loadStatusEffects(){
 		$objDB = new Database();
 		$this->_arrStatusEffectList = array();
-		$strSQL = "SELECT intCharacterStatusEffectXRID, tblstatuseffect.intStatusEffectID as intStatusEffectID, intItemInstanceID, intTimeRemaining, tblstatuseffectstatchange.intOverrideID as intOverrideID
+		$strSQL = "SELECT intCharacterStatusEffectXRID, strStatusEffectName, tblstatuseffect.intStatusEffectID as intStatusEffectID, intItemInstanceID, intTimeRemaining, tblstatuseffectstatchange.intOverrideID as intOverrideID
 					FROM tblcharacterstatuseffectxr
 						INNER JOIN tblstatuseffect
 							USING (intStatusEffectID)
@@ -289,35 +291,32 @@ class RPGCharacter{
 						WHERE intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID());
 		$rsResult = $objDB->query($strSQL);
 		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
-			$this->_arrStatusEffectList[$arrRow['intCharacterStatusEffectXRID']] = new RPGStatusEffect($arrRow['intStatusEffectID']);
-			// $this->_objStats->addToStats('Status Effect', $this->_arrStatusEffectList[$arrRow['intCharacterStatusEffectXRID']]->getStatName(), $this->_arrStatusEffectList[$arrRow['intCharacterStatusEffectXRID']]->getStatChangeMax());
-			$this->_arrStatusEffectList[$arrRow['intCharacterStatusEffectXRID']]->setTimeRemaining($arrRow['intTimeRemaining']);
-			$this->_arrStatusEffectList[$arrRow['intCharacterStatusEffectXRID']]->setItemInstanceID($arrRow['intItemInstanceID']);
-			if(!is_null($arrRow['intItemInstanceID'])){
-				$this->_arrGearStatusEffects[$arrRow['intItemInstanceID']][] = $arrRow['intCharacterStatusEffectXRID'];
-				if(!is_null($arrRow['intOverrideID'])){
-					$this->_arrGearOverrides[$arrRow['intItemInstanceID']][] = $arrRow['intOverrideID'];
-				}
+			$objStatusEffect = new RPGStatusEffect($arrRow['strStatusEffectName']);
+			$objStatusEffect->setTimeRemaining($arrRow['intTimeRemaining']);
+			$objStatusEffect->setItemInstanceID($arrRow['intItemInstanceID']);
+			$objStatusEffect->setCharacterStatusEffectXRID($arrRow['intCharacterStatusEffectXRID']);
+			$this->_arrStatusEffectList[$objStatusEffect->getStatusEffectName()] = $objStatusEffect;
+			if(isset($arrRow['intOverrideID'])){
+				$this->addOverride($arrRow['intOverrideID']);
 			}
 		}
 	}
 	
-	public function addToStatusEffects($udfInsertID, $intStatusEffectID){
-		$this->_arrStatusEffectList[$udfInsertID] = new RPGStatusEffect($intStatusEffectID);
-		$intItemInstanceID = $this->_arrStatusEffectList[$udfInsertID]->getItemInstanceID() != null ? $this->_arrStatusEffectList[$udfInsertID]->getItemInstanceID() : null;
-		$this->_arrStatusEffectList[$udfInsertID]->create($this->_intRPGCharacterID, $intItemInstanceID);
-		if($this->_arrStatusEffectList[$udfInsertID]->getOverrideID() != NULL){
-			$this->addOverride($this->_arrStatusEffectList[$udfInsertID]->getOverrideID());
+	public function addToStatusEffects($strStatusEffectName){
+		$objStatusEffect = new RPGStatusEffect($strStatusEffectName);
+		$this->_arrStatusEffectList[$strStatusEffectName] = $objStatusEffect;
+		$this->_arrStatusEffectList[$strStatusEffectName]->create($this->_intRPGCharacterID, $objStatusEffect->getItemInstanceID());
+		if($this->_arrStatusEffectList[$strStatusEffectName]->getOverrideID() != NULL){
+			$this->addOverride($this->_arrStatusEffectList[$strStatusEffectName]->getOverrideID());
 		}
 	}
 	
-	public function removeFromStatusEffects($udfInsertID){
-		if($this->_arrStatusEffectList[$udfInsertID]->getOverrideID() != NULL){
-			$this->removeOverride($this->_arrStatusEffectList[$udfInsertID]->getOverrideID());
+	public function removeFromStatusEffects($strStatusEffectName){
+		if($this->_arrStatusEffectList[$strStatusEffectName]->getOverrideID() != NULL){
+			$this->removeOverride($this->_arrStatusEffectList[$strStatusEffectName]->getOverrideID());
 		}
-		$this->_arrStatusEffectList[$udfInsertID]->remove($this->_intRPGCharacterID);
-		unset($this->_arrStatusEffectList[$udfInsertID]);
-		
+		$this->_arrStatusEffectList[$strStatusEffectName]->remove($this->_intRPGCharacterID);
+		unset($this->_arrStatusEffectList[$strStatusEffectName]);
 	}
 	
 	public function giveItem($intItemID, $strClothingSize = null){
@@ -355,7 +354,7 @@ class RPGCharacter{
 		$strSQL = "DELETE FROM tbliteminstanceenchant
 						WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
 		$objDB->query($strSQL);
-		$this->removeGearStatusEffects($intItemInstanceID);
+		$this->statusEffectCheck("_objEquippedArmour", "removeFromStatusEffects");
 	}
 	
 	public function tickStatusEffects(){
@@ -378,97 +377,8 @@ class RPGCharacter{
 		}
 	}
 	
-	public function addGearStatusEffects($intItemInstanceID){
-		$objDB = new Database();
-		$strSQL = "SELECT strSuffixStatusEffect.intStatusEffectID as intSuffixStatusEffectID, strPrefixStatusEffect.intStatusEffectID as intPrefixStatusEffectID, strSuffixStatusEffectStats.intDuration as intSuffixDuration, strPrefixStatusEffectStats.intDuration as intPrefixDuration, strPrefixStatusEffectStats.intOverrideID as intPrefixOverrideID, strSuffixStatusEffectStats.intOverrideID as intSuffixOverrideID
-					FROM tblcharacteritemxr
-						INNER JOIN tbliteminstanceenchant
-							USING (intItemInstanceID)
-						INNER JOIN tblenchantstatchanges strSuffixStats
-							ON (tbliteminstanceenchant.intSuffixEnchantID = strSuffixStats.intEnchantID)
-						INNER JOIN tblenchantstatchanges strPrefixStats
-							ON (tbliteminstanceenchant.intPrefixEnchantID = strPrefixStats.intEnchantID)
-						INNER JOIN tblstatuseffect strSuffixStatusEffect
-							ON (strSuffixStats.intStatusEffectID = strSuffixStatusEffect.intStatusEffectID)
-						INNER JOIN tblstatuseffect strPrefixStatusEffect
-							ON (strPrefixStats.intStatusEffectID = strPrefixStatusEffect.intStatusEffectID)
-						INNER JOIN tblstatuseffectstatchange strSuffixStatusEffectStats
-							ON (strSuffixStatusEffect.intStatusEffectID = strSuffixStatusEffectStats.intStatusEffectID)
-						INNER JOIN tblstatuseffectstatchange strPrefixStatusEffectStats
-							ON (strPrefixStatusEffect.intStatusEffectID = strPrefixStatusEffectStats.intStatusEffectID)
-						WHERE tblcharacteritemxr.intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
-							AND tblcharacteritemxr.intItemInstanceID = " . $objDB->quote($intItemInstanceID);
-		$rsResult = $objDB->query($strSQL);
-		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		if($arrRow['intPrefixStatusEffectID']){
-			$strSQL = "INSERT INTO tblcharacterstatuseffectxr
-							(intRPGCharacterID, intStatusEffectID, intItemInstanceID, intTimeRemaining)
-						VALUES
-							(" . $objDB->quote($this->getRPGCharacterID()) . ", " . $objDB->quote($arrRow['intPrefixStatusEffectID']) . ", " . $objDB->quote($intItemInstanceID) . ", " . $objDB->quote($arrRow['intPrefixDuration']) . ")";
-			$objDB->query($strSQL);
-			$this->_arrGearStatusEffects[$intItemInstanceID][] = $objDB->lastInsertID();
-			if($arrRow['intPrefixOverrideID']){
-				$this->_arrGearOverrides[$intItemInstanceID][] = $arrRow['intPrefixOverrideID'];
-				$this->addGearOverrides($intItemInstanceID);
-			}
-			$this->_arrStatusEffectList[$objDB->lastInsertID()] = new RPGStatusEffect($arrRow['intPrefixStatusEffectID']);
-			$this->_arrStatusEffectList[$objDB->lastInsertID()]->setTimeRemaining($arrRow['intPrefixDuration']);
-			$this->_arrStatusEffectList[$objDB->lastInsertID()]->setItemInstanceID($intItemInstanceID);
-		}
-		if($arrRow['intSuffixStatusEffectID']){
-			$strSQL = "INSERT INTO tblcharacterstatuseffectxr
-							(intRPGCharacterID, intStatusEffectID, intItemInstanceID, intTimeRemaining)
-						VALUES
-							(" . $objDB->quote($this->getRPGCharacterID()) . ", " . $objDB->quote($arrRow['intSuffixStatusEffectID']) . ", " . $objDB->quote($intItemInstanceID) . ", " . $objDB->quote($arrRow['intSuffixDuration']) . ")";
-			$objDB->query($strSQL);
-			$this->_arrGearStatusEffects[$intItemInstanceID][] = $objDB->lastInsertID();
-			if($arrRow['intSuffixOverrideID']){
-				$this->_arrGearOverrides[$intItemInstanceID][] = $arrRow['intSuffixOverrideID'];
-				$this->addGearOverrides($intItemInstanceID);
-			}
-			$this->_arrStatusEffectList[$objDB->lastInsertID()] = new RPGStatusEffect($arrRow['intSuffixStatusEffectID']);
-			$this->_arrStatusEffectList[$objDB->lastInsertID()]->setTimeRemaining($arrRow['intSuffixDuration']);
-			$this->_arrStatusEffectList[$objDB->lastInsertID()]->setItemInstanceID($intItemInstanceID);
-		}
-	}
-	
-	public function removeGearStatusEffects($intItemInstanceID){
-		$objDB = new Database();
-		$strSQL = "DELETE FROM tblcharacterstatuseffectxr
-					WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID) . "
-					AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID());
-		$objDB->query($strSQL);
-		unset($this->_arrStatusEffectList[$this->_arrGearStatusEffects[$intItemInstanceID][0]]);
-		unset($this->_arrStatusEffectList[$this->_arrGearStatusEffects[$intItemInstanceID][1]]);
-		unset($this->_arrGearStatusEffects[$intItemInstanceID]);
-		$this->removeGearOverrides($intItemInstanceID);
-	}
-	
-	public function getGearStatusEffectList(){
-		return $this->_arrGearStatusEffects;
-	}
-	
 	public function getStatusEffectList(){
 		return $this->_arrStatusEffectList;
-	}
-	
-	public function addGearOverrides($intItemInstanceID){
-		$objDB = new Database();
-		if(isset($this->_arrGearOverrides[$intItemInstanceID])){
-			foreach($this->_arrGearOverrides[$intItemInstanceID] as $key => $intOverrideID){
-				$this->addOverride($intOverrideID);
-			}
-		}
-	}
-	
-	public function removeGearOverrides($intItemInstanceID){
-		$objDB = new Database();
-		if(isset($this->_arrGearOverrides[$intItemInstanceID])){
-			foreach($this->_arrGearOverrides[$intItemInstanceID] as $key => $intOverrideID){
-				$this->removeOverride($intOverrideID);
-			}
-		}
-		unset($this->_arrGearOverrides[$intItemInstanceID]);
 	}
 	
 	public function eatItem($intItemInstanceID, $intHPHeal){
@@ -514,13 +424,13 @@ class RPGCharacter{
 	public function equipArmour($intItemInstanceID, $intItemID){
 		$this->unequipArmour();
 		$this->_objEquippedArmour = new RPGItem($intItemID, $intItemInstanceID);
-		if(isset($_SESSION['objUISettings']->getOverrides()[3]) || $this->equipClothingCheck()){
+		$this->statusEffectCheck("_objEquippedArmour", "addToStatusEffects");
+		if(isset($_SESSION['objUISettings']->getOverrides()[2]) || $this->equipClothingCheck()){
 			$this->_objEquippedArmour->equip();
-			$this->addGearStatusEffects($intItemInstanceID);
 		}
 		else{
 			$this->unequipArmour();
-		}	
+		}
 	}
 	
 	public function equipWeapon($intItemInstanceID, $intItemID){
@@ -530,7 +440,7 @@ class RPGCharacter{
 		if($this->_objEquippedWeapon->getHandType() == 'Both'){
 			$this->unequipSecondary();
 		}
-		$this->addGearStatusEffects($intItemInstanceID);
+		$this->statusEffectCheck("_objEquippedWeapon", "addToStatusEffects");
 	}
 	
 	public function equipSecondary($intItemInstanceID, $intItemID){
@@ -538,7 +448,7 @@ class RPGCharacter{
 			$this->unquipSecondary();
 			$this->_objEquippedSecondary = new RPGItem($intItemID, $intItemInstanceID);
 			$this->_objEquippedSecondary->equip();
-			$this->addGearStatusEffects($intItemInstanceID);
+			$this->statusEffectCheck("_objEquippedSecondary", "addToStatusEffects");
 		}
 	}
 	
@@ -556,7 +466,7 @@ class RPGCharacter{
 		$intCharacterBMI = $this->getBMI();
 		$intBMIDifference = round($intCharacterBMI - $intClothingBMI);
 		
-		if(isset($_SESSION['objUISettings']->getOverrides()[1]) || $this->_objEquippedArmour->getSize() == 'Stretch'){
+		if(isset($_SESSION['objUISettings']->getOverrides()[2]) || $this->_objEquippedArmour->getSize() == 'Stretch'){
 			$intBMIDifference = 0;
 		}
 		
@@ -587,7 +497,7 @@ class RPGCharacter{
 			$intPrevArmourRipLevel = $this->getArmourRipLevel();
 			$intBMIDifference = round($intCharacterBMI - $intClothingBMI);
 			
-			if(isset($_SESSION['objUISettings']->getOverrides()[1]) || $this->_objEquippedArmour->getSize() == 'Stretch'){
+			if(isset($_SESSION['objUISettings']->getOverrides()[2]) || $this->_objEquippedArmour->getSize() == 'Stretch'){
 				$intBMIDifference = 0;
 			}
 			
@@ -644,13 +554,28 @@ class RPGCharacter{
 		return $this->_strEquipClothingText;
 	}
 	
+	public function statusEffectCheck($strGearType, $strAction){
+		if($this->$strGearType->getPrefix() !== null){
+			foreach($this->$strGearType->getPrefix()->getStatChanges() as $key => $objStatChange){
+				$this->$strAction($objStatChange->getStatusEffect()->getStatusEffectName());
+			}
+		}
+		if($this->$strGearType->getSuffix() !== null){
+			foreach($this->$strGearType->getSuffix()->getStatChanges() as $key => $objStatChange){
+				$this->$strAction($objStatChange->getStatusEffect()->getStatusEffectName());
+			}
+		}
+		
+	}
+	
 	public function unequipArmour(){
-		$this->removeGearStatusEffects($this->_objEquippedArmour->getItemInstanceID());
+		$this->statusEffectCheck("_objEquippedArmour", "removeFromStatusEffects");
 		$this->_objEquippedArmour->unequip();
 		$this->setArmourRipLevel(NULL);
 	}
 	
 	public function unequipWeapon(){
+		$this->statusEffectCheck("_objEquippedWeapon", "removeFromStatusEffects");
 		if($this->_objEquippedWeapon->getHandType() == 'Both'){
 			$this->unequipSecondary();
 		}
@@ -658,6 +583,7 @@ class RPGCharacter{
 	}
 	
 	public function unequipSecondary(){
+		$this->statusEffectCheck("_objEquippedSecondary", "removeFromStatusEffects");
 		$this->_objEquippedSecondary->unequip();
 	}
 	

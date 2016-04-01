@@ -24,7 +24,7 @@ class RPGStatChange{
 		$this->setStatName($arrStatChangeInfo['strStatName']);
 		$this->setStatChangeMin($arrStatChangeInfo['intStatChangeMin']);
 		$this->setStatChangeMax($arrStatChangeInfo['intStatChangeMax']);
-		$this->setStatusEffect(new RPGStatusEffect($arrStatChangeInfo['intStatusEffectID']));
+		$this->setStatusEffect(new RPGStatusEffect(null, $arrStatChangeInfo['intStatusEffectID']));
 	}
 	
 	private function loadStatChangeInfo($intStatChangeID){

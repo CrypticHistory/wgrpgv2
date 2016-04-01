@@ -6,6 +6,7 @@ class RPGStatusEffect{
 
 	private $_intStatusEffectID;
 	private $_strStatusEffectName;
+	private $_intCharacterStatusEffectXRID;
 	private $_intItemInstanceID;
 	private $_intTimeRemaining;
 	private $_strStatName;
@@ -20,9 +21,12 @@ class RPGStatusEffect{
 	private $_dtmModifiedOn;
 	private $_strModifiedBy;
 	
-	public function RPGStatusEffect($intStatusEffectID = null){
+	public function RPGStatusEffect($strStatusEffectName = null, $intStatusEffectID = null){
+		if($strStatusEffectName){
+			$this->loadStatusEffectInfo($strStatusEffectName);
+		}
 		if($intStatusEffectID){
-			$this->loadStatusEffectInfo($intStatusEffectID);
+			$this->loadStatusEffectInfoFromID($intStatusEffectID);
 		}
 	}
 	
@@ -42,7 +46,34 @@ class RPGStatusEffect{
 		$this->setModifiedBy($arrStatusEffectInfo['strModifiedBy']);
 	}
 	
-	private function loadStatusEffectInfo($intStatusEffectID){
+	private function loadStatusEffectInfo($strStatusEffectName){
+		$objDB = new Database();
+		$arrStatusEffectInfo = array();
+			$strSQL = "SELECT intStatusEffectID, strStatusEffectName, strStatName, intStatChangeMin, intStatChangeMax, intOverrideID, blnInfinite, intDuration, blnIncremental, dtmCreatedOn, strCreatedBy, dtmModifiedOn, strModifiedBy
+						FROM tblstatuseffect
+							INNER JOIN tblstatuseffectstatchange
+								USING (intStatusEffectID)
+							WHERE strStatusEffectName = " . $objDB->quote($strStatusEffectName);
+			$rsResult = $objDB->query($strSQL);
+			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+				$arrStatusEffectInfo['intStatusEffectID'] = $arrRow['intStatusEffectID'];
+				$arrStatusEffectInfo['strStatusEffectName'] = $arrRow['strStatusEffectName'];
+				$arrStatusEffectInfo['strStatName'] = $arrRow['strStatName'];
+				$arrStatusEffectInfo['intStatChangeMin'] = $arrRow['intStatChangeMin'];
+				$arrStatusEffectInfo['intStatChangeMax'] = $arrRow['intStatChangeMax'];
+				$arrStatusEffectInfo['intOverrideID'] = $arrRow['intOverrideID'];
+				$arrStatusEffectInfo['blnInfinite'] = $arrRow['blnInfinite'];
+				$arrStatusEffectInfo['intDuration'] = $arrRow['intDuration'];
+				$arrStatusEffectInfo['blnIncremental'] = $arrRow['blnIncremental'];
+				$arrStatusEffectInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
+				$arrStatusEffectInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
+				$arrStatusEffectInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
+				$arrStatusEffectInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
+			}
+		$this->populateVarFromRow($arrStatusEffectInfo);
+	}
+	
+	private function loadStatusEffectInfoFromID($intStatusEffectID){
 		$objDB = new Database();
 		$arrStatusEffectInfo = array();
 			$strSQL = "SELECT intStatusEffectID, strStatusEffectName, strStatName, intStatChangeMin, intStatChangeMax, intOverrideID, blnInfinite, intDuration, blnIncremental, dtmCreatedOn, strCreatedBy, dtmModifiedOn, strModifiedBy
@@ -119,6 +150,14 @@ class RPGStatusEffect{
 	
 	public function setItemInstanceID($intItemInstanceID){
 		$this->_intItemInstanceID = $intItemInstanceID;
+	}
+	
+	public function getCharacterStatusEffectXRID(){
+		return $this->_intCharacterStatusEffectXRID;
+	}
+	
+	public function setCharacterStatusEffectXRID($intCharacterStatusEffectXRID){
+		$this->_intCharacterStatusEffectXRID = $intCharacterStatusEffectXRID;
 	}
 	
 	public function getTimeRemaining(){
