@@ -1,0 +1,2 @@
+INSERT INTO `dbwgrpg`.`tblenchantstatchanges` (`intEnchantStatChangeID`, `intEnchantID`, `strStatName`, `intStatChangeMin`, `intStatChangeMax`, `intStatusEffectID`) VALUES (NULL, '2', NULL, '0', '0', '3');
+ALTER TABLE `tblenchantstatchanges` ADD CONSTRAINT `fk_tblStatusEffectStatChanges_intStatusEffectID` FOREIGN KEY (`intStatusEffectID`) REFERENCES `dbwgrpg`.`tblstatuseffect`(`intStatusEffectID`) ON DELETE CASCADE ON UPDATE CASCADE;

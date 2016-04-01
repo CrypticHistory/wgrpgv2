@@ -425,7 +425,7 @@ class RPGCharacter{
 		$this->unequipArmour();
 		$this->_objEquippedArmour = new RPGItem($intItemID, $intItemInstanceID);
 		$this->statusEffectCheck("_objEquippedArmour", "addToStatusEffects");
-		if(isset($_SESSION['objUISettings']->getOverrides()[2]) || $this->equipClothingCheck()){
+		if($this->equipClothingCheck()){
 			$this->_objEquippedArmour->equip();
 		}
 		else{
