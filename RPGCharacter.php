@@ -350,11 +350,13 @@ class RPGCharacter{
 	
 	public function removeEnchantsFromEquippedArmour(){
 		$intItemInstanceID = $this->getEquippedArmour()->getItemInstanceID();
+		$this->statusEffectCheck("_objEquippedArmour", "removeFromStatusEffects");
+		$this->getEquippedArmour()->setPrefix(null);
+		$this->getEquippedArmour()->setSuffix(null);
 		$objDB = new Database();
 		$strSQL = "DELETE FROM tbliteminstanceenchant
 						WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
 		$objDB->query($strSQL);
-		$this->statusEffectCheck("_objEquippedArmour", "removeFromStatusEffects");
 	}
 	
 	public function tickStatusEffects(){
