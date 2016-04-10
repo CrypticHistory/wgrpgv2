@@ -49,13 +49,6 @@ class DisplayGameUI extends DataGameUI{
 	protected $_objNavigationMenuWindow;
 
 	public function DisplayGameUI(){
-		if(isset($_SESSION['blnNewCharacter'])){
-			unset($_SESSION['objUISettings']);
-			unset($_SESSION['objEnemy']);
-			unset($_SESSION['objCombat']);
-			unset($_SESSION['blnNewCharacter']);
-		}
-		
 		$this->_objCharacterInfo = new DisplayCharacterInfo();
 		$this->_objCharacterAppearance = new DisplayCharacterAppearance();
 		$this->_objCharacterSkills = new DisplayCharacterSkills();

@@ -15,3 +15,24 @@ INSERT INTO `dbwgrpg`.`tblclothingdesc` (`intClothingDescID`, `intItemID`, `strX
 INSERT INTO `dbwgrpg`.`tblshopitemxr` (`intShopItemID`, `intShopID`, `intItemID`, `dblPrice`) VALUES (NULL, '1', '7', '1'), (NULL, '1', '8', '1');
 DELETE FROM `dbwgrpg`.`tblflooreventxr` WHERE `tblflooreventxr`.`intFloorEventXRID` = 4
 DELETE FROM `dbwgrpg`.`tblevent` WHERE `tblevent`.`intEventID` = 5;
+
+CREATE TABLE IF NOT EXISTS `tblcharacterbody` (
+  `intCharacterBodyID` int(11) NOT NULL AUTO_INCREMENT,
+  `intRPGCharacterID` int(11) NOT NULL DEFAULT '0',
+  `intBreasts` int(11) NOT NULL DEFAULT '0',
+  `intBelly` int(11) NOT NULL DEFAULT '0',
+  `intLegs` int(11) NOT NULL DEFAULT '0',
+  `intButt` int(11) NOT NULL DEFAULT '0',
+  `intArms` int(11) NOT NULL DEFAULT '0',
+  `intFace` int(11) NOT NULL DEFAULT '0',
+  `intBellyRipLevel` int(11) NOT NULL DEFAULT '0',
+  `intButtRipLevel` int(11) NOT NULL DEFAULT '0',
+  `intBreastsRipLevel` int(11) NOT NULL DEFAULT '0',
+  `intArmsRipLevel` int(11) NOT NULL DEFAULT '0',
+  `intLegsRipLevel` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`intCharacterBodyID`),
+  KEY `intRPGCharacterID` (`intRPGCharacterID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+
+ALTER TABLE `tblcharacterbody`
+  ADD CONSTRAINT `fk_tblcharacterbody_intRPGCharacterID` FOREIGN KEY (`intRPGCharacterID`) REFERENCES `tblrpgcharacter` (`intRPGCharacterID`) ON DELETE CASCADE ON UPDATE CASCADE;

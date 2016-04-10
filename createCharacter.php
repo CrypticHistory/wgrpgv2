@@ -10,7 +10,6 @@ echo "<div class='mainWindow'><div class='content'>";
 		$objCharacter = new RPGCharacter();
 		$objCharacter->createNewCharacter($_SESSION['objUser']->getStringUserID(), $_POST['strRPGCharacterName'], $_POST['dblWeight'], $intHeight, $_POST['strGender'], $_POST['strOrientation'], $_POST['strPersonality'], $_POST['strFatStance'], $_POST['strHairColour'], $_POST['strHairLength'], $_POST['strEyeColour'], $_POST['strEthnicity'], $_POST['intFace'], $_POST['intBelly'], $_POST['intBreasts'], $_POST['intArms'], $_POST['intLegs'], $_POST['intButt']);
 		$_SESSION['objRPGCharacter'] = $objCharacter;
-		$_SESSION['blnNewCharacter'] = true;
 		unset($_SESSION['objUISettings']);
 		unset($_SESSION['objEnemy']);
 		unset($_SESSION['objCombat']);
