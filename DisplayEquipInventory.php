@@ -36,6 +36,12 @@ class DisplayEquipInventory{
 						
 						foreach($arrUseItems as $intKey => $arrCategoryNames){
 							$arrItemType = explode(':', $arrCategoryNames['strItemType']);
+							if($arrItemType[0] == 'Armour'){
+								$strItemType = $arrItemType[1];
+							}
+							else{
+								$strItemType = $arrItemType[0];
+							}
 							if(isset($_SESSION['objUISettings']->getOverrides()[1]) && $arrItemType[0] == 'Armour'){
 								$strDisabled = " disabled ";
 							}
@@ -49,14 +55,14 @@ class DisplayEquipInventory{
 							echo "<td class='hidden' name='itemID'>" . $arrCategoryNames['intItemID'] . "</td>";
 							echo "<td class='hidden' name='itemSellPrice'>" . $arrCategoryNames['intSellPrice'] . "</td>";
 							echo "<td>" . $arrItemType[1] . "</td>";
-							echo "<td>" . $arrCategoryNames['intDamage'] . "</td>";
-							echo "<td>" . $arrCategoryNames['intDefence'] . "</td>";
-							echo "<td>" . $arrCategoryNames['strSize'] . "</td>";
+							echo "<td>" . (($arrCategoryNames['intDamage'] != 0) ? $arrCategoryNames['intDamage'] : "-") . "</td>";
+							echo "<td>" . (($arrCategoryNames['intDefence'] != 0) ? $arrCategoryNames['intDefence'] : "-") . "</td>";
+							echo "<td>" . (($arrCategoryNames['strSize'] != null) ? $arrCategoryNames['strSize'] : "-") . "</td>";
 							echo "</tr>";
 							echo "<tr id='equipItemDetails" . $intCounter . "' class='hidden'><td colspan='5' class='itemDesc background" . ($intCounter % 2) . "'><b>Description:</b><br/>" . $arrCategoryNames['txtItemDesc'] . "
 									<form method='post' action='command.php'>
 										<input type='hidden' name='itemInstanceID' value='" . $arrCategoryNames['intItemInstanceID'] . "'/>
-										<input type='hidden' name='itemType' value='" . $arrItemType[0] . "'/>
+										<input type='hidden' name='itemType' value='" . $strItemType . "'/>
 										<input type='hidden' name='itemID' value='" . $arrCategoryNames['intItemID'] . "'/>
 										<button type='submit' name='itemAction'" . $strDisabled . "value='" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? "unequip'>Unequip" : "equip'>Equip") . "</button>
 										" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? "" : "<button type='submit' name='itemAction' value='drop'>Drop</button>") . "

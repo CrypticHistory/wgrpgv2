@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<outfit>
+	<appearanceList>
+		<appearance>
+			<BMI>-4</BMI>
+			<minBMI>-999</minBMI>
+			<maxBMI>-4</maxBMI>
+			<overall>
+				<text>You are wearing a very loose-fitting leather cuirass.</text>
+			</overall>
+			<arms>
+				<text>The chestpiece slaps against your body with every step and the straps nearly slide down your sleeves.</text>
+			</arms>
+		</appearance>
+		<appearance>
+			<BMI>-2</BMI>
+			<minBMI>-3</minBMI>
+			<maxBMI>-2</maxBMI>
+			<overall>
+				<text>You are wearing a loose-fitting leather cuirass.</text>
+			</overall>
+			<arms>
+				<text>Ocasionally your straps slide down your shoulders, and you have to readjust to keep the armour from falling down.</text>
+			</arms>
+		</appearance>
+		<appearance>
+			<BMI>0</BMI>
+			<minBMI>-1</minBMI>
+			<maxBMI>0</maxBMI>
+			<overall>
+				<text>You are wearing a leather cuirass.</text>
+			</overall>
+		</appearance>
+		<appearance>
+			<BMI>2</BMI>
+			<minBMI>1</minBMI>
+			<maxBMI>2</maxBMI>
+			<overall>
+				<text>You are wearing a snug-fitting leather cuirass.</text>
+			</overall>
+		</appearance>
+		<appearance>
+			<BMI>4</BMI>
+			<minBMI>3</minBMI>
+			<maxBMI>4</maxBMI>
+			<overall>
+				<text>You are wearing a tight-fitting leather cuirass.</text>
+			</overall>
+		</appearance>
+		<appearance>
+			<BMI>6</BMI>
+			<minBMI>5</minBMI>
+			<maxBMI>6</maxBMI>
+			<overall>
+				<text>You are wearing a very tight-fitting leather cuirass.</text>
+			</overall>
+		</appearance>
+		<appearance>
+			<BMI>8</BMI>
+			<minBMI>7</minBMI>
+			<maxBMI>999</maxBMI>
+			<overall>
+				<text>You are wearing a skin-tight leather cuirass.</text>
+			</overall>
+			<breasts>
+				<text>Your entire upper body is pressed hard against the leather armour, to the point where it is affecting your breathing.</text>
+			</breasts>
+			<belly>
+				<text>The small amount of room inside the armour causes you to suck in your belly constantly.</text>
+			</belly>
+			<thighs>
+				<text>The skirt barely covers your upper thighs and leaves nothing to the imagination.</text>
+			</thighs>
+		</appearance>
+	</appearanceList>
+	<responseList>
+		<response>
+			<BMI>-6</BMI>
+			<arms>
+				<text>Your armour has fallen right off. It seems you've lost too much weight.</text>
+				<effect>fall</effect>
+			</arms>
+		</response>
+		<response>
+			<BMI>-4</BMI>
+			<arms>
+				<text>Your armour is becoming very loose on your frame. Lose anymore weight and it may fall off.</text>
+			</arms>
+		</response>
+		<response>
+			<BMI>-2</BMI>
+			<belly>
+				<text>Your armour is now a bit loose on your frame.</text>
+			</belly>
+		</response>
+		<response>
+			<BMI>0</BMI>
+			<belly>
+				<text>Your armour now fits perfectly on your frame.</text>
+			</belly>
+		</response>
+		<response>
+			<BMI>2</BMI>
+			<belly>
+				<text>Your armour is now tight on your frame.</text>
+			</belly>
+		</response>
+		<response>
+			<BMI>8</BMI>
+			<belly>
+				<text>Your armour is now uncomfortably tight on your frame.</text>
+			</belly>
+		</response>
+		<response>
+			<BMI>9</BMI>
+			<breasts>
+				<effect>fall</effect>
+				<text>Your breasts are pressed uncomfortably against the breastplate of your armour. You cannot continue wearing this armour given your current weight.</text>
+			</breasts>
+			<belly>
+				<effect>fall</effect>
+				<text>Your armour has become way too tight, to the point where you can hardly breath. For your own safety, you decide it best to take off the armour. However, the act of pulling off the cuirass proves to be quite the struggle, leaving you panting. Your belly heaves in and out as you try to catch your breath.</text>
+			</belly>
+		</response>
+	</responseList>
+	<equipList>
+		<equip>
+			<minBMI>-999</minBMI>
+			<maxBMI>-6</maxBMI>
+			<responseBMI>-6</responseBMI>
+			<arms>
+				<text>You pull the cuirass over your head and stick your arms through the holes, allowing it to rest on your chest. The strap slides down your right arm. When you adjust it, the other strap slides down your left arm. It seems this armour is too big to fit on your body.</text>
+				<wearable>false</wearable>
+			</arms>
+		</equip>
+		<equip>
+			<minBMI>-5</minBMI>
+			<maxBMI>-4</maxBMI>
+			<responseBMI>-4</responseBMI>
+			<arms>
+				<text>You pull the cuirass over your head and stick your arms through the sleeves. It rests on your chest a bit loosely, but it should fit. Because the chestpiece is too long, the skirt also fits loosely, starting below your waist and finishing at your knees.</text>
+				<wearable>true</wearable>
+			</arms>
+		</equip>
+		<equip>
+			<minBMI>-3</minBMI>
+			<maxBMI>-2</maxBMI>
+			<responseBMI>-2</responseBMI>
+			<arms>
+				<text>You pull the cuirass over your head and stick your arms through the sleeves. It fits a little loose, but still manageable.</text>
+				<wearable>true</wearable>
+			</arms>
+		</equip>
+		<equip>
+			<minBMI>-1</minBMI>
+			<maxBMI>0</maxBMI>
+			<responseBMI>0</responseBMI>
+			<arms>
+				<text>You pull the cuirass over your head and stick your arms through the sleeves. The cuirass fits perfectly on your chest, as do the straps on your shoulders. This armour should be sufficient in defending your upper body. Your skirt is just the right length to be fashionable, although it leaves your legs exposed. Still, the armour forms a cute blend of fashion and defence.</text>
+				<wearable>true</wearable>
+			</arms>
+		</equip>
+		<equip>
+			<minBMI>1</minBMI>
+			<maxBMI>2</maxBMI>
+			<responseBMI>2</responseBMI>
+			<arms>
+				<text>You pull the cuirass over your head and stick your arms through the sleeves. The straps are tight around your arms.</text>
+				<wearable>true</wearable>
+			</arms>
+			<breasts>
+				<text>Pulling the chestpiece down requires some effort, but you manage to succeed.</text>
+				<wearable>true</wearable>
+			</breasts>
+			<legs>
+				<text>The skirt leaves your legs bare to oncoming attacks, but that is just the nature of the armour.</text>
+				<wearable>true</wearable>
+			</legs>
+		</equip>
+		<equip>
+			<minBMI>3</minBMI>
+			<maxBMI>8</maxBMI>
+			<responseBMI>8</responseBMI>
+			<arms>
+				<text>You pull the cuirass over your head and find the holes of the sleeves with some difficulty.</text>
+				<wearable>true</wearable>
+			</arms>
+			<breasts>
+				<text>The chestpiece fits extremely tight against your breasts.</text>
+				<wearable>true</wearable>
+			</breasts>
+			<belly>
+				<text>Due to how tight your belly is pressed against the armour, you nearly struggle for breath. But you figure the defence this armour provides is too valuable.</text>
+				<wearable>true</wearable>
+			</belly>
+			<legs>
+				<text>The skirt barely covers the upper portion of your thighs.</text>
+				<wearable>true</wearable>
+			</legs>
+		</equip>
+		<equip>
+			<minBMI>9</minBMI>
+			<maxBMI>999</maxBMI>
+			<responseBMI>9</responseBMI>
+			<breasts>
+				<text>You pull the cuirass down, but are immediately halted by your breasts. It will be impossible to fit this armour overtop your breasts unless you lose some weight.</text>
+				<wearable>false</wearable>
+			</breasts>
+		</equip>
+	</equipList>
+</outfit>

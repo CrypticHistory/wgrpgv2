@@ -2,6 +2,7 @@
 
 require_once "Database.php";
 include_once "RPGItem.php";
+include_once "RPGCharacterBody.php";
 include_once "RPGTime.php";
 include_once "RPGStats.php";
 include_once "RPGStatusEffect.php";
@@ -16,6 +17,7 @@ class RPGCharacter{
 	private $_strRPGCharacterName;
 	private $_intHeight;
 	private $_dblWeight;
+	private $_objBody;
 	private $_intDigestionRate;
 	private $_intFloorID;
 	private $_intCurrentFloorID;
@@ -26,7 +28,6 @@ class RPGCharacter{
 	private $_intStateID;
 	private $_intTownID;
 	private $_intLocationID;
-	private $_intArmourRipLevel;
 	private $_strGender;
 	private $_strOrientation;
 	private $_strPersonality;
@@ -39,6 +40,8 @@ class RPGCharacter{
 	private $_objEquippedWeapon;
 	private $_objEquippedSecondary;
 	private $_objEquippedArmour;
+	private $_objEquippedTop;
+	private $_objEquippedBottom;
 	private $_intCurrentHP;
 	private $_intExperience;
 	private $_intRequiredExperience;
@@ -76,7 +79,6 @@ class RPGCharacter{
 		$this->setStateID($arrCharacterInfo['intStateID']);
 		$this->setTownID($arrCharacterInfo['intTownID']);
 		$this->setLocationID($arrCharacterInfo['intLocationID']);
-		$this->setArmourRipLevel($arrCharacterInfo['intArmourRipLevel']);
 		$this->setGender($arrCharacterInfo['strGender']);
 		$this->setOrientation($arrCharacterInfo['strOrientation']);
 		$this->setPersonality($arrCharacterInfo['strPersonality']);
@@ -96,7 +98,7 @@ class RPGCharacter{
 		$this->setModifiedBy($arrCharacterInfo['strModifiedBy']);
 	}
 	
-	private function loadRPGCharacterInfo($intRPGCharacterID, $blnNewStats = false){
+	private function loadRPGCharacterInfo($intRPGCharacterID, $blnNewStats = false, $intFace = null, $intBelly = null, $intBreasts = null, $intArms = null, $intLegs = null, $intButt = null){
 		$objDB = new Database();
 		$arrCharacterInfo = array();
 			$strSQL = "SELECT *
@@ -119,7 +121,6 @@ class RPGCharacter{
 				$arrCharacterInfo['intStateID'] = $arrRow['intStateID'];
 				$arrCharacterInfo['intTownID'] = $arrRow['intTownID'];
 				$arrCharacterInfo['intLocationID'] = $arrRow['intLocationID'];
-				$arrCharacterInfo['intArmourRipLevel'] = $arrRow['intArmourRipLevel'];
 				$arrCharacterInfo['strGender'] = $arrRow['strGender'];
 				$arrCharacterInfo['strOrientation'] = $arrRow['strOrientation'];
 				$arrCharacterInfo['strPersonality'] = $arrRow['strPersonality'];
@@ -140,19 +141,22 @@ class RPGCharacter{
 			}
 		$this->populateVarFromRow($arrCharacterInfo);
 		$this->_objEquippedArmour = $this->loadEquippedArmour();
+		$this->_objEquippedTop = $this->loadEquippedTop();
+		$this->_objEquippedBottom = $this->loadEquippedBottom();
 		$this->_objEquippedWeapon = $this->loadEquippedWeapon();
 		$this->_objEquippedSecondary = $this->loadEquippedSecondary();
 		$this->_objStats = new RPGStats($intRPGCharacterID);
 		if($blnNewStats == true){
 			$this->_objStats->createNewEntry();
+			$this->_objBody = new RPGCharacterBody();
+			$this->_objBody->create($intRPGCharacterID, $intFace, $intBelly, $intBreasts, $intArms, $intLegs, $intButt);
 			$this->setTownID(0);
+		}
+		else{
+			$this->_objBody = new RPGCharacterBody($this->_intRPGCharacterID);
 		}
 		$this->_objStats->loadBaseStats();
 		$this->_objStats->loadAbilityStats();
-		if(!isset($_SESSION['objUISettings'])){
-			$_SESSION['objUISettings'] = new UISettings($this->_intRPGCharacterID);
-			$_SESSION['objUISettings']->loadOverrides();
-		}
 		$this->loadStatusEffects();
 		$this->_intRequiredExperience = $this->loadRequiredExperience();
 	}
@@ -172,7 +176,6 @@ class RPGCharacter{
 						intStateID = " . $objDB->quote($this->_intStateID) . ",
 						intTownID = " . $objDB->quote($this->_intTownID) . ",
 						intLocationID = " . $objDB->quote($this->_intLocationID) . ",
-						intArmourRipLevel = " . $objDB->quote($this->_intArmourRipLevel) . ",
 						strGender = " . $objDB->quote($this->_strGender) . ",
 						strOrientation = " . $objDB->quote($this->_strOrientation) . ",
 						strPersonality = " . $objDB->quote($this->_strPersonality) . ",
@@ -192,9 +195,10 @@ class RPGCharacter{
 			$objStatusEffect->save($this->_intRPGCharacterID);
 		}
 		$this->_objStats->saveAll();
+		$this->_objBody->save();
 	}
 	
-	public function createNewCharacter($strUserID, $strRPGCharacterName, $dblWeight, $intHeight, $strGender, $strOrientation, $strPersonality, $strFatStance, $strHairColour, $strHairLength, $strEyeColour, $strEthnicity){
+	public function createNewCharacter($strUserID, $strRPGCharacterName, $dblWeight, $intHeight, $strGender, $strOrientation, $strPersonality, $strFatStance, $strHairColour, $strHairLength, $strEyeColour, $strEthnicity, $intFace, $intBelly, $intBreasts, $intArms, $intLegs, $intButt){
 		$objDB = new Database();
 		$strSQL = "INSERT INTO tblrpgcharacter
 					(strUserID, strRPGCharacterName, dblWeight, intHeight, strGender, strOrientation, strPersonality, strFatStance, strHairColour, strHairLength, strEyeColour, strEthnicity, intStateID, intEventID, intLocationID, intCurrentFloorID, dtmCreatedOn, strCreatedBy)
@@ -202,7 +206,7 @@ class RPGCharacter{
 					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", 8, 2, 0, 1, '" . date('Y-m-d H:i:s') . "', 'system')";
 		$objDB->query($strSQL);
 		$intRPGCharacterID = $objDB->lastInsertID();
-		$this->loadRPGCharacterInfo($intRPGCharacterID, true);
+		$this->loadRPGCharacterInfo($intRPGCharacterID, true, $intFace, $intBelly, $intBreasts, $intArms, $intLegs, $intButt);
 	}
 	
 	public function addToCharacterEventLog($intEventID){
@@ -238,7 +242,37 @@ class RPGCharacter{
 					FROM tblitem
 						INNER JOIN tblcharacteritemxr
 							USING (intItemID)
-					WHERE strItemType LIKE 'Armour:%'
+					WHERE strItemType LIKE 'Armour:Both'
+						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
+						AND blnEquipped = 1";
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		$objArmour = new RPGItem($arrRow['intItemID'], $arrRow['intItemInstanceID']);
+		return $objArmour;
+	}
+	
+	public function loadEquippedTop(){
+		$objDB = new Database();
+		$strSQL = "SELECT intItemID, intItemInstanceID
+					FROM tblitem
+						INNER JOIN tblcharacteritemxr
+							USING (intItemID)
+					WHERE strItemType LIKE 'Armour:Top'
+						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
+						AND blnEquipped = 1";
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		$objArmour = new RPGItem($arrRow['intItemID'], $arrRow['intItemInstanceID']);
+		return $objArmour;
+	}
+	
+	public function loadEquippedBottom(){
+		$objDB = new Database();
+		$strSQL = "SELECT intItemID, intItemInstanceID
+					FROM tblitem
+						INNER JOIN tblcharacteritemxr
+							USING (intItemID)
+					WHERE strItemType LIKE 'Armour:Bottom'
 						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
 						AND blnEquipped = 1";
 		$rsResult = $objDB->query($strSQL);
@@ -425,13 +459,41 @@ class RPGCharacter{
 	
 	public function equipArmour($intItemInstanceID, $intItemID){
 		$this->unequipArmour();
+		$this->unequipTop();
+		$this->unequipBottom();
 		$this->_objEquippedArmour = new RPGItem($intItemID, $intItemInstanceID);
 		$this->statusEffectCheck("_objEquippedArmour", "addToStatusEffects");
-		if($this->equipClothingCheck()){
+		if($this->equipClothingCheck('Armour')){
 			$this->_objEquippedArmour->equip();
 		}
 		else{
 			$this->unequipArmour();
+		}
+	}
+	
+	public function equipTop($intItemInstanceID, $intItemID){
+		$this->unequipArmour();
+		$this->unequipTop();
+		$this->_objEquippedTop = new RPGItem($intItemID, $intItemInstanceID);
+		$this->statusEffectCheck("_objEquippedTop", "addToStatusEffects");
+		if($this->equipClothingCheck('Top')){
+			$this->_objEquippedTop->equip();
+		}
+		else{
+			$this->unequipTop();
+		}
+	}
+	
+	public function equipBottom($intItemInstanceID, $intItemID){
+		$this->unequipArmour();
+		$this->unequipBottom();
+		$this->_objEquippedBottom = new RPGItem($intItemID, $intItemInstanceID);
+		$this->statusEffectCheck("_objEquippedBottom", "addToStatusEffects");
+		if($this->equipClothingCheck('Bottom')){
+			$this->_objEquippedBottom->equip();
+		}
+		else{
+			$this->unequipBottom();
 		}
 	}
 	
@@ -462,65 +524,124 @@ class RPGCharacter{
 		$_SESSION['objUISettings']->removeFromOverrides($intOverrideID);
 	}
 	
-	public function equipClothingCheck(){
+	public function equipClothingCheck($strClothingType){
 		global $arrClothingSizes;
-		$intClothingBMI = $arrClothingSizes[$this->_objEquippedArmour->getSize()];
-		$intCharacterBMI = $this->getBMI();
-		$intBMIDifference = round($intCharacterBMI - $intClothingBMI);
-		
-		if(isset($_SESSION['objUISettings']->getOverrides()[2]) || $this->_objEquippedArmour->getSize() == 'Stretch'){
-			$intBMIDifference = 0;
+		global $arrArmourBodyParts;
+		global $arrTopBodyParts;
+		global $arrBottomBodyParts;
+		if($strClothingType == 'Armour'){
+			$arrBodyParts = $arrArmourBodyParts;
 		}
-		
-		$objXML = new RPGOutfitReader($this->getEquippedArmour()->getXML());
-		$node = $objXML->findNodeBetweenBMI('equip', $intBMIDifference);
-		$this->setEquipClothingText(strval($node[0]->text));
-		if($node[0]->wearable == 'true'){
-			$blnReturn = true;
-			$this->setArmourRipLevel(intval($node[0]->responseBMI));
+		else if($strClothingType == 'Top'){
+			$arrBodyParts = $arrTopBodyParts;
 		}
 		else{
-			$blnReturn = false;
+			$arrBodyParts = $arrBottomBodyParts;
+		}
+		
+		$strGetClothingFunc = "getEquipped" . $strClothingType;
+		
+		$intClothingBMI = $arrClothingSizes[$this->$strGetClothingFunc()->getSize()];
+		$intCharacterBMI = $this->getBMI();
+		$objXML = new RPGOutfitReader($this->$strGetClothingFunc()->getXML());
+		
+		$blnReturn = true;
+		foreach($arrBodyParts as $strBodyPart){
+			$strBodyPartLC = strtolower($strBodyPart);
+			$strGetFunction = "get" . $strBodyPart;
+			$strSetFunction = "set" . $strBodyPart . "RipLevel";
+			$intBMIDifference = round(($intCharacterBMI + $this->getBody()->$strGetFunction()) - $intClothingBMI);
+			
+			if(isset($_SESSION['objUISettings']->getOverrides()[2]) || $this->$strGetClothingFunc()->getSize() == 'Stretch'){
+				$intBMIDifference = 0;
+			}
+			
+			$node = $objXML->findNodeBetweenBMI('equip', $intBMIDifference);
+			
+			if(!isset($node[0]->$strBodyPartLC->text)){
+				continue;
+			}
+			
+			$this->setEquipClothingText($this->getEquipClothingText() . strval($node[0]->$strBodyPartLC->text . " "));
+			
+			if($node[0]->$strBodyPartLC->wearable == 'false'){
+				$blnReturn = false;
+				break;
+			}
+		}
+		
+		if($blnReturn == true){
+			foreach($arrBodyParts as $strBodyPart){
+				$strSetFunction = "set" . $strBodyPart . "RipLevel";
+				$strGetFunction = "get" . $strBodyPart;
+				$intBMIDifference = round(($intCharacterBMI + $this->getBody()->$strGetFunction()) - $intClothingBMI);
+				$node = $objXML->findNodeBetweenBMI('equip', $intBMIDifference);
+				$this->getBody()->$strSetFunction(intval($node[0]->responseBMI));
+			}
 		}
 		
 		return $blnReturn;
 	}
 	
-	public function ripClothingCheck(){
-		if($this->getEquippedArmour()->getXML() == null){
+	public function ripClothingCheck($strClothingType){
+		$strGetClothingFunc = "getEquipped" . $strClothingType;
+		if($this->$strGetClothingFunc()->getXML() == null){
 			return "";
 		}
 		else{
 			global $arrClothingSizes;
-			$objXML = new RPGOutfitReader($this->getEquippedArmour()->getXML());
-			$intClothingBMI = $arrClothingSizes[$this->_objEquippedArmour->getSize()];
-			$intCharacterBMI = $this->getBMI();
-			
-			$intPrevArmourRipLevel = $this->getArmourRipLevel();
-			$intBMIDifference = round($intCharacterBMI - $intClothingBMI);
-			
-			if(isset($_SESSION['objUISettings']->getOverrides()[2]) || $this->_objEquippedArmour->getSize() == 'Stretch'){
-				$intBMIDifference = 0;
+			global $arrArmourBodyParts;
+			global $arrTopBodyParts;
+			global $arrBottomBodyParts;
+			if($strClothingType == 'Armour'){
+				$arrBodyParts = $arrArmourBodyParts;
 			}
-			
-			$node = $objXML->findNodeBetweenBMI('equip', $intBMIDifference);
-			$blnChange = false;
-			
-			if($intPrevArmourRipLevel != $node[0]->responseBMI){
-				$this->setArmourRipLevel(intval($node[0]->responseBMI));
-				$blnChange = true;
-			}
-			
-			if($blnChange){
-				$node = $objXML->findNodeAtBMI('response', $this->getArmourRipLevel());
-				if(isset($node[0]->effect) && ($node[0]->effect == 'rip' || $node[0]->effect == 'fall')){
-					$this->unequipArmour();
-				}
-				return "<br/><br/>" . $node[0]->text;
+			else if($strClothingType == 'Top'){
+				$arrBodyParts = $arrTopBodyParts;
 			}
 			else{
-				return "";
+				$arrBodyParts = $arrBottomBodyParts;
 			}
+			$strUnequipFunc = "unequip" . $strClothingType;
+			$strReturn = "";
+			$objXML = new RPGOutfitReader($this->$strGetClothingFunc()->getXML());
+			$intClothingBMI = $arrClothingSizes[$this->$strGetClothingFunc()->getSize()];
+			$intCharacterBMI = $this->getBMI();
+			
+			foreach($arrBodyParts as $strBodyPart){
+				$strBodyPartLC = strtolower($strBodyPart);
+				$strGetFunction = "get" . $strBodyPart;
+				$strSetFunction = "set" . $strBodyPart . "RipLevel";
+				$strGetRipFunction = "get" . $strBodyPart . "RipLevel";
+				$intBMIDifference = round(($intCharacterBMI + $this->getBody()->$strGetFunction()) - $intClothingBMI);
+				$intPrevArmourRipLevel = $this->getBody()->$strGetRipFunction();
+				
+				if(isset($_SESSION['objUISettings']->getOverrides()[2]) || $this->$strGetClothingFunc()->getSize() == 'Stretch'){
+					$intBMIDifference = 0;
+				}
+				
+				$node = $objXML->findNodeBetweenBMI('equip', $intBMIDifference);
+				$blnChange = false;
+				
+				if($intPrevArmourRipLevel != $node[0]->responseBMI){
+					$this->getBody()->$strSetFunction(intval($node[0]->responseBMI));
+					$blnChange = true;
+				}
+				
+				if($blnChange){
+					$node = $objXML->findNodeAtBMI('response', $this->getBody()->$strGetRipFunction());
+					if(isset($node[0]->$strBodyPartLC->effect) && ($node[0]->$strBodyPartLC->effect == 'rip' || $node[0]->$strBodyPartLC->effect == 'fall')){
+						$this->$strUnequipFunc();
+						$strReturn .= $node[0]->$strBodyPartLC->text . " ";
+						break;
+					}
+					else{
+						$strReturn .= $node[0]->$strBodyPartLC->text . " ";
+					}
+				}
+			}
+			
+			return $strReturn;
 		}
 	}
 	
@@ -530,6 +651,22 @@ class RPGCharacter{
 	
 	public function setEquippedArmour($objArmour){
 		$this->_objEquippedArmour = $objArmour;
+	}
+	
+	public function getEquippedTop(){
+		return $this->_objEquippedTop;
+	}
+	
+	public function setEquippedTop($objTop){
+		$this->_objEquippedTop = $objTop;
+	}
+	
+	public function getEquippedBottom(){
+		return $this->_objEquippedBottom;
+	}
+	
+	public function setEquippedBottom($objBottom){
+		$this->_objEquippedBottom = $objBottom;
 	}
 	
 	public function getEquippedWeapon(){
@@ -573,7 +710,16 @@ class RPGCharacter{
 	public function unequipArmour(){
 		$this->statusEffectCheck("_objEquippedArmour", "removeFromStatusEffects");
 		$this->_objEquippedArmour->unequip();
-		$this->setArmourRipLevel(NULL);
+	}
+	
+	public function unequipTop(){
+		$this->statusEffectCheck("_objEquippedTop", "removeFromStatusEffects");
+		$this->_objEquippedTop->unequip();
+	}
+	
+	public function unequipBottom(){
+		$this->statusEffectCheck("_objEquippedBottom", "removeFromStatusEffects");
+		$this->_objEquippedBottom->unequip();
 	}
 	
 	public function unequipWeapon(){
@@ -893,14 +1039,6 @@ class RPGCharacter{
 		$this->_intEventNodeID = $intEventNodeID;
 	}
 	
-	public function getArmourRipLevel(){
-		return $this->_intArmourRipLevel;
-	}
-	
-	public function setArmourRipLevel($intArmourRipLevel){
-		$this->_intArmourRipLevel = $intArmourRipLevel;
-	}
-	
 	public function setCombat($intNPCID, $strFirstTurn){
 		global $arrStateValues;
 		$this->setStateID($arrStateValues["Combat"]);
@@ -976,11 +1114,11 @@ class RPGCharacter{
 	}
 	
 	public function getModifiedDefence(){
-		return round(($this->_objStats->getCombinedStats('intVitality') / 4) + $this->getEquippedArmour()->getDefence());
+		return round(($this->_objStats->getCombinedStats('intVitality') / 4) + $this->getEquippedArmour()->getDefence() + $this->getEquippedTop()->getDefence() + $this->getEquippedBottom()->getDefence());
 	}
 	
 	public function getModifiedMagicDefence(){
-		return round(($this->_objStats->getCombinedStats('intIntelligence') / 4) + $this->getEquippedArmour()->getMagicDefence());
+		return round(($this->_objStats->getCombinedStats('intIntelligence') / 4) + $this->getEquippedArmour()->getMagicDefence() + $this->getEquippedTop()->getMagicDefence() + $this->getEquippedBottom()->getMagicDefence());
 	}
 	
 	public function getModifiedBlockRate(){
@@ -1068,6 +1206,34 @@ class RPGCharacter{
 	
 	public function setCurrentFloorID($intCurrentFloorID){
 		$this->_intCurrentFloorID = $intCurrentFloorID;
+	}
+	
+	public function getBody(){
+		return $this->_objBody;
+	}
+	
+	public function getBreasts(){
+		return $this->_objBody->getBreasts() + $this->getBMI();
+	}
+	
+	public function getBelly(){
+		return $this->_objBody->getBelly() + $this->getBMI();
+	}
+	
+	public function getArms(){
+		return $this->_objBody->getArms() + $this->getBMI();
+	}
+	
+	public function getLegs(){
+		return $this->_objBody->getLegs() + $this->getBMI();
+	}
+	
+	public function getFace(){
+		return $this->_objBody->getFace() + $this->getBMI();
+	}
+	
+	public function getButt(){
+		return $this->_objBody->getButt() + $this->getBMI();
 	}
 }
 

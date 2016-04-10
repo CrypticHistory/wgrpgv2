@@ -1,2 +1,17 @@
-INSERT INTO `dbwgrpg`.`tblenchantstatchanges` (`intEnchantStatChangeID`, `intEnchantID`, `strStatName`, `intStatChangeMin`, `intStatChangeMax`, `intStatusEffectID`) VALUES (NULL, '2', NULL, '0', '0', '3');
-ALTER TABLE `tblenchantstatchanges` ADD CONSTRAINT `fk_tblStatusEffectStatChanges_intStatusEffectID` FOREIGN KEY (`intStatusEffectID`) REFERENCES `dbwgrpg`.`tblstatuseffect`(`intStatusEffectID`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `tblrpgcharacter` DROP `intArmourRipLevel`;
+ALTER TABLE `tblitem` CHANGE `strItemType` `strItemType` ENUM('Weapon:Blunt','Weapon:Sword','Weapon:Axe','Weapon:Shield','Weapon:Staff','Weapon:Tome','Weapon:Wand','Weapon:Dagger','Weapon:Shuriken','Weapon:Pistols','Weapon:Rifle','Weapon:Bow','Weapon:Claws','Weapon:Gloves','Armour:Top','Armour:Bottom','Armour:Armour','Accessory','Food','Potion','Gem','Material','Quest') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+DELETE FROM `dbwgrpg`.`tblitemenchantxr` WHERE `tblitemenchantxr`.`intItemEnchantXRID` = 1;
+DELETE FROM `dbwgrpg`.`tblitemenchantxr` WHERE `tblitemenchantxr`.`intItemEnchantXRID` = 2;
+DELETE FROM tbliteminstanceenchant;
+DELETE FROM tblrpgcharacter;
+DELETE FROM tblshopitemxr WHERE intShopItemID = 1;
+DELETE FROM `dbwgrpg`.`tblitem` WHERE `tblitem`.`intItemID` = 2;
+DELETE FROM `dbwgrpg`.`tblitem` WHERE `tblitem`.`intItemID` = 4;
+INSERT INTO `dbwgrpg`.`tblitem` (`intItemID`, `strItemName`, `txtItemDesc`, `txtItemDescLong`, `strItemType`, `strHandType`, `intCalories`, `intHPHeal`, `intDamage`, `intMagicDamage`, `intDefence`, `intMagicDefence`, `strStatDamage`, `intSellPrice`, `strCreatedBy`, `dtmCreatedOn`, `strModifiedBy`, `dtmModifiedOn`) VALUES (NULL, 'Leather Cuirass', 'A light leather cuirass meant to be worn on top of clothes. The bottom is a skirt which leaves the lower body unprotected. Great for mobility.', '', 'Armour:Armour', NULL, NULL, '0', NULL, NULL, '2', NULL, NULL, '1', 'admin', '2016-04-08 00:00:00', NULL, NULL);
+INSERT INTO `dbwgrpg`.`tblitem` (`intItemID`, `strItemName`, `txtItemDesc`, `txtItemDescLong`, `strItemType`, `strHandType`, `intCalories`, `intHPHeal`, `intDamage`, `intMagicDamage`, `intDefence`, `intMagicDefence`, `strStatDamage`, `intSellPrice`, `strCreatedBy`, `dtmCreatedOn`, `strModifiedBy`, `dtmModifiedOn`) VALUES (NULL, 'Tanktop', 'A simple tanktop.', '', 'Armour:Top', NULL, NULL, '0', NULL, NULL, '1', NULL, NULL, '1', 'admin', '2016-04-08 00:00:00', NULL, NULL);
+INSERT INTO `dbwgrpg`.`tblitem` (`intItemID`, `strItemName`, `txtItemDesc`, `txtItemDescLong`, `strItemType`, `strHandType`, `intCalories`, `intHPHeal`, `intDamage`, `intMagicDamage`, `intDefence`, `intMagicDefence`, `strStatDamage`, `intSellPrice`, `strCreatedBy`, `dtmCreatedOn`, `strModifiedBy`, `dtmModifiedOn`) VALUES (NULL, 'Jeans', 'Straight blue jeans.', '', 'Armour:Bottom', NULL, NULL, '0', NULL, NULL, '1', NULL, NULL, '1', 'admin', '2016-04-08 00:00:00', NULL, NULL);
+INSERT INTO `dbwgrpg`.`tblitemenchantxr` (`intItemEnchantXRID`, `intItemID`, `intEnchantID`, `intOccurrence`) VALUES (NULL, '6', '1', '0'), (NULL, '6', '2', '0');
+INSERT INTO `dbwgrpg`.`tblclothingdesc` (`intClothingDescID`, `intItemID`, `strXML`) VALUES (NULL, '6', 'Both/cuirass.xml'), (NULL, '7', 'Tops/tanktop.xml'), (NULL, '8', 'Bottoms/jeans.xml');
+INSERT INTO `dbwgrpg`.`tblshopitemxr` (`intShopItemID`, `intShopID`, `intItemID`, `dblPrice`) VALUES (NULL, '1', '7', '1'), (NULL, '1', '8', '1');
+DELETE FROM `dbwgrpg`.`tblflooreventxr` WHERE `tblflooreventxr`.`intFloorEventXRID` = 4
+DELETE FROM `dbwgrpg`.`tblevent` WHERE `tblevent`.`intEventID` = 5;

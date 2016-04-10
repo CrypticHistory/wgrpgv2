@@ -21,6 +21,7 @@
 <html>
 	<head>
 		<title>WGRPG</title>
+		<meta charset="UTF-8"/>
 		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 		<script src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />

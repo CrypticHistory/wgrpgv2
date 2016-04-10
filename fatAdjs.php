@@ -135,7 +135,7 @@ function getFPEquipmentText($strItemName){
 		return 'You are not wielding any weapon.';
 	}
 	else{
-		return 'You are wielding a <b>' . $strItemName . '</b> as a weapon.';
+		return 'You are wielding a ' . $strItemName . ' as a weapon.';
 	}
 }
 

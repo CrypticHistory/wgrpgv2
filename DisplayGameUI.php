@@ -56,11 +56,6 @@ class DisplayGameUI extends DataGameUI{
 			unset($_SESSION['blnNewCharacter']);
 		}
 		
-		//load UI Settings
-		if(!isset($_SESSION['objUISettings'])){
-			$_SESSION['objUISettings'] = new UISettings($_SESSION['objRPGCharacter']->getRPGCharacterID());
-		}
-		
 		$this->_objCharacterInfo = new DisplayCharacterInfo();
 		$this->_objCharacterAppearance = new DisplayCharacterAppearance();
 		$this->_objCharacterSkills = new DisplayCharacterSkills();

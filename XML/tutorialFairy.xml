@@ -64,7 +64,7 @@
 	</dialog>
 	<dialog id='6'>
 		<eventText>"Taking hits like that unguarded will really hurt! You will need some good armour to defend yourself! Here, take this armour!"</eventText>
-		<option id='7' action='giveItemWithSetEnchants~4~M~1~2'>Accept</option>
+		<option id='7' action='giveItemWithSetEnchants~6~M~1~2'>Accept</option>
 	</dialog>
 	<dialog id='7'>
 		<eventText>"Equip that armour the same way you equipped your weapon! It's enchanted, so it will provide stat boosts when you wear it!"</eventText>

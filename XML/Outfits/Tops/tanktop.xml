@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<outfit>
+	<appearanceList>
+		<appearance>
+			<BMI>-4</BMI>
+			<minBMI>-999</minBMI>
+			<maxBMI>-4</maxBMI>
+			<overall>
+				<text>You are wearing a very loose-fitting tanktop.</text>
+			</overall>
+			<arms>
+				<text>The straps of your tanktop often slide down your shoulders, forcing you to readjust them.</text>
+			</arms>
+		</appearance>
+		<appearance>
+			<BMI>-2</BMI>
+			<minBMI>-3</minBMI>
+			<maxBMI>-2</maxBMI>
+			<overall>
+				<text>You are wearing a loose-fitting tanktop.</text>
+			</overall>
+		</appearance>
+		<appearance>
+			<BMI>0</BMI>
+			<minBMI>-1</minBMI>
+			<maxBMI>0</maxBMI>
+			<overall>
+				<text>You are wearing a tanktop.</text>
+			</overall>
+		</appearance>
+		<appearance>
+			<BMI>2</BMI>
+			<minBMI>1</minBMI>
+			<maxBMI>2</maxBMI>
+			<overall>
+				<text>You are wearing a snug-fitting tanktop.</text>
+			</overall>
+		</appearance>
+		<appearance>
+			<BMI>4</BMI>
+			<minBMI>3</minBMI>
+			<maxBMI>4</maxBMI>
+			<overall>
+				<text>You are wearing a tight-fitting tanktop.</text>
+			</overall>
+			<belly>
+				<text>Aware that your tanktop is riding up, you suck in and attempt to pull the hem over your lovehandles. This proves to be futile, as your shirt immediately slides back up and exposes a good portion of your belly.</text>
+			</belly>
+		</appearance>
+		<appearance>
+			<BMI>6</BMI>
+			<minBMI>5</minBMI>
+			<maxBMI>6</maxBMI>
+			<overall>
+				<text>You are wearing a very tight-fitting tanktop.</text>
+			</overall>
+			<belly>
+				<text>It's futile to even attempt pulling your tank top over your prominent belly, so you let it hang, completely exposed.</text>
+			</belly>
+		</appearance>
+		<appearance>
+			<BMI>8</BMI>
+			<minBMI>7</minBMI>
+			<maxBMI>999</maxBMI>
+			<overall>
+				<text>You are wearing a skin-tight tanktop.</text>
+			</overall>
+			<belly>
+				<text>Your tanktop has ridden so far up that your gut is impossible to cover up, even while sucking in.</text>
+			</belly>
+		</appearance>
+		<appearance>
+			<BMI>10</BMI>
+			<belly>
+				<text>Your tanktop has ridden so far up that your gut is impossible to cover up, even while sucking in.</text>
+			</belly>
+		</appearance>
+	</appearanceList>
+	<responseList>
+		<response>
+			<BMI>-6</BMI>
+			<arms>
+				<text>The straps of your tank top slide down your shoulders. It will be impossible to wear this unless you gain more weight.</text>
+				<effect>fall</effect>
+			</arms>
+		</response>
+		<response>
+			<BMI>-4</BMI>
+			<belly>
+				<text>Your tanktop has gotten very loose around your midsection, fitting like a small tent.</text>
+			</belly>
+			<breasts>
+				<text>Your tanktop has gotten very loose around your breasts.</text>
+			</breasts>
+			<arms>
+				<text>The straps of your tanktop slide down slightly and you have to readjust them.</text>
+			</arms>
+		</response>
+		<response>
+			<BMI>-2</BMI>
+			<belly>
+				<text>Your tanktop is now loose around your midsection.</text>
+			</belly>
+			<breasts>
+				<text>Your tanktop is now loosely pressed against your breasts.</text>
+			</breasts>
+		</response>
+		<response>
+			<BMI>0</BMI>
+			<belly>
+				<text>Your tanktop now fits perfect on your frame.</text>
+			</belly>
+		</response>
+		<response>
+			<BMI>2</BMI>
+			<belly>
+				<text>Your tanktop is now snug around your waist, hugging it slightly.</text>
+			</belly>
+			<breasts>
+				<text>Your breasts press against your tanktop slightly, outlining their shape against the fabric.</text>
+			</breasts>
+		</response>
+		<response>
+			<BMI>4</BMI>
+			<belly>
+				<text>Your tank top rides up, exposing a bit of your lower stomach.</text>
+			</belly>
+			<breasts>
+				<text>Your breasts are pressed tight against the fabrics of your tanktop.</text>
+			</breasts>
+			<arms>
+				<text>The straps of your tanktop are tight around your shoulders.</text>
+			</arms>
+		</response>
+		<response>
+			<BMI>6</BMI>
+			<belly>
+				<text>Your tank top rides up, exposing your deep naval.</text>
+			</belly>
+			<breasts>
+				<text>Your breasts are skintight against the fabrics of your tanktop, tracing their shape entirely.</text>
+			</breasts>
+			<arms>
+				<text>The straps of your tanktop tighten up immensely against your shoulders.</text>
+			</arms>
+		</response>
+		<response>
+			<BMI>8</BMI>
+			<belly>
+				<text>Your tank top rides up to your bra-line, completely exposing your bare belly.</text>
+			</belly>
+			<breasts>
+				<text>Your breasts are tightly wrapped in the fabrics of your tanktop, giving them no room to breath whatsoever.</text>
+			</breasts>
+			<arms>
+				<text>The sleeves of your tanktop are now digging into your flabby arms.</text>
+			</arms>
+		</response>
+		<response>
+			<BMI>10</BMI>
+			<arms>
+				<text>Your tank top is a goner, as you notice the sleeves are ripped due to battling with your immense upper body fat. Sigh... you need to find a tailor to fix this, otherwise its unwearable.</text>
+				<effect>rip</effect>
+			</arms>
+			<breasts>
+				<text>You hear a tear as your tanktop has ripped down the middle due to battling with your growing breasts. You reluctantly take the tanktop off, knowing that it'll be unwearable unless you get it fixed at a tailor.</text>
+				<effect>rip</effect>
+			</breasts>
+			<belly>
+				<text>Your belly jiggles profusely with every subtle movement you make. You're reminded that your belly now hangs completely exposed as your tanktop has riden up to your bra-line and refuses to budge from there. Attempting to pull it over your belly is futile as it slides immediately back up. Though you're still able to wear the tanktop, it will only be a matter of time before your breasts catch up to your belly and the tanktop succumbs to your girth.</text>
+			</belly>
+		</response>
+	</responseList>
+	<equipList>
+		<equip>
+			<minBMI>-999</minBMI>
+			<maxBMI>-6</maxBMI>
+			<responseBMI>-6</responseBMI>
+			<arms>
+				<text>You throw the tank top over your head but you have trouble finding the holes for your arms. The top fits on you like a tent, clearly several sizes too large for your frame. You take the tanktop off, dissatisfied with its extremely loose fit.</text>
+				<wearable>false</wearable>
+			</arms>
+		</equip>
+		<equip>
+			<minBMI>-5</minBMI>
+			<maxBMI>-4</maxBMI>
+			<responseBMI>-4</responseBMI>
+			<arms>
+				<text>You throw the tank top over your head and slide your arms through the holes. It's a super loose fit on your frame.</text>
+				<wearable>true</wearable>
+			</arms>
+			<breasts>
+				<text>It fits very loose over your breasts.</text>
+				<wearable>true</wearable>
+			</breasts>
+			<belly>
+				<text>It fits like a tent around your midsection.</text>
+				<wearable>true</wearable>
+			</belly>
+		</equip>
+		<equip>
+			<minBMI>-3</minBMI>
+			<maxBMI>-2</maxBMI>
+			<responseBMI>-2</responseBMI>
+			<arms>
+				<text>You throw the tank top over your head and slide your arms through the holes. It's a loose fit, but it's manageable.</text>
+				<wearable>true</wearable>
+			</arms>
+			<breasts>
+				<text>It fits loose over your breasts.</text>
+				<wearable>true</wearable>
+			</breasts>
+			<belly>
+				<text>It covers your midsection but hangs a bit too large.</text>
+				<wearable>true</wearable>
+			</belly>
+		</equip>
+		<equip>
+			<minBMI>-1</minBMI>
+			<maxBMI>0</maxBMI>
+			<responseBMI>0</responseBMI>
+			<arms>
+				<text>You throw the tank top over your head and slide your arms through the holes easily.</text>
+				<wearable>true</wearable>
+			</arms>
+			<breasts>
+				<text>It fits well on your breasts.</text>
+				<wearable>true</wearable>
+			</breasts>
+			<belly>
+				<text>It covers your midsection fully.</text>
+				<wearable>true</wearable>
+			</belly>
+		</equip>
+		<equip>
+			<minBMI>1</minBMI>
+			<maxBMI>2</maxBMI>
+			<responseBMI>2</responseBMI>
+			<arms>
+				<text>You throw the tank top over your head and slide your arms through the holes.</text>
+				<wearable>true</wearable>
+			</arms>
+			<belly>
+				<text>It's a bit of a tight fit around your belly area.</text>
+				<wearable>true</wearable>
+			</belly>
+			<breasts>
+				<text>It hugs your breasts slightly.</text>
+				<wearable>true</wearable>
+			</breasts>
+		</equip>
+		<equip>
+			<minBMI>3</minBMI>
+			<maxBMI>4</maxBMI>
+			<responseBMI>4</responseBMI>
+			<arms>
+				<text>You throw the tank top over your head and struggle to slide your arms through the holes.</text>
+				<wearable>true</wearable>
+			</arms>
+			<belly>
+				<text>After a bit of difficulty, you can pull down the tank top to your waist. It exposes a bit of your belly, clearly a bit too small around the waist.</text>
+				<wearable>true</wearable>
+			</belly>
+			<breasts>
+				<text>It hugs your breasts tightly.</text>
+				<wearable>true</wearable>
+			</breasts>
+		</equip>
+		<equip>
+			<minBMI>5</minBMI>
+			<maxBMI>6</maxBMI>
+			<responseBMI>6</responseBMI>
+			<arms>
+				<text>You throw the tank top over your head and can barely fit your thick arms through the holes.</text>
+				<wearable>true</wearable>
+			</arms>
+			<belly>
+				<text>After a long struggle, you finally pull down the tank top to your waist. It slides back up to your bra-line, clearly too short to cover your protruding belly.</text>
+				<wearable>true</wearable>
+			</belly>
+			<breasts>
+				<text>Your breasts are jammed pack into the tanktop's fabrics, giving them no room to breath.</text>
+				<wearable>true</wearable>
+			</breasts>
+		</equip>
+		<equip>
+			<minBMI>7</minBMI>
+			<maxBMI>8</maxBMI>
+			<responseBMI>8</responseBMI>
+			<arms>
+				<text>You throw the tank top over your head and can hardly fit your chubby arms through the holes.</text>
+				<wearable>true</wearable>
+			</arms>
+			<belly>
+				<text>After a long struggle, you finally pull the tank top down to your waist but it immediately rides back up to your bra-line, clearly much too small for your prominent belly.</text>
+				<wearable>true</wearable>
+			</belly>
+			<breasts>
+				<text>Your breasts are skin-tight against the fabrics of the tanktop, constricting them and causing considerable discomfort.</text>
+				<wearable>true</wearable>
+			</breasts>
+		</equip>
+		<equip>
+			<minBMI>9</minBMI>
+			<maxBMI>10</maxBMI>
+			<responseBMI>10</responseBMI>
+			<arms>
+				<text>You throw the tank top over your head, but after a struggling for a bit, you find that your flabby arms cannot fit through the holes.</text>
+				<wearable>false</wearable>
+			</arms>
+			<belly>
+				<text>After a long struggle, you finally pull the tank top down to your waist but it immediately rides back up to your bra-line, clearly much too small for your prominent belly.</text>
+				<wearable>true</wearable>
+			</belly>
+			<breasts>
+				<text>Your breasts are skin-tight against the fabrics of the tanktop, constricting them and causing considerable discomfort.</text>
+				<wearable>true</wearable>
+			</breasts>
+		</equip>
+		<equip>
+			<minBMI>11</minBMI>
+			<maxBMI>999</maxBMI>
+			<responseBMI>10</responseBMI>
+			<arms>
+				<text>You throw the tank top over your head but immediately discover that your chunky arms are way too big to fit through the holes. You don't want to tear the fabric, so you decide to not go any further.</text>
+				<wearable>false</wearable>
+			</arms>
+			<belly>
+				<text>After a long struggle, you finally pull the tank top down to your waist but it immediately rides back up to your bra-line, clearly much too small for your prominent belly.</text>
+				<wearable>true</wearable>
+			</belly>
+			<breasts>
+				<text>Your breasts are skin-tight against the fabrics of the tanktop, constricting them and causing considerable discomfort.</text>
+				<wearable>true</wearable>
+			</breasts>
+		</equip>
+	</equipList>
+</outfit>

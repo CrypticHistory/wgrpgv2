@@ -24,7 +24,9 @@ class DisplayTownWindow{
 				
 				echo $objLocation->getDescription() . "<br/><br/>";
 				
-				echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck() . "</i>";
+				echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck('Top') . "</i><br/>";
+				echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck('Bottom') . "</i><br/>";
+				echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck('Armour') . "</i>";
 					
 				?>
 			</div>

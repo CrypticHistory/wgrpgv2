@@ -16,27 +16,64 @@ class DisplayCharacterAppearance{
 				<br/><br/>
 				You have <b><?=strtolower($_SESSION['objRPGCharacter']->getHairLength())?> <?=strtolower($_SESSION['objRPGCharacter']->getHairColour())?> hair</b>, striking <b><?=strtolower($_SESSION['objRPGCharacter']->getEyeColour())?> eyes</b>, and a <b><?=strtolower($_SESSION['objRPGCharacter']->getEthnicity())?></b> skintone.
 				<br/><br/>
-				<?=getStareDownText($_SESSION['objRPGCharacter']->getBMI())?>
+				<?=getStareDownText($_SESSION['objRPGCharacter']->getFace())?>
 				<br/><br/>
-				<?php 
-					$objArmourXMLFile = $_SESSION['objRPGCharacter']->getEquippedArmour()->getXML(); 
-					if(isset($objArmourXMLFile)){
-						$objArmourXML = new RPGOutfitReader($_SESSION['objRPGCharacter']->getEquippedArmour()->getXML());
-						$armourRipLevel = $_SESSION['objRPGCharacter']->getArmourRipLevel();
-						if(isset($_SESSION['objUISettings']->getOverrides()[1]) || $_SESSION['objRPGCharacter']->getEquippedArmour()->getSize() == 'Stretch'){
-							$armourRipLevel = 0;
+				<?php
+					$arrClothingTypes = array("Armour", "Top", "Bottom");
+					$blnIsEquipped = false;
+					foreach($arrClothingTypes as $strClothingType){
+						$strGetFunction = "getEquipped" . $strClothingType;
+						if($_SESSION['objRPGCharacter']->$strGetFunction()->getXML() !== null){
+							$objXML = new RPGOutfitReader($_SESSION['objRPGCharacter']->$strGetFunction()->getXML());
+							if(isset($objXML)){
+								global $arrArmourBodyParts;
+								global $arrTopBodyParts;
+								global $arrBottomBodyParts;
+								global $arrClothingSizes;
+								if($strClothingType == 'Armour'){
+									$arrBodyParts = $arrArmourBodyParts;
+								}
+								else if($strClothingType == 'Top'){
+									$arrBodyParts = $arrTopBodyParts;
+								}
+								else{
+									$arrBodyParts = $arrBottomBodyParts;
+								}
+								$blnIsEquipped = true;
+								$intClothingBMI = $arrClothingSizes[$_SESSION['objRPGCharacter']->$strGetFunction()->getSize()];
+								$intCharacterBMI = $_SESSION['objRPGCharacter']->getBMI();
+								$intBMIDifference = round($intCharacterBMI - $intClothingBMI);
+								if(isset($_SESSION['objUISettings']->getOverrides()[2]) || $_SESSION['objRPGCharacter']->$strGetFunction()->getSize() == 'Stretch'){
+									$intBMIDifference = 0;
+								}
+								$node = $objXML->findNodeBetweenBMI('appearance', $intBMIDifference);
+								if(isset($node[0]->overall->text)){
+									echo $node[0]->overall->text . " ";
+								}
+								foreach($arrBodyParts as $strBodyPart){
+									$strBodyPartLC = strtolower($strBodyPart);
+									$strGetRipFunction = "get" . $strBodyPart . "RipLevel";
+									$armourRipLevel = $_SESSION['objRPGCharacter']->getBody()->$strGetRipFunction();
+									if(isset($_SESSION['objUISettings']->getOverrides()[2]) || $_SESSION['objRPGCharacter']->$strGetFunction()->getSize() == 'Stretch'){
+										$armourRipLevel = 0;
+									}
+									$node = $objXML->findNodeAtBMI('appearance', $armourRipLevel);
+									if(isset($node[0]->$strBodyPartLC->text)){
+										echo $node[0]->$strBodyPartLC->text . " ";
+									}
+								}
+								echo "<br/>";
+							}
 						}
-						$node = $objArmourXML->findNodeAtBMI('appearance', $armourRipLevel);
-						echo $node[0]->text;
 					}
-					else{
-						echo "You are not wearing any clothes or armour.<br/>" . getBellyText($_SESSION['objRPGCharacter']->getBMI());
+					if(!$blnIsEquipped){
+						echo "You are not wearing any clothes or armour.<br/>" . getBellyText($_SESSION['objRPGCharacter']->getBelly());
 					}
 				?>
-				<br/><br/>
+				<br/>
 				<?=getFPEquipmentText($_SESSION['objRPGCharacter']->getEquippedWeapon()->getItemName())?>
 				<br/><br/>
-				Naturally, it's difficult to examine your entire appearance in first-person. You should seek out a <b>full-body mirror</b> to have a better look at yourself.
+				Naturally, it's difficult to examine your entire appearance in first-person. You should seek out a full-body mirror to have a better look at yourself.
 			</div>
 		
 		<?php

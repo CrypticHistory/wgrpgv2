@@ -11,6 +11,8 @@
 			unset($_SESSION['objUISettings']);
 			unset($_SESSION['objEnemy']);
 			unset($_SESSION['objCombat']);
+			//load UI Settings
+			$_SESSION['objUISettings'] = new UISettings($_POST['strCharacterName']);
 			$_SESSION['objRPGCharacter'] = new RPGCharacter($_POST['strCharacterName']);
 			if($_SESSION['objRPGCharacter']->getTownID() == 1){
 				// Town State

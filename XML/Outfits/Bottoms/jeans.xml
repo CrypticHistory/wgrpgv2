@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<outfit>
+	<appearanceList>
+		<appearance>
+			<BMI>-4</BMI>
+			<minBMI>-999</minBMI>
+			<maxBMI>-4</maxBMI>
+			<overall>
+				<text>You are wearing very loose-fitting jeans.</text>
+			</overall>
+			<belly>
+				<text>You have to constantly pull up your jeans in order to keep them from falling down.</text>
+			</belly>
+		</appearance>
+		<appearance>
+			<BMI>-2</BMI>
+			<minBMI>-3</minBMI>
+			<maxBMI>-2</maxBMI>
+			<overall>
+				<text>You are wearing loose-fitting jeans.</text>
+			</overall>
+			<belly>
+				<text>The jeans sag slightly around your waist, and every so often you have to pull them up.</text>
+			</belly>
+		</appearance>
+		<appearance>
+			<BMI>0</BMI>
+			<minBMI>-1</minBMI>
+			<maxBMI>0</maxBMI>
+			<overall>
+				<text>You are wearing jeans.</text>
+			</overall>
+		</appearance>
+		<appearance>
+			<BMI>2</BMI>
+			<minBMI>1</minBMI>
+			<maxBMI>2</maxBMI>
+			<overall>
+				<text>You are wearing snug-fitting jeans.</text>
+			</overall>
+		</appearance>
+		<appearance>
+			<BMI>4</BMI>
+			<minBMI>3</minBMI>
+			<maxBMI>4</maxBMI>
+			<overall>
+				<text>You are wearing tight-fitting jeans.</text>
+			</overall>
+			<belly>
+				<text>The jeans press into your midsection, causing your fat to hang over the waistband slightly.</text>
+			</belly>
+		</appearance>
+		<appearance>
+			<BMI>6</BMI>
+			<minBMI>5</minBMI>
+			<maxBMI>6</maxBMI>
+			<overall>
+				<text>You are wearing very tight-fitting jeans.</text>
+			</overall>
+			<belly>
+				<text>The jeans are digging deeply into your midsection, causing your fat to hang over your waistband.</text>
+			</belly>
+			<legs>
+				<text>Every step causes your jeans to groan at the seams.</text>
+			</legs>
+		</appearance>
+		<appearance>
+			<BMI>8</BMI>
+			<minBMI>7</minBMI>
+			<maxBMI>999</maxBMI>
+			<overall>
+				<text>You are wearing skin-tight jeans.</text>
+			</overall>
+			<butt>
+				<text>The jeans are pressed hard against your behind, nearly tearing the seams.</text>
+			</butt>
+			<belly>
+				<text>A considerable amount of fat hangs over your waistband.</text>
+			</belly>
+		</appearance>
+		<appearance>
+			<BMI>10</BMI>
+			<butt>
+				<text>The jeans are pressed hard against your behind, nearly tearing the seams.</text>
+			</butt>
+			<belly>
+				<text>A considerable amount of fat hangs over your waistband.</text>
+			</belly>
+		</appearance>
+	</appearanceList>
+	<responseList>
+		<response>
+			<BMI>-6</BMI>
+			<belly>
+				<text>Your jeans have fallen right off. They're too loose around your waist. If you wish to continue wearing them, you should gain more weight.</text>
+				<effect>fall</effect>
+			</belly>
+		</response>
+		<response>
+			<BMI>-4</BMI>
+			<belly>
+				<text>Your jeans are becoming extremely loose around your waist. They sag down, showing your panties.</text>
+			</belly>
+		</response>
+		<response>
+			<BMI>-2</BMI>
+			<belly>
+				<text>Your jeans are now loose around your waist.</text>
+			</belly>
+		</response>
+		<response>
+			<BMI>0</BMI>
+			<belly>
+				<text>Your jeans now fit perfectly on your frame.</text>
+			</belly>
+		</response>
+		<response>
+			<BMI>2</BMI>
+			<belly>
+				<text>Your jeans are now snug around your waist.</text>
+			</belly>
+		</response>
+		<response>
+			<BMI>4</BMI>
+			<belly>
+				<text>Your jeans are now tight around your waist.</text>
+			</belly>
+		</response>
+		<response>
+			<BMI>6</BMI>
+			<belly>
+				<text>Your jeans are now uncomfortably tight around your waist.</text>
+			</belly>
+		</response>
+		<response>
+			<BMI>8</BMI>
+			<belly>
+				<text>Your jeans are deeply pressed into your squishy midsection, causing severe discomfort.</text>
+			</belly>
+			<butt>
+				<text>Your jeans press tight against your fat ass.</text>
+			</butt>
+			<legs>
+				<text>Your jeans begin to creak and groan at the seams. Gain any more weight and they will burst.</text>
+			</legs>
+		</response>
+		<response>
+			<BMI>10</BMI>
+			<belly>
+				<text>The button on your jeans bursts open, and they unzip.</text>
+				<effect>fall</effect>
+			</belly>
+			<butt>
+				<text>You glance behind you to find a massive hole in your jeans, exposing your butt. These jeans have had it.</text>
+				<effect>rip</effect>
+			</butt>
+			<legs>
+				<text>The fabrics of your jeans erupt in resounding groans and tears.</text>
+				<effect>rip</effect>
+			</legs>
+		</response>
+	</responseList>
+	<equipList>
+		<equip>
+			<minBMI>-999</minBMI>
+			<maxBMI>-6</maxBMI>
+			<responseBMI>-6</responseBMI>
+			<belly>
+				<text>Holding the blue jeans against your waist, you can immediately tell they're too large. Tough luck.</text>
+				<wearable>false</wearable>
+			</belly>
+		</equip>
+		<equip>
+			<minBMI>-5</minBMI>
+			<maxBMI>-4</maxBMI>
+			<responseBMI>-4</responseBMI>
+			<belly>
+				<text>Holding the blue jeans to your waist, you can tell they will also be too large. However, you try them on anyways. They sag below your waist, on the verge of falling off. Lose any more weight and they surely will.</text>
+				<wearable>true</wearable>
+			</belly>
+		</equip>
+		<equip>
+			<minBMI>-3</minBMI>
+			<maxBMI>-2</maxBMI>
+			<responseBMI>-2</responseBMI>
+			<belly>
+				<text>You pull the jeans up to your waist and have no problems buttoning them up. They slide a little bit down your waist, possibly a bit too large. Gain a little bit more weight and these will fit perfectly.</text>
+				<wearable>true</wearable>
+			</belly>
+		</equip>
+		<equip>
+			<minBMI>-1</minBMI>
+			<maxBMI>0</maxBMI>
+			<responseBMI>0</responseBMI>
+			<belly>
+				<text>You pull the jeans up to your waist and have no problems buttoning them up. They're a perfect fit. It's your lucky day!</text>
+				<wearable>true</wearable>
+			</belly>
+		</equip>
+		<equip>
+			<minBMI>1</minBMI>
+			<maxBMI>2</maxBMI>
+			<responseBMI>2</responseBMI>
+			<belly>
+				<text>You pull the jeans up to your waist and manage to button them up. They're a bit snug around your hips, but still a decent fit.</text>
+				<wearable>true</wearable>
+			</belly>
+		</equip>
+		<equip>
+			<minBMI>3</minBMI>
+			<maxBMI>4</maxBMI>
+			<responseBMI>4</responseBMI>
+			<belly>
+				<text>You pull the jeans up to your waist and struggle to button them. Eventually you get it, however they're very tight around your waist. Sigh... you may need to consider a diet.</text>
+				<wearable>true</wearable>
+			</belly>
+		</equip>
+		<equip>
+			<minBMI>5</minBMI>
+			<maxBMI>6</maxBMI>
+			<responseBMI>6</responseBMI>
+			<legs>
+				<text>You can hardly pull the jeans up to your waist due to your massive thighs, but you eventually manage.</text>
+				<wearable>true</wearable>
+			</legs>
+			<belly>
+				<text>Miraculously, you're able to button the jeans around your waist, but it may not be long before they pop. Should you gain any more weight, the future of these jeans will be grim.</text>
+				<wearable>true</wearable>
+			</belly>
+		</equip>
+		<equip>
+			<minBMI>7</minBMI>
+			<maxBMI>8</maxBMI>
+			<responseBMI>8</responseBMI>
+			<legs>
+				<text>The seams of your jeans groan as you pull them up to your waist.</text>
+				<wearable>true</wearable>
+			</legs>
+			<belly>
+				<text>You manage to zip the jeans halfway up, but it will be near-impossible to button them.</text>
+				<wearable>true</wearable>
+			</belly>
+			<butt>
+				<text>Your fat ass is pressed hard against the fabrics of the jeans.</text>
+				<wearable>true</wearable>
+			</butt>
+		</equip>
+		<equip>
+			<minBMI>9</minBMI>
+			<maxBMI>10</maxBMI>
+			<responseBMI>10</responseBMI>
+			<legs>
+				<text>You fight to pull the jeans up past your thunder thighs but find that they are simply too big.</text>
+				<wearable>false</wearable>
+			</legs>
+			<butt>
+				<text>After pulling the jeans up past your thunder thighs, you hit an insurmountable obstacle - your fat ass. It becomes clear that your ass is just too damn big to fit into the jeans. Seeing as you're already bursting at the seams, and the jeans aren't fully up yet, it might be best to admit defeat. Sigh... nothing fits anymore...</text>
+				<wearable>false</wearable>
+			</butt>
+		</equip>
+		<equip>
+			<minBMI>11</minBMI>
+			<maxBMI>999</maxBMI>
+			<responseBMI>10</responseBMI>
+			<belly>
+				<text>It's laughable that you even thought the jeans would fit. Holding them to your waist, they're clearly designed for somebody half your size.</text>
+				<wearable>false</wearable>
+			</belly>
+			<butt>
+				<text>You can tell that trying to pack your fat ass into these jeans will be futile so you decide not to try at all.</text>
+				<wearable>false</wearable>
+			</butt>
+			<legs>
+				<text>It's almost comical how small the jeans look compared to your massive thunder thighs and bountiful hips.</text>
+				<wearable>false</wearable>
+			</legs>
+		</equip>
+	</equipList>
+</outfit>

@@ -16,11 +16,11 @@
 	<dialog id='2'>
 		<eventText precondition="BMI&gt;34">The fairy shakes its head in disapproval. "I don't know why you'd want to be fatter than you already are, but here goes." </eventText>
 		<eventText>The fairy waves its arms to produce a bright flash of light, enough to blind you temporarily. </eventText>
-		<eventText precondition="BMI&gt;19&amp;BMI&lt;25">When your vision returns, you stare down at your chubby tummy. A roll of fat slightly hangs over your waistband. </eventText>
-		<eventText precondition="BMI&lt;19">When your vision returns, you stare down at your now-curvy midsection. You used to be able to see your abs, but not anymore. </eventText>
-		<eventText precondition="BMI&gt;34&amp;BMI&lt;45">When your vision returns, you stare down at your bulging belly and marvel at its size. It extends so far that you cannot see your feet without bending over. </eventText>
-		<eventText precondition="BMI&gt;24&amp;BMI&lt;35">When your vision returns, you stare down at your pudgy belly. It hangs over your waistband. </eventText>
-		<eventText precondition="BMI&gt;44">When your vision returns, you peek down at your sagging gut. It hangs to your knees and blocks a good portion of the ground in front of you from your field of vision. </eventText>
+		<eventText precondition="Belly&lt;19">When your vision returns, you stare down at your now-curvy midsection. You used to be able to see your abs, but not anymore. </eventText>
+		<eventText precondition="Belly&gt;19&amp;Belly&lt;25">When your vision returns, you stare down at your chubby tummy. A roll of fat slightly hangs over your waistband. </eventText>
+		<eventText precondition="Belly&gt;34&amp;Belly&lt;45">When your vision returns, you stare down at your bulging belly and marvel at its size. It extends so far that you cannot see your feet without bending over. </eventText>
+		<eventText precondition="Belly&gt;24&amp;Belly&lt;35">When your vision returns, you stare down at your pudgy belly. It hangs over your waistband. </eventText>
+		<eventText precondition="Belly&gt;44">When your vision returns, you peek down at your sagging gut. It hangs to your knees and blocks a good portion of the ground in front of you from your field of vision. </eventText>
 		<eventText>True to its word, the fairy made you fatter!</eventText>
 		<option id='5'>Continue</option>
 	</dialog>

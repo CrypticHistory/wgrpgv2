@@ -106,6 +106,30 @@
 						<td>Weight:</td>
 						<td><input readonly id='weightInput' value='108' type='text' class='heightInput' maxlength='3' name='dblWeight'/> lbs</td>
 					</tr>
+					<tr>
+						<td>Face Fatness:</td>
+						<td><input id='face' name='intFace' type='number' class='heightInput' value='0' max='5' min='0'/></td>
+					</tr>
+					<tr>
+						<td>Belly Fatness:</td>
+						<td><input id='belly' name='intBelly' type='number' class='heightInput' value='0' max='5' min='0'/></td>
+					</tr>
+					<tr>
+						<td>Breasts Fatness:</td>
+						<td><input id='breasts' name='intBreasts' type='number' class='heightInput' value='0' max='5' min='0'/></td>
+					</tr>
+					<tr>
+						<td>Arms Fatness:</td>
+						<td><input id='arms' name='intArms' type='number' class='heightInput' value='0' max='5' min='0'/></td>
+					</tr>
+					<tr>
+						<td>Legs Fatness:</td>
+						<td><input id='legs' name='intLegs' type='number' class='heightInput' value='0' max='5' min='0'/></td>
+					</tr>
+					<tr>
+						<td>Butt Fatness:</td>
+						<td><input id='butt' name='intButt' type='number' class='heightInput' value='0' max='5' min='0'/></td>
+					</tr>
 				</tbody>
 			</table>
 			<input type='submit' value='Submit'/>
