@@ -101,6 +101,10 @@ class DisplayGameUI extends DataGameUI{
 					autoOpen: false
 				});
 				
+				$('.invTable > tbody').contextmenu(function(){
+					return false;
+				});
+				
 				$("#inventoryTabHeading<?=$_SESSION['objUISettings']->getInventoryFrame()?>").addClass('currentTab');
 				$("#inventoryDiv<?=$_SESSION['objUISettings']->getInventoryFrame()?>").removeClass('hidden');
 				$("#characterTabHeading<?=$_SESSION['objUISettings']->getCharacterFrame()?>").addClass('currentTab');

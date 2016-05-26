@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<event>
-	<end>0</end>
-	<precondition>TownID=1</precondition>
-	<dialog id="0">
-		<eventText>Eyy dis event be under construction.</eventText>
-	</dialog>
-</event>

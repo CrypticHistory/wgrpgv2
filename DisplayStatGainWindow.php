@@ -24,37 +24,39 @@ class DisplayStatGainWindow{
 			</script>
 		
 			<div class='eventDiv' id='eventDivStatGainWindow'>
-				<h3>Stat Allocation</h3>
-				<h4>Stat points available: <?=$_SESSION['objRPGCharacter']->getStatPoints()?></h4>
-				<form method='post' action='statgain.php'>
-					<table>
-						<tr>
-							<td>Strength:</td><td><input type='text' name='intStrength' value='0'/></td>
-						</tr>
-						<tr>
-							<td>Intelligence:</td><td><input type='text' name='intIntelligence' value='0'/></td>
-						</tr>
-						<tr>
-							<td>Agility:</td><td><input type='text' name='intAgility' value='0'/></td>
-						</tr>
-						<tr>
-							<td>Vitality:</td><td><input type='text' name='intVitality' value='0'/></td>
-						</tr>
-						<tr>
-							<td>Willpower:</td><td><input type='text' name='intWillpower' value='0'/></td>
-						</tr>
-						<tr>
-							<td>Dexterity:</td><td><input type='text' name='intDexterity' value='0'/></td>
-						</tr>
-					</table>
-					<button type='submit'>Save</button>
-				</form>
+				<div class='insideEvent'>
+					<h3>Stat Allocation</h3>
+					<h4>Stat points available: <?=$_SESSION['objRPGCharacter']->getStatPoints()?></h4>
+					<form method='post' action='statgain.php'>
+						<table>
+							<tr>
+								<td>Strength:</td><td><input type='text' name='intStrength' value='0'/></td>
+							</tr>
+							<tr>
+								<td>Intelligence:</td><td><input type='text' name='intIntelligence' value='0'/></td>
+							</tr>
+							<tr>
+								<td>Agility:</td><td><input type='text' name='intAgility' value='0'/></td>
+							</tr>
+							<tr>
+								<td>Vitality:</td><td><input type='text' name='intVitality' value='0'/></td>
+							</tr>
+							<tr>
+								<td>Willpower:</td><td><input type='text' name='intWillpower' value='0'/></td>
+							</tr>
+							<tr>
+								<td>Dexterity:</td><td><input type='text' name='intDexterity' value='0'/></td>
+							</tr>
+						</table>
+						<button type='submit'>Save</button>
+					</form>
 				<?php 
 					if(isset($_SESSION['strStatError'])){
 						echo $_SESSION['strStatError'];
 						unset($_SESSION['strStatError']);
 					}
 				?>
+				</div>
 			</div>
 		
 		<?php

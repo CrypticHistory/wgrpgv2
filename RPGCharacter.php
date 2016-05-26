@@ -242,7 +242,7 @@ class RPGCharacter{
 					FROM tblitem
 						INNER JOIN tblcharacteritemxr
 							USING (intItemID)
-					WHERE strItemType LIKE 'Armour:Both'
+					WHERE strItemType LIKE 'Armour:Armour'
 						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
 						AND blnEquipped = 1";
 		$rsResult = $objDB->query($strSQL);
@@ -447,10 +447,44 @@ class RPGCharacter{
 	public function hasItem($intItemInstanceID){
 		$objDB = new Database();
 		$strSQL = "SELECT intItemInstanceID FROM tblcharacteritemxr
-					WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
+					WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID) . "
+						AND intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
 		$rsResult = $objDB->query($strSQL);
 		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
 		return isset($arrRow['intItemInstanceID']) ? true : false;
+	}
+	
+	public function disenchantItem($intItemInstanceID, $strEnchantType, $strItemType){
+		$objDB = new Database();
+		$strItemTypeFunc = "_objEquipped" . $strItemType;
+		$strEquippedFunc = "getEquipped" . $strItemType;
+		
+		if($this->isEquipped($intItemInstanceID)){
+			$blnEquipped = true;
+		}
+		else{
+			$blnEquipped = false;
+		}
+		
+		if($strEnchantType == 'Prefix'){
+			$strSQL = "UPDATE tbliteminstanceenchant
+						SET intPrefixEnchantID = NULL
+							WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
+			if($blnEquipped){
+				$this->statusEffectCheck($strItemTypeFunc, "removeFromStatusEffects", true, false);
+				$this->$strEquippedFunc()->setPrefix(NULL);
+			}
+		}
+		else if($strEnchantType == 'Suffix'){
+			$strSQL = "UPDATE tbliteminstanceenchant
+						SET intSuffixEnchantID = NULL
+							WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
+			if($blnEquipped){
+				$this->statusEffectCheck($strItemTypeFunc, "removeFromStatusEffects", false, true);
+				$this->$strEquippedFunc()->setSuffix(NULL);
+			}
+		}
+		$objDB->query($strSQL);
 	}
 	
 	public function healHP($intHPHeal){
@@ -693,13 +727,13 @@ class RPGCharacter{
 		return $this->_strEquipClothingText;
 	}
 	
-	public function statusEffectCheck($strGearType, $strAction){
-		if($this->$strGearType->getPrefix() !== null){
+	public function statusEffectCheck($strGearType, $strAction, $blnPrefix = true, $blnSuffix = true){
+		if($this->$strGearType->getPrefix() !== null && $blnPrefix){
 			foreach($this->$strGearType->getPrefix()->getStatChanges() as $key => $objStatChange){
 				$this->$strAction($objStatChange->getStatusEffect()->getStatusEffectName());
 			}
 		}
-		if($this->$strGearType->getSuffix() !== null){
+		if($this->$strGearType->getSuffix() !== null && $blnSuffix){
 			foreach($this->$strGearType->getSuffix()->getStatChanges() as $key => $objStatChange){
 				$this->$strAction($objStatChange->getStatusEffect()->getStatusEffectName());
 			}
@@ -1198,6 +1232,7 @@ class RPGCharacter{
 	public function getSleep($intHours){
 		$this->setTime(RPGTime::addHoursToTime($_SESSION['objRPGCharacter']->getTime(), $intHours));
 		$this->digestItems($intHours);
+		$this->healHP(round($this->getModifiedMaxHP() * ($intHours / 10)));
 	}
 	
 	public function getCurrentFloorID(){

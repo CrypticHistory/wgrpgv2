@@ -64,13 +64,39 @@ class DisplayShopWindow{
 					
 					 $("#sellDiv").droppable({
 						drop: function( event, ui ) {
-							createNode(ui.draggable.text(), $(ui.draggable).parent(), $(ui.draggable).next('[name="itemInstanceID"]').text(), $(ui.draggable).next().next('[name="itemID"]').text(), $(ui.draggable).next().next().next('[name="itemSellPrice"]').text())
-							$('#sellTotalRow').html(parseInt($('#sellTotalRow').text()) + parseInt($(ui.draggable).next().next().next('[name="itemSellPrice"]').text()));
+							createNode(ui.draggable.text(), $(ui.draggable).parent(), $(ui.draggable).next('[name="itemInstanceID"]').text(), $(ui.draggable).closest('tr').find('[name="itemID"]').text(), $(ui.draggable).closest('tr').find('[name="itemSellPrice"]').text())
+							$('#sellTotalRow').html(parseInt($('#sellTotalRow').text()) + parseInt($(ui.draggable).closest('tr').find('[name="itemSellPrice"]').text()));
 							$(ui.draggable).parent().hide();
 							$(ui.draggable).parent().next('[id^=equipItemDetails]').hide();
 							$('.invTable tbody tr:visible:odd').css({'background-color': '#F5F5F5'});
 							$('.invTable tbody tr:visible:even').css({'background-color': '#E8E8E8'});
 						}
+					});
+					
+					$('.invTable > tbody > tr > #itemName').mousedown(function(e){
+						$('#enchantInfoPrefixDesc').html('');
+						$('#enchantInfoSuffixDesc').html('');
+						if(e.button == 2){
+							$('#enchantInfoItemName').html('<b>' + $(this).find('.itemName:first').text() + '</b>');
+							$('#enchantInfoItemName').after("<input type='hidden' name='itemInstanceID' value='" + $(this).next().text() + "'/>")
+							$('#enchantInfoItemName').after("<input type='hidden' name='itemType' value='" + $(this).closest('tr').find("[name='itemType']").text() + "'/>");
+							$('#enchantInfoPrefixName').text($(this).find('.prefix:first').text());
+							if($(this).find('.prefix:first').text() != ''){
+								$('#enchantInfoPrefixDesc').html("<button type='submit' value='Prefix' name='Remove'>Remove</button>");
+							}
+							else{
+								$('#enchantInfoPrefixName').html('No Prefix');
+							}
+							$('#enchantInfoSuffixName').text($(this).find('.suffix:first').text());
+							if($(this).find('.suffix:first').text() != ''){
+								$('#enchantInfoSuffixDesc').html("<button type='submit' value='Suffix' name='Remove'>Remove</button>");
+							}
+							else{
+								$('#enchantInfoSuffixName').html('No Suffix');
+							}
+							return false;
+						}
+						return false;
 					});
 				});
 				
@@ -90,6 +116,11 @@ class DisplayShopWindow{
 				   $('#sellDiv').append("<input type='hidden' name='sellItemInstanceID[]' value='" + itemInstanceID + "'/>");
 				   $('#sellDiv').append("<input type='hidden' name='sellItemID[]' value='" + itemID + "'/>");
 				}
+				
+				function test(hi){
+					alert(hi);
+					return false;
+				}
 
 			</script>
 		
@@ -108,56 +139,93 @@ class DisplayShopWindow{
 					$blnShowShop = false;
 				}
 				
-				if($blnShowShop){		
-				global $arrNumberedClothingSizes;
-				global $arrClothingSizes;
-				$strClosestClothingSize = array_search(DisplayShopWindow::getClosest($_SESSION['objRPGCharacter']->getBMI(), array_values($arrClothingSizes)), $arrClothingSizes);
-				?>
-				<h3>Shop : <?=$objShop->getShopName()?></h3>
-				<fieldset>
-					<legend><span id='buyLink' class='underline pointer bold'>Buy</span> | <span id='sellLink' class='underline pointer'>Sell</span></legend>
-					<form method='post' action='shoptransactionbuy.php' id='buyForm'>
-						<table class='charTable'>
-							<th class='tableHeader'>Item Name</th><th class='tableHeader'>Price</th><?=(($objShop->getShopType() == 'Tailor') ? "<th class='tableHeader'>Size <img id='sizeTooltip' class='pointer' title='The recommended size for your weight and height is selected by default.' src='tooltip.png'/></th>" : "")?><th class='tableHeader'>Quantity</th>
-							<?php
-							
-							foreach($objShop->getShopInv() as $arrItemDetails){
-								echo "<input type='hidden' name='itemID[]' value='" . $arrItemDetails['objItem']->getItemID() . "'/>";
-								echo "<input type='hidden' name='price[]' value='" . $arrItemDetails['dblPrice'] . "'/>";
-								echo "<tr><td>" . $arrItemDetails['objItem']->getItemName() . "</td><td>" . $arrItemDetails['dblPrice'] . "</td>";
-								if($objShop->getShopType() == 'Tailor'){
-									echo "<td><select name='size[]' autocomplete='off'>";
-									foreach($arrNumberedClothingSizes as $key => $val){
-										$strSelected = ($strClosestClothingSize == $val) ? " selected" : "";
-										echo "<option" . $strSelected . ">" . $val . "</option>";
-									}
-									echo "</select></td>";
-								}
-								echo "<td><input type='text' name='quantity[]' class='quantityWidth' maxlength='2' value='0'/></td></tr>";
-							}
-							
-							?>
-							<tr><td><b>Total</b></td><td id='totalRow' colspan='<?=(($objShop->getShopType() == 'Tailor') ? "3" : "2")?>'><b>0</b></td></tr>
-						</table>
-						<button type='submit'>Purchase Items</button>
-					</form>
-					<form method='post' action='shoptransactionsell.php' class='hidden' id='sellForm'>
-						Drag items you wish to sell from your inventory into the box below.
-						<div id='sellDiv'></div>
-						<b>Total: <span id='sellTotalRow'>0</span></b><br/>
-						<input type='submit' value='Sell Items'/>
-					</form>
-				</fieldset>
-				<?php
+				if($blnShowShop){
+					if($objShop->getShopType() == 'Tailor' || $objShop->getShopType() == 'Blacksmith'){
+						global $arrNumberedClothingSizes;
+						global $arrClothingSizes;
+						$strClosestClothingSize = array_search(DisplayShopWindow::getClosest($_SESSION['objRPGCharacter']->getBMI(), array_values($arrClothingSizes)), $arrClothingSizes);
+						?>
+						<div class='insideEvent'>
+							<h3>Shop : <?=$objShop->getShopName()?></h3>
+							<fieldset class='shopFieldset'>
+								<legend><span id='buyLink' class='underline pointer bold'>Buy</span> | <span id='sellLink' class='underline pointer'>Sell</span></legend>
+								<form method='post' action='shoptransactionbuy.php' id='buyForm'>
+									<table class='charTable'>
+										<th class='tableHeader'>Item Name</th><th class='tableHeader'>Price</th><?=(($objShop->getShopType() == 'Tailor') ? "<th class='tableHeader'>Size <img id='sizeTooltip' class='pointer' title='The recommended size for your weight and height is selected by default.' src='tooltip.png'/></th>" : "")?><th class='tableHeader'>Quantity</th>
+										<?php
+										
+										foreach($objShop->getShopInv() as $arrItemDetails){
+											echo "<input type='hidden' name='itemID[]' value='" . $arrItemDetails['objItem']->getItemID() . "'/>";
+											echo "<input type='hidden' name='price[]' value='" . $arrItemDetails['dblPrice'] . "'/>";
+											echo "<tr><td>" . $arrItemDetails['objItem']->getItemName() . "</td><td>" . $arrItemDetails['dblPrice'] . "</td>";
+											if($objShop->getShopType() == 'Tailor'){
+												echo "<td><select name='size[]' autocomplete='off'>";
+												foreach($arrNumberedClothingSizes as $key => $val){
+													$strSelected = ($strClosestClothingSize == $val) ? " selected" : "";
+													echo "<option" . $strSelected . ">" . $val . "</option>";
+												}
+												echo "</select></td>";
+											}
+											echo "<td><input type='text' name='quantity[]' class='quantityWidth' maxlength='2' value='0'/></td></tr>";
+										}
+										
+										?>
+										<tr><td><b>Total</b></td><td id='totalRow' colspan='<?=(($objShop->getShopType() == 'Tailor') ? "3" : "2")?>'><b>0</b></td></tr>
+									</table>
+									<button type='submit'>Purchase Items</button>
+								</form>
+								<form method='post' action='shoptransactionsell.php' class='hidden' id='sellForm'>
+									Drag items you wish to sell from your inventory into the box below.
+									<div id='sellDiv'></div>
+									<b>Total: <span id='sellTotalRow'>0</span></b><br/>
+									<input type='submit' value='Sell Items'/>
+								</form>
+							</fieldset>
+						</div>
+						<?php
+					}
+					else if($objShop->getShopType() == 'Enchanter'){
+					?>
+						<div class='insideEvent'>
+							<h3><?=$objShop->getShopName()?></h3>
+							<form method='post' action='shoptransactionenchant.php' id='buyForm'>
+								<div id='itemDescBeforeDrag'>
+									Right click items in your inventory to view their enchantment info. A fee of <b>1 gold</b> will be charged to remove an enchant.
+								</div>
+								<br/><br/>
+								<fieldset class='shopFieldset'>
+									<legend>Enchantment Info</legend>
+									<div id='itemDescAfterDrag' class='hidden'>
+										<table class='inline-block charTable textCenter'>
+											<tbody>
+												<tr>
+													<td colspan='2' id='enchantInfoItemName'></td>
+												</tr>
+												<tr>
+													<td id='enchantInfoPrefixName'></td>
+													<td id='enchantInfoSuffixName'></td>
+												</tr>
+												<tr>
+													<td id='enchantInfoPrefixDesc'></td>
+													<td id='enchantInfoSuffixDesc'></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</fieldset>
+							</form>
+						</div>
+					<?php
+					}
 				}
 				else{
 					echo "You do not have permission to view this shop.";
 				}
-					if(isset($_SESSION['strShopError'])){
-						echo $_SESSION['strShopError'];
-						unset($_SESSION['strShopError']);
-					}
-				?>
+				if(isset($_SESSION['strShopError'])){
+					echo $_SESSION['strShopError'];
+					unset($_SESSION['strShopError']);
+				}
+			?>
 			</div>
 		
 		<?php

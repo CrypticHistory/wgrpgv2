@@ -2,16 +2,21 @@
 <event>
 	<end>1</end>
 	<end>2</end>
+	<end>3</end>
 	<precondition>TownID=1</precondition>
 	<dialog id="0">
 		<eventText>Take a nap or sleep?</eventText>
 		<option id="1" action="getSleep~2">Nap (2 hours)</option>
 		<option id="2" action="getSleep~8">Sleep (8 hours)</option>
+		<option id="3">Nevermind</option>
 	</dialog>
 	<dialog id="1">
 		<eventText>You napped for 2 hours, feeling a little less tired than before.</eventText>
 	</dialog>
 	<dialog id="2">
 		<eventText>You slept for 8 hours, feeling very well rested now.</eventText>
+	</dialog>
+	<dialog id="3">
+		<eventText>You decided not to sleep.</eventText>
 	</dialog>
 </event>

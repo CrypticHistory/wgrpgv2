@@ -32,7 +32,9 @@ class DisplayNavigationCompassWindow{
 					<input name='exitField' class='fL compass' type='submit' value='Return to Town'/>
 				</form>
 				<?php } else { ?>
-				Traversing is currently disabled.
+					<div class='insideOther'>
+						Traversing is currently disabled.
+					</div>
 				<?php } ?>
 			</div>
 		

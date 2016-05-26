@@ -69,14 +69,14 @@
 			if($_POST['itemAction'] == 'use'){
 				$_SESSION['objRPGCharacter']->eatItem($_POST['itemInstanceID'], $_POST['itemHPHeal']);
 			}
-			elseif($_POST['itemAction'] == 'drop'){
+			else if($_POST['itemAction'] == 'drop'){
 				$_SESSION['objRPGCharacter']->dropItem($_POST['itemInstanceID']);
 			}
-			elseif($_POST['itemAction'] == 'equip'){
+			else if($_POST['itemAction'] == 'equip'){
 				$strEquipFunction = 'equip' . $_POST['itemType'];
 				$_SESSION['objRPGCharacter']->$strEquipFunction($_POST['itemInstanceID'], $_POST['itemID']);
 			}
-			elseif($_POST['itemAction'] == 'unequip'){
+			else if($_POST['itemAction'] == 'unequip'){
 				$strUnequipFunction = 'unequip' . $_POST['itemType'];
 				$_SESSION['objRPGCharacter']->$strUnequipFunction();
 			}

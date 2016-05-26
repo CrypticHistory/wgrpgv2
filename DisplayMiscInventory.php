@@ -10,12 +10,14 @@ class DisplayMiscInventory{
 		ob_start(); ?>
 		
 		<div class='inventoryDiv hidden' id='inventoryDivMisc'>
-		<?php if(!$_SESSION['objUISettings']->getDisableInv()){?>
-				Misc
-		<?php }else{ ?>
-				Your misc. inventory is locked during this event.
-		<?php } ?>
+			<div class='insideOther'>
+				<?php if(!$_SESSION['objUISettings']->getDisableInv()){?>
+						Misc
+				<?php }else{ ?>
+						Your misc. inventory is locked during this event.
+				<?php } ?>
 			</div>
+		</div>
 		<?php
 		$strHTML = ob_get_contents();
 		ob_end_clean();

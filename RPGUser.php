@@ -60,12 +60,12 @@ class RPGUser{
 	
 	public function hasCharacter($intRPGCharacterID){
 		$objDB = new Database();
-		$arrReturn = array();
 		$strSQL = "SELECT intRPGCharacterID
 					FROM tbluser
 						INNER JOIN tblrpgcharacter
 						USING (strUserID)
-					WHERE strUserID = " . $objDB->quote($this->getStringUserID());
+					WHERE strUserID = " . $objDB->quote($this->getStringUserID()) . "
+						AND intRPGCharacterID = " . $objDB->quote($intRPGCharacterID);
 		$rsResult = $objDB->query($strSQL);
 		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
 		return (isset($arrRow['intRPGCharacterID']) ? true : false);
@@ -73,7 +73,6 @@ class RPGUser{
 	
 	public function deleteCharacter($intRPGCharacterID){
 		$objDB = new Database();
-		$arrReturn = array();
 		$strSQL = "DELETE tblrpgcharacter FROM tblrpgcharacter
 						INNER JOIN tbluser
 							USING (strUserID)

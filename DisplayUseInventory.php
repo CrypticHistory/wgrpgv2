@@ -56,7 +56,9 @@ class DisplayUseInventory{
 					</tbody>
 				</table>
 				<?php } else { ?>
-					Your use inventory is locked during this event.
+					<div class='insideOther'>
+						Your use inventory is locked during this event.
+					</div>
 				<?php } ?>
 			</div>
 		

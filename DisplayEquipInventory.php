@@ -50,10 +50,11 @@ class DisplayEquipInventory{
 							}
 							
 							echo "<tr class='textCenter' id='equipItem" . $intCounter . "'>";
-							echo "<td id='itemName' class='" . (($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID'])) ? "equipped" : "") . "'><a href=\"javascript:showItemDetails('equip', '" . $intCounter . "');\"><span class='prefix'>" . $arrCategoryNames['strPrefix'] . "</span> <span class='suffix'>" . $arrCategoryNames['strSuffix'] . "</span> " . $arrCategoryNames['strItemName'] . "</a>" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? " (E)" : "") . "</td>";
+							echo "<td id='itemName' class='" . (($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID'])) ? "equipped" : "") . "'><a href=\"javascript:showItemDetails('equip', '" . $intCounter . "');\"><span class='prefix'>" . $arrCategoryNames['strPrefix'] . "</span> <span class='suffix'>" . $arrCategoryNames['strSuffix'] . "</span> <span class='itemName'>" . $arrCategoryNames['strItemName'] . "</span></a>" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? " (E)" : "") . "</td>";
 							echo "<td class='hidden' name='itemInstanceID'>" . $arrCategoryNames['intItemInstanceID'] . "</td>";
 							echo "<td class='hidden' name='itemID'>" . $arrCategoryNames['intItemID'] . "</td>";
 							echo "<td class='hidden' name='itemSellPrice'>" . $arrCategoryNames['intSellPrice'] . "</td>";
+							echo "<td class='hidden' name='itemType'>" . $strItemType . "</td>";
 							echo "<td>" . $arrItemType[1] . "</td>";
 							echo "<td>" . (($arrCategoryNames['intDamage'] != 0) ? $arrCategoryNames['intDamage'] : "-") . "</td>";
 							echo "<td>" . (($arrCategoryNames['intDefence'] != 0) ? $arrCategoryNames['intDefence'] : "-") . "</td>";
@@ -74,9 +75,11 @@ class DisplayEquipInventory{
 					?>
 					</tbody>
 				</table>
-				<?php } else { ?>
-					Your equipment inventory is locked during this event.
-				<?php } ?>
+					<?php } else { ?>
+					<div class='insideOther'>
+						Your equipment inventory is locked during this event.
+					</div>
+					<?php } ?>
 			</div>
 		
 		<?php
