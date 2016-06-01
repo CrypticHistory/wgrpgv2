@@ -52,6 +52,7 @@ class RPGCharacter{
 	private $_arrStatusEffectList;
 	private $_arrStatModifiers;
 	private $_strEquipClothingText;
+	private $_strErrorText;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
@@ -1229,6 +1230,17 @@ class RPGCharacter{
 		$this->setStateID($arrStateValues['Town']);
 	}
 	
+	public function resetStats($intCost){
+		if($this->getGold() >= $intCost){
+			$this->setGold($this->getGold() - $intCost);
+			$intTotalStatPoints = $this->_objStats->resetStats();
+			$this->setStatPoints($this->getStatPoints() + $intTotalStatPoints);	
+		}
+		else{
+			$this->_strErrorText = "You do not have enough gold for this purchase.";
+		}
+	}
+	
 	public function getSleep($intHours){
 		$this->setTime(RPGTime::addHoursToTime($_SESSION['objRPGCharacter']->getTime(), $intHours));
 		$this->digestItems($intHours);
@@ -1269,6 +1281,14 @@ class RPGCharacter{
 	
 	public function getButt(){
 		return $this->_objBody->getButt() + $this->getBMI();
+	}
+	
+	public function getErrorText(){
+		return $this->_strErrorText;
+	}
+	
+	public function setErrorText($strErrorText){
+		$this->_strErrorText = $strErrorText;
 	}
 }
 

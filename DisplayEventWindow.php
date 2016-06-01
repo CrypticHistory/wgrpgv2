@@ -12,28 +12,35 @@ class DisplayEventWindow{
 			<div class='eventDiv' id='eventDivEventWindow'>
 				<?php
 				
-				if($_SESSION['objRPGCharacter']->getEquipClothingText() !== null){
-					echo "<i>" . $_SESSION['objRPGCharacter']->getEquipClothingText() . "</i>";
+				if($_SESSION['objRPGCharacter']->getErrorText() !== null){
+					echo "<b>Error: " . $_SESSION['objRPGCharacter']->getErrorText() . "</b>";
 					echo "<br/><br/>";
-					$_SESSION['objRPGCharacter']->setEquipClothingText(null);
+					$_SESSION['objRPGCharacter']->setErrorText(null);
 				}
-				
-				$intCounter = 0;
-				$objEvent = new RPGEvent($_SESSION['objRPGCharacter']->getEventID());
-				$objXML = new RPGXMLReader($objEvent->getXML());
-				foreach($objXML->getEventTextList($_SESSION['objRPGCharacter']->getEventNodeID()) as $key => $value){
-					if(($objXML->hasEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) == true && DialogConditionFactory::evaluateCondition($objXML->getEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter)) == true)
-						|| $objXML->hasEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) == false){
-						echo self::extractVariables(nl2br($value));
+				else{
+					if($_SESSION['objRPGCharacter']->getEquipClothingText() !== null){
+						echo "<i>" . $_SESSION['objRPGCharacter']->getEquipClothingText() . "</i>";
+						echo "<br/><br/>";
+						$_SESSION['objRPGCharacter']->setEquipClothingText(null);
 					}
-					$intCounter++;
+					
+					$intCounter = 0;
+					$objEvent = new RPGEvent($_SESSION['objRPGCharacter']->getEventID());
+					$objXML = new RPGXMLReader($objEvent->getXML());
+					foreach($objXML->getEventTextList($_SESSION['objRPGCharacter']->getEventNodeID()) as $key => $value){
+						if(($objXML->hasEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) == true && DialogConditionFactory::evaluateCondition($objXML->getEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter)) == true)
+							|| $objXML->hasEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) == false){
+							echo self::extractVariables(nl2br($value));
+						}
+						$intCounter++;
+					}
+					
+					echo "<br/><br/>";
+					
+					echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck('Top') . "</i><br/>";
+					echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck('Bottom') . "</i><br/>";
+					echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck('Armour') . "</i>";
 				}
-				
-				echo "<br/><br/>";
-				
-				echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck('Top') . "</i><br/>";
-				echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck('Bottom') . "</i><br/>";
-				echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck('Armour') . "</i>";
 				
 				?>
 			</div>

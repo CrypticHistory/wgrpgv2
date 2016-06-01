@@ -16,8 +16,8 @@ echo "<div class='mainWindow'><div class='content'>";
 		if($_POST['dblWeight'] < 64){
 			$_POST['dblWeight'] = 64;
 		}
-		else if($_POST['dblWeight'] > 93){
-			$_POST['dblWeight'] = 93;
+		else if($_POST['dblWeight'] > 193){
+			$_POST['dblWeight'] = 193;
 		}
 		if($_POST['intLegs'] > 5){
 			$_POST['intLegs'] = 5;

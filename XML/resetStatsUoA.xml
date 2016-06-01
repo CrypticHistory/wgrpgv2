@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <event>
-	<end>0</end>
+	<end>1</end>
+	<end>2</end>
 	<precondition>TownID=1</precondition>
 	<dialog id="0">
-		<eventText>Eyy dis event be under construction.</eventText>
+		<eventText>It costs 1 gold to reset your stats. Continue?</eventText>
+		<option id="1" action="resetStats~1">Yes</option>
+		<option id="2">No</option>
+	</dialog>
+	<dialog id="1">
+		<eventText>You reset your stats.</eventText>
+	</dialog>
+	<dialog id="2">
+		<eventText>You decided not to reset your stats.</eventText>
 	</dialog>
 </event>

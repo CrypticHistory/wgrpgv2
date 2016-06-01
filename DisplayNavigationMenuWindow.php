@@ -36,7 +36,9 @@ class DisplayNavigationMenuWindow{
 					echo "</table>";
 					
 				} else { ?>
-				Traversing is currently disabled.
+				<div class='insideOther'>
+					Traversing is currently disabled.
+				</div>
 				<?php } ?>
 			</div>
 		

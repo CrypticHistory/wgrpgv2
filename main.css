@@ -255,6 +255,34 @@ fieldset {
 	text-align:center;
 }
 
+.wallSouth{
+	border-bottom:2px solid black;
+	width:20px;
+	height:20px;
+}
+
+.wallNorth{
+	border-top: 2px solid black;
+	width:20px;
+	height:20px;
+}
+
+.wallEast{
+	border-right: 2px solid black;
+	width:20px;
+	height:20px;
+}
+
+.wallWest{
+	border-left: 2px solid black;
+	width:20px;
+	height:20px;
+}
+
+.maze{
+	border-collapse: collapse;
+}
+
 @media only screen and (max-width: 1440px) {
     body{
 		overflow-y:scroll;

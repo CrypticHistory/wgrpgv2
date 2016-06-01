@@ -163,6 +163,25 @@
 		public function getCombinedStats($strIndex){
 			return $this->_arrBaseStats[$strIndex] + $this->_arrAbilityStats[$strIndex];
 		}
+		
+		public function resetStats(){
+			$intTotalStatPoints = 0;
+			$intTotalStatPoints = $this->_arrAbilityStats['intStrength']
+			+ $this->_arrAbilityStats['intIntelligence']
+			+ $this->_arrAbilityStats['intWillpower']
+			+ $this->_arrAbilityStats['intDexterity']
+			+ $this->_arrAbilityStats['intVitality']
+			+ $this->_arrAbilityStats['intAgility'];
+			
+			$this->_arrAbilityStats['intStrength'] = 0;
+			$this->_arrAbilityStats['intIntelligence'] = 0;
+			$this->_arrAbilityStats['intWillpower'] = 0;
+			$this->_arrAbilityStats['intDexterity'] = 0;
+			$this->_arrAbilityStats['intVitality'] = 0;
+			$this->_arrAbilityStats['intAgility'] = 0;
+			$this->saveAbilityStats();
+			return $intTotalStatPoints;
+		}
 	}
 
 ?>

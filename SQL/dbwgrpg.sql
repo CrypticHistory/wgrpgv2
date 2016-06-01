@@ -3,21 +3,18 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2016 at 01:14 AM
+-- Generation Time: May 26, 2016 at 10:40 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
-
-DROP DATABASE wgrpg;
-CREATE DATABASE wgrpg;
-USE wgrpg;
 
 --
 -- Database: `dbwgrpg`
@@ -28,6 +25,10 @@ USE wgrpg;
 --
 -- Table structure for table `tblcharacterabilitystats`
 --
+
+DROP DATABASE wgrpg;
+CREATE DATABASE wgrpg;
+USE wgrpg;
 
 CREATE TABLE IF NOT EXISTS `tblcharacterabilitystats` (
   `intCharacterAbilityStatID` int(11) NOT NULL AUTO_INCREMENT,
@@ -40,17 +41,20 @@ CREATE TABLE IF NOT EXISTS `tblcharacterabilitystats` (
   `intDexterity` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`intCharacterAbilityStatID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=83 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=90 ;
 
 --
 -- Dumping data for table `tblcharacterabilitystats`
 --
 
 INSERT INTO `tblcharacterabilitystats` (`intCharacterAbilityStatID`, `intRPGCharacterID`, `intStrength`, `intIntelligence`, `intAgility`, `intVitality`, `intWillpower`, `intDexterity`) VALUES
-(78, 79, 0, 0, 0, 0, 0, 0),
-(79, 80, 10, 0, 0, 0, 0, 0),
-(81, 82, 5, 0, 0, 0, 0, 0),
-(82, 83, 20, 0, 0, 0, 0, 0);
+(83, 84, 5, 0, 0, 0, 0, 0),
+(84, 85, 0, 0, 0, 0, 0, 0),
+(85, 86, 0, 0, 0, 0, 0, 0),
+(86, 87, 0, 0, 0, 0, 0, 0),
+(87, 88, 0, 0, 0, 0, 0, 0),
+(88, 89, 0, 0, 0, 0, 0, 0),
+(89, 90, 5, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -74,17 +78,20 @@ CREATE TABLE IF NOT EXISTS `tblcharacterbody` (
   `intLegsRipLevel` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`intCharacterBodyID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `tblcharacterbody`
 --
 
 INSERT INTO `tblcharacterbody` (`intCharacterBodyID`, `intRPGCharacterID`, `intBreasts`, `intBelly`, `intLegs`, `intButt`, `intArms`, `intFace`, `intBellyRipLevel`, `intButtRipLevel`, `intBreastsRipLevel`, `intArmsRipLevel`, `intLegsRipLevel`) VALUES
-(4, 79, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(5, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(7, 82, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(8, 83, 0, 5, 3, 1, 0, 5, 0, 0, 0, 0, 0);
+(9, 84, 0, 5, 0, 0, 0, 5, 0, 0, 0, 0, 0),
+(10, 85, 0, 5, 0, 0, 0, 5, 0, 0, 0, 0, 0),
+(11, 86, 0, 5, 2, 0, 0, 5, 0, 0, 0, 0, 0),
+(12, 87, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(13, 88, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(14, 89, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(15, 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -99,40 +106,56 @@ CREATE TABLE IF NOT EXISTS `tblcharactereventxr` (
   `dtmDateAdded` datetime NOT NULL,
   PRIMARY KEY (`intCharacterEventXRID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`,`intEventID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1392 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1438 ;
 
 --
 -- Dumping data for table `tblcharactereventxr`
 --
 
 INSERT INTO `tblcharactereventxr` (`intCharacterEventXRID`, `intRPGCharacterID`, `intEventID`, `dtmDateAdded`) VALUES
-(1364, 79, 2, '2016-04-08 15:32:12'),
-(1365, 79, 10, '2016-04-08 15:32:20'),
-(1366, 79, 1, '2016-04-08 15:32:21'),
-(1367, 79, 7, '2016-04-08 15:32:24'),
-(1368, 79, 4, '2016-04-08 15:32:38'),
-(1370, 79, 11, '2016-04-08 15:33:04'),
-(1371, 79, 5, '2016-04-08 16:45:53'),
-(1372, 80, 2, '2016-04-08 16:52:46'),
-(1373, 80, 1, '2016-04-08 16:52:49'),
-(1374, 80, 4, '2016-04-08 16:52:57'),
-(1375, 80, 10, '2016-04-08 16:53:52'),
-(1376, 80, 3, '2016-04-08 16:54:51'),
-(1377, 80, 11, '2016-04-08 17:04:01'),
-(1378, 80, 7, '2016-04-08 17:17:39'),
-(1379, 82, 2, '2016-04-10 15:46:45'),
-(1380, 82, 1, '2016-04-10 15:46:48'),
-(1381, 82, 10, '2016-04-10 15:47:04'),
-(1382, 82, 4, '2016-04-10 15:47:08'),
-(1383, 82, 3, '2016-04-10 15:48:23'),
-(1384, 82, 11, '2016-04-10 15:59:22'),
-(1385, 83, 2, '2016-04-10 16:07:02'),
-(1386, 83, 4, '2016-04-10 16:07:07'),
-(1387, 83, 3, '2016-04-10 16:07:19'),
-(1388, 83, 1, '2016-04-10 16:07:53'),
-(1389, 83, 10, '2016-04-10 16:09:12'),
-(1390, 83, 7, '2016-04-10 16:09:29'),
-(1391, 83, 11, '2016-04-10 16:11:41');
+(1395, 84, 2, '2016-05-23 15:12:22'),
+(1396, 84, 10, '2016-05-23 15:12:31'),
+(1397, 84, 11, '2016-05-23 15:12:39'),
+(1398, 84, 13, '2016-05-23 15:12:46'),
+(1399, 84, 15, '2016-05-26 00:06:42'),
+(1400, 85, 2, '2016-05-26 00:08:32'),
+(1401, 85, 1, '2016-05-26 00:08:36'),
+(1402, 85, 10, '2016-05-26 00:08:44'),
+(1403, 86, 2, '2016-05-26 00:09:39'),
+(1404, 86, 11, '2016-05-26 00:09:46'),
+(1405, 86, 1, '2016-05-26 00:10:27'),
+(1406, 86, 3, '2016-05-26 00:10:36'),
+(1407, 86, 4, '2016-05-26 00:10:40'),
+(1408, 86, 10, '2016-05-26 00:10:52'),
+(1409, 87, 2, '2016-05-26 00:37:18'),
+(1410, 87, 11, '2016-05-26 00:37:20'),
+(1411, 87, 1, '2016-05-26 00:37:25'),
+(1412, 87, 10, '2016-05-26 00:37:32'),
+(1413, 87, 4, '2016-05-26 00:37:43'),
+(1414, 87, 7, '2016-05-26 00:37:56'),
+(1415, 88, 2, '2016-05-26 11:53:35'),
+(1416, 88, 3, '2016-05-26 11:53:41'),
+(1417, 88, 4, '2016-05-26 11:53:45'),
+(1418, 88, 1, '2016-05-26 11:53:46'),
+(1419, 88, 7, '2016-05-26 11:54:08'),
+(1420, 88, 10, '2016-05-26 11:54:33'),
+(1421, 88, 11, '2016-05-26 11:54:39'),
+(1422, 88, 13, '2016-05-26 11:54:45'),
+(1423, 89, 2, '2016-05-26 12:00:11'),
+(1424, 89, 1, '2016-05-26 12:00:16'),
+(1425, 89, 3, '2016-05-26 12:00:21'),
+(1426, 89, 4, '2016-05-26 12:00:24'),
+(1427, 89, 10, '2016-05-26 12:00:29'),
+(1428, 89, 11, '2016-05-26 12:00:47'),
+(1429, 89, 15, '2016-05-26 12:03:57'),
+(1430, 90, 2, '2016-05-26 14:28:55'),
+(1431, 90, 7, '2016-05-26 14:29:09'),
+(1432, 90, 10, '2016-05-26 14:29:13'),
+(1433, 90, 4, '2016-05-26 14:29:16'),
+(1434, 90, 1, '2016-05-26 14:31:12'),
+(1435, 90, 11, '2016-05-26 14:32:08'),
+(1436, 90, 14, '2016-05-26 14:55:18'),
+(1437, 90, 13, '2016-05-26 14:56:28');
 
 -- --------------------------------------------------------
 
@@ -152,57 +175,30 @@ CREATE TABLE IF NOT EXISTS `tblcharacteritemxr` (
   PRIMARY KEY (`intItemInstanceID`),
   KEY `intCharacterID` (`intRPGCharacterID`,`intItemID`),
   KEY `intItemID` (`intItemID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=582 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=617 ;
 
 --
 -- Dumping data for table `tblcharacteritemxr`
 --
 
 INSERT INTO `tblcharacteritemxr` (`intItemInstanceID`, `intRPGCharacterID`, `intItemID`, `intCaloriesRemaining`, `blnDigesting`, `blnEquipped`, `strSize`, `dtmDateAdded`) VALUES
-(399, 79, 3, 0, 0, 1, '', '2016-04-08 15:31:24'),
-(404, 79, 3, 0, 0, 0, '', '2016-04-08 15:33:01'),
-(405, 79, 7, 0, 0, 1, 'M', '2016-04-08 15:34:45'),
-(406, 79, 8, 0, 0, 1, 'M', '2016-04-08 15:34:45'),
-(408, 80, 3, 0, 0, 1, '', '2016-04-08 16:46:44'),
-(409, 80, 6, 0, 0, 0, 'M', '2016-04-08 16:46:48'),
-(417, 80, 3, 0, 0, 0, '', '2016-04-08 17:03:59'),
-(419, 80, 8, 0, 0, 0, 'L', '2016-04-08 17:04:18'),
-(436, 80, 3, 0, 0, 0, '', '2016-04-08 17:18:36'),
-(443, 80, 7, 0, 0, 0, 'XXL', '2016-04-08 17:35:55'),
-(444, 80, 8, 0, 0, 0, 'XXL', '2016-04-08 17:35:55'),
-(445, 82, 3, 0, 0, 1, '', '2016-04-10 15:46:12'),
-(446, 82, 6, 0, 0, 0, 'M', '2016-04-10 15:46:20'),
-(447, 82, 3, 0, 0, 0, '', '2016-04-10 15:47:04'),
-(455, 82, 3, 0, 0, 0, '', '2016-04-10 15:50:14'),
-(463, 82, 3, 0, 0, 0, '', '2016-04-10 15:58:27'),
-(466, 82, 3, 0, 0, 0, '', '2016-04-10 15:59:10'),
-(467, 82, 7, 0, 0, 0, 'L', '2016-04-10 15:59:32'),
-(468, 82, 8, 0, 0, 0, 'L', '2016-04-10 15:59:32'),
-(475, 82, 1, 250, 1, 0, '', '2016-04-10 16:00:16'),
-(476, 82, 1, 500, 1, 0, '', '2016-04-10 16:00:16'),
-(477, 82, 1, 750, 1, 0, '', '2016-04-10 16:00:16'),
-(478, 82, 1, 1000, 1, 0, '', '2016-04-10 16:00:16'),
-(479, 82, 1, 1250, 1, 0, '', '2016-04-10 16:00:16'),
-(480, 82, 1, 1500, 1, 0, '', '2016-04-10 16:00:16'),
-(481, 82, 1, 2500, 1, 0, '', '2016-04-10 16:00:16'),
-(482, 82, 1, 2750, 1, 0, '', '2016-04-10 16:00:16'),
-(483, 82, 1, 3000, 1, 0, '', '2016-04-10 16:00:16'),
-(484, 82, 1, 3250, 1, 0, '', '2016-04-10 16:00:16'),
-(485, 82, 1, 5000, 0, 0, '', '2016-04-10 16:00:16'),
-(486, 82, 1, 5000, 0, 0, '', '2016-04-10 16:00:16'),
-(487, 82, 1, 5000, 0, 0, '', '2016-04-10 16:00:16'),
-(488, 82, 1, 5000, 0, 0, '', '2016-04-10 16:00:16'),
-(489, 83, 3, 0, 0, 1, '', '2016-04-10 16:05:59'),
-(490, 83, 6, 0, 0, 0, 'M', '2016-04-10 16:06:26'),
-(508, 83, 7, 0, 0, 0, 'XL', '2016-04-10 16:11:50'),
-(509, 83, 8, 0, 0, 0, 'XL', '2016-04-10 16:11:50'),
-(536, 83, 3, 0, 0, 0, '', '2016-04-10 16:53:07'),
-(567, 83, 3, 0, 0, 0, '', '2016-04-10 17:07:16'),
-(571, 83, 3, 0, 0, 0, '', '2016-04-10 17:08:27'),
-(572, 83, 3, 0, 0, 0, '', '2016-04-10 17:08:32'),
-(576, 83, 3, 0, 0, 0, '', '2016-04-10 17:09:17'),
-(580, 83, 1, 750, 1, 0, '', '2016-04-10 17:09:52'),
-(581, 83, 1, 3000, 1, 0, '', '2016-04-10 17:10:05');
+(587, 84, 6, 0, 0, 1, 'M', '2016-05-23 15:11:51'),
+(588, 84, 3, 0, 0, 0, '', '2016-05-26 00:06:28'),
+(589, 85, 3, 0, 0, 1, '', '2016-05-26 00:08:13'),
+(590, 85, 6, 0, 0, 1, 'M', '2016-05-26 00:08:21'),
+(591, 86, 3, 0, 0, 1, '', '2016-05-26 00:09:00'),
+(592, 86, 6, 0, 0, 1, 'M', '2016-05-26 00:09:10'),
+(597, 87, 6, 0, 0, 1, 'M', '2016-05-26 00:37:04'),
+(600, 88, 3, 0, 0, 1, '', '2016-05-26 11:53:16'),
+(601, 88, 6, 0, 0, 1, 'M', '2016-05-26 11:53:20'),
+(604, 88, 3, 0, 0, 0, '', '2016-05-26 11:54:31'),
+(606, 89, 3, 0, 0, 1, '', '2016-05-26 11:59:52'),
+(607, 89, 6, 0, 0, 0, 'M', '2016-05-26 12:00:00'),
+(610, 89, 3, 0, 0, 0, '', '2016-05-26 12:03:02'),
+(611, 90, 3, 0, 0, 1, '', '2016-05-26 14:25:08'),
+(612, 90, 6, 0, 0, 1, 'M', '2016-05-26 14:28:50'),
+(613, 90, 3, 0, 0, 0, '', '2016-05-26 14:29:07'),
+(614, 90, 3, 0, 0, 0, '', '2016-05-26 14:29:12');
 
 -- --------------------------------------------------------
 
@@ -218,17 +214,36 @@ CREATE TABLE IF NOT EXISTS `tblcharacteroverridexr` (
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intRPGCharacterID_2` (`intRPGCharacterID`),
   KEY `intOverrideID` (`intOverrideID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=295 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=341 ;
 
 --
 -- Dumping data for table `tblcharacteroverridexr`
 --
 
 INSERT INTO `tblcharacteroverridexr` (`intCharacterOverrideXRID`, `intRPGCharacterID`, `intOverrideID`) VALUES
-(279, 80, 4),
-(284, 82, 4),
-(293, 83, 4),
-(294, 83, 4);
+(305, 86, 1),
+(306, 86, 2),
+(307, 86, 4),
+(308, 86, 1),
+(309, 86, 2),
+(310, 86, 4),
+(311, 86, 1),
+(312, 86, 2),
+(313, 86, 4),
+(318, 87, 4),
+(319, 86, 1),
+(320, 86, 2),
+(321, 86, 4),
+(322, 87, 4),
+(323, 87, 4),
+(324, 87, 4),
+(327, 88, 1),
+(328, 88, 2),
+(329, 88, 4),
+(334, 89, 4),
+(337, 90, 1),
+(338, 90, 2),
+(340, 90, 4);
 
 -- --------------------------------------------------------
 
@@ -253,17 +268,20 @@ CREATE TABLE IF NOT EXISTS `tblcharacterstats` (
   `intBlockReduction` int(11) NOT NULL,
   PRIMARY KEY (`intCharacterStatsID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=83 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=90 ;
 
 --
 -- Dumping data for table `tblcharacterstats`
 --
 
 INSERT INTO `tblcharacterstats` (`intCharacterStatsID`, `intRPGCharacterID`, `intMaxHP`, `intStrength`, `intIntelligence`, `intAgility`, `intVitality`, `intWillpower`, `intDexterity`, `intEvasion`, `intCritDamage`, `intPierce`, `intBlockRate`, `intBlockReduction`) VALUES
-(78, 79, 10, 5, 5, 5, 5, 5, 5, 0, 150, 0, 0, 10),
-(79, 80, 10, 5, 5, 5, 5, 5, 5, 0, 150, 0, 0, 10),
-(81, 82, 10, 5, 5, 5, 5, 5, 5, 0, 150, 0, 0, 10),
-(82, 83, 10, 5, 5, 5, 5, 5, 5, 0, 150, 0, 0, 10);
+(83, 84, 10, 5, 5, 5, 5, 5, 5, 0, 150, 0, 0, 10),
+(84, 85, 10, 5, 5, 5, 5, 5, 5, 0, 150, 0, 0, 10),
+(85, 86, 10, 5, 5, 5, 5, 5, 5, 0, 150, 0, 0, 10),
+(86, 87, 10, 5, 5, 5, 5, 5, 5, 0, 150, 0, 0, 10),
+(87, 88, 10, 5, 5, 5, 5, 5, 5, 0, 150, 0, 0, 10),
+(88, 89, 10, 5, 5, 5, 5, 5, 5, 0, 150, 0, 0, 10),
+(89, 90, 10, 5, 5, 5, 5, 5, 5, 0, 150, 0, 0, 10);
 
 -- --------------------------------------------------------
 
@@ -281,16 +299,27 @@ CREATE TABLE IF NOT EXISTS `tblcharacterstatuseffectxr` (
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intStatusEffectID` (`intStatusEffectID`),
   KEY `intItemInstanceID` (`intItemInstanceID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=157 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=185 ;
 
 --
 -- Dumping data for table `tblcharacterstatuseffectxr`
 --
 
 INSERT INTO `tblcharacterstatuseffectxr` (`intCharacterStatusEffectXRID`, `intRPGCharacterID`, `intStatusEffectID`, `intItemInstanceID`, `intTimeRemaining`) VALUES
-(145, 80, 4, NULL, 9999),
-(149, 82, 4, NULL, 9999),
-(156, 83, 4, NULL, 9999);
+(161, 86, 1, NULL, 9999),
+(162, 86, 2, NULL, 9999),
+(163, 86, 3, NULL, 9999),
+(164, 86, 4, NULL, 9999),
+(168, 87, 4, NULL, 9999),
+(169, 88, 1, NULL, 9999),
+(170, 88, 2, NULL, 9999),
+(171, 88, 3, NULL, 9999),
+(172, 88, 4, NULL, 9999),
+(176, 89, 4, NULL, 9999),
+(180, 90, 1, NULL, 9999),
+(181, 90, 2, NULL, 9999),
+(182, 90, 3, NULL, 9999),
+(184, 90, 4, NULL, 9999);
 
 -- --------------------------------------------------------
 
@@ -567,7 +596,19 @@ CREATE TABLE IF NOT EXISTS `tbliteminstanceenchant` (
   KEY `intItemInstanceID` (`intItemInstanceID`),
   KEY `intSuffixEnchantID` (`intSuffixEnchantID`),
   KEY `intPrefixEnchantID` (`intPrefixEnchantID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=58 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `tbliteminstanceenchant`
+--
+
+INSERT INTO `tbliteminstanceenchant` (`intItemInstanceEnchantID`, `intItemInstanceID`, `intSuffixEnchantID`, `intPrefixEnchantID`) VALUES
+(1, 587, NULL, NULL),
+(3, 592, NULL, NULL),
+(4, 597, NULL, 1),
+(5, 601, NULL, 1),
+(6, 607, NULL, NULL),
+(7, 612, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -616,7 +657,7 @@ CREATE TABLE IF NOT EXISTS `tbllocationeventlink` (
   PRIMARY KEY (`intLocationEventLinkID`),
   KEY `fk_intLocationID` (`intLocationID`),
   KEY `fk_intEventID` (`intEventID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `tbllocationeventlink`
@@ -625,8 +666,7 @@ CREATE TABLE IF NOT EXISTS `tbllocationeventlink` (
 INSERT INTO `tbllocationeventlink` (`intLocationEventLinkID`, `intLocationID`, `intEventID`, `strLinkName`) VALUES
 (1, 6, 13, 'Sleep'),
 (2, 6, 14, 'View Mirror'),
-(3, 11, 15, 'Reset Stats'),
-(4, 11, 16, 'Disenchant Armour');
+(3, 11, 15, 'Reset Stats');
 
 -- --------------------------------------------------------
 
@@ -642,7 +682,7 @@ CREATE TABLE IF NOT EXISTS `tbllocationshoplink` (
   PRIMARY KEY (`intLocationShopLinkID`),
   KEY `fk_intLocationID2` (`intLocationID`),
   KEY `fk_intShopID2` (`intShopID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `tbllocationshoplink`
@@ -652,7 +692,8 @@ INSERT INTO `tbllocationshoplink` (`intLocationShopLinkID`, `intLocationID`, `in
 (1, 7, 1, 'Shop'),
 (2, 8, 2, 'Shop'),
 (3, 9, 3, 'Shop'),
-(4, 10, 4, 'Shop');
+(4, 10, 4, 'Shop'),
+(5, 11, 5, 'Visit Enchanter');
 
 -- --------------------------------------------------------
 
@@ -910,17 +951,20 @@ CREATE TABLE IF NOT EXISTS `tblrpgcharacter` (
   KEY `intUserID` (`strUserID`),
   KEY `intFloorID` (`intFloorID`),
   KEY `intEventID` (`intEventID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=84 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=91 ;
 
 --
 -- Dumping data for table `tblrpgcharacter`
 --
 
 INSERT INTO `tblrpgcharacter` (`intRPGCharacterID`, `strUserID`, `strRPGCharacterName`, `intHeight`, `dblWeight`, `intDigestionRate`, `intFloorID`, `intCurrentFloorID`, `intEventID`, `intEventNodeID`, `intStateID`, `intTownID`, `intLocationID`, `intDay`, `strTime`, `strGender`, `strOrientation`, `strPersonality`, `strFatStance`, `strEyeColour`, `strHairColour`, `strHairLength`, `strEthnicity`, `intLevel`, `intExperience`, `intCurrentHP`, `intStatPoints`, `intGold`, `dtmCreatedOn`, `strCreatedBy`, `dtmModifiedOn`, `strModifiedBy`) VALUES
-(79, 'test', 'Test', 152, 115.5, 250, 1, 1, 10, 1, 1, 0, 0, 2, '10:45', 'Female', 'Heterosexual', 'Shy', 'Negative', 'Brown', 'Brown', 'Short', 'White', 2, 1600, 9, 5, 3, '2016-04-08 21:30:14', 'system', NULL, NULL),
-(80, 'test', 'Test2', 152, 261.375, 250, 1, 0, 12, 0, 4, 1, 2, 4, '3:15', 'Female', 'Heterosexual', 'Shy', 'Negative', 'Brown', 'Brown', 'Short', 'White', 4, 2400, 13, 5, 26, '2016-04-08 22:46:42', 'system', NULL, NULL),
-(82, 'test', 'Alessia', 157, 247.013, 250, 1, 0, 11, 0, 4, 1, 10, 3, '13:00', 'Female', 'Homosexual', 'Shy', 'Negative', 'Green', 'Red', 'Medium', 'White', 3, 800, 13, 5, 0, '2016-04-10 21:46:09', 'system', NULL, NULL),
-(83, 'test', 'Vienna', 157, 403.25, 250, 1, 1, 7, 0, 1, 0, 0, 7, '18:45', 'Female', 'Heterosexual', 'Shy', 'Negative', 'Brown', 'Brown', 'Short', 'White', 5, 8000, 13, 0, 42, '2016-04-10 22:05:58', 'system', NULL, NULL);
+(84, 'test', 'Test', 152, 108, 250, 1, 0, 15, 0, 4, 1, 6, 3, '7:15', 'Female', 'Heterosexual', 'Shy', 'Negative', 'Brown', 'Brown', 'Short', 'White', 2, 800, 1, 0, 3, '2016-05-23 15:11:43', 'system', NULL, NULL),
+(85, 'test', 'Test2', 157, 126, 250, 1, 1, 10, 3, 1, 0, 0, 1, '5:30', 'Female', 'Heterosexual', 'Shy', 'Negative', 'Brown', 'Brown', 'Short', 'White', 2, 800, 11, 5, 4, '2016-05-26 00:08:11', 'system', NULL, NULL),
+(86, 'test', 'Test3', 157, 285.5, 250, 1, 0, 12, 0, 4, 1, 6, 1, '17:30', 'Female', 'Heterosexual', 'Shy', 'Negative', 'Brown', 'Brown', 'Short', 'White', 2, 1600, 7, 5, 0, '2016-05-26 00:08:58', 'system', NULL, NULL),
+(87, 'test', 'Test4', 152, 202, 250, 1, 0, 12, 0, 4, 1, 6, 2, '2:45', 'Female', 'Heterosexual', 'Shy', 'Negative', 'Brown', 'Brown', 'Short', 'White', 2, 1600, 9, 5, 2, '2016-05-26 00:36:57', 'system', NULL, NULL),
+(88, 'test', 'Test5', 152, 309.5, 250, 1, 0, 13, 2, 6, 1, 11, 2, '4:30', 'Female', 'Heterosexual', 'Shy', 'Negative', 'Brown', 'Brown', 'Short', 'White', 2, 2400, 3, 5, 4, '2016-05-26 11:53:14', 'system', NULL, NULL),
+(89, 'test', 'Test6', 152, 172.712, 250, 1, 0, 15, 0, 4, 1, 11, 2, '6:15', 'Female', 'Heterosexual', 'Shy', 'Negative', 'Brown', 'Brown', 'Short', 'White', 3, 0, 13, 10, 14, '2016-05-26 11:59:50', 'system', NULL, NULL),
+(90, 'test', 'Test7', 152, 367, 250, 1, 0, 13, 1, 4, 1, 6, 2, '16:15', 'Female', 'Heterosexual', 'Shy', 'Negative', 'Brown', 'Brown', 'Short', 'White', 3, 800, 12, 5, 12, '2016-05-26 14:24:59', 'system', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -934,7 +978,7 @@ CREATE TABLE IF NOT EXISTS `tblshop` (
   `txtShopDesc` text,
   `strShopType` varchar(45) NOT NULL,
   PRIMARY KEY (`intShopID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `tblshop`
@@ -944,7 +988,8 @@ INSERT INTO `tblshop` (`intShopID`, `strShopName`, `txtShopDesc`, `strShopType`)
 (1, 'Turician Tailor', 'Buy clothes.', 'Tailor'),
 (2, 'Turician Blacksmith', 'Buy armour and weapons.', 'Blacksmith'),
 (3, 'Turician Apothecary', 'Buy potions.', 'Apothecary'),
-(4, 'Turician Grocer', 'Buy food.', 'Grocer');
+(4, 'Turician Grocer', 'Buy food.', 'Grocer'),
+(5, 'Turician Enchanter', 'Found at the University of the Arcane.', 'Enchanter');
 
 -- --------------------------------------------------------
 
