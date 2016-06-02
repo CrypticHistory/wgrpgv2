@@ -35,9 +35,9 @@ include_once "RPGCharacter.php";
 				<?php if(!isset($_SESSION['objUser'])){ ?>
 				<form action='login.php' method='post'>
 					<ul>
-						<li>Username: &nbsp;&nbsp;&nbsp;<input class='useridInput' type='text' name='strUserID' size='45'/></li>
-						<li>Password:&nbsp;&nbsp;&nbsp;&nbsp; <input type='password' class='passwordInput' name='strPassword' size='45'/></li>
-						<li class='fR'><input class='blogbutton' type='submit' value='Login'/></li>
+						<li class='noBullet'>Username: &nbsp;&nbsp;&nbsp;<input class='useridInput' type='text' name='strUserID' size='45'/></li>
+						<li class='noBullet'>Password:&nbsp;&nbsp;&nbsp;&nbsp; <input type='password' class='passwordInput' name='strPassword' size='45'/></li>
+						<li class='fR noBullet'><input class='blogbutton' type='submit' value='Login'/></li>
 					</ul>
 				</form>
 				<?php }else{ ?>

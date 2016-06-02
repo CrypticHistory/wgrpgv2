@@ -56,13 +56,13 @@ else{
 <form action="" method="post">
 	<ul>
 		<h2>Register</h2>
-		<li>Username:</li>
-		<li><input type="text" id="userIDTextField" name="strUserID"></li>
-		<li>Password:</li>
-		<li><input type="password" name="strPassword"></li>
-		<li>Confirm Password:</li>
-		<li><input type="password" name="strRepeatPassword"></li>
-		<li><input type="submit" value="Submit"></li>
+		<li class='noBullet'>Username:</li>
+		<li class='noBullet'><input type="text" id="userIDTextField" name="strUserID"></li>
+		<li class='noBullet'>Password:</li>
+		<li class='noBullet'><input type="password" name="strPassword"></li>
+		<li class='noBullet'>Confirm Password:</li>
+		<li class='noBullet'><input type="password" name="strRepeatPassword"></li>
+		<li class='noBullet'><input type="submit" value="Submit"></li>
 	</ul>
 </form>
 
