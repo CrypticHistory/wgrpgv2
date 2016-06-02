@@ -50,7 +50,8 @@ class RPGUser{
 					FROM tbluser
 						INNER JOIN tblrpgcharacter
 						USING (strUserID)
-					WHERE strUserID = " . $objDB->quote($this->getStringUserID());
+					WHERE strUserID = " . $objDB->quote($this->getStringUserID()) . "
+						AND blnActivated = 1";
 		$rsResult = $objDB->query($strSQL);
 		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
 			$arrReturn[$arrRow['intRPGCharacterID']] = $arrRow['strRPGCharacterName'];
@@ -73,12 +74,13 @@ class RPGUser{
 	
 	public function deleteCharacter($intRPGCharacterID){
 		$objDB = new Database();
-		$strSQL = "DELETE tblrpgcharacter FROM tblrpgcharacter
-						INNER JOIN tbluser
-							USING (strUserID)
-						WHERE strUserID = " . $objDB->quote($this->getStringUserID()) . "
-							AND intRPGCharacterID = " . $objDB->quote($intRPGCharacterID);
+		$strSQL = "UPDATE tblrpgcharacter rpgChar
+						JOIN tbluser usr ON rpgChar.strUserID = usr.strUserID
+					SET rpgChar.blnActivated = 0
+						WHERE usr.strUserID = " . $objDB->quote($this->getStringUserID()) . "
+							AND rpgChar.intRPGCharacterID = " . $objDB->quote($intRPGCharacterID);
 		$objDB->query($strSQL);
+		echo $strSQL;
 	}
 	
 	public function getNumericalUserID(){

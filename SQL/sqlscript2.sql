@@ -1,0 +1,1 @@
+ALTER TABLE `tblrpgcharacter` ADD `blnActivated` TINYINT(1) NOT NULL DEFAULT '1' AFTER `intGold`;
