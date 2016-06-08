@@ -10,19 +10,13 @@ a:active {color:#383838;}  /* selected link */
 body{
 	background-color:#D1BE94;
 	color:#4F3F32;
-	font-size:0.9em;
 	font-family: Georgia, Arial, sans-serif;
-}
-
-table{
-	font-size:0.9em;
 }
 
 .blogbutton{
 	margin-top:3px;
 	margin-bottom:3px;
 	width:100px;
-	font-size: 0.9em;
 }
 
 li.noBullet{
@@ -33,23 +27,28 @@ ul{
 	margin:0px;
 }
 
+table{
+	font-size:0.9em !important;
+}
+
 .mainDiv{
-	width:90%;
-	margin:0 auto;
+	font-size:0.9em !important;
+}
+
+@media screen and (min-height:900px){
+	.mainDiv{
+		width:65%;
+		margin: 0 auto;
+	}	
 }
 
 .containerDiv{
 	white-space:nowrap;
+	width:1220px;
 }
 
 .wrapDiv{
 	white-space:normal;
-}
-
-.secondDiv{
-	display:block;
-	white-space:nowrap;
-	float:left;
 }
 
 .navigation{
@@ -58,14 +57,13 @@ ul{
 }
 
 .content{
-	float:left;
-	margin:20px;
+	padding:20px;
 }
 
 .topWindow{
   top: 20px;
-  width:50%;
-  left:25%;
+  width:60%;
+  left:19.5%;
   float:left;
   position: relative;
   background-color: #EBE2D1;
@@ -74,14 +72,14 @@ ul{
 }
 
 .mainWindow{
-  width:50%;
-  left:25%;
+  width:60%;
+  left:19.5%;
   position:relative;
   clear:both;
   float:left;
   background-color: #EBE2D1;
   border: 5px solid #FFFFFF;
-  min-height:780px;
+  padding-bottom: 20px;
 }
 
 .login{
@@ -101,13 +99,19 @@ ul{
 }
 
 .blogPost{
-	width:auto;
-	padding:5px;
+	width: 65%;
+	padding:10px;
+	margin:0 auto;
+}
+
+.blogPostContents{
+	text-align:justify;
+	text-justify:inter-word;
 }
 
 .logo{
 	position:absolute;
-	left:44%;
+	left:46%;
 	top:10%;
 }
 
@@ -132,20 +136,20 @@ hr{
 }
 
 .leftFieldset{
-	width:480px;
-	height:700px;
+	width:360px;
+	height:635px;
 	float:left;
 }
 
 .middleFieldset{
-	width:42.5%;
-	height:700px;
+	width:500px;
+	height:470px;
 	float:left;
 }
 
 .rightFieldset{
-	width:480px;
-	height:700px;
+	width:360px;
+	height:470px;
 	display:inline;
 }
 
@@ -156,21 +160,27 @@ hr{
 	height:100%;
 	background-color:#EBE2D1;
 	border:1px solid grey;
+	text-align:justify;
+}
+
+.spacedDiv{
+	padding-right:5px;
 }
 
 .characterDiv{
 	padding-left:2px;
 	overflow-y:scroll;
 	width:100%;
-	height:96.5%;
+	height:95.2%;
 	background-color:#EBE2D1;
 	border:1px solid grey;
+	text-align:justify;
 }
 
 .inventoryDiv{
 	overflow-y:scroll;
 	width:100%;
-	height:93.5%;
+	height:89.2%;
 	background-color:#EBE2D1;
 	border:1px solid grey;
 	clear:both;
@@ -179,7 +189,7 @@ hr{
 .tableHeader{
 	width:450px;
 	font-weight:bold;
-	font-size:1.0em;
+	font-size:0.9em;
 	text-align:left;
 	background-color:#EBE2D1 !important;
 }
@@ -204,19 +214,19 @@ hr{
 
 .worldFieldset{
 	width:480px;
-	height:18%;
-	float:left;
+	height:175;
+	display:inline;
 }
 
 .commandsFieldset{
-	width:42.5%;
-	height:18%;
+	width:500px;
+	height:165px;
 	float:left;
 }
 
 .compassFieldset{
-	width:480px;
-	height:18%;
+	width:360px;
+	height:165px;
 	display:inline;
 }
 
@@ -292,27 +302,39 @@ fieldset {
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 
     div.commandsDiv {
-        height:91% !important;
+        height:88% !important;
     }
 	
 	div.worldDiv {
-        height:91% !important;
+        height:88% !important;
     }
 	
 	div.compassDiv {
-        height:85% !important;
+        height:88% !important;
     }
 	
 	div.inventoryDiv {
-		height:92% !important;
+		height:86.1% !important;
 	}
 	
 	div.characterDiv {
-		height:94% !important;
+		height:92.4% !important;
 	}
 	
 	div.eventDiv {
-		height:98% !important;
+		height:96% !important;
+	}
+	
+	fieldset.leftFieldset{
+		width:380px;
+	}
+	
+	fieldset.rightFieldset{
+		width:380px;
+	}
+	
+	fieldset.compassFieldset{
+		width:380px;
 	}
 }
 
@@ -385,6 +407,8 @@ fieldset {
 	float:left;
 	text-align:center;
 	cursor:pointer;
+	font-size:0.9em;
+	padding-top:5px;
 }
 
 .characterTabHeading{
@@ -397,6 +421,10 @@ fieldset {
 	float:left;
 	text-align:center;
 	cursor:pointer;
+	font-size:0.9em;
+	display:table-cell;
+	vertical-align:middle;
+	padding-top:5px;
 }
 
 .currentTab{
@@ -425,6 +453,10 @@ fieldset {
 
 .charTable tr:nth-child(odd){
 	background-color:#E8E8E8;
+}
+
+.invTable{
+	width:100%;
 }
 
 .invTable tbody tr{

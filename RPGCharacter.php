@@ -4,6 +4,7 @@ require_once "Database.php";
 include_once "RPGItem.php";
 include_once "RPGCharacterBody.php";
 include_once "RPGTime.php";
+include_once "RPGFloor.php";
 include_once "RPGStats.php";
 include_once "RPGStatusEffect.php";
 include_once "RPGXMLReader.php";
@@ -20,7 +21,7 @@ class RPGCharacter{
 	private $_objBody;
 	private $_intDigestionRate;
 	private $_intFloorID;
-	private $_intCurrentFloorID;
+	private $_objCurrentFloor;
 	private $_intDay;
 	private $_strTime;
 	private $_intEventID;
@@ -72,7 +73,7 @@ class RPGCharacter{
 		$this->setWeight($arrCharacterInfo['dblWeight']);
 		$this->setDigestionRate($arrCharacterInfo['intDigestionRate']);
 		$this->setFloor($arrCharacterInfo['intFloorID']);
-		$this->setCurrentFloorID($arrCharacterInfo['intCurrentFloorID']);
+		$this->setCurrentFloor($arrCharacterInfo['intCurrentFloorID']);
 		$this->setDay($arrCharacterInfo['intDay']);
 		$this->setTime($arrCharacterInfo['strTime']);
 		$this->setEventID($arrCharacterInfo['intEventID']);
@@ -160,6 +161,9 @@ class RPGCharacter{
 		$this->_objStats->loadAbilityStats();
 		$this->loadStatusEffects();
 		$this->_intRequiredExperience = $this->loadRequiredExperience();
+		if($this->_objCurrentFloor->getFloorID() != 0 && $this->_objCurrentFloor->getFloorID() != NULL){
+			$this->_objCurrentFloor->loadMaze($this->_objCurrentFloor->getDimension());
+		}
 	}
 	
 	public function save(){
@@ -168,7 +172,7 @@ class RPGCharacter{
 					SET intHeight = " . $objDB->quote($this->_intHeight) . ",
 						dblWeight = " . $objDB->quote($this->_dblWeight) . ",
 						intFloorID = " . $objDB->quote($this->_intFloorID) . ",
-						intCurrentFloorID = " . $objDB->quote($this->_intCurrentFloorID) . ",
+						intCurrentFloorID = " . $objDB->quote($this->_objCurrentFloor->getFloorID()) . ",
 						intDigestionRate = " . $objDB->quote($this->_intDigestionRate) . ",
 						intDay = " . $objDB->quote($this->_intDay) . ",
 						strTime = " . $objDB->quote($this->_strTime) . ",
@@ -1216,17 +1220,18 @@ class RPGCharacter{
 		global $arrStateValues;
 		$this->setTownID(0);
 		$this->setLocationID(NULL);
-		$this->setCurrentFloorID($intFloorID);
+		$this->setCurrentFloor($intFloorID);
 		$this->setStateID($arrStateValues['Field']);
 		$this->setEventID(1);
 		$this->setEventNodeID(0);
+		$this->_objCurrentFloor->loadMaze($this->_objCurrentFloor->getDimension());
 	}
 	
 	public function exitFloor($intLocationID){
 		global $arrStateValues;
 		$this->setTownID(1);
 		$this->setLocationID($intLocationID);
-		$this->setCurrentFloorID(NULL);
+		$this->setCurrentFloor(NULL);
 		$this->setStateID($arrStateValues['Town']);
 	}
 	
@@ -1247,12 +1252,12 @@ class RPGCharacter{
 		$this->healHP(round($this->getModifiedMaxHP() * ($intHours / 10)));
 	}
 	
-	public function getCurrentFloorID(){
-		return $this->_intCurrentFloorID;
+	public function getCurrentFloor(){
+		return $this->_objCurrentFloor;
 	}
 	
-	public function setCurrentFloorID($intCurrentFloorID){
-		$this->_intCurrentFloorID = $intCurrentFloorID;
+	public function setCurrentFloor($intCurrentFloorID){
+		$this->_objCurrentFloor = new RPGFloor($intCurrentFloorID);
 	}
 	
 	public function getBody(){

@@ -25,9 +25,6 @@ class DisplayEquipInventory{
 					<thead>
 						<th class='itemNameHeader borderBottom'>Item Name</th>
 						<th class='itemTypeHeader borderBottom'>Type</th>
-						<th class='damageHeader borderBottom'>DMG</th>
-						<th class='defenceHeader borderBottom'>DEF</th>
-						<th class='sizeHeader borderBottom'>Size</th>
 					</thead>
 					<tbody>
 					<?php
@@ -56,9 +53,6 @@ class DisplayEquipInventory{
 							echo "<td class='hidden' name='itemSellPrice'>" . $arrCategoryNames['intSellPrice'] . "</td>";
 							echo "<td class='hidden' name='itemType'>" . $strItemType . "</td>";
 							echo "<td>" . $arrItemType[1] . "</td>";
-							echo "<td>" . (($arrCategoryNames['intDamage'] != 0) ? $arrCategoryNames['intDamage'] : "-") . "</td>";
-							echo "<td>" . (($arrCategoryNames['intDefence'] != 0) ? $arrCategoryNames['intDefence'] : "-") . "</td>";
-							echo "<td>" . (($arrCategoryNames['strSize'] != null) ? $arrCategoryNames['strSize'] : "-") . "</td>";
 							echo "</tr>";
 							echo "<tr id='equipItemDetails" . $intCounter . "' class='hidden'><td colspan='5' class='itemDesc background" . ($intCounter % 2) . "'><b>Description:</b><br/>" . $arrCategoryNames['txtItemDesc'] . "
 									<form method='post' action='command.php'>

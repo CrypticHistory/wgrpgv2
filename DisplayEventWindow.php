@@ -10,6 +10,7 @@ class DisplayEventWindow{
 		ob_start(); ?>
 		
 			<div class='eventDiv' id='eventDivEventWindow'>
+				<div class='spacedDiv'>
 				<?php
 				
 				if($_SESSION['objRPGCharacter']->getErrorText() !== null){
@@ -43,6 +44,7 @@ class DisplayEventWindow{
 				}
 				
 				?>
+				</div>
 			</div>
 		
 		<?php

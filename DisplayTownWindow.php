@@ -12,6 +12,7 @@ class DisplayTownWindow{
 		ob_start(); ?>
 		
 			<div class='eventDiv' id='eventDivTownWindow'>
+				<div class='spacedDiv'>
 				<?php
 	
 				if($_SESSION['objRPGCharacter']->getEquipClothingText() !== null){
@@ -29,6 +30,7 @@ class DisplayTownWindow{
 				echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck('Armour') . "</i>";
 					
 				?>
+				</div>
 			</div>
 		
 		<?php

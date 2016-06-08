@@ -24,8 +24,6 @@ class DisplayUseInventory{
 					<thead>
 						<th class='itemNameHeader borderBottom'>Item Name</th>
 						<th class='itemTypeHeader borderBottom'>Type</th>
-						<th class='caloriesHeader borderBottom'>Calories</th>
-						<th class='HPHealHeader borderBottom'>Health</th>
 					</thead>
 					<tbody>
 					<?php
@@ -38,8 +36,6 @@ class DisplayUseInventory{
 							echo "<td class='hidden' name='itemID'>" . $arrCategoryNames['intItemID'] . "</td>";
 							echo "<td class='hidden' name='itemSellPrice'>" . $arrCategoryNames['intSellPrice'] . "</td>";
 							echo "<td>" . $arrCategoryNames['strItemType'] . "</td>";
-							echo "<td>" . $arrCategoryNames['intCalories'] . "</td>";
-							echo "<td>" . $arrCategoryNames['intHPHeal'] . "</td>";
 							echo "</tr>";
 							echo "<tr id='useItemDetails" . $intCounter . "' class='hidden'><td colspan='4' class='itemDesc'><b>Description:</b><br/>" . $arrCategoryNames['txtItemDesc'] . "<br/>
 									<form method='post' action='command.php'>

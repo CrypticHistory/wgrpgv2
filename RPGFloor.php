@@ -3,6 +3,7 @@
 require_once "Database.php";
 include_once "Lottery.php";
 include_once "RPGEvent.php";
+include_once "Maze.php";
 
 class RPGFloor{
 
@@ -10,14 +11,16 @@ class RPGFloor{
 	private $_strFloorName;
 	private $_txtEntryText;
 	private $_strFloorType;
+	private $_intDimension;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
+	private $_objMaze;
 	private $_dtmModifiedOn;
 	private $_strModifiedBy;
 	private $_arrApplicableEvents;
 	
 	public function RPGFloor($intFloorID = null){
-		if($intFloorID){
+		if($intFloorID != 0 && $intFloorID != null){
 			$this->loadFloorInfo($intFloorID);
 		}
 	}
@@ -27,6 +30,7 @@ class RPGFloor{
 		$this->setFloorName($arrFloorInfo['strFloorName']);
 		$this->setEntryText($arrFloorInfo['txtEntryText']);
 		$this->setFloorType($arrFloorInfo['strFloorType']);
+		$this->setDimension($arrFloorInfo['intDimension']);
 		$this->setCreatedOn($arrFloorInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrFloorInfo['strCreatedBy']);
 		$this->setModifiedOn($arrFloorInfo['dtmModifiedOn']);
@@ -45,6 +49,7 @@ class RPGFloor{
 				$arrFloorInfo['strFloorName'] = $arrRow['strFloorName'];
 				$arrFloorInfo['txtEntryText'] = $arrRow['txtEntryText'];
 				$arrFloorInfo['strFloorType'] = $arrRow['strFloorType'];
+				$arrFloorInfo['intDimension'] = $arrRow['intDimension'];
 				$arrFloorInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrFloorInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrFloorInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
@@ -89,6 +94,10 @@ class RPGFloor{
 		return $objLottery->getWinner();
 	}
 	
+	public function loadMaze($intDimension){
+		$this->_objMaze = new Maze($intDimension);
+	}
+	
 	public function getFloorID(){
 		return $this->_intFloorID;
 	}
@@ -113,12 +122,28 @@ class RPGFloor{
 		$this->_txtEntryText = $txtEntryText;
 	}
 	
+	public function getMaze(){
+		return $this->_objMaze;
+	}
+	
+	public function setMaze($objMaze){
+		$this->_objMaze = $objMaze;
+	}
+	
 	public function getFloorType(){
 		return $this->_strFloorType;
 	}
 	
 	public function setFloorType($strFloorType){
 		$this->_strFloorType = $strFloorType;
+	}
+	
+	public function getDimension(){
+		return $this->_intDimension;
+	}
+	
+	public function setDimension($intDimension){
+		$this->_intDimension = $intDimension;
 	}
 	
 	public function getCreatedOn(){

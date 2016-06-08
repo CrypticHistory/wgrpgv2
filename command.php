@@ -22,7 +22,7 @@
 	}
 	
 	if(isset($_POST['traverse']) && $_SESSION['objRPGCharacter']->getTownID() == 0){
-		$objFloor = new RPGFloor($_SESSION['objRPGCharacter']->getFloor());
+		$objFloor = $_SESSION['objRPGCharacter']->getCurrentFloor();
 		$objFloor->setApplicableEvents($_SESSION['objRPGCharacter']->getRPGCharacterID());
 		$intEventID = $objFloor->generateRandomEvent();
 		$_SESSION['objRPGCharacter']->setEventID($intEventID);		
@@ -55,7 +55,7 @@
 	
 	if(isset($_POST['return'])){
 		if($_SESSION['objRPGCharacter']->getTownID() == 0){
-			$objFloor = new RPGFloor($_SESSION['objRPGCharacter']->getFloor());
+			$objFloor = $_SESSION['objRPGCharacter']->getCurrentFloor();
 			$_SESSION['objRPGCharacter']->setStateID($arrStateValues[$objFloor->getFloorType()]);
 		}
 		else{

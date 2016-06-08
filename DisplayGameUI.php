@@ -293,9 +293,9 @@ class DisplayGameUI extends DataGameUI{
 				</fieldset>
 				
 			</div>
-			
 			<div class='containerDiv'>
 			
+			<?php if(0){ ?>
 				<fieldset class='worldFieldset'>
 				<legend>World</legend>
 					<div class='worldDiv'>
@@ -304,6 +304,7 @@ class DisplayGameUI extends DataGameUI{
 						Time: <?=$_SESSION['objRPGCharacter']->getTime()?>
 					</div>
 				</fieldset>
+			<?php } ?>
 				
 				<fieldset class='commandsFieldset'>
 				<legend>Commands</legend>
