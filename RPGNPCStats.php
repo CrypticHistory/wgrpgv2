@@ -75,6 +75,10 @@
 		public function getCombinedStats($strIndex){
 			return $this->_arrBaseStats[$strIndex];
 		}
+		
+		public function getCombinedStatsSecondary($strIndex){
+			return $this->_arrBaseStats[$strIndex];
+		}
 	}
 
 ?>

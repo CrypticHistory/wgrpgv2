@@ -44,7 +44,8 @@ class RPGShop{
 	private function loadShopInventory(){
 		$objDB = new Database();
 		$strSQL = "SELECT intItemID, dblPrice FROM tblshopitemxr
-					WHERE intShopID = " . $objDB->quote($this->_intShopID);
+					WHERE intShopID = " . $objDB->quote($this->_intShopID) . "
+						ORDER BY dblPrice ASC";
 		$rsResult = $objDB->query($strSQL);
 		while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
 			$this->_arrShopInv[$arrRow['intItemID']]['objItem'] = new RPGItem($arrRow['intItemID']);

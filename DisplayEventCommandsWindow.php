@@ -12,17 +12,19 @@ class DisplayEventCommandsWindow{
 			<div class='commandsDiv' id='commandsDivEventCommands'>
 				<form method='post' action='command.php'>
 					<?php
-					$objEvent = new RPGEvent($_SESSION['objRPGCharacter']->getEventID());
+					$objEvent = $_SESSION['objRPGCharacter']->getEvent();
 					$objXML = new RPGXMLReader($objEvent->getXML());
 					$intCounter = 0;
-					foreach($objXML->getCommandList($_SESSION['objRPGCharacter']->getEventNodeID()) as $key => $value){
-						if(($objXML->hasCommandPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) == true && DialogConditionFactory::evaluateCondition($objXML->getCommandPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter)) == true)
-						|| $objXML->hasCommandPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) == false){
-							if($objXML->hasCommandAction($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) == true){
-								echo "<input type='hidden' name='eventAction" . $objXML->getCommandID($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) . "' value='" . $objXML->getCommandAction($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) . "'/>";
-								$_SESSION['previousCommand'] = $_SESSION['objRPGCharacter']->getEventNodeID();
+					foreach($objXML->getCommandList($objEvent->getEventNodeID()) as $key => $value){
+						if(($objXML->hasCommandPrecondition($objEvent->getEventNodeID(), $intCounter) == true && DialogConditionFactory::evaluateCondition($objXML->getCommandPrecondition($objEvent->getEventNodeID(), $intCounter)) == true)
+						|| $objXML->hasCommandPrecondition($objEvent->getEventNodeID(), $intCounter) == false){
+							if($objXML->hasCommandAction($objEvent->getEventNodeID(), $intCounter) == true){
+								echo "<input type='hidden' name='commandIndex" . $objXML->getCommandID($objEvent->getEventNodeID(), $intCounter) . "' value='" . $intCounter . "'/>";
 							}
-							echo "<button type='submit' name='command' value='" . $objXML->getCommandID($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) . "'>" . $value . "</button>";
+							echo "<button type='submit' name='command' value='" . $objXML->getCommandID($objEvent->getEventNodeID(), $intCounter) . "'>" . $value . "</button>";
+							if(strlen($value) > 15){
+								echo "<br/>";
+							}
 							$intCounter++;
 						}
 					}

@@ -1,0 +1,37 @@
+<?php
+
+include_once "RPGCombatHelper.php";
+	
+class SkillRend{
+	
+	public function SkillRend(){
+		
+	}
+
+	public function castedByPlayer($objPlayer, $objNPC){
+		// todo
+	}
+	
+	public function castedByNPC($objPlayer, $objNPC){
+		// todo: strSkillUseText in tblnpcskillxr
+		
+		$objRPGCombatHelper = new RPGCombatHelper();
+		
+		$intDamage = $objRPGCombatHelper->calculateDamage($objNPC, $objPlayer, $this->getSkillBaseModifier());
+		
+		$objPlayer->takeDamage($intDamage);
+		
+		$strReturnText = $objNPC->getNPCName() . " swings its " . $objNPC->getEquippedWeapon()->getItemName() . " rapidly over top its head, swapping between hands before finally landing the blade on your skull with a crushing blow. " . $objNPC->getNPCName() . " rends you, inflicting " . $intDamage . " damage.";
+		return $strReturnText;
+	}
+	
+	public function getWaitTime(){
+		return 50;
+	}
+	
+	public function getSkillBaseModifier(){
+		return 2;
+	}
+}
+
+?>

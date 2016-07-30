@@ -16,5 +16,15 @@
 		$intCMs = $intActualFeet * dblCM_PER_FOOT;
 		return round($intCMs);
 	}
+	
+	function getClosest($search, $arr) {
+	   $closest = null;
+	   foreach ($arr as $key => $val) {
+		  if ($closest === null || abs($search - $closest) > abs($val - $search)) {
+			 $closest = $val;
+		  }
+	   }
+	   return $closest;
+	}
 
 ?>

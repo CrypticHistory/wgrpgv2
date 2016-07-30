@@ -3,6 +3,7 @@
 include_once "RPGShop.php";
 include_once "RPGItem.php";
 include_once "constants.php";
+include_once "common.php";
 
 class DisplayShopWindow{
 
@@ -23,6 +24,7 @@ class DisplayShopWindow{
 					
 					  $(function() {
 						$('#sizeTooltip').tooltip();
+						$('#itemNameTooltip').tooltip();
 					  });
 					
 					$('input[type=text]').numeric();
@@ -140,13 +142,14 @@ class DisplayShopWindow{
 				}
 				
 				if($blnShowShop){
-					if($objShop->getShopType() == 'Tailor' || $objShop->getShopType() == 'Blacksmith'){
+					if($objShop->getShopType() != "Enchanter"){
 						global $arrNumberedClothingSizes;
 						global $arrClothingSizes;
-						$strClosestClothingSize = array_search(DisplayShopWindow::getClosest($_SESSION['objRPGCharacter']->getBMI(), array_values($arrClothingSizes)), $arrClothingSizes);
+						$strClosestClothingSize = array_search(getClosest($_SESSION['objRPGCharacter']->getBMI(), array_values($arrClothingSizes)), $arrClothingSizes);
 						?>
 						<div class='insideEvent'>
 							<h3>Shop : <?=$objShop->getShopName()?></h3>
+							<p>Tip: Mouse over item names listed in the shop window to see their description and stats before buying.</p>
 							<fieldset class='shopFieldset'>
 								<legend><span id='buyLink' class='underline pointer bold'>Buy</span> | <span id='sellLink' class='underline pointer'>Sell</span></legend>
 								<form method='post' action='shoptransactionbuy.php' id='buyForm'>
@@ -155,9 +158,16 @@ class DisplayShopWindow{
 										<?php
 										
 										foreach($objShop->getShopInv() as $arrItemDetails){
+											$strDamage = (strpos($arrItemDetails['objItem']->getItemType(),'Weapon') !== false && $arrItemDetails['objItem']->getStatDamage() == "Strength" && strpos($arrItemDetails['objItem']->getItemType(),'Shield') == false) ? "\nDamage: " . $arrItemDetails['objItem']->getDamage() : "";
+											$strMagicDamage = (strpos($arrItemDetails['objItem']->getItemType(),'Weapon') !== false && $arrItemDetails['objItem']->getStatDamage() == "Intelligence")  ? "\nMagic Damage: " . $arrItemDetails['objItem']->getMagicDamage() : "";
+											$strDefence = (strpos($arrItemDetails['objItem']->getItemType(), 'Armour') !== false || strpos($arrItemDetails['objItem']->getItemType(),'Shield') !== false) ? "\nDefence: " . $arrItemDetails['objItem']->getDefence() : "";
+											$strMagicDefence = strpos($arrItemDetails['objItem']->getItemType(), 'Armour') !== false ? "\nMagic Defence: " . $arrItemDetails['objItem']->getMagicDefence() : "";
+											$strHPHeal = strpos($arrItemDetails['objItem']->getItemType(), 'Food') !== false || strpos($arrItemDetails['objItem']->getItemType(), 'Potion') !== false ? "\nHP Heal: " . $arrItemDetails['objItem']->getHPHeal() : "";
+											$strCalories = strpos($arrItemDetails['objItem']->getItemType(), 'Food') !== false || strpos($arrItemDetails['objItem']->getItemType(), 'Potion') !== false ? "\nCalories: " . $arrItemDetails['objItem']->getCalories() : "";
+											$strTooltip = "Description: " . htmlspecialchars($arrItemDetails['objItem']->getItemDesc(), ENT_QUOTES) . $strDamage . $strMagicDamage . $strDefence . $strHPHeal . $strCalories;
 											echo "<input type='hidden' name='itemID[]' value='" . $arrItemDetails['objItem']->getItemID() . "'/>";
 											echo "<input type='hidden' name='price[]' value='" . $arrItemDetails['dblPrice'] . "'/>";
-											echo "<tr><td>" . $arrItemDetails['objItem']->getItemName() . "</td><td>" . $arrItemDetails['dblPrice'] . "</td>";
+											echo "<tr><td><span class='itemNameTooltip pointer' title='" . $strTooltip . "'>" . $arrItemDetails['objItem']->getItemName() . "</span></td><td>" . $arrItemDetails['dblPrice'] . "</td>";
 											if($objShop->getShopType() == 'Tailor'){
 												echo "<td><select name='size[]' autocomplete='off'>";
 												foreach($arrNumberedClothingSizes as $key => $val){
@@ -184,7 +194,7 @@ class DisplayShopWindow{
 						</div>
 						<?php
 					}
-					else if($objShop->getShopType() == 'Enchanter'){
+					else{
 					?>
 						<div class='insideEvent'>
 							<h3><?=$objShop->getShopName()?></h3>
@@ -233,16 +243,6 @@ class DisplayShopWindow{
 		ob_end_clean();
 		
 		echo $strHTML;
-	}
-	
-	public static function getClosest($search, $arr) {
-	   $closest = null;
-	   foreach ($arr as $key => $val) {
-		  if ($closest === null || abs($search - $closest) > abs($val - $search)) {
-			 $closest = $val;
-		  }
-	   }
-	   return $closest;
 	}
 
 }

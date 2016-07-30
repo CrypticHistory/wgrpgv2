@@ -13,6 +13,15 @@ body{
 	font-family: Georgia, Arial, sans-serif;
 }
 
+progress[value] {
+  /* Reset the default appearance */
+  -webkit-appearance: none;
+   appearance: none;
+
+  width: 75px;
+  height: 10px;
+}
+
 .blogbutton{
 	margin-top:3px;
 	margin-bottom:3px;
@@ -100,7 +109,10 @@ table{
 
 .blogPost{
 	width: 65%;
-	padding:10px;
+	padding-top:10px;
+	padding-left:20px;
+	padding-bottom:10px;
+	padding-right:20px;
 	margin:0 auto;
 }
 
@@ -164,7 +176,9 @@ hr{
 }
 
 .spacedDiv{
-	padding-right:5px;
+	padding-right:10px;
+	padding-top:4px;
+	padding-left:4px;
 }
 
 .characterDiv{
@@ -293,6 +307,10 @@ fieldset {
 	border-collapse: collapse;
 }
 
+.fog{
+	background-color:#E8E8E8;
+}
+
 @media only screen and (max-width: 1440px) {
     body{
 		overflow-y:scroll;
@@ -369,7 +387,7 @@ fieldset {
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
-	width: 120px;
+	width: 112.65px;
 	height: 30px;
 }
 
@@ -439,6 +457,10 @@ fieldset {
 	width:30%;
 }
 
+.tableCenter{
+	margin: 0 auto;
+}
+
 .textCenter{
 	text-align:center;
 }
@@ -465,6 +487,10 @@ fieldset {
 
 .invTable tbody tr:nth-child(4n), .invTable tbody tr:nth-child(4n-1){
 	background-color:#E8E8E8;
+}
+
+.mapTable{
+	width:100%;
 }
 
 .quantityWidth{
@@ -521,5 +547,84 @@ span.close {padding-left: 5px; color: red;cursor: pointer;}
 	padding-top:10px;
 	padding-left:10px;
 	padding-right:10px;
+	border-bottom:1px solid grey;
+}
+
+.combatTopLine{
+	height:70px;
+	width:100%;
+	margin:auto;
+}
+
+.combatTopLeft{
+	width:20%;
+	float:left;
+	height:50px;
+	border:1px solid grey;
+	text-align:center;
+}
+
+.combatTopRight{
+	width:20%;
+	float:left;
+	height:50px;
+	border:1px solid grey;
+	text-align:center;
+}
+
+.combatTopMid{
+	width:58%;
+	float:left;
+	height:50px;
+	border:1px solid grey;
+	text-align:center;
+}
+
+.combatSubHeader{
+	font-size:14px;
+	text-decoration:underline;
+	display:block;
+}
+
+.combatHPBar{
+	display:block;
+}
+
+.combatTurnLog{
+
+}
+
+.combatTurn{
+	padding:10px;
+	border-bottom:1px solid grey;
+}
+
+.combatSystemMessage{
+	border-bottom:1px solid grey;
+}
+
+.combatHeader{
+	font-weight:bold;
+	color:#520B6B;
+}
+
+.player{
+	background-color:#F5F5F5;
+}
+
+.enemy{
+	background-color:#E8E8E8;
+}
+
+.system{
+	color:#520B6B;
+	background-color:#F5F5F5;
+	padding:10px;
+}
+
+.combatLogHeader{
+	font-size:16px;
+	text-align:center;
+	font-weight:bold;
 	border-bottom:1px solid grey;
 }

@@ -61,7 +61,6 @@ class DisplayEquipInventory{
 										<input type='hidden' name='itemID' value='" . $arrCategoryNames['intItemID'] . "'/>
 										<button type='submit' name='itemAction'" . $strDisabled . "value='" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? "unequip'>Unequip" : "equip'>Equip") . "</button>
 										" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? "" : "<button type='submit' name='itemAction' value='drop'>Drop</button>") . "
-										<a href=\"javascript:viewItem(" . $arrCategoryNames['intItemID'] . ", '" . $arrCategoryNames['strItemName'] . "');\"><button type='button' id='viewButton" . $arrCategoryNames['intItemInstanceID'] . "'>View</button></a> 
 									</form></td><td></td><td></td>
 								  </tr>";
 							$intCounter++;
@@ -71,7 +70,7 @@ class DisplayEquipInventory{
 				</table>
 					<?php } else { ?>
 					<div class='insideOther'>
-						Your equipment inventory is locked during this event.
+						Your inventory is locked during this event.
 					</div>
 					<?php } ?>
 			</div>
@@ -86,7 +85,7 @@ class DisplayEquipInventory{
 	private function getEquipInventory(){
 		$arrReturn = array();
 		$objDB = new Database();
-		$strSQL = "SELECT tblcharacteritemxr.intItemInstanceID as intItemInstanceID, strItemName, txtItemDesc, intItemID, intSellPrice, strItemType, intDamage, intDefence, strSize, tblSuffix.strEnchantName as strSuffix, tblPrefix.strEnchantName as strPrefix
+		$strSQL = "SELECT tblcharacteritemxr.intItemInstanceID as intItemInstanceID, strItemName, txtItemDesc, intItemID, intSellPrice, strStatDamage, strItemType, intDamage, intMagicDamage, intDefence, intMagicDefence, strSize, tblSuffix.strEnchantName as strSuffix, tblPrefix.strEnchantName as strPrefix
 					FROM tblitem
 						INNER JOIN tblcharacteritemxr
 							USING (intItemID)
@@ -107,9 +106,21 @@ class DisplayEquipInventory{
 			$arrReturn[$intCounter]['intItemID'] = $arrRow['intItemID'];
 			$arrReturn[$intCounter]['strItemType'] = $arrRow['strItemType'];
 			$arrReturn[$intCounter]['intDamage'] = $arrRow['intDamage'];
+			$arrReturn[$intCounter]['intMagicDamage'] = $arrRow['intMagicDamage'];
 			$arrReturn[$intCounter]['intDefence'] = $arrRow['intDefence'];
+			$arrReturn[$intCounter]['intMagicDefence'] = $arrRow['intMagicDefence'];
 			$arrReturn[$intCounter]['intSellPrice'] = $arrRow['intSellPrice'];
 			$arrReturn[$intCounter]['strSize'] = $arrRow['strSize'];
+			$arrItemType = explode(':', $arrRow['strItemType']);
+			if($arrItemType[0] == "Armour"){
+				$arrReturn[$intCounter]['txtItemDesc'] .= "<br/><i>* Size " . $arrRow['strSize'] . " armour that defends against " . $arrRow['intDefence'] . " damage.</i>";
+			}
+			else if($arrItemType[0] == "Weapon" && $arrItemType[1] != "Shield"){
+				$arrReturn[$intCounter]['txtItemDesc'] .= "<br/><i>* " . $arrItemType[1] . " weapon that inflicts " . (($arrRow['strStatDamage'] == 'Strength') ? $arrRow['intDamage'] : $arrRow['intMagicDamage']) . " damage.</i>";
+			}
+			else if($arrItemType[0] == "Weapon" && $arrItemType[1] == "Shield"){
+				$arrReturn[$intCounter]['txtItemDesc'] .= "<br/><i>* " . $arrItemType[1] . " that defends against " . $arrRow['intDefence'] . " damage.</i>";
+			}
 			$arrReturn[$intCounter]['strPrefix'] = !is_null($arrRow['strPrefix']) ? '[' . $arrRow['strPrefix'] . ']' : '';
 			$arrReturn[$intCounter]['strSuffix'] = !is_null($arrRow['strSuffix']) ? '[' . $arrRow['strSuffix'] . ']' : '';
 			$intCounter++;

@@ -1,7 +1,7 @@
 <?php
 
 // Name of the file
-$filename = 'dbwgrpg.sql';
+$filename = 'sqlscript2.sql';
 // MySQL username
 $mysql_username = 'Cryptic';
 // MySQL password

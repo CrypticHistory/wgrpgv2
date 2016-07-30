@@ -26,11 +26,11 @@ class DisplayEventWindow{
 					}
 					
 					$intCounter = 0;
-					$objEvent = new RPGEvent($_SESSION['objRPGCharacter']->getEventID());
+					$objEvent = $_SESSION['objRPGCharacter']->getEvent();
 					$objXML = new RPGXMLReader($objEvent->getXML());
-					foreach($objXML->getEventTextList($_SESSION['objRPGCharacter']->getEventNodeID()) as $key => $value){
-						if(($objXML->hasEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) == true && DialogConditionFactory::evaluateCondition($objXML->getEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter)) == true)
-							|| $objXML->hasEventTextPrecondition($_SESSION['objRPGCharacter']->getEventNodeID(), $intCounter) == false){
+					foreach($objXML->getEventTextList($objEvent->getEventNodeID()) as $key => $value){
+						if(($objXML->hasEventTextPrecondition($objEvent->getEventNodeID(), $intCounter) == true && DialogConditionFactory::evaluateCondition($objXML->getEventTextPrecondition($objEvent->getEventNodeID(), $intCounter)) == true)
+							|| $objXML->hasEventTextPrecondition($objEvent->getEventNodeID(), $intCounter) == false){
 							echo self::extractVariables(nl2br($value));
 						}
 						$intCounter++;

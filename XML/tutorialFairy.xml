@@ -14,10 +14,14 @@
 			A shrill mechanical sound emitting from your wristwatch that you hadn't known you possessed until now. On closer inspection, the watch does not tell the time; it poses a question in digital fashion.
 
 			<![CDATA[<i>]]>What is your weapon of choice?<![CDATA[</i>]]></eventText>
-		<option id='1' action='giveItem~3'>Blunt</option>
+		<option id='1' action='giveItem~10'>Sword</option>
+		<option id='19' action='giveItem~12'>Axe</option>
+		<option id='20' action='giveItem~11'>Blunt</option>
+		<option id='21' action='giveItem~16'>Bow</option>
+		<option id='22' action='giveItem~17'>Staff</option>
 	</dialog>
 	<dialog id='1'>
-		<eventText>You choose a blunt. In a flash of light, a blunt weapon falls to the ground. You reach for it. The watch now issues a command.
+		<eventText>You choose a sword. In a flash of light, a sturdy wooden stick falls to the ground. You reach for it. The watch now issues a command.
 
 			<![CDATA[<i>]]>Press onward.<![CDATA[</i>]]></eventText>
 		<option id='2' action='addOverride~3'>Continue</option>
@@ -46,7 +50,7 @@
 			"Wow! You're a natural! I bet you can't block this next attack though! Get ready!"
 
 			Seraphine charges up a powerful attack, omitting a purple aura.</eventText>
-		<option id='5'>Defend</option>
+		<option id='5' action='giveItem~5'>Defend</option>
 	</dialog>
 	<dialog id='5'>
 		<eventText>You attempt to block Seraphine's attack, but it proves to be too much for you to handle. The force of her blow knocks you over.
@@ -57,9 +61,7 @@
 
 			Seraphine hands you a potion.
 
-			"Drink it the same way you equipped your weapon, except the button should say 'Use' this time!"
-
-			You feel revitalized after drinking the potion. Your wounds have been healed!</eventText>
+			"Drink it the same way you equipped your weapon, except the button should say 'Use' this time!"</eventText>
 		<option id='6'>Continue</option>
 	</dialog>
 	<dialog id='6'>
@@ -149,5 +151,29 @@
 	</dialog>
 	<dialog id='18'>
 		<eventText></eventText>
+	</dialog>
+	<dialog id='19'>
+		<eventText>You choose an axe. In a flash of light, a wooden axe falls to the ground. You reach for it. The watch now issues a command.
+
+			<![CDATA[<i>]]>Press onward.<![CDATA[</i>]]></eventText>
+		<option id='2' action='addOverride~3'>Continue</option>
+	</dialog>
+	<dialog id='20'>
+		<eventText>You choose a blunt. In a flash of light, a heavy tree branch falls to the ground. You reach for it. The watch now issues a command.
+
+			<![CDATA[<i>]]>Press onward.<![CDATA[</i>]]></eventText>
+		<option id='2' action='addOverride~3'>Continue</option>
+	</dialog>
+	<dialog id='21'>
+		<eventText>You choose a bow. In a flash of light, a wooden bow falls to the ground. You reach for it. The watch now issues a command.
+
+			<![CDATA[<i>]]>Press onward.<![CDATA[</i>]]></eventText>
+		<option id='2' action='addOverride~3'>Continue</option>
+	</dialog>
+	<dialog id='22'>
+		<eventText>You choose a staff. In a flash of light, a long wooden rod falls to the ground. You reach for it. The watch now issues a command.
+
+			<![CDATA[<i>]]>Press onward.<![CDATA[</i>]]></eventText>
+		<option id='2' action='addOverride~3'>Continue</option>
 	</dialog>
 </event>

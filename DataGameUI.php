@@ -17,18 +17,17 @@ class DataGameUI{
 	public function handleEvents(){
 		global $arrStateNames;
 		global $arrStateValues;
-
+		
 		// town events are accessed using the URL ($_GET)
 		$this->handleTownEvents();
-		$objEvent = new RPGEvent($_SESSION['objRPGCharacter']->getEventID());
+		$objEvent = $_SESSION['objRPGCharacter']->getEvent();
 		$objXML = new RPGXMLReader($objEvent->getXML());
 		
-		$blnEndOfEvent = $_SESSION['objRPGCharacter']->checkEndOfEvent();
+		$blnEndOfEvent = $objEvent->checkEndOfEvent();
 			
 		// if initiated combat from an event
-		if($_SESSION['objRPGCharacter']->getCombat()[0] != 0 && !isset($_SESSION['objCombat'])){
-			$objEnemy = new RPGNPC($_SESSION['objRPGCharacter']->getCombat()[0]);
-			$_SESSION['objCombat'] = new RPGCombat($_SESSION['objRPGCharacter'], $objEnemy, $_SESSION['objRPGCharacter']->getCombat()[1]);
+		if($_SESSION['objRPGCharacter']->getCombat()["Enemy"] != null && !isset($_SESSION['objCombat'])){
+			$_SESSION['objCombat'] = new RPGCombat($_SESSION['objRPGCharacter'], $_SESSION['objRPGCharacter']->getCombat()["Enemy"], $_SESSION['objRPGCharacter']->getCombat()["FirstTurn"]);
 			$_SESSION['objCombat']->initiateCombat();
 			$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Combat']);
 		}
@@ -44,7 +43,7 @@ class DataGameUI{
 				$_SESSION['objUISettings']->setNavigationFrame('Compass');
 				break;
 			case "Event":
-				if((($objXML->getEventType() == "Forced Combat" || $objXML->getEventType() == "Forced Event") && !$blnEndOfEvent) || ($_SESSION['objRPGCharacter']->getEventNodeID() != 0 && !$blnEndOfEvent)){
+				if((($objXML->getEventType() == "Forced Event") && !$blnEndOfEvent) || ($objEvent->getEventNodeID() != 0 && !$blnEndOfEvent)){
 					$_SESSION['objUISettings']->setDisableTraversal(true);
 					$_SESSION['objUISettings']->setDisableInv(true);
 					$_SESSION['objUISettings']->setDisableStats(true);
@@ -103,12 +102,12 @@ class DataGameUI{
 				$_SESSION['objUISettings']->setNavigationFrame('Compass');
 				break;
 			case "Shop":
-				$_SESSION['objUISettings']->setDisableTraversal(true);
+				$_SESSION['objUISettings']->setDisableTraversal(false);
 				$_SESSION['objUISettings']->setDisableInv(false);
-				$_SESSION['objUISettings']->setDisableStats(true);
+				$_SESSION['objUISettings']->setDisableStats(false);
 				$_SESSION['objUISettings']->setEventFrame('Shop');
 				$_SESSION['objUISettings']->setCommandsFrame('Return');
-				$_SESSION['objUISettings']->setNavigationFrame('Compass');
+				$_SESSION['objUISettings']->setNavigationFrame('Menu');
 				break;
 			default:
 				$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Tutorial']);
@@ -136,8 +135,13 @@ class DataGameUI{
 		if($_SESSION['objRPGCharacter']->getTownID() == 1){
 			// todo: verify with eventlinkxr or shoplinkxr that they are allowed to view the event/shop
 			
+			if(isset($_GET['LocationID'])){
+				$_SESSION['objRPGCharacter']->setLocationID($_GET['LocationID']);
+				$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Town']);
+			}
+			
 			if(isset($_GET['EventID'])){
-				$objEvent = new RPGEvent($_GET['EventID']);
+				$objEvent = new RPGEvent($_GET['EventID'], $_SESSION['objRPGCharacter']->getRPGCharacterID());
 				$objXML = new RPGXMLReader($objEvent->getXML());
 				
 				$blnConditionsPassed = false;
@@ -151,8 +155,7 @@ class DataGameUI{
 				}
 				
 				if($blnConditionsPassed){
-					$_SESSION['objRPGCharacter']->setEventID($objEvent->getEventID());
-					$_SESSION['objRPGCharacter']->setEventNodeID(0);
+					$_SESSION['objRPGCharacter']->setEvent($objEvent);
 					$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
 				}
 			}
@@ -160,9 +163,6 @@ class DataGameUI{
 				$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Shop']);
 			}
 			
-			if(isset($_GET['LocationID'])){
-				$_SESSION['objRPGCharacter']->setLocationID($_GET['LocationID']);
-			}
 			
 		}
 	}
@@ -179,7 +179,6 @@ class DataGameUI{
 		else if($_SESSION['objRPGCharacter']->getImmobilityFactor() < 0.04 && isset($_SESSION['objUISettings']->getOverrides()[4])){
 			$_SESSION['objRPGCharacter']->removeFromStatusEffects('Burdened by Weight');		
 		}
-		
 		$_SESSION['objRPGCharacter']->save();
 	}	
 }

@@ -164,6 +164,10 @@
 			return $this->_arrBaseStats[$strIndex] + $this->_arrAbilityStats[$strIndex];
 		}
 		
+		public function getCombinedStatsSecondary($strIndex){
+			return $this->_arrBaseStats[$strIndex];
+		}
+		
 		public function resetStats(){
 			$intTotalStatPoints = 0;
 			$intTotalStatPoints = $this->_arrAbilityStats['intStrength']

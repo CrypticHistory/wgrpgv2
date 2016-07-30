@@ -5,6 +5,7 @@
 	include_once 'RPGCharacter.php';
 	include_once 'RPGNPC.php';
 	include_once 'RPGFloor.php';
+	include_once 'RPGEvent.php';
 	include_once 'UISettings.php';
 	include_once 'DataGameUI.php';
 	include_once 'constants.php';
@@ -14,43 +15,86 @@
 	global $arrStateValues;
 
 	if(isset($_POST['command'])){
-		// todo: security so they can't inject $_POST
-		$_SESSION['objRPGCharacter']->setEventNodeID($_POST['command']);
-		if(isset($_POST['eventAction' . $_POST['command']])){
-			DialogConditionFactory::evaluateAction($_POST['eventAction' . $_POST['command']]);
+		$objEvent = $_SESSION['objRPGCharacter']->getEvent();
+		$objXML = new RPGXMLReader($objEvent->getXML());
+		if($objXML->isValidNodeID($objEvent->getEventNodeID(), $_POST['command'])){
+			// command actions require the command index to be passed in
+			if(isset($_POST['commandIndex' . $_POST['command']])){
+				$strCommand = $objXML->getCommandAction($objEvent->getEventNodeID(), intval($_POST['commandIndex' . $_POST['command']]));
+				DialogConditionFactory::evaluateAction(strval($strCommand));
+			}
+			$objEvent->setEventNodeID($_POST['command']);
 		}
 	}
 	
 	if(isset($_POST['traverse']) && $_SESSION['objRPGCharacter']->getTownID() == 0){
-		$objFloor = $_SESSION['objRPGCharacter']->getCurrentFloor();
-		$objFloor->setApplicableEvents($_SESSION['objRPGCharacter']->getRPGCharacterID());
-		$intEventID = $objFloor->generateRandomEvent();
-		$_SESSION['objRPGCharacter']->setEventID($intEventID);		
-		$_SESSION['objRPGCharacter']->setEventNodeID(0);
-		$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
+		$objCurrentFloor = $_SESSION['objRPGCharacter']->getCurrentFloor();
+		
+		if($objCurrentFloor->getMaze()->isValidMove($_POST['traverse'])){
+			$strMoveFunction = 'move' . $_POST['traverse'];
+			$objCurrentFloor->getMaze()->$strMoveFunction();
+			$strEventType = $objCurrentFloor->getMaze()->getEventAtCurrentLocation();
+
+			// show staircase down
+			if($strEventType == "B"){
+				if($objCurrentFloor->getFloorID() == 1){
+					// Generic leave tower event on first floor
+					$objEvent = new RPGEvent(12, $_SESSION['objRPGCharacter']->getRPGCharacterID());
+				}
+				else{
+					// Generic descend floor event on second+ floor
+					$objEvent = new RPGEvent(20, $_SESSION['objRPGCharacter']->getRPGCharacterID());
+				}
+				$_SESSION['objRPGCharacter']->setEvent($objEvent);
+				$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
+			}
+			// show staircase up
+			else if($strEventType == "E"){
+				// Generic ascend floor event
+				$objEvent = new RPGEvent(21, $_SESSION['objRPGCharacter']->getRPGCharacterID());
+				$_SESSION['objRPGCharacter']->setEvent($objEvent);
+				$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
+			}
+			// standstill event
+			else if($strEventType == "S"){
+				$objEvent = $objCurrentFloor->getStandstill($_SESSION['objRPGCharacter']->getRPGCharacterID());
+				$_SESSION['objRPGCharacter']->setEvent($objEvent);		
+				$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
+			}
+			// combat
+			else if($strEventType == "C"){
+				// todo: 50/50 to decide if forced combat or not, or skills factor in
+				$_SESSION['objRPGCharacter']->setPotentialEnemy($objCurrentFloor->getRandomEnemy());
+				$objGenericForcedCombatEvent = new RPGEvent(18, $_SESSION['objRPGCharacter']->getRPGCharacterID());
+				$_SESSION['objRPGCharacter']->setEvent($objGenericForcedCombatEvent);
+				$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
+				$objCurrentFloor->getMaze()->setEventAtCurrentLocation("S");
+			}
+			else{
+				$intEventID = $strEventType;
+				$objEvent = new RPGEvent($intEventID, $_SESSION['objRPGCharacter']->getRPGCharacterID());
+				$_SESSION['objRPGCharacter']->setEvent($objEvent);		
+				$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
+			}
+		}
 	}
 	
 	if(isset($_POST['exitField'])){
 		// todo: security to check if the "exit flag" for the floor is true to allow them to exit whenever they want
 		// if character has viewed the exit first floor event once before
-		if($_SESSION['objRPGCharacter']->hasViewedEvent(11)){
+		$objLongLeaveTowerEvent = new RPGEvent(11, $_SESSION['objRPGCharacter']->getRPGCharacterID());
+		$_SESSION['objRPGCharacter']->setEvent($objLongLeaveTowerEvent);
+		if($_SESSION['objRPGCharacter']->getEvent()->hasViewedEvent()){
 			// give them the short leave tower event
-			$_SESSION['objRPGCharacter']->setEventID(12);
-			$_SESSION['objRPGCharacter']->setEventNodeID(0);
-			$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
+			$objShortLeaveTowerEvent = new RPGEvent(12, $_SESSION['objRPGCharacter']->getRPGCharacterID());
+			$_SESSION['objRPGCharacter']->setEvent($objShortLeaveTowerEvent);
+			
 		}
 		else{
 			// give them the long leave tower event
-			$_SESSION['objRPGCharacter']->setEventID(11);
-			$_SESSION['objRPGCharacter']->setEventNodeID(0);
-			$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
-			$_SESSION['objRPGCharacter']->setViewedEvent(11);
+			$_SESSION['objRPGCharacter']->getEvent()->setViewedEvent();
 		}
-	}
-	
-	if(isset($_POST['exitTown'])){
-		// todo: security to check if the "exit flag" is set to true to allow them to exit town
-		// what must be true: in Tower Entrance location (hub), time of day is afternoon (this will be added later)
+		$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
 	}
 	
 	if(isset($_POST['return'])){

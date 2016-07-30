@@ -12,14 +12,25 @@ class DisplayCombatCommandsWindow{
 			<div class='commandsDiv' id='commandsDivCombatCommands'>
 				<?php if(isset($_SESSION['objCombat'])){ ?>
 				<form method='post' action='combat.php'>
-					<?php if($_SESSION['objCombat']->getCombatState() != 'In Progress'){ ?>
-						<button type='submit' name='command' value='end'>Continue</button>
-					<?php } else { ?>
-						<button type='submit' name='command' value='attack'>Attack</button>
-						<?php if($_SESSION['objCombat']->getEnemy()->getNPCName() != 'Seraphine the Tutorial Fairy'){?>
-						<button type='submit' name='command' value='flee'>Flee</button>
+					<table>
+						<tr>
+						<?php if($_SESSION['objCombat']->getCombatState() != 'In Progress'){ ?>
+							<td><button type='submit' name='command' value='end'>Continue</button></td>
+						<?php } else { ?>
+							<td><button type='submit' name='command' value='attack'>Attack</button></td>
+							<?php if($_SESSION['objCombat']->getEnemy()->getNPCName() != 'Seraphine the Tutorial Fairy'){?>
+							<td><button type='submit' name='command' value='wait'>Wait</button></td>
+							<td><button type='submit' name='command' value='flee'>Flee</button></td>
+						</tr>
+					</table>
+					<table>
+						<tr>
+							
+						</tr>
+					</table>
 						<?php } 
 					} ?>
+					</table>
 				</form>
 				<?php } else { ?>
 				<form method='post' action='command.php'>

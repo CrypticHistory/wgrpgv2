@@ -1,24 +1,28 @@
 <?php
 
 require_once "Database.php";
+include_once "constants.php";
 
 class RPGEvent{
 
 	private $_intEventID;
+	private $_intEventNodeID;
 	private $_strEventName;
 	private $_txtEventDesc;
 	private $_strXML;
-	private $_strEventType;
 	private $_blnRepeating;
-	private $_blnForcedEvent;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
 	private $_strModifiedBy;
+	private $_intRPGCharacterID;
 	
-	public function RPGEvent($intEventID = null){
+	public function RPGEvent($intEventID = null, $intRPGCharacterID = null){
 		if($intEventID){
 			$this->loadEventInfo($intEventID);
+		}
+		if($intRPGCharacterID){
+			$this->_intRPGCharacterID = $intRPGCharacterID;
 		}
 	}
 	
@@ -29,7 +33,6 @@ class RPGEvent{
 		$this->setXML($arrEventInfo['strXML']);
 		$this->setEventType($arrEventInfo['strEventType']);
 		$this->setRepeating($arrEventInfo['blnRepeating']);
-		$this->setForcedEvent($arrEventInfo['blnForcedEvent']);
 		$this->setCreatedOn($arrEventInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrEventInfo['strCreatedBy']);
 		$this->setModifiedOn($arrEventInfo['dtmModifiedOn']);
@@ -50,13 +53,13 @@ class RPGEvent{
 				$arrEventInfo['strXML'] = $arrRow['strXML'];
 				$arrEventInfo['strEventType'] = $arrRow['strEventType'];
 				$arrEventInfo['blnRepeating'] = $arrRow['blnRepeating'];
-				$arrEventInfo['blnForcedEvent'] = $arrRow['blnForcedEvent'];
 				$arrEventInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrEventInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrEventInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
 				$arrEventInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
 			}
 		$this->populateVarFromRow($arrEventInfo);
+		$this->_intEventNodeID = 0;
 	}
 	
 	public function getLinkName($intLocationID){
@@ -70,12 +73,76 @@ class RPGEvent{
 		return $arrRow['strLinkName'];
 	}
 	
+	public function addToCharacterEventLog(){
+		$objDB = new Database();
+		$strSQL = "INSERT INTO tblcharactereventxr
+						(intRPGCharacterID, intEventID, dtmDateAdded)
+					VALUES
+						(" . $objDB->quote($this->_intRPGCharacterID) . ", " . $objDB->quote($this->_intEventID) . ", NOW())";
+		$objDB->query($strSQL);
+	}
+	
+	public function hasViewedEvent(){
+		$objDB = new Database();
+		$strSQL = "SELECT intEventID FROM tblcharactereventxr
+					WHERE intEventID = " . $objDB->quote($this->_intEventID) . " AND
+							intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		return (isset($arrRow['intEventID']) ? true : false);
+	}
+	
+	public function setViewedEvent(){
+		$objDB = new Database();
+		$strSQL = "INSERT INTO tblcharactereventxr
+					(intEventID, intRPGCharacterID, dtmDateAdded) VALUES
+					(" . $objDB->quote($this->_intEventID) . ", " . $objDB->quote($this->_intRPGCharacterID) . ", NOW())";
+		$rsResult = $objDB->query($strSQL);
+	}
+	
+	public function checkEndOfEvent(){
+		global $arrStateValues;
+		$blnEndOfEvent = false;
+		$objXML = new RPGXMLReader($this->getXML());
+		if((in_array($this->getEventNodeID(), (array)$objXML->getEndNodes())) || $objXML->getEndNodes() == 'any'){
+			if(!$this->hasViewedEvent()){
+				$this->addToCharacterEventLog();
+			}	
+			$_SESSION['objRPGCharacter']->removeOverride(3);
+			$objCurrentFloor = $_SESSION['objRPGCharacter']->getCurrentFloor();
+			if($objCurrentFloor->getFloorID() != 0){
+				if($objCurrentFloor->getMaze()->isEntrance()){
+					$objCurrentFloor->getMaze()->setEventAtCurrentLocation("B");
+				}
+				else if($objCurrentFloor->getMaze()->isExit()){
+					$objCurrentFloor->getMaze()->setEventAtCurrentLocation("E");
+				}
+				else{
+					$objCurrentFloor->getMaze()->setEventAtCurrentLocation("S");	
+				}	
+			}
+			if(isset($_SESSION['objEnemy'])){
+				unset($_SESSION['objEnemy']);
+			}
+			$blnEndOfEvent = true;
+		}
+		return $blnEndOfEvent;
+	}
+	
 	public function getEventID(){
 		return $this->_intEventID;
 	}
 	
 	public function setEventID($intEventID){
 		$this->_intEventID = $intEventID;
+	}
+	
+	public function getEventNodeID(){
+		return $this->_intEventNodeID;
+	}
+	
+	public function setEventNodeID($intEventNodeID){
+		$this->_intEventNodeID = intval($intEventNodeID);
 	}
 	
 	public function getEventName(){
@@ -116,14 +183,6 @@ class RPGEvent{
 	
 	public function setRepeating($blnRepeating){
 		$this->_blnRepeating = $blnRepeating;
-	}
-	
-	public function getForcedEvent(){
-		return $this->_blnForcedEvent;
-	}
-	
-	public function setForcedEvent($blnForcedEvent){
-		$this->_blnForcedEvent = $blnForcedEvent;
 	}
 	
 	public function getCreatedOn(){

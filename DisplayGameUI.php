@@ -18,7 +18,7 @@ include_once "DisplayShopWindow.php";
 include_once "DisplayUseInventory.php";
 include_once "DisplayEquipInventory.php";
 include_once "DisplayMiscInventory.php";
-include_once "DisplayQuestInventory.php";
+include_once "DisplayMapInventory.php";
 include_once "DisplayEventCommandsWindow.php";
 include_once "DisplayCombatCommandsWindow.php";
 include_once "DisplayReturnCommandsWindow.php";
@@ -40,7 +40,7 @@ class DisplayGameUI extends DataGameUI{
 	protected $_objUseInventory;
 	protected $_objEquipInventory;
 	protected $_objMiscInventory;
-	protected $_objQuestInventory;
+	protected $_objMapInventory;
 	protected $_objEventCommandsWindow;
 	protected $_objCombatCommandsWindow;
 	protected $_objReturnCommandsWindow;
@@ -61,7 +61,7 @@ class DisplayGameUI extends DataGameUI{
 		$this->_objUseInventory = new DisplayUseInventory();
 		$this->_objEquipInventory = new DisplayEquipInventory();
 		$this->_objMiscInventory = new DisplayMiscInventory();
-		$this->_objQuestInventory = new DisplayQuestInventory();
+		$this->_objMapInventory = new DisplayMapInventory();
 		$this->_objEventCommandsWindow = new DisplayEventCommandsWindow();
 		$this->_objCombatCommandsWindow = new DisplayCombatCommandsWindow();
 		$this->_objReturnCommandsWindow = new DisplayReturnCommandsWindow();
@@ -95,11 +95,6 @@ class DisplayGameUI extends DataGameUI{
 				};
 				
 				$('form').preventDoubleSubmission();
-				
-				$("#viewItemDiv").dialog({
-                    width: 600,
-					autoOpen: false
-				});
 				
 				$('.invTable > tbody').contextmenu(function(){
 					return false;
@@ -180,29 +175,6 @@ class DisplayGameUI extends DataGameUI{
 				}
 			}
 			
-			function viewItem(intItemID, strItemName){
-				txtItemDescLong = "";
-				$.ajax({
-						url: 'UISettingsAJAX.php',
-						async: true,
-						type: 'post',
-						contentType: "application/x-www-form-urlencoded;charset=ISO-8859-15",
-						data: {
-							action: 'setViewItemDialog',
-							intItemID: intItemID
-						},
-						success: function(data){
-							txtItemDescLong = data;
-							$("#viewItemDiv").html('<p>' + txtItemDescLong + '</p>');
-							$("#viewItemDiv").dialog('option', 'title', strItemName);
-							$("#viewItemDiv").dialog('open');
-						},
-						error: function(textStatus, errorThrown){
-							alert(textStatus);
-						}
-				});
-			}
-			
 			function update_rows() {
 				$("tr:even").css("background-color", "#aaa").find('a').removeClass('sam').addClass('sams');
 				$("tr:odd").css("background-color", "#eee").find('a').removeClass('sams').addClass('sam');
@@ -227,8 +199,6 @@ class DisplayGameUI extends DataGameUI{
 			}
 		?>
 		<div class='mainDiv'>
-		
-			<div id='viewItemDiv'></div>
 			
 			<div class='navDiv'>
 				<a href='index.php'>Main</a>
@@ -275,8 +245,8 @@ class DisplayGameUI extends DataGameUI{
 				
 				<?php
 				
-				$arrInvTabHeadings = array("Equipment", "Consumable", "Misc", "Quest");
-				$arrInvTabObjects = array("_objEquipInventory", "_objUseInventory", "_objMiscInventory", "_objQuestInventory");
+				$arrInvTabHeadings = array("Equipment", "Consumable", "Misc", "Map");
+				$arrInvTabObjects = array("_objEquipInventory", "_objUseInventory", "_objMiscInventory", "_objMapInventory");
 				
 				foreach($arrInvTabHeadings as $intTabID => $strTabTitle){
 					echo "<div class='inventoryTabHeading' id='inventoryTabHeading" . $strTabTitle . "' onclick=\"switchInventoryTab('" . $strTabTitle . "')\">" . $strTabTitle . "</div>";
@@ -294,17 +264,6 @@ class DisplayGameUI extends DataGameUI{
 				
 			</div>
 			<div class='containerDiv'>
-			
-			<?php if(0){ ?>
-				<fieldset class='worldFieldset'>
-				<legend>World</legend>
-					<div class='worldDiv'>
-						Floor: <?=$_SESSION['objRPGCharacter']->getFloor()?><br/>
-						Day: <?=$_SESSION['objRPGCharacter']->getDay()?><br/>
-						Time: <?=$_SESSION['objRPGCharacter']->getTime()?>
-					</div>
-				</fieldset>
-			<?php } ?>
 				
 				<fieldset class='commandsFieldset'>
 				<legend>Commands</legend>

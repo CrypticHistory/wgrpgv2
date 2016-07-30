@@ -24,6 +24,15 @@ class RPGXMLReader {
 		return $this->_objXML->dialog[intval($intID)]->option;
 	}
 	
+	public function getCommandListNodeIDs($intID){
+		$arrReturn = array();
+		$n = count($this->_objXML->dialog[intval($intID)]->option);
+		for($i=0;$i<$n;$i++){
+			$arrReturn[] = $this->_objXML->dialog[intval($intID)]->option[$i]->attributes()->id;
+		}
+		return $arrReturn;
+	}
+	
 	public function getCommandID($intID, $key){
 		return $this->_objXML->dialog[intval($intID)]->option[intval($key)]->attributes()->id;
 	}
@@ -62,6 +71,15 @@ class RPGXMLReader {
 	
 	public function getEventType(){
 		return $this->_objXML->type;
+	}
+	
+	public function isValidNodeID($intFromNodeID, $intToNodeID){
+		if(in_array($intToNodeID, (array)$this->getCommandListNodeIDs($intFromNodeID))){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 }
 

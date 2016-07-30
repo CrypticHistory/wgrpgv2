@@ -43,7 +43,6 @@ class DisplayUseInventory{
 										<input type='hidden' name='itemHPHeal' value='" . $arrCategoryNames['intHPHeal'] . "'/>
 										<button type='submit' name='itemAction' value='use'>Use</button>
 										<button type='submit' name='itemAction' value='drop'>Drop</button>
-										<a href=\"javascript:viewItem(" . $arrCategoryNames['intItemID'] . ", '" . $arrCategoryNames['strItemName'] . "');\"><button type='button' id='viewButton" . $arrCategoryNames['intItemInstanceID'] . "'>View</button></a> 
 									</form></td><td></td><td></td>
 								  </tr>";
 							$intCounter++;
@@ -53,7 +52,7 @@ class DisplayUseInventory{
 				</table>
 				<?php } else { ?>
 					<div class='insideOther'>
-						Your use inventory is locked during this event.
+						Your inventory is locked during this event.
 					</div>
 				<?php } ?>
 			</div>
@@ -86,6 +85,7 @@ class DisplayUseInventory{
 			$arrReturn[$intCounter]['intSellPrice'] = $arrRow['intSellPrice'];
 			$arrReturn[$intCounter]['intCalories'] = $arrRow['intCalories'];
 			$arrReturn[$intCounter]['intItemID'] = $arrRow['intItemID'];
+			$arrReturn[$intCounter]['txtItemDesc'] .= "<br/><i>* Heals " . $arrRow['intHPHeal'] . " HP, and contains " . $arrRow['intCalories'] . " calories.</i>";
 			$intCounter++;
 		}
 		return $arrReturn;

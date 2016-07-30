@@ -107,6 +107,7 @@ class RPGStatusEffect{
 						VALUES
 					(" . $objDB->quote($intRPGCharacterID) . ", " . $objDB->quote($this->_intStatusEffectID) . ", " . ($intItemInstanceID != null ? $objDB->quote($intItemInstanceID) : "null") . ", " . $objDB->quote($this->_intDuration) . ")";
 		$objDB->query($strSQL);
+		$this->setTimeRemaining($this->_intDuration);
 	}
 	
 	public function save($intRPGCharacterID, $intItemInstanceID = null){

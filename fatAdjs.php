@@ -67,7 +67,7 @@ function getFatAdj($intBMI, $a){
 	else if($intBMI < 200){
 		$strReturn = 'gargantuan';
 	}
-	else if($intBMI < 300){
+	else{
 		$strReturn = 'bloblike';
 	}
 	return ($a == true) ? preg_replace('/\b(a)\s+([aeiou])/i', '$1n $2', 'a ' . $strReturn) : $strReturn;

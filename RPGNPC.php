@@ -2,7 +2,9 @@
 
 require_once "Database.php";
 require_once "RPGNPCStats.php";
+require_once "RPGSkill.php";
 include_once "constants.php";
+include_once "common.php";
 
 class RPGNPC{
 
@@ -15,8 +17,21 @@ class RPGNPC{
 	private $_intExperienceGiven;
 	private $_intGoldDropMin;
 	private $_intGoldDropMax;
+	private $_strStartText;
+	private $_strForceStartText;
+	private $_strEndText;
+	private $_strFleeText;
+	private $_strFailFleeText;
+	private $_strDefeatText;
+	private $_blnHasStartEvent;
+	private $_blnHasEndEvent;
+	private $_strAIName;
+	private $_arrSkillList;
+	private $_arrActiveSkillList;
 	private $_objEquippedWeapon;
 	private $_objEquippedArmour;
+	private $_objEquippedTop;
+	private $_objEquippedBottom;
 	private $_objEquippedSecondary;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
@@ -37,6 +52,15 @@ class RPGNPC{
 		$this->setExperienceGiven($arrNPCInfo['intExperienceGiven']);
 		$this->setGoldDropMin($arrNPCInfo['intGoldDropMin']);
 		$this->setGoldDropMax($arrNPCInfo['intGoldDropMax']);
+		$this->setStartText($arrNPCInfo['strStartText']);
+		$this->setForceStartText($arrNPCInfo['strForceStartText']);
+		$this->setEndText($arrNPCInfo['strEndText']);
+		$this->setFleeText($arrNPCInfo['strFleeText']);
+		$this->setFailFleeText($arrNPCInfo['strFailFleeText']);
+		$this->setDefeatText($arrNPCInfo['strDefeatText']);
+		$this->setHasStartEvent($arrNPCInfo['blnHasStartEvent']);
+		$this->setHasEndEvent($arrNPCInfo['blnHasEndEvent']);
+		$this->setAIName($arrNPCInfo['strAIName']);
 		$this->setCreatedOn($arrNPCInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrNPCInfo['strCreatedBy']);
 		$this->setModifiedOn($arrNPCInfo['dtmModifiedOn']);
@@ -48,6 +72,8 @@ class RPGNPC{
 		$arrNPCInfo = array();
 			$strSQL = "SELECT *
 						FROM tblnpc
+							LEFT JOIN tblnpcbattletext
+								USING (intNPCID)
 							WHERE intNPCID = " . $objDB->quote($intNPCID);
 			$rsResult = $objDB->query($strSQL);
 			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
@@ -58,22 +84,57 @@ class RPGNPC{
 				$arrNPCInfo['intExperienceGiven'] = $arrRow['intExperienceGiven'];
 				$arrNPCInfo['intGoldDropMin'] = $arrRow['intGoldDropMin'];
 				$arrNPCInfo['intGoldDropMax'] = $arrRow['intGoldDropMax'];
+				$arrNPCInfo['strStartText'] = $arrRow['strStartText'];
+				$arrNPCInfo['strForceStartText'] = $arrRow['strForceStartText'];
+				$arrNPCInfo['strEndText'] = $arrRow['strEndText'];
+				$arrNPCInfo['strFleeText'] = $arrRow['strFleeText'];
+				$arrNPCInfo['strFailFleeText'] = $arrRow['strFailFleeText'];
+				$arrNPCInfo['strDefeatText'] = $arrRow['strDefeatText'];
+				$arrNPCInfo['blnHasStartEvent'] = $arrRow['blnHasStartEvent'];
+				$arrNPCInfo['blnHasEndEvent'] = $arrRow['blnHasEndEvent'];
+				$arrNPCInfo['strAIName'] = $arrRow['strAIName'];
 				$arrNPCInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrNPCInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrNPCInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
 				$arrNPCInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
 			}
 		$this->populateVarFromRow($arrNPCInfo);
+		$this->loadSkills();
 		$this->_objEquippedArmour = $this->loadEquippedArmour();
+		$this->_objEquippedTop = $this->loadEquippedTop();
+		$this->_objEquippedBottom = $this->loadEquippedBottom();
 		$this->_objEquippedWeapon = $this->loadEquippedWeapon();
 		$this->_objEquippedSecondary = $this->loadEquippedSecondary();
 		$this->_objStats = new RPGNPCStats($intNPCID);
 		$this->_objStats->loadBaseStats();
-		$this->setCurrentHP($this->_objStats->getBaseStats()['intMaxHP']);
+		$this->setCurrentHP($this->getModifiedMaxHP());
+	}
+	
+	public function loadSkills(){
+		$objDB = new Database();
+		$this->_arrSkillList = array();
+		$strSQL = "SELECT intSkillID, strSkillType
+					FROM tblnpcskillxr
+						INNER JOIN tblskill
+							USING (intSkillID)
+						WHERE intNPCID = " . $objDB->quote($this->getNPCID());
+		$rsResult = $objDB->query($strSQL);
+		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+			$this->_arrSkillList[$arrRow['strSkillType']][] = new RPGSkill($arrRow['intSkillID']);
+		}
+	}
+	
+	public function loadActiveSkillList(){
+		$this->_arrActiveSkillList = $this->_arrSkillList;
+		foreach($this->_arrActiveSkillList as $strSkillType => $arrSkillList){
+			foreach($arrSkillList as $key => $objSkill){
+				$this->_arrActiveSkillList[$strSkillType][$key]->setCurrentCooldown(0);
+			}
+		}
 	}
 	
 	public function takeDamage($intDamage){
-		$intDamage = max(1, $intDamage);
+		$intDamage = max(0, $intDamage);
 		$this->setCurrentHP($this->getCurrentHP() - $intDamage);
 		return $intDamage;
 	}
@@ -100,9 +161,60 @@ class RPGNPC{
 						AND intNPCID = " . $objDB->quote($this->getNPCID()) . "
 						AND blnEquipped = 1";
 		$rsResult = $objDB->query($strSQL);
-		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		$objArmour = new RPGItem($arrRow['intItemID']);
-		return $objArmour;
+		if($rsResult->rowCount() > 0){
+			$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+			$objArmour = new RPGItem($arrRow['intItemID']);
+			return $objArmour;
+		}
+		else{
+			$objArmour = new RPGItem();
+			$objArmour->setWaitTime(0);
+			return $objArmour;
+		}
+	}
+	
+	public function loadEquippedTop(){
+		$objDB = new Database();
+		$strSQL = "SELECT intItemID
+					FROM tblitem
+						INNER JOIN tblnpcitemxr
+							USING (intItemID)
+					WHERE strItemType LIKE 'Armour:Top'
+						AND intNPCID = " . $objDB->quote($this->getNPCID()) . "
+						AND blnEquipped = 1";
+		$rsResult = $objDB->query($strSQL);
+		if($rsResult->rowCount() > 0){
+			$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+			$objArmour = new RPGItem($arrRow['intItemID']);
+			return $objArmour;
+		}
+		else{
+			$objArmour = new RPGItem();
+			$objArmour->setWaitTime(0);
+			return $objArmour;
+		}
+	}
+	
+	public function loadEquippedBottom(){
+		$objDB = new Database();
+		$strSQL = "SELECT intItemID
+					FROM tblitem
+						INNER JOIN tblnpcitemxr
+							USING (intItemID)
+					WHERE strItemType LIKE 'Armour:Bottom'
+						AND intNPCID = " . $objDB->quote($this->getNPCID()) . "
+						AND blnEquipped = 1";
+		$rsResult = $objDB->query($strSQL);
+		if($rsResult->rowCount() > 0){
+			$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+			$objArmour = new RPGItem($arrRow['intItemID']);
+			return $objArmour;
+		}
+		else{
+			$objArmour = new RPGItem();
+			$objArmour->setWaitTime(0);
+			return $objArmour;
+		}
 	}
 	
 	public function loadEquippedWeapon(){
@@ -116,9 +228,16 @@ class RPGNPC{
 						AND intNPCID = " . $objDB->quote($this->getNPCID()) . "
 						AND blnEquipped = 1";
 		$rsResult = $objDB->query($strSQL);
-		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		$objWeapon = new RPGItem($arrRow['intItemID']);
-		return $objWeapon;
+		if($rsResult->rowCount() > 0){
+			$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+			$objWeapon = new RPGItem($arrRow['intItemID']);
+			return $objWeapon;
+		}
+		else{
+			$objWeapon = new RPGItem();
+			$objWeapon->setWaitTime(0);
+			return $objWeapon;
+		}
 	}
 	
 	public function loadEquippedSecondary(){
@@ -132,15 +251,22 @@ class RPGNPC{
 						AND intNPCID = " . $objDB->quote($this->getNPCID()) . "
 						AND blnEquipped = 1";
 		$rsResult = $objDB->query($strSQL);
-		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		$objSecondary = new RPGItem($arrRow['intItemID']);
-		return $objSecondary;
+		if($rsResult->rowCount() > 0){
+			$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+			$objSecondary = new RPGItem($arrRow['intItemID']);
+			return $objSecondary;
+		}
+		else{
+			$objSecondary = new RPGItem();
+			$objSecondary->setWaitTime(0);
+			return $objSecondary;
+		}
 	}
 	
 	public function getRandomDrops(){
 		$objDB = new Database();
 		$arrDrops = array();
-		$strSQL = "SELECT intItemID, strItemName, intDropRating
+		$strSQL = "SELECT intItemID, strItemName, strItemType, intDropRating
 					FROM tblnpcitemxr
 						INNER JOIN tblitem
 						USING(intItemID)
@@ -165,47 +291,87 @@ class RPGNPC{
 	}
 	
 	public function getModifiedMaxHP(){
-		return round($this->_objStats->getBaseStats()['intMaxHP'] + ($this->_objStats->getBaseStats()['intVitality'] / 2));
+		return round($this->_objStats->getCombinedStats('intMaxHP') + ($this->_objStats->getCombinedStats('intVitality') / 2));
 	}
 	
 	public function getModifiedDamage(){
-		return round(($this->_objStats->getBaseStats()['intStrength'] / 2) + $this->getEquippedWeapon()->getDamage());
+		return round(($this->_objStats->getCombinedStats('intStrength') / 2) + $this->getEquippedWeapon()->getDamage());
 	}
 	
 	public function getModifiedMagicDamage(){
-		return round(($this->_objStats->getBaseStats()['intIntelligence'] / 2) + $this->getEquippedWeapon()->getMagicDamage());
+		return round(($this->_objStats->getCombinedStats('intIntelligence') / 2) + $this->getEquippedWeapon()->getMagicDamage());
 	}
 	
 	public function getModifiedDefence(){
-		return round(($this->_objStats->getBaseStats()['intVitality'] / 4) + $this->getEquippedArmour()->getDefence());
+		return round(($this->_objStats->getCombinedStats('intVitality') / 4) + $this->getEquippedArmour()->getDefence() + $this->getEquippedSecondary()->getDefence());
 	}
 	
 	public function getModifiedMagicDefence(){
-		return round(($this->_objStats->getBaseStats()['intIntelligence'] / 4) + $this->getEquippedArmour()->getMagicDefence());
+		return round(($this->_objStats->getCombinedStats('intIntelligence') / 4) + $this->getEquippedArmour()->getMagicDefence());
 	}
 	
 	public function getModifiedBlockRate(){
-		return round($this->_objStats->getBaseStats()['intAgility'] / 4);
+		return round($this->_objStats->getCombinedStatsSecondary('intBlockRate'));
 	}
 	
 	public function getModifiedBlock(){
-		return 0.6;
+		return min((0.5 + ($this->_objStats->getCombinedStatsSecondary('intBlockReduction') / 100)), 1.0);
+	}
+	
+	public function getStatusEffectResistance(){
+		return round($this->_objStats->getCombinedStats('intWillpower') * 2);
+	}
+	
+	public function getStatusEffectSuccessRate(){
+		return round($this->_objStats->getCombinedStats('intWillpower') * 1);
 	}
 	
 	public function getModifiedCritRate(){
-		return round($this->_objStats->getBaseStats()['intDexterity'] / 4);
+		return round($this->_objStats->getCombinedStats('intDexterity') * 2);
+	}
+	
+	public function getAdditionalDamage(){
+		return round($this->_objStats->getCombinedStats('intWillpower') / 4);
 	}
 	
 	public function getModifiedCritDamage(){
 		return 1.5;
 	}
 	
-	public function getWaitTime($strWaitType){
-		if($strWaitType == 'Standard'){
+	public function getModifiedCritResistance(){
+		return round($this->_objStats->getCombinedStats('intDexterity') * 1);
+	}
+	
+	public function getModifiedFleeRate(){
+		return round($this->_objStats->getCombinedStats('intAgility') / 4);
+	}
+	
+	public function getModifiedFleeResistance(){
+		return round($this->_objStats->getCombinedStats('intAgility') / 2);
+	}
+	
+	public function getModifiedEvasion(){
+		return round($this->_objStats->getCombinedStats('intAgility') * 2);
+	}
+	
+	public function getModifiedPierceRate(){
+		return round($this->_objStats->getCombinedStatsSecondary('intPierce'));
+	}
+	
+	public function getModifiedAccuracy(){
+		return round(($this->_objStats->getCombinedStats('intDexterity') * 2) + $this->_objStats->getCombinedStatsSecondary('intEvasion'));
+	}
+	
+	public function getWaitTime($udfWaitType){
+		$intGearWait = $this->_objEquippedWeapon->getWaitTime() + $this->_objEquippedSecondary->getWaitTime() + $this->_objEquippedArmour->getWaitTime() + $this->_objEquippedTop->getWaitTime() + $this->_objEquippedBottom->getWaitTime();
+		if($udfWaitType == 'Standard'){
 			// standard attack
-			return round(250 - ($this->_objStats->getCombinedStats('intAgility') / 2) + (250 * $this->getImmobilityFactor()));
+			return round(250 + $intGearWait - ($this->_objStats->getCombinedStats('intAgility') / 2) + (250 * $this->getImmobilityFactor()));
 		}
-		// skills will add on or decrease wait time by some amount
+		else{
+			// skills will add on or decrease wait time by some amount defined by udfWaitType variable
+			return round(250 + $udfWaitType + $intGearWait - ($this->_objStats->getCombinedStats('intAgility') / 2) + (250 * $this->getImmobilityFactor()));
+		}
 	}
 	
 	public function getStats(){
@@ -292,6 +458,78 @@ class RPGNPC{
 		$this->_intGoldDropMax = $intGoldDropMax;
 	}
 	
+	public function getStartText(){
+		return $this->_strStartText;
+	}
+	
+	public function setStartText($strStartText){
+		$this->_strStartText = $strStartText;
+	}
+	
+	public function getForceStartText(){
+		return $this->_strForceStartText;
+	}
+	
+	public function setForceStartText($strForceStartText){
+		$this->_strForceStartText = $strForceStartText;
+	}
+	
+	public function getEndText(){
+		return $this->_strEndText;
+	}
+	
+	public function setEndText($strEndText){
+		$this->_strEndText = $strEndText;
+	}
+	
+	public function getFleeText(){
+		return $this->_strFleeText;
+	}
+	
+	public function setFleeText($strFleeText){
+		$this->_strFleeText = $strFleeText;
+	}
+	
+	public function getFailFleeText(){
+		return $this->_strFailFleeText;
+	}
+	
+	public function setFailFleeText($strFailFleeText){
+		$this->_strFailFleeText = $strFailFleeText;
+	}
+	
+	public function getDefeatText(){
+		return $this->_strDefeatText;
+	}
+	
+	public function setDefeatText($strDefeatText){
+		$this->_strDefeatText = $strDefeatText;
+	}
+	
+	public function getHasStartEvent(){
+		return $this->_blnHasStartEvent;
+	}
+	
+	public function setHasStartEvent($blnHasStartEvent){
+		$this->_blnHasStartEvent = $blnHasStartEvent;
+	}
+	
+	public function getHasEndEvent(){
+		return $this->_blnHasEndEvent;
+	}
+	
+	public function setHasEndEvent($blnHasEndEvent){
+		$this->_blnHasEndEvent = $blnHasEndEvent;
+	}
+	
+	public function getAIName(){
+		return $this->_strAIName;
+	}
+	
+	public function setAIName($strAIName){
+		$this->_strAIName = $strAIName;
+	}
+	
 	public function getCreatedOn(){
 		return $this->_dtmCreatedOn;
 	}
@@ -342,6 +580,14 @@ class RPGNPC{
 			$intInches = 0;
 		}
 		return strval($whole) . "'" . strval($intInches) . "\"";
+	}
+	
+	public function getSkillList($strSkillType){
+		return $this->_arrSkillList[$strSkillType];
+	}
+	
+	public function getActiveSkillList($strSkillType){
+		return $this->_arrActiveSkillList[$strSkillType];
 	}
 }
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>2</end>
+	<end>3</end>
+	<dialog id="0">
+		<eventText>You come across a spiral stone staircase leading above. Taking these steps will lead you to the next floor. Should you ascend?
+		</eventText>
+		<option id="1">Yes</option>
+		<option id="2">No</option>
+	</dialog>
+	<dialog id="1">
+		<eventText>You ascend up the spiral staircase to the next floor.
+		</eventText>
+		<option id="3" action="ascendFloor~">Continue</option>
+	</dialog>
+	<dialog id="2">
+		<eventText>You have decided to continue exploring the current floor.</eventText>
+	</dialog>
+	<dialog id="3">
+	</dialog>
+</event>

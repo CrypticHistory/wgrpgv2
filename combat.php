@@ -11,20 +11,21 @@
 
 	if(isset($_POST['command'])){
 		// check to see if the user's actually in combat
-		if(isset($_SESSION['objRPGCharacter']->getCombat()[0])){
+		if(isset($_SESSION['objRPGCharacter']->getCombat()["Enemy"])){
 			// to make the end of battle
 			if($_POST['command'] == 'end'){
 				$_SESSION['objEnemy'] = $_SESSION['objCombat']->getEnemy();
-				$_SESSION['objRPGCharacter']->setCombat(0, NULL);
+				$_SESSION['objRPGCharacter']->clearCombat();
 				$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
+				$objEvent = $_SESSION['objRPGCharacter']->getEvent();
 				if($_SESSION['objCombat']->getCombatState() == 'Victory'){
-					$_SESSION['objRPGCharacter']->setEventNodeID($_SESSION['objRPGCharacter']->getEventNodeID() + 1);
+					$objEvent->setEventNodeID($objEvent->getEventNodeID() + 1);
 				}
 				else if($_SESSION['objCombat']->getCombatState() == 'Defeat'){
-					$_SESSION['objRPGCharacter']->setEventNodeID($_SESSION['objRPGCharacter']->getEventNodeID() + 2);
+					$objEvent->setEventNodeID($objEvent->getEventNodeID() + 2);
 				}
 				else if($_SESSION['objCombat']->getCombatState() == 'Fled'){
-					$_SESSION['objRPGCharacter']->setEventNodeID($_SESSION['objRPGCharacter']->getEventNodeID() - 1);
+					$objEvent->setEventNodeID($objEvent->getEventNodeID() - 1);
 				}
 				unset($_SESSION['objCombat']);
 			}
@@ -47,11 +48,13 @@
 						$_SESSION['objCombat']->determineNextTurn();
 					}
 					
-					$strFunction = 'player' . $_POST['command'];
-					
-					$_SESSION['objCombat']->$strFunction();
-					
-					$_SESSION['objCombat']->determineNextTurn();
+					if($_SESSION['objCombat']->getCombatState() == 'In Progress'){
+						$strFunction = 'player' . $_POST['command'];
+						
+						$_SESSION['objCombat']->$strFunction();
+						
+						$_SESSION['objCombat']->determineNextTurn();
+					}
 				}
 				
 				// update session

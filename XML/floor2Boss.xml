@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>1</end>
+	<end>5</end>
+	<end>6</end>
+	<end>7</end>
+	<end>13</end>
+	<precondition>CurrentFloorID=2</precondition>
+	<dialog id='0'>
+		<eventText precondition="FatStance=Positive">A faint melodic humming can be heard in the distance. The tone is feminine and creamy; decadent. It draws you in closer against your will. As you approach the humming, the silhouette of an elegant bed reveals itself before you. On the bed, the outline of a figure which resembles that of a lady resides; but it's clear that this lady is on the heavier side of the spectrum. Entranced, you wish only to pursue her and nothing else. Your steps quicken and your excitement grows as each step etches more detail into the lady's resting portrait.
+
+			You stop in your tracks, in awe of her beauty. She is situated on a rich-looking queen-sized bed, the bedposts embroidered with gold. Candlelight illuminates her features. Her black hair falls naturally on her shoulders and curls ever so slightly. Her bangs are parted to either side, perfectly showcasing the plumpness of her face. To anyone else it would be off-putting, but you love every part of a big woman including her round face. Her lips are full and seductive, painted black with lipstick. Every feature of her face is symmetrical, and classically gorgeous. Even her double chin is perfect, proudly visible and acting as a teaser for her fattened endowments below.
+
+			And how positively fattened they are! Her breasts are monumental, easily stealing the show. They are propped up by a black corset, making their plump shape the center of attention. The upper half of her belly is trapped in the confines of the corset, but the lower half bursts out and overflows. She must be wearing a g-string of sorts you imagine, as her belly is completely covering her crotch making her underwear appear invisible. Only thin black lines can be seen digging into her hips which her love handles spill over top of. As she shifts her weight and attempts to sit up, she brings new meaning to the phrase "thunder thighs". Each slight movement sends electricity rippling throughout her cellulite-ridden legs. The bed creaks in protest, but finally she manages to sit herself up and pull herself off it, her fat rippling as she rises on her feet.
+
+			She begins to walk towards you seductively. You watch her belly sway back and forth like a pendulum and this motion hypnotizes you. Gooosebumps emerge on your neck as she steps closer. An effigy of beauty is jiggling her way towards you, and you can do nothing but stare in awe.
+		</eventText>
+		<eventText precondition="FatStance=Negative">A faint melodic humming can be heard in the distance. The tone is feminine and creamy; decadent. It draws you in closer against your will. As you approach the humming, the silhouette of an elegant bed reveals itself before you. On the bed, the outline of a figure which resembles that of a lady resides;  her body curves in all the right places. Entranced, you wish only to pursue her and nothing else. Your steps quicken and your excitement grows as each step etches more detail into the lady's resting portrait.
+
+			You stop in your tracks, in awe of her beauty. She is situated on a rich-looking queen-sized bed, the bedposts embroidered with gold. Candlelight illuminates her features. Her black hair falls naturally on her shoulders and curls ever so slightly. Her bangs are parted to either side, perfectly showcasing the soft features of her face. Her lips are full and seductive, painted black with lipstick. Every feature of her face is symmetrical, and classically gorgeous.
+
+			Her breasts are monumental, easily stealing the show. They are propped up by a black corset, making their full shape the center of attention. Her flat tummy is exposed as the corset ends early. She is wearing a g-string as underwear. She shifts her weight, sitting up to emerge from her rest.
+
+			She begins to walk towards you seductively. You watch her hips sway back and forth like a pendulum and this motion hypnotizes you. Gooosebumps emerge on your neck as she steps closer. An effigy of beauty is making her way towards you, and you can do nothing but stare in awe.</eventText>
+		<option id='8'>Continue</option>
+	</dialog>
+	<dialog id="1">
+		<eventText>You flee from the battle.</eventText>
+	</dialog>
+	<dialog id="2">
+		<eventText>You exited the game in the middle of a battle, and any progress you made during the battle has been lost. Press continue to resume your game.</eventText>
+		<option id="6">Continue</option>
+	</dialog>
+	<dialog id="3">
+		<eventText precondition="FatStance=Positive">The succubus collapses onto one knee, belly heaving up and down, unable to continue fighting due to her injuries. You notice her shape begins to shift again, this time shrinking rapidly. You blink once, and she is already half the size she used to be, and still shrinking. Finally, her body settles at a moderately curvy shape. This must be her true form, you think to yourself. No longer do you posses any sexual desire for this woman. It appears you have won.
+
+					You step forward and place your weapon at her neck, letting drops of blood run. Though, it would be a waste to end her life here. You have questions for her. You retract the notion and sheath the weapon. She stares up at you with empty eyes.
+
+					"What will you do with me, traveler?" she mouths hoarsely, with no sense of fear or despair in her voice. She has accepted her fate.
+
+					You could have your way with her. But you decide against it because the author is inept at writing sex scenes. Instead you wish to learn as much as you can from her.	
+		</eventText>
+		<eventText precondition="FatStance=Negative">The succubus collapses onto one knee, unable to continue fighting due to her injuries. It appears you have won.
+
+					You step forward and place your weapon at her neck, letting drops of blood run. Though, it would be a waste to end her life here. You have questions for her. You retract the notion and sheath the weapon. She stares up at you with empty eyes.
+
+					"What will you do with me, traveler?" she mouths hoarsely, with no sense of fear or despair in her voice. She has accepted her fate.
+
+					You could have your way with her. But you decide against it because the author is inept at writing sex scenes. Instead you wish to learn as much as you can from her.	
+		</eventText>
+		<option id="9">Ask if the stories about the tower are true.</option>
+		<option id="10">Ask about her.</option>
+		<option id="11">Ask about her queen.</option>
+		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
+		<option id="7">Proceed to the next floor.</option>
+	</dialog>
+	<dialog id="4">
+		<eventText>You collapse to the ground in injury, defeated.
+		
+					The succubus crouches down, placing her hand on your cheek.
+					
+					"Shame, you were so cute too..."
+					
+					Her hair tickles your neck; the last sensation you feel before everything fades.</eventText>
+		<option id="5" action="reviveCharacter~">Continue</option>
+	</dialog>
+	<dialog id="5">
+		<eventText>You revived miraculously. Go forth and conquer.</eventText>
+	</dialog>
+	<dialog id="6">
+		<eventText></eventText>
+	</dialog>
+	<dialog id="7">
+		<eventText>"Tell me how to get to the next floor," you command.
+
+					"Right. I am a woman of my word.
+
+					The ground below you begins to shake and the room blurs. You reach forward at the succubus, but move right through her. Soon, the scenery has completely changed.
+
+					"Good luck, traveler. Til we meet again."</eventText>
+	</dialog>
+	<dialog id="8">
+		<eventText precondition="FatStance=Positive">It's only you and her in here. Your heart rate begins to pick up at that thought. What will happen next? You try your hardest to stare her in the face instead of gawking at her breasts. Soon she is only inches in front of you, and you can hear her breathing heavily, tired from even such a simple walk towards you as a result of the girth she carries. Her eyes are impossibly blue, each iris a fountain of fantasies you never knew you had. You feel her plump fingers grace your cheeks and you flinch, unprepared. But you do not resist. The fingers slide across your chin, cupping it, and you are pulled in gently to her lips. A kiss unlike any you've tasted. Rich. Flavourful.
+
+					Addicting.
+
+					You feel intense satisfaction even after her lips leave yours, but something indiscernible and slight still makes you uneasy.
+
+					"You've done well, traveler. Most do not make it this far," she congratulates you. "Please, allow me to reward you."
+
+					She cups your hand in hers and pulls you in to her bosom. Feeling her softness against your chest and stomach relaxes you immensely. You immediately lusted for this woman on first sight, but to feel her belly pressed against yours nearly sets you over the edge. You quickly glance at the room: The bed she was previously situated on. A candle-lit nightstand. Dungeon walls surrounding. The air is warm and relaxing. It seems there is nothing else to do but have sex with this woman, right here in this very room. But why do you hesitate?
+
+					The seductress senses your hesitation.
+
+					"Do not be afraid. I know what you desire most."
+
+					She leads you by the hand back to her bed, but you stop in your tracks midway. You cannot succumb to your lust here! Remember where you are. Turris Puesco. Many a tale has told the dangers of this tower. Surely this is a trap. You rip your hand away from her grip and lay it on your weapon.
+
+					She turns and smirks.
+
+					"You are brave, traveler. But bravery is not enough. You will succumb to me," she boasts.
+
+					You jump back and draw your weapon. You know that her touch puts you in a lustful trance. You must keep your distance.
+
+					"Try to resist me, love."
+
+					With that, her body begins to shift. Perhaps shift is not the correct word -- it begins to grow. Outward! Like even more weight is piling on to her already corpulent frame! Her corset creaks loudly in protest as her breasts and upper belly push it to its limits. Her hips swell outward as well as her tree-trunk thighs, losing any sort of definition they had previously. Her arm fat begins to hang over her elbows and curve out into rolls, just like her belly and neck. You can scarcely recognize her in the face now, her beautiful eyes being nearly obscured by her puffy cheeks. You begin to see the beginnings of a triple chin forming due to her now immense neck fat.
+
+					Going well beyond its limits, her corset rips off dramatically as a final wave of fat emerges across her body. Your lust is near insatiable. You MUST fuck this woman! You thought she was perfect before, but now she sits before you, monstrously sized and oozing sexuality. She would only ever appear again in your dreams. How could you miss this opportunity?
+
+					NO. You must resist.
+
+					"Devil, disappear!" you shout, strengthening your grip on your weapon.
+
+					"So you will fight me then?" she sighs. "I am not just all looks, dear."
+
+					She waddles forward, her entire body an ocean of bouncing rolls. Fat slapping fat can be audibly heard now as she advances.
+
+					"I am a gatekeeper. I defend this tower for my queen. Defeat me to proceed."
+		</eventText>
+		<eventText precondition="FatStance=Negative">It's only you and her in here. Your heart rate begins to pick up at that thought. What will happen next? You try your hardest to stare her in the face instead of gawking at her breasts. Soon she is only inches in front of you. Her eyes are impossibly blue, each iris a fountain of fantasies you never knew you had. You feel her slender fingers grace your cheeks and you flinch, unprepared. But you do not resist. The fingers slide across your chin, cupping it, and you are pulled in gently to her lips. A kiss unlike any you've tasted. Rich. Flavourful.
+
+					Addicting.
+
+					You feel intense satisfaction even after her lips leave yours, but something indiscernible and slight still makes you uneasy.
+
+					"You've done well, traveler. Most do not make it this far," she congratulates you. "Please, allow me to reward you."
+
+					She cups your hand in hers and pulls you in to her bosom. Feeling her chest press against yours relaxes you immensely. You immediately lusted for this woman on first sight, but to feel her pressed against you nearly sets you over the edge. You quickly glance at the room: The bed she was previously situated on. A candle-lit nightstand. Dungeon walls surrounding. The air is warm and relaxing. It seems there is nothing else to do but have sex with this woman, right here in this very room. But why do you hesitate?
+
+					The seductress senses your hesitation.
+
+					"Do not be afraid. I know what you desire most."
+
+					She leads you by the hand back to her bed, but you stop in your tracks midway. You cannot succumb to your lust here! Remember where you are. Turris Puesco. Many a tale has told the dangers of this tower. Surely this is a trap. You rip your hand away from her grip and lay it on your weapon.
+
+					She turns and smirks.
+
+					"You are brave, traveler. But bravery is not enough. You will succumb to me," she boasts.
+
+					You jump back and draw your weapon. You know that her touch puts you in a lustful trance. You must keep your distance.
+
+					"Try to resist me, love."
+
+					With that, her body begins to shift. Her corset creaks loudly in protest as her breasts push it to its limits. Her hips swell outward, giving her body an exaggerated hourglass shape.
+
+					Going well beyond its limits, her corset rips off dramatically and her breasts pop out, jiggling excitedly. Her g-string falls to the ground, her lady parts are clearly visible. Your lust is near insatiable. You MUST fuck this woman! You thought she was perfect before, but now she sits before you, stark naked and oozing sexuality. She would only ever appear again in your dreams. How could you miss this opportunity?
+
+					NO. You must resist.
+
+					"Devil, disappear!" you shout, strengthening your grip on your weapon.
+
+					"So you will fight me then?" she sighs. "I am not just all looks, dear."
+
+					She moves forward, her breasts jiggling with every step.
+
+					"I am a gatekeeper. I defend this tower for my queen. Defeat me to proceed."</eventText>
+		<option id="2" action="setCombat~8~Player">Fight!</option>
+	</dialog>
+	<dialog id="9">
+		<eventText>"Are the stories about the tower true?" you ask.
+		
+					"What stories do you speak of?"
+					
+					"The stories which tell of the riches rewarded to those who conquer the tower. The endless wealth, the jewels and trinkets. Are the stories true?"
+					
+					"You've taken gold from me after my defeat. Is it not enough?"
+
+					"No."
+
+					"Then your greed will be the end of you, traveler," she taunts. "There are riches, indeed. But it is up to you to uncover them."</eventText>
+		<option id="10">Ask about her.</option>
+		<option id="11">Ask about her queen.</option>
+		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
+		<option id="13">Proceed to the next floor.</option>
+	</dialog>
+	<dialog id="10">
+		<eventText>"What are you?" you ask.
+		
+					"I am a succubus, created by my queen. My only purpose is to protect this tower. It seems as though I've failed," her lips curl into a self-defeated grin.
+					
+					"You claim to be a gatekeeper. Are there more of you?"
+
+					"Yes. My sisters as well. They are more powerful than I."</eventText>
+		<option id="14">Ask about the goblin chief on the floor previous.</option>
+		<option id="9">Ask if the stories about the tower are true.</option>
+		<option id="11">Ask about her queen.</option>
+		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
+		<option id="13">Proceed to the next floor.</option>
+	</dialog>
+	<dialog id="11">
+		<eventText>"Who is your queen?" you ask.
+
+					"The witch of the tower, as you know her. I cannot reveal her identity," she firmly explains.</eventText>
+		<option id="15">Use force to make her answer.</option>
+		<option id="9">Ask if the stories about the tower are true.</option>
+		<option id="10">Ask about her.</option>
+		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
+		<option id="13">Proceed to the next floor.</option>
+	</dialog>
+	<dialog id="12">
+		<eventText>"The citizens of Turici are becoming noticeably more... plump, as of late. Is this the witch's doing?"
+
+					The succubus grins.
+
+					"Yes."
+
+					"What does she aim to accomplish by fattening up the townspeople?"
+
+					"You'll find out in time," she playfully explains.</eventText>
+		<option id="17">Use force to make her answer.</option>
+		<option id="9">Ask if the stories about the tower are true.</option>
+		<option id="10">Ask about her.</option>
+		<option id="11">Ask about her queen.</option>
+		<option id="13">Proceed to the next floor.</option>
+	</dialog>
+	<dialog id="13">
+		<eventText>"Are you satisfied with your answers?" the succubus asks.
+
+					"No, but you won't tell me anything more, will you?"
+					
+					"You're very right."
+					
+					"Will you at least tell me how to get to the next floor?"
+
+					"Right. I am a woman of my word.
+
+					The ground below you begins to shake and the room blurs. You reach forward at the succubus, but move right through her. Soon, the scenery has completely changed.
+
+					"Good luck, traveler. Til we meet again."</eventText>
+	</dialog>
+	<dialog id="14">
+		<eventText>"What of the goblin chief on the floor previous?" you ask.
+
+					"He is but a pawn. If one cannot defeat a pawn, how can they expect to defeat the queen?"</eventText>
+		<option id="9">Ask if the stories about the tower are true.</option>
+		<option id="11">Ask about her queen.</option>
+		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
+		<option id="13">Proceed to the next floor.</option>
+	</dialog>
+	<dialog id="15">
+		<eventText>You jolt your arm forward and grab at her neck. She chokes, sputters, but her eyes do not change.
+		
+					"Tell me!" you shout.
+
+					You rip away your hands from her throat. You pause, awaiting her reply, but she remains unmoved. You understand that she will not speak further on the topic so it is useless to press her.</eventText>
+		<option id="16">Ask about the queen's strength.</option>	
+		<option id="9">Ask if the stories about the tower are true.</option>
+		<option id="10">Ask about her.</option>
+		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
+		<option id="13">Proceed to the next floor.</option>		
+	</dialog>
+	<dialog id="16">
+		<eventText>"How strong is your queen?" you ask.
+
+					She laughs, as heartily as she can in her current state.
+
+					"You have no idea, traveler."
+
+					"Give me an idea."
+
+					"There are wars going on in right now in this world that you cannot possibly comprehend. You are not even fit to be a soldier. You are an ant, and you should watch for the boot that may crush you unknowingly."
+
+					"You are being intentionally vague. And too arrogant for my tastes," you reply dismissing her words.
+
+					"Maybe so," she smiles.</eventText>
+		<option id="18">Ask about the animated skeletons.</option>
+		<option id="9">Ask if the stories about the tower are true.</option>
+		<option id="10">Ask about her.</option>
+		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
+		<option id="13">Proceed to the next floor.</option>
+	</dialog>
+	<dialog id="17">
+		<eventText>You jolt your arm forward and grab at her neck. She chokes, sputters, but her eyes do not change.
+
+					"I'll find out NOW!" you shout.
+
+					You rip away your hands from her throat. You pause, awaiting her reply, but she remains unmoved. You understand that she will not speak further on the topic so it is useless to press her.</eventText>
+		<option id="9">Ask if the stories about the tower are true.</option>
+		<option id="10">Ask about her.</option>
+		<option id="11">Ask about her queen.</option>
+		<option id="13">Proceed to the next floor.</option>
+	</dialog>
+	<dialog id="18">
+		<eventText>"The skeletons on this floor. They are controlled by your queen's magic?" you ask.
+		
+					"Indeed," she replies, "They are her faithful servants, injected with magic to do her bidding."</eventText>
+		<option id="9">Ask if the stories about the tower are true.</option>
+		<option id="10">Ask about her.</option>
+		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
+		<option id="13">Proceed to the next floor.</option>
+	</dialog>
+</event>

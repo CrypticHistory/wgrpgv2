@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<outfit>
+	<appearanceList>
+		<appearance>
+			<BMI>-4</BMI>
+			<minBMI>-999</minBMI>
+			<maxBMI>-4</maxBMI>
+			<overall>
+				<text>You are wearing a very loose-fitting corset.</text>
+			</overall>
+		</appearance>
+		<appearance>
+			<BMI>-2</BMI>
+			<minBMI>-3</minBMI>
+			<maxBMI>-2</maxBMI>
+			<overall>
+				<text>You are wearing a loose-fitting corset.</text>
+			</overall>
+		</appearance>
+		<appearance>
+			<BMI>0</BMI>
+			<minBMI>-1</minBMI>
+			<maxBMI>0</maxBMI>
+			<overall>
+				<text>You are wearing a corset.</text>
+			</overall>
+		</appearance>
+		<appearance>
+			<BMI>2</BMI>
+			<minBMI>1</minBMI>
+			<maxBMI>2</maxBMI>
+			<overall>
+				<text>You are wearing a corset.</text>
+			</overall>
+		</appearance>
+		<appearance>
+			<BMI>4</BMI>
+			<minBMI>3</minBMI>
+			<maxBMI>4</maxBMI>
+			<overall>
+				<text>You are wearing a tight-fitting corset.</text>
+			</overall>
+		</appearance>
+		<appearance>
+			<BMI>6</BMI>
+			<minBMI>5</minBMI>
+			<maxBMI>6</maxBMI>
+			<overall>
+				<text>You are wearing a very tight-fitting corset.</text>
+			</overall>
+		</appearance>
+		<appearance>
+			<BMI>8</BMI>
+			<minBMI>7</minBMI>
+			<maxBMI>999</maxBMI>
+			<overall>
+				<text>You are wearing a skin-tight corset.</text>
+			</overall>
+		</appearance>
+		<appearance>
+			<BMI>10</BMI>
+			<belly>
+				<text>Your corset can no longer contain the lower half of your belly, and it hangs out of the bottom. So much for "shaping a woman's figure", you think to yourself.</text>
+			</belly>
+		</appearance>
+	</appearanceList>
+	<responseList>
+		<response>
+			<BMI>-6</BMI>
+			<breasts>
+				<text>Your corset slides right down your breasts, clearly too loose for you to wear now.</text>
+				<effect>fall</effect>
+			</breasts>
+		</response>
+		<response>
+			<BMI>-4</BMI>
+			<belly>
+				<text>Your corset has gotten very loose around your midsection.</text>
+			</belly>
+			<breasts>
+				<text>Your corset has gotten very loose around your breasts.</text>
+			</breasts>
+		</response>
+		<response>
+			<BMI>-2</BMI>
+			<belly>
+				<text>Your corset is now loose around your midsection.</text>
+			</belly>
+			<breasts>
+				<text>Your corset is now loosely pressed against your breasts.</text>
+			</breasts>
+		</response>
+		<response>
+			<BMI>0</BMI>
+			<belly>
+				<text>Your corset now fits perfect on your frame.</text>
+			</belly>
+		</response>
+		<response>
+			<BMI>2</BMI>
+			<belly>
+				<text>Your corset is now snug around your waist, hugging it.</text>
+			</belly>
+			<breasts>
+				<text>Your breasts press against your tanktop, slightly pouring out over the top of the material.</text>
+			</breasts>
+		</response>
+		<response>
+			<BMI>4</BMI>
+			<belly>
+				<text>A bit of your lower belly pops out of the bottom of your corset.</text>
+			</belly>
+			<breasts>
+				<text>Your breasts are pressed tight against the material of your corset.</text>
+			</breasts>
+		</response>
+		<response>
+			<BMI>6</BMI>
+			<belly>
+				<text>More of your belly pops out of the bottom of your corset.</text>
+			</belly>
+			<breasts>
+				<text>Your breasts are skintight against the material of your corset, with breast fat spilling out at the top.</text>
+			</breasts>
+		</response>
+		<response>
+			<BMI>8</BMI>
+			<belly>
+				<text>Your corset is uncomfortably tight against your bulging upper belly. How much longer can it contain you?</text>
+			</belly>
+			<breasts>
+				<text>Your breasts are tightly pressed inside the corset, giving them no room to breath whatsoever.</text>
+			</breasts>
+		</response>
+		<response>
+			<BMI>10</BMI>
+			<breasts>
+				<text>You hear a tear as your corset has ripped down the middle due to battling with your growing breasts. You reluctantly take the corset off, knowing that it'll be unwearable unless you get it fixed at a tailor.</text>
+				<effect>rip</effect>
+			</breasts>
+		</response>
+	</responseList>
+	<equipList>
+		<equip>
+			<minBMI>-999</minBMI>
+			<maxBMI>-6</maxBMI>
+			<responseBMI>-6</responseBMI>
+			<breasts>
+				<text>You throw the corset top over your head but it just slides off your breasts and falls off your body entirely.</text>
+				<wearable>false</wearable>
+			</breasts>
+		</equip>
+		<equip>
+			<minBMI>-5</minBMI>
+			<maxBMI>-4</maxBMI>
+			<responseBMI>-4</responseBMI>
+			<breasts>
+				<text>Your corset fits loose around your breasts.</text>
+				<wearable>true</wearable>
+			</breasts>
+			<belly>
+				<text>Your corset fits loose around your midsection.</text>
+				<wearable>true</wearable>
+			</belly>
+		</equip>
+		<equip>
+			<minBMI>-3</minBMI>
+			<maxBMI>-2</maxBMI>
+			<responseBMI>-2</responseBMI>
+			<breasts>
+				<text>Your corset fits loose around your breasts.</text>
+				<wearable>true</wearable>
+			</breasts>
+			<belly>
+				<text>Your corset fits loose around your midsection.</text>
+				<wearable>true</wearable>
+			</belly>
+		</equip>
+		<equip>
+			<minBMI>-1</minBMI>
+			<maxBMI>0</maxBMI>
+			<responseBMI>0</responseBMI>
+			<breasts>
+				<text>Your corset fits well on your breasts.</text>
+				<wearable>true</wearable>
+			</breasts>
+			<belly>
+				<text>Your corset covers your midsection fully.</text>
+				<wearable>true</wearable>
+			</belly>
+		</equip>
+		<equip>
+			<minBMI>1</minBMI>
+			<maxBMI>2</maxBMI>
+			<responseBMI>2</responseBMI>
+			<belly>
+				<text>Your corset is a bit of a tight fit around your belly area.</text>
+				<wearable>true</wearable>
+			</belly>
+			<breasts>
+				<text>Your corset causes breast fat to spill out of the material slightly.</text>
+				<wearable>true</wearable>
+			</breasts>
+		</equip>
+		<equip>
+			<minBMI>3</minBMI>
+			<maxBMI>4</maxBMI>
+			<responseBMI>4</responseBMI>
+			<belly>
+				<text>After a bit of difficulty, you can pull down the corset to your hips. It exposes a bit of your lower belly, clearly a bit too small around the waist.</text>
+				<wearable>true</wearable>
+			</belly>
+			<breasts>
+				<text>Your corset hugs your breasts tightly.</text>
+				<wearable>true</wearable>
+			</breasts>
+		</equip>
+		<equip>
+			<minBMI>5</minBMI>
+			<maxBMI>6</maxBMI>
+			<responseBMI>6</responseBMI>
+			<belly>
+				<text>After a long struggle, you finally pull down the corset to your hips. A bit of your protruding belly pops out of the bottom.</text>
+				<wearable>true</wearable>
+			</belly>
+			<breasts>
+				<text>Your breasts are jammed pack into the corset, giving them no room to breath.</text>
+				<wearable>true</wearable>
+			</breasts>
+		</equip>
+		<equip>
+			<minBMI>7</minBMI>
+			<maxBMI>8</maxBMI>
+			<responseBMI>8</responseBMI>
+			<belly>
+				<text>After a long struggle, you finally pull the corset down to your waist. However, it cannot fit overtop your entire belly, and you let most of it hang uncovered.</text>
+				<wearable>true</wearable>
+			</belly>
+			<breasts>
+				<text>Your breasts are skin-tight against your corset, constricting them and causing considerable discomfort.</text>
+				<wearable>true</wearable>
+			</breasts>
+		</equip>
+		<equip>
+			<minBMI>9</minBMI>
+			<maxBMI>10</maxBMI>
+			<responseBMI>10</responseBMI>
+			<belly>
+				<text>After a long struggle, you finally pull the corset down to your waist. However, it cannot fit overtop your entire belly, and you let most of it hang uncovered.</text>
+				<wearable>true</wearable>
+			</belly>
+			<breasts>
+				<text>Your breasts are skin-tight against your corset, constricting them and causing considerable discomfort.</text>
+				<wearable>true</wearable>
+			</breasts>
+		</equip>
+		<equip>
+			<minBMI>11</minBMI>
+			<maxBMI>999</maxBMI>
+			<responseBMI>10</responseBMI>
+			<belly>
+				<text>After a long struggle, you finally pull the corset down to your waist. However, it cannot fit overtop your entire belly, and you let most of it hang uncovered.</text>
+				<wearable>true</wearable>
+			</belly>
+			<breasts>
+				<text>Your breasts are skin-tight against your corset, constricting them and causing considerable discomfort.</text>
+				<wearable>true</wearable>
+			</breasts>
+		</equip>
+	</equipList>
+</outfit>

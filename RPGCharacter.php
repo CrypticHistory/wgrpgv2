@@ -6,10 +6,14 @@ include_once "RPGCharacterBody.php";
 include_once "RPGTime.php";
 include_once "RPGFloor.php";
 include_once "RPGStats.php";
+include_once "RPGSkill.php";
+include_once "RPGClass.php";
+include_once "RPGEvent.php";
 include_once "RPGStatusEffect.php";
 include_once "RPGXMLReader.php";
 include_once "RPGOutfitReader.php";
 include_once "constants.php";
+include_once "common.php";
 
 class RPGCharacter{
 	
@@ -24,8 +28,7 @@ class RPGCharacter{
 	private $_objCurrentFloor;
 	private $_intDay;
 	private $_strTime;
-	private $_intEventID;
-	private $_intEventNodeID;
+	private $_objEvent;
 	private $_intStateID;
 	private $_intTownID;
 	private $_intLocationID;
@@ -50,10 +53,13 @@ class RPGCharacter{
 	private $_intStatPoints;
 	private $_intGold;
 	private $_arrCombat;
+	private $_objPotentialEnemy;
 	private $_arrStatusEffectList;
 	private $_arrStatModifiers;
 	private $_strEquipClothingText;
 	private $_strErrorText;
+	private $_arrClasses;
+	private $_objCurrentClass;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
@@ -76,8 +82,6 @@ class RPGCharacter{
 		$this->setCurrentFloor($arrCharacterInfo['intCurrentFloorID']);
 		$this->setDay($arrCharacterInfo['intDay']);
 		$this->setTime($arrCharacterInfo['strTime']);
-		$this->setEventID($arrCharacterInfo['intEventID']);
-		$this->setEventNodeID($arrCharacterInfo['intEventNodeID']);
 		$this->setStateID($arrCharacterInfo['intStateID']);
 		$this->setTownID($arrCharacterInfo['intTownID']);
 		$this->setLocationID($arrCharacterInfo['intLocationID']);
@@ -118,8 +122,6 @@ class RPGCharacter{
 				$arrCharacterInfo['intCurrentFloorID'] = $arrRow['intCurrentFloorID'];
 				$arrCharacterInfo['intDay'] = $arrRow['intDay'];
 				$arrCharacterInfo['strTime'] = $arrRow['strTime'];
-				$arrCharacterInfo['intEventID'] = $arrRow['intEventID'];
-				$arrCharacterInfo['intEventNodeID'] = $arrRow['intEventNodeID'];
 				$arrCharacterInfo['intStateID'] = $arrRow['intStateID'];
 				$arrCharacterInfo['intTownID'] = $arrRow['intTownID'];
 				$arrCharacterInfo['intLocationID'] = $arrRow['intLocationID'];
@@ -142,6 +144,8 @@ class RPGCharacter{
 				$arrCharacterInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
 			}
 		$this->populateVarFromRow($arrCharacterInfo);
+		$this->_arrClasses = array();
+		$this->loadClasses();
 		$this->_objEquippedArmour = $this->loadEquippedArmour();
 		$this->_objEquippedTop = $this->loadEquippedTop();
 		$this->_objEquippedBottom = $this->loadEquippedBottom();
@@ -162,7 +166,7 @@ class RPGCharacter{
 		$this->loadStatusEffects();
 		$this->_intRequiredExperience = $this->loadRequiredExperience();
 		if($this->_objCurrentFloor->getFloorID() != 0 && $this->_objCurrentFloor->getFloorID() != NULL){
-			$this->_objCurrentFloor->loadMaze($this->_objCurrentFloor->getDimension());
+			$this->_objCurrentFloor->loadMaze($this->_objCurrentFloor->getDimension(), $this->_intRPGCharacterID);
 		}
 	}
 	
@@ -176,8 +180,6 @@ class RPGCharacter{
 						intDigestionRate = " . $objDB->quote($this->_intDigestionRate) . ",
 						intDay = " . $objDB->quote($this->_intDay) . ",
 						strTime = " . $objDB->quote($this->_strTime) . ",
-						intEventID = " . $objDB->quote($this->_intEventID) . ",
-						intEventNodeID = " . $objDB->quote($this->_intEventNodeID) . ",
 						intStateID = " . $objDB->quote($this->_intStateID) . ",
 						intTownID = " . $objDB->quote($this->_intTownID) . ",
 						intLocationID = " . $objDB->quote($this->_intLocationID) . ",
@@ -206,39 +208,46 @@ class RPGCharacter{
 	public function createNewCharacter($strUserID, $strRPGCharacterName, $dblWeight, $intHeight, $strGender, $strOrientation, $strPersonality, $strFatStance, $strHairColour, $strHairLength, $strEyeColour, $strEthnicity, $intFace, $intBelly, $intBreasts, $intArms, $intLegs, $intButt){
 		$objDB = new Database();
 		$strSQL = "INSERT INTO tblrpgcharacter
-					(strUserID, strRPGCharacterName, dblWeight, intHeight, strGender, strOrientation, strPersonality, strFatStance, strHairColour, strHairLength, strEyeColour, strEthnicity, intStateID, intEventID, intLocationID, intCurrentFloorID, dtmCreatedOn, strCreatedBy)
+					(strUserID, strRPGCharacterName, dblWeight, intHeight, strGender, strOrientation, strPersonality, strFatStance, strHairColour, strHairLength, strEyeColour, strEthnicity, intStateID, intLocationID, intCurrentFloorID, dtmCreatedOn, strCreatedBy)
 						VALUES
-					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", 8, 2, 0, 1, NOW(), 'system')";
+					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", 8, 0, 1, NOW(), 'system')";
 		$objDB->query($strSQL);
 		$intRPGCharacterID = $objDB->lastInsertID();
 		$this->loadRPGCharacterInfo($intRPGCharacterID, true, $intFace, $intBelly, $intBreasts, $intArms, $intLegs, $intButt);
+		$objTutorialEvent = new RPGEvent(2, $this->_intRPGCharacterID);
+		$this->setEvent($objTutorialEvent);
 	}
 	
-	public function addToCharacterEventLog($intEventID){
+	public function loadClasses(){
 		$objDB = new Database();
-		$strSQL = "INSERT INTO tblcharactereventxr
-						(intRPGCharacterID, intEventID, dtmDateAdded)
-					VALUES
-						(" . $objDB->quote($this->getRPGCharacterID()) . ", " . $objDB->quote($intEventID) . ", NOW())";
-		$objDB->query($strSQL);
-	}
-	
-	public function hasViewedEvent($intEventID){
-		$objDB = new Database();
-		$strSQL = "SELECT intEventID FROM tblcharactereventxr
-					WHERE intEventID = " . $objDB->quote($intEventID) . " AND
-							intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
+		$strSQL = "SELECT * FROM tblcharacterclassxr
+					WHERE intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID());
 		$rsResult = $objDB->query($strSQL);
-		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		return (isset($arrRow['intEventID']) ? true : false);
+		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+			$objClass = new RPGClass($arrRow['intClassID']);
+			$objClass->setClassLevel($arrRow['intClassLevel']);
+			$objClass->setClassExperience($arrRow['intClassExperience']);
+			$this->_arrClasses[] = $objClass;
+			if($arrRow['blnCurrentClass']){
+				$this->_objCurrentClass = $objClass;
+			}
+		}
 	}
 	
-	public function setViewedEvent($intEventID){
-		$objDB = new Database();
-		$strSQL = "INSERT INTO tblcharactereventxr
-					(intEventID, intRPGCharacterID, dtmDateAdded) VALUES
-					(" . $objDB->quote($intEventID) . ", " . $objDB->quote($this->_intRPGCharacterID) . ", NOW())";
-		$rsResult = $objDB->query($strSQL);
+	public function getClasses(){
+		return $this->_arrClasses;
+	}
+	
+	public function addToClasses($objClass){
+		$this->_arrClasses[] = $objClass;
+	}
+	
+	public function getCurrentClass(){
+		return $this->_objCurrentClass;
+	}
+	
+	public function setCurrentClass($objClass){
+		$this->_objCurrentClass = $objClass;
 	}
 	
 	public function loadEquippedArmour(){
@@ -251,9 +260,16 @@ class RPGCharacter{
 						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
 						AND blnEquipped = 1";
 		$rsResult = $objDB->query($strSQL);
-		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		$objArmour = new RPGItem($arrRow['intItemID'], $arrRow['intItemInstanceID']);
-		return $objArmour;
+		if($rsResult->rowCount() > 0){
+			$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+			$objArmour = new RPGItem($arrRow['intItemID'], $arrRow['intItemInstanceID']);
+			return $objArmour;
+		}
+		else{
+			$objArmour = new RPGItem();
+			$objArmour->setWaitTime(0);
+			return $objArmour;
+		}
 	}
 	
 	public function loadEquippedTop(){
@@ -266,9 +282,16 @@ class RPGCharacter{
 						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
 						AND blnEquipped = 1";
 		$rsResult = $objDB->query($strSQL);
-		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		$objArmour = new RPGItem($arrRow['intItemID'], $arrRow['intItemInstanceID']);
-		return $objArmour;
+		if($rsResult->rowCount() > 0){
+			$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+			$objArmour = new RPGItem($arrRow['intItemID'], $arrRow['intItemInstanceID']);
+			return $objArmour;
+		}
+		else{
+			$objArmour = new RPGItem();
+			$objArmour->setWaitTime(0);
+			return $objArmour;
+		}
 	}
 	
 	public function loadEquippedBottom(){
@@ -281,9 +304,16 @@ class RPGCharacter{
 						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
 						AND blnEquipped = 1";
 		$rsResult = $objDB->query($strSQL);
-		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		$objArmour = new RPGItem($arrRow['intItemID'], $arrRow['intItemInstanceID']);
-		return $objArmour;
+		if($rsResult->rowCount() > 0){
+			$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+			$objArmour = new RPGItem($arrRow['intItemID'], $arrRow['intItemInstanceID']);
+			return $objArmour;
+		}
+		else{
+			$objArmour = new RPGItem();
+			$objArmour->setWaitTime(0);
+			return $objArmour;
+		}
 	}
 	
 	public function loadEquippedWeapon(){
@@ -297,9 +327,16 @@ class RPGCharacter{
 						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
 						AND blnEquipped = 1";
 		$rsResult = $objDB->query($strSQL);
-		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		$objWeapon = new RPGItem($arrRow['intItemID'], $arrRow['intItemInstanceID']);
-		return $objWeapon;
+		if($rsResult->rowCount() > 0){
+			$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+			$objWeapon = new RPGItem($arrRow['intItemID'], $arrRow['intItemInstanceID']);
+			return $objWeapon;
+		}
+		else{
+			$objWeapon = new RPGItem();
+			$objWeapon->setWaitTime(0);
+			return $objWeapon;
+		}
 	}
 	
 	public function loadEquippedSecondary(){
@@ -313,9 +350,16 @@ class RPGCharacter{
 						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
 						AND blnEquipped = 1";
 		$rsResult = $objDB->query($strSQL);
-		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		$objSecondary = new RPGItem($arrRow['intItemID'], $arrRow['intItemInstanceID']);
-		return $objSecondary;
+		if($rsResult->rowCount() > 0){
+			$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+			$objSecondary = new RPGItem($arrRow['intItemID'], $arrRow['intItemInstanceID']);
+			return $objSecondary;
+		}
+		else{
+			$objSecondary = new RPGItem();
+			$objSecondary->setWaitTime(0);
+			return $objSecondary;
+		}
 	}
 	
 	public function loadStatusEffects(){
@@ -358,7 +402,20 @@ class RPGCharacter{
 		unset($this->_arrStatusEffectList[$strStatusEffectName]);
 	}
 	
+	public function hasStatusEffect($strStatusEffectName){
+		if(array_key_exists($strStatusEffectName, $this->_arrStatusEffectList)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
 	public function giveItem($intItemID, $strClothingSize = null){
+		global $arrClothingSizes;
+		if($strClothingSize == null){
+			$strClothingSize = array_search(getClosest($this->getBMI(), array_values($arrClothingSizes)), $arrClothingSizes);
+		}
 		$objDB = new Database();
 		$objItem = new RPGItem($intItemID);
 		$strSQL = "INSERT INTO tblcharacteritemxr
@@ -398,23 +455,32 @@ class RPGCharacter{
 		$objDB->query($strSQL);
 	}
 	
-	public function tickStatusEffects(){
-		foreach($this->_arrStatusEffectList as $key => $objStatusEffect){
-			if(!$objStatusEffect->getInfinite()){
-				$objStatusEffect->tickStatusEffect();
-			}
-			$strStatName = $objStatusEffect->getStatName();
-			$intStatMin = $objStatusEffect->getStatChangeMin();
-			$intStatMax = $objStatusEffect->getStatChangeMax();
-			$intStatChange = mt_rand($intStatMin, $intStatMax);
-			$strFunctionNameSet = "set" . $strStatName;
-			$strFunctionNameGet = "get" . $strStatName;
-			if($objStatusEffect->getIncremental()){
-				$this->$strFunctionNameSet($this->$strFunctionNameGet() + $intStatChange);
-			}
-			else{
-				$this->_arrStatModifiers[$strStatName] = $intStatChange;
-			}
+	public function tickStatusEffects($intTicks = 1){
+		for($i=0;$i<$intTicks;$i++){
+			foreach($this->_arrStatusEffectList as $key => $objStatusEffect){
+				if(!$this->_arrStatusEffectList[$key]->getInfinite()){
+					$this->_arrStatusEffectList[$key]->tickStatusEffect();
+					$this->_arrStatusEffectList[$key]->save($this->_intRPGCharacterID);
+					if($this->_arrStatusEffectList[$key]->getTimeRemaining() <= 0){
+						$this->removeFromStatusEffects($key);
+						break;
+					}
+				}
+				$strStatName = $this->_arrStatusEffectList[$key]->getStatName();
+				if($strStatName !== null){
+					$intStatMin = $this->_arrStatusEffectList[$key]->getStatChangeMin();
+					$intStatMax = $this->_arrStatusEffectList[$key]->getStatChangeMax();
+					$intStatChange = mt_rand($intStatMin, $intStatMax);
+					$strFunctionNameSet = "set" . $strStatName;
+					$strFunctionNameGet = "get" . $strStatName;
+					if($this->_arrStatusEffectList[$key]->getIncremental()){
+						$this->$strFunctionNameSet($this->$strFunctionNameGet() + $intStatChange);
+					}
+					else{
+						$this->_arrStatModifiers[$strStatName] = $intStatChange;
+					}
+				}
+			}		
 		}
 	}
 	
@@ -537,18 +603,24 @@ class RPGCharacter{
 	}
 	
 	public function equipWeapon($intItemInstanceID, $intItemID){
-		$this->unequipWeapon();
-		$this->_objEquippedWeapon = new RPGItem($intItemID, $intItemInstanceID);
-		$this->_objEquippedWeapon->equip();
-		if($this->_objEquippedWeapon->getHandType() == 'Both'){
-			$this->unequipSecondary();
+		$objTempWeapon = new RPGItem($intItemID, $intItemInstanceID);
+		if($objTempWeapon->getHandType() == "Secondary"){
+			$this->equipSecondary($intItemInstanceID, $intItemID);
 		}
-		$this->statusEffectCheck("_objEquippedWeapon", "addToStatusEffects");
+		else{
+			$this->unequipWeapon();
+			$this->_objEquippedWeapon = new RPGItem($intItemID, $intItemInstanceID);
+			$this->_objEquippedWeapon->equip();
+			if($this->_objEquippedWeapon->getHandType() == 'Both'){
+				$this->unequipSecondary();
+			}
+			$this->statusEffectCheck("_objEquippedWeapon", "addToStatusEffects");
+		}
 	}
 	
 	public function equipSecondary($intItemInstanceID, $intItemID){
 		if($this->getEquippedWeapon()->getHandType() != "Both"){
-			$this->unquipSecondary();
+			$this->unequipSecondary();
 			$this->_objEquippedSecondary = new RPGItem($intItemID, $intItemInstanceID);
 			$this->_objEquippedSecondary->equip();
 			$this->statusEffectCheck("_objEquippedSecondary", "addToStatusEffects");
@@ -830,24 +902,6 @@ class RPGCharacter{
 		return strval($whole) . "'" . strval($intInches) . "\"";
 	}
 	
-	public function checkEndOfEvent(){
-		global $arrStateValues;
-		$blnEndOfEvent = false;
-		$objEvent = new RPGEvent($this->getEventID());
-		$objXML = new RPGXMLReader($objEvent->getXML());
-		if((in_array($this->getEventNodeID(), (array)$objXML->getEndNodes())) || $objXML->getEndNodes() == 'any'){
-			if(!$this->hasViewedEvent($this->getEventID())){
-				$this->addToCharacterEventLog($this->getEventID());
-			}	
-			$this->removeOverride(3);
-			if(isset($_SESSION['objEnemy'])){
-				unset($_SESSION['objEnemy']);
-			}
-			$blnEndOfEvent = true;
-		}
-		return $blnEndOfEvent;
-	}
-	
 	public function takeDamage($intDamage){
 		$intDamage = max(0, $intDamage);
 		$this->setCurrentHP($this->getCurrentHP() - $intDamage);
@@ -859,7 +913,13 @@ class RPGCharacter{
 	}
 	
 	public function reviveCharacter(){
+		global $arrStateValues;
 		$this->setCurrentHP($this->getModifiedMaxHP());
+		$this->setTownID(1);
+		// home location ID
+		$this->setLocationID(6);
+		$this->setCurrentFloor(NULL);
+		$this->setStateID($arrStateValues['Town']);
 	}
 	
 	public function getRPGCharacterID(){
@@ -1062,30 +1122,56 @@ class RPGCharacter{
 		$this->_intStatPoints = $intStatPoints;
 	}
 	
-	public function getEventID(){
-		return $this->_intEventID;
+	public function getEvent(){
+		return $this->_objEvent;
 	}
 	
-	public function setEventID($intEventID){
-		$this->_intEventID = $intEventID;
+	public function setEvent($objEvent){
+		$this->_objEvent = $objEvent;
 	}
 	
-	public function getEventNodeID(){
-		return $this->_intEventNodeID;
-	}
-	
-	public function setEventNodeID($intEventNodeID){
-		$this->_intEventNodeID = $intEventNodeID;
-	}
-	
-	public function setCombat($intNPCID, $strFirstTurn){
+	public function setCombat($intEnemyID, $strFirstTurn = "Player"){
 		global $arrStateValues;
 		$this->setStateID($arrStateValues["Combat"]);
-		$this->_arrCombat[0] = $intNPCID;
-		$this->_arrCombat[1] = $strFirstTurn;
+		if($intEnemyID == 0){
+				$this->_arrCombat["Enemy"] = $this->_objPotentialEnemy;
+		}
+		else{
+			$this->_arrCombat["Enemy"] = new RPGNPC($intEnemyID);
+		}
+		$this->_arrCombat["FirstTurn"] = $strFirstTurn;
 		if(isset($_SESSION['objUISettings']->getOverrides()[3])){
 			$this->removeOverride(3);
 		}
+	}
+	
+	public function clearCombat(){
+		$this->_arrCombat["Enemy"] = null;
+		$this->_arrCombat["FirstTurn"] = null;
+	}
+	
+	public function getEnemyStartText(){
+		return $this->getPotentialEnemy()->getStartText();
+	}
+	
+	public function getEnemyForceStartText(){
+		return $this->getPotentialEnemy()->getForceStartText();
+	}
+	
+	public function getEnemyFleeText(){
+		return $this->getPotentialEnemy()->getFleeText();
+	}
+	
+	public function getEnemyFailFleeText(){
+		return $this->getPotentialEnemy()->getFailFleeText();
+	}
+	
+	public function getEnemyEndText(){
+		return $this->getPotentialEnemy()->getEndText();
+	}
+	
+	public function getEnemyDefeatText(){
+		return $this->getPotentialEnemy()->getDefeatText();
 	}
 	
 	public function gainExperience($intExpGain){
@@ -1098,12 +1184,14 @@ class RPGCharacter{
 	}
 	
 	public function levelUp(){
+		$intExpDiff = $this->_intExperience - $this->loadRequiredExperience(); 
 		$this->_intLevel++;
-		$this->_intExperience = 0;
+		$this->setExperience(0);
 		$this->_intRequiredExperience = $this->loadRequiredExperience();
 		$this->setStatPoints($this->getStatPoints() + 5);
 		$this->setCurrentHP($this->getModifiedMaxHP());
 		$this->save();
+		$this->gainExperience($intExpDiff);
 	}
 	
 	public function loadRequiredExperience(){
@@ -1125,7 +1213,7 @@ class RPGCharacter{
 	}
 	
 	public function getModifiedMaxHP(){
-		return round($this->_objStats->getBaseStats()['intMaxHP'] + ($this->_objStats->getCombinedStats('intVitality') / 2));
+		return round($this->_objStats->getBaseStats()['intMaxHP'] + $this->getLevel() + ($this->_objStats->getCombinedStats('intVitality') / 2));
 	}
 	
 	public function getCombat(){
@@ -1136,12 +1224,16 @@ class RPGCharacter{
 		return $this->_objStats;
 	}
 	
-	public function getWaitTime($strWaitType){
-		if($strWaitType == 'Standard'){
+	public function getWaitTime($udfWaitType){
+		$intGearWait = $this->_objEquippedWeapon->getWaitTime() + $this->_objEquippedSecondary->getWaitTime() + $this->_objEquippedArmour->getWaitTime() + $this->_objEquippedTop->getWaitTime() + $this->_objEquippedBottom->getWaitTime();
+		if($udfWaitType == 'Standard'){
 			// standard attack
-			return round(250 - ($this->_objStats->getCombinedStats('intAgility') / 2) + (250 * $this->getImmobilityFactor()));
+			return round(250 + $intGearWait - ($this->_objStats->getCombinedStats('intAgility') / 2) + (250 * $this->getImmobilityFactor()));
 		}
-		// skills will add on or decrease wait time by some amount
+		else{
+			// skills will add on or decrease wait time by some amount defined by udfWaitType variable
+			return round(250 + $udfWaitType + $intGearWait - ($this->_objStats->getCombinedStats('intAgility') / 2) + (250 * $this->getImmobilityFactor()));
+		}
 	}
 	
 	public function getModifiedDamage(){
@@ -1153,27 +1245,63 @@ class RPGCharacter{
 	}
 	
 	public function getModifiedDefence(){
-		return round(($this->_objStats->getCombinedStats('intVitality') / 4) + $this->getEquippedArmour()->getDefence() + $this->getEquippedTop()->getDefence() + $this->getEquippedBottom()->getDefence());
+		return round(($this->_objStats->getCombinedStats('intVitality') / 3) + $this->getEquippedArmour()->getDefence() + $this->getEquippedTop()->getDefence() + $this->getEquippedBottom()->getDefence());
 	}
 	
 	public function getModifiedMagicDefence(){
-		return round(($this->_objStats->getCombinedStats('intIntelligence') / 4) + $this->getEquippedArmour()->getMagicDefence() + $this->getEquippedTop()->getMagicDefence() + $this->getEquippedBottom()->getMagicDefence());
+		return round(($this->_objStats->getCombinedStats('intIntelligence') / 3) + $this->getEquippedArmour()->getMagicDefence() + $this->getEquippedTop()->getMagicDefence() + $this->getEquippedBottom()->getMagicDefence());
 	}
 	
 	public function getModifiedBlockRate(){
-		return round($this->_objStats->getCombinedStats('intAgility') / 4);
+		return round($this->_objStats->getCombinedStatsSecondary('intBlockRate'));
 	}
 	
 	public function getModifiedBlock(){
-		return 0.6;
+		return min((0.5 + ($this->_objStats->getCombinedStatsSecondary('intBlockReduction') / 100)), 1.0);
+	}
+	
+	public function getStatusEffectResistance(){
+		return round($this->_objStats->getCombinedStats('intWillpower') * 2);
+	}
+	
+	public function getStatusEffectSuccessRate(){
+		return round($this->_objStats->getCombinedStats('intWillpower') * 1);
 	}
 	
 	public function getModifiedCritRate(){
-		return round($this->_objStats->getCombinedStats('intDexterity') / 4);
+		return round($this->_objStats->getCombinedStats('intDexterity') * 2);
+	}
+	
+	public function getAdditionalDamage(){
+		return $this->getLevel() + round($this->_objStats->getCombinedStats('intWillpower') / 4);
 	}
 	
 	public function getModifiedCritDamage(){
 		return 1.5;
+	}
+	
+	public function getModifiedCritResistance(){
+		return round($this->_objStats->getCombinedStats('intDexterity') * 1);
+	}
+	
+	public function getModifiedFleeRate(){
+		return round($this->_objStats->getCombinedStats('intAgility') * 2);
+	}
+	
+	public function getModifiedFleeResistance(){
+		return round($this->_objStats->getCombinedStats('intAgility') * 2);
+	}
+	
+	public function getModifiedEvasion(){
+		return round($this->_objStats->getCombinedStats('intAgility') * 2);
+	}
+	
+	public function getModifiedPierceRate(){
+		return round($this->_objStats->getCombinedStatsSecondary('intPierce'));
+	}
+	
+	public function getModifiedAccuracy(){
+		return round(($this->_objStats->getCombinedStats('intDexterity') * 2) + $this->_objStats->getCombinedStatsSecondary('intEvasion'));
 	}
 	
 	public function getImmobilityFactor(){
@@ -1222,9 +1350,10 @@ class RPGCharacter{
 		$this->setLocationID(NULL);
 		$this->setCurrentFloor($intFloorID);
 		$this->setStateID($arrStateValues['Field']);
-		$this->setEventID(1);
-		$this->setEventNodeID(0);
-		$this->_objCurrentFloor->loadMaze($this->_objCurrentFloor->getDimension());
+		// todo: standstill according to floor
+		$objStandStillEvent = new RPGEvent(1, $this->_intRPGCharacterID);
+		$this->setEvent($objStandStillEvent);
+		$this->_objCurrentFloor->loadMaze($this->_objCurrentFloor->getDimension(), $this->_intRPGCharacterID);
 	}
 	
 	public function exitFloor($intLocationID){
@@ -1235,11 +1364,38 @@ class RPGCharacter{
 		$this->setStateID($arrStateValues['Town']);
 	}
 	
+	public function ascendFloor(){
+		if($this->getCurrentFloor()->getFloorID() != 2){
+			global $arrStateValues;
+			$intPreviousFloor = $this->getCurrentFloor()->getFloorID();
+			$intNextFloor = $intPreviousFloor + 1;
+			$this->_intFloorID = $intNextFloor;
+			$this->setCurrentFloor($intNextFloor);
+			// todo: standstill according to floor
+			$objStandStillEvent = new RPGEvent(1, $this->_intRPGCharacterID);
+			$this->setEvent($objStandStillEvent);
+			$this->setStateID($arrStateValues["Field"]);
+			$this->_objCurrentFloor->loadMaze($this->_objCurrentFloor->getDimension(), $this->_intRPGCharacterID);
+		}
+	}
+	
+	public function descendFloor(){
+		global $arrStateValues;
+		$intPreviousFloor = $this->getCurrentFloor()->getFloorID();
+		$intNextFloor = $intPreviousFloor - 1;
+		$this->setCurrentFloor($intNextFloor);
+		// todo: standstill according to floor
+		$objStandStillEvent = new RPGEvent(1, $this->_intRPGCharacterID);
+		$this->setEvent($objStandStillEvent);
+		$this->_objCurrentFloor->loadMaze($this->_objCurrentFloor->getDimension(), $this->_intRPGCharacterID);
+	}
+	
 	public function resetStats($intCost){
 		if($this->getGold() >= $intCost){
 			$this->setGold($this->getGold() - $intCost);
 			$intTotalStatPoints = $this->_objStats->resetStats();
 			$this->setStatPoints($this->getStatPoints() + $intTotalStatPoints);	
+			$this->setCurrentHP($this->getModifiedMaxHP());
 		}
 		else{
 			$this->_strErrorText = "You do not have enough gold for this purchase.";
@@ -1249,6 +1405,7 @@ class RPGCharacter{
 	public function getSleep($intHours){
 		$this->setTime(RPGTime::addHoursToTime($_SESSION['objRPGCharacter']->getTime(), $intHours));
 		$this->digestItems($intHours);
+		$this->tickStatusEffects($intHours * 4);
 		$this->healHP(round($this->getModifiedMaxHP() * ($intHours / 10)));
 	}
 	
@@ -1294,6 +1451,14 @@ class RPGCharacter{
 	
 	public function setErrorText($strErrorText){
 		$this->_strErrorText = $strErrorText;
+	}
+	
+	public function getPotentialEnemy(){
+		return $this->_objPotentialEnemy;
+	}
+	
+	public function setPotentialEnemy($objEnemyID){
+		$this->_objPotentialEnemy = $objEnemyID;
 	}
 }
 

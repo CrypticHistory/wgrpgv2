@@ -4,12 +4,12 @@ require_once "Database.php";
 include_once "Lottery.php";
 include_once "RPGEvent.php";
 include_once "Maze.php";
+include_once "RPGNPC.php";
 
 class RPGFloor{
 
 	private $_intFloorID;
 	private $_strFloorName;
-	private $_txtEntryText;
 	private $_strFloorType;
 	private $_intDimension;
 	private $_dtmCreatedOn;
@@ -28,7 +28,6 @@ class RPGFloor{
 	private function populateVarFromRow($arrFloorInfo){
 		$this->setFloorID($arrFloorInfo['intFloorID']);
 		$this->setFloorName($arrFloorInfo['strFloorName']);
-		$this->setEntryText($arrFloorInfo['txtEntryText']);
 		$this->setFloorType($arrFloorInfo['strFloorType']);
 		$this->setDimension($arrFloorInfo['intDimension']);
 		$this->setCreatedOn($arrFloorInfo['dtmCreatedOn']);
@@ -47,7 +46,6 @@ class RPGFloor{
 			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
 				$arrFloorInfo['intFloorID'] = $arrRow['intFloorID'];
 				$arrFloorInfo['strFloorName'] = $arrRow['strFloorName'];
-				$arrFloorInfo['txtEntryText'] = $arrRow['txtEntryText'];
 				$arrFloorInfo['strFloorType'] = $arrRow['strFloorType'];
 				$arrFloorInfo['intDimension'] = $arrRow['intDimension'];
 				$arrFloorInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
@@ -62,6 +60,8 @@ class RPGFloor{
 		$objDB = new Database();
 		$strSQL = "SELECT intEventID, intOccurrenceRating
 					FROM tblflooreventxr
+						INNER JOIN tblevent
+							USING (intEventID)
 						WHERE intEventID NOT IN
 							(SELECT intEventID
 								FROM tblcharactereventxr
@@ -69,6 +69,7 @@ class RPGFloor{
 										USING (intEventID)
 									WHERE intRPGCharacterID = " . $objDB->quote($intRPGCharacterID) . "
 										AND blnRepeating = 0)
+							AND strEventType = 'Event'
 							AND intFloorID = " . $objDB->quote($this->getFloorID());
 		$rsResult = $objDB->query($strSQL);
 		while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
@@ -83,19 +84,106 @@ class RPGFloor{
 	public function generateRandomEvent(){
 		$objLottery = new Lottery();
 		foreach($this->getApplicableEvents() as $key => $value){
-			$objEvent = new RPGEvent($key);
-			if($objEvent->getForcedEvent() == true){
-				return $key;
-			}
-			else{
-				$objLottery->addEntry($key, $value);
-			}
+			$objLottery->addEntry($key, $value);
 		}
 		return $objLottery->getWinner();
 	}
 	
-	public function loadMaze($intDimension){
-		$this->_objMaze = new Maze($intDimension);
+	public function pickFromApplicableEvents(){
+		$arrReturn = array();
+		if(!empty($this->getApplicableEvents())){
+			foreach($this->getApplicableEvents() as $key => $value){
+				$intRoll = mt_rand(1, 1000);
+				if($value >= $intRoll){
+					$arrReturn[] = $key;
+				}
+			}
+		}
+		return $arrReturn;
+	}
+	
+	public function loadMaze($intDimension, $intRPGCharacterID){
+		$this->setApplicableEvents($intRPGCharacterID);
+		$this->_objMaze = new Maze($intDimension, $this->pickFromApplicableEvents(), $this->getStartEvent($intRPGCharacterID), $this->getEndEvent($intRPGCharacterID));
+	}
+	
+	public function getStartEvent($intRPGCharacterID){
+		$objDB = new Database();
+		$strSQL = "SELECT intEventID
+					FROM tblevent
+						INNER JOIN tblflooreventxr
+							USING (intEventID)
+						WHERE strEventType = 'Start Event'
+							AND intFloorID = " . $objDB->quote($this->_intFloorID) . "
+							AND intEventID NOT IN
+							(SELECT intEventID
+								FROM tblcharactereventxr
+									INNER JOIN tblevent
+										USING (intEventID)
+									WHERE intRPGCharacterID = " . $objDB->quote($intRPGCharacterID) . "
+										AND blnRepeating = 0)";
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		return $arrRow['intEventID'];
+		
+	}
+	
+	public function getEndEvent($intRPGCharacterID){
+		$objDB = new Database();
+		$strSQL = "SELECT intEventID
+					FROM tblevent
+						INNER JOIN tblflooreventxr
+							USING (intEventID)
+						WHERE strEventType = 'End Event'
+							AND intFloorID = " . $objDB->quote($this->_intFloorID) . "
+							AND intEventID NOT IN
+							(SELECT intEventID
+								FROM tblcharactereventxr
+									INNER JOIN tblevent
+										USING (intEventID)
+									WHERE intRPGCharacterID = " . $objDB->quote($intRPGCharacterID) . "
+										AND blnRepeating = 0)";
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		return $arrRow['intEventID'];
+	}
+	
+	public function getStandstill($intRPGCharacterID){
+		$objDB = new Database();
+		$strSQL = "SELECT intEventID
+					FROM tblevent
+						INNER JOIN tblflooreventxr
+							USING (intEventID)
+						WHERE strEventType = 'Standstill'
+							AND intFloorID = " . $objDB->quote($this->_intFloorID) . "
+							AND intEventID NOT IN
+							(SELECT intEventID
+								FROM tblcharactereventxr
+									INNER JOIN tblevent
+										USING (intEventID)
+									WHERE intRPGCharacterID = " . $objDB->quote($intRPGCharacterID) . "
+										AND blnRepeating = 0)";
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		$objEvent = new RPGEvent($arrRow['intEventID']);
+		return $objEvent;
+	}
+	
+	public function getRandomEnemy(){
+		$arrEnemies = array();
+		$objDB = new Database();
+		$strSQL = "SELECT intNPCID
+					FROM tblfloornpcxr
+						WHERE intFloorID = " . $objDB->quote($this->_intFloorID) . "
+							AND intOccurrenceRating <> 9999";
+		$rsResult = $objDB->query($strSQL);
+		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+			$arrEnemies[] = $arrRow['intNPCID'];
+		}
+		
+		$intPickedEnemyID = $arrEnemies[array_rand($arrEnemies, 1)];
+		$objEnemy = new RPGNPC($intPickedEnemyID);
+		return $objEnemy;
 	}
 	
 	public function getFloorID(){
@@ -112,14 +200,6 @@ class RPGFloor{
 	
 	public function setFloorName($strFloorName){
 		$this->_strFloorName = $strFloorName;
-	}
-	
-	public function getEntryText(){
-		return $this->_txtEntryText;
-	}
-	
-	public function setEntryText($txtEntryText){
-		$this->_txtEntryText = $txtEntryText;
 	}
 	
 	public function getMaze(){

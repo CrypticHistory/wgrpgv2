@@ -16,6 +16,7 @@ class RPGItem{
 	private $_intMagicDamage;
 	private $_intDefence;
 	private $_intMagicDefence;
+	private $_intWaitTime;
 	private $_strStatDamage;
 	private $_strSize;
 	private $_strXML;
@@ -49,6 +50,7 @@ class RPGItem{
 		$this->setMagicDamage($arrItemInfo['intMagicDamage']);
 		$this->setDefence($arrItemInfo['intDefence']);
 		$this->setMagicDefence($arrItemInfo['intMagicDefence']);
+		$this->setWaitTime($arrItemInfo['intWaitTime']);
 		$this->setStatDamage($arrItemInfo['strStatDamage']);
 		$this->setItemType($arrItemInfo['strItemType']);
 		$this->setHandType($arrItemInfo['strHandType']);
@@ -78,6 +80,7 @@ class RPGItem{
 				$arrItemInfo['intMagicDamage'] = $arrRow['intMagicDamage'];
 				$arrItemInfo['intDefence'] = $arrRow['intDefence'];
 				$arrItemInfo['intMagicDefence'] = $arrRow['intMagicDefence'];
+				$arrItemInfo['intWaitTime'] = $arrRow['intWaitTime'];
 				$arrItemInfo['strStatDamage'] = $arrRow['strStatDamage'];
 				$arrItemInfo['strItemType'] = $arrRow['strItemType'];
 				$arrItemInfo['strHandType'] = $arrRow['strHandType'];
@@ -279,6 +282,14 @@ class RPGItem{
 	
 	public function setMagicDefence($intMagicDefence){
 		$this->_intMagicDefence = $intMagicDefence;
+	}
+	
+	public function getWaitTime(){
+		return $this->_intWaitTime;
+	}
+	
+	public function setWaitTime($intWaitTime){
+		$this->_intWaitTime = $intWaitTime;
 	}
 	
 	public function getSellPrice(){
