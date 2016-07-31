@@ -347,11 +347,11 @@ class RPGNPC{
 	}
 	
 	public function getModifiedFleeResistance(){
-		return round($this->_objStats->getCombinedStats('intAgility') / 2);
+		return round($this->_objStats->getCombinedStatsSecondary('intFleeResistance'));
 	}
 	
 	public function getModifiedEvasion(){
-		return round($this->_objStats->getCombinedStats('intAgility') * 2);
+		return round(($this->_objStats->getCombinedStats('intAgility') * 2) + $this->_objStats->getCombinedStatsSecondary('intEvasion'));
 	}
 	
 	public function getModifiedPierceRate(){
@@ -359,7 +359,7 @@ class RPGNPC{
 	}
 	
 	public function getModifiedAccuracy(){
-		return round(($this->_objStats->getCombinedStats('intDexterity') * 2) + $this->_objStats->getCombinedStatsSecondary('intEvasion'));
+		return round(($this->_objStats->getCombinedStats('intDexterity') * 2) + $this->_objStats->getCombinedStatsSecondary('intAccuracy'));
 	}
 	
 	public function getWaitTime($udfWaitType){

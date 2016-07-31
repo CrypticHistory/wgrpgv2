@@ -30,6 +30,7 @@
 				$this->_arrBaseStats['intWillpower'] = $arrRow['intWillpower'];
 				$this->_arrBaseStats['intDexterity'] = $arrRow['intDexterity'];
 				$this->_arrBaseStats['intEvasion'] = $arrRow['intEvasion'];
+				$this->_arrBaseStats['intAccuracy'] = $arrRow['intAccuracy'];
 				$this->_arrBaseStats['intCritDamage'] = $arrRow['intCritDamage'];
 				$this->_arrBaseStats['intPierce'] = $arrRow['intPierce'];
 				$this->_arrBaseStats['intBlockRate'] = $arrRow['intBlockRate'];
@@ -48,6 +49,7 @@
 							intWillpower = " . $objDB->quote($this->_arrBaseStats['intWillpower']) . ",
 							intDexterity = " . $objDB->quote($this->_arrBaseStats['intDexterity']) . ",
 							intEvasion = " . $objDB->quote($this->_arrBaseStats['intEvasion']) . ",
+							intAccuracy = " . $objDB->quote($this->_arrBaseStats['intAccuracy']) . ",
 							intCritDamage = " . $objDB->quote($this->_arrBaseStats['intCritDamage']) . ",
 							intPierce = " . $objDB->quote($this->_arrBaseStats['intPierce']) . ",
 							intBlockRate = " . $objDB->quote($this->_arrBaseStats['intBlockRate']) . ",
@@ -102,9 +104,9 @@
 		public function createNewEntry(){
 			$objDB = new Database();
 			$strSQL = "INSERT INTO tblcharacterstats
-						(intRPGCharacterID, intMaxHP, intStrength, intIntelligence, intAgility, intVitality, intWillpower, intDexterity, intEvasion, intCritDamage, intPierce, intBlockRate, intBlockReduction)
+						(intRPGCharacterID, intMaxHP, intStrength, intIntelligence, intAgility, intVitality, intWillpower, intDexterity, intAccuracy, intEvasion, intCritDamage, intPierce, intBlockRate, intBlockReduction)
 						VALUES
-						(" . $objDB->quote($this->_intRPGCharacterID) . ", 10, 5, 5, 5, 5, 5, 5, 0, 150, 0, 0, 10)";
+						(" . $objDB->quote($this->_intRPGCharacterID) . ", 10, 5, 5, 5, 5, 5, 5, 0, 0, 150, 0, 0, 10)";
 			$objDB->query($strSQL);
 			
 			$strSQL = "INSERT INTO tblcharacterabilitystats

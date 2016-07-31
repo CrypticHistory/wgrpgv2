@@ -14,7 +14,7 @@
 		public function loadBaseStats(){
 			$this->_arrBaseStats = array();
 			$objDB = new Database();
-			$strSQL = "SELECT intMaxHP, intStrength, intIntelligence, intAgility, intVitality, intWillpower, intDexterity, intEvasion, intCritDamage, intPierce, intBlockRate, intBlockReduction
+			$strSQL = "SELECT intMaxHP, intStrength, intIntelligence, intAgility, intVitality, intWillpower, intDexterity, intAccuracy, intEvasion, intCritDamage, intPierce, intBlockRate, intBlockReduction, intFleeResistance
 						FROM tblnpcstats
 							WHERE intNPCID = " . $objDB->quote($this->_intNPCID);
 			$rsResult = $objDB->query($strSQL);
@@ -26,11 +26,13 @@
 				$this->_arrBaseStats['intVitality'] = $arrRow['intVitality'];
 				$this->_arrBaseStats['intWillpower'] = $arrRow['intWillpower'];
 				$this->_arrBaseStats['intDexterity'] = $arrRow['intDexterity'];
+				$this->_arrBaseStats['intAccuracy'] = $arrRow['intAccuracy'];
 				$this->_arrBaseStats['intEvasion'] = $arrRow['intEvasion'];
 				$this->_arrBaseStats['intCritDamage'] = $arrRow['intCritDamage'];
 				$this->_arrBaseStats['intPierce'] = $arrRow['intPierce'];
 				$this->_arrBaseStats['intBlockRate'] = $arrRow['intBlockRate'];
 				$this->_arrBaseStats['intBlockReduction'] = $arrRow['intBlockReduction'];
+				$this->_arrBaseStats['intFleeResistance'] = $arrRow['intFleeResistance'];
 			}
 		}
 		

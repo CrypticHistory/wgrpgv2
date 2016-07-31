@@ -118,11 +118,6 @@ class DisplayShopWindow{
 				   $('#sellDiv').append("<input type='hidden' name='sellItemInstanceID[]' value='" + itemInstanceID + "'/>");
 				   $('#sellDiv').append("<input type='hidden' name='sellItemID[]' value='" + itemID + "'/>");
 				}
-				
-				function test(hi){
-					alert(hi);
-					return false;
-				}
 
 			</script>
 		

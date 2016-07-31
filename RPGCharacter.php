@@ -1293,7 +1293,7 @@ class RPGCharacter{
 	}
 	
 	public function getModifiedEvasion(){
-		return round($this->_objStats->getCombinedStats('intAgility') * 2);
+		return round(($this->_objStats->getCombinedStats('intAgility') * 2) + $this->_objStats->getCombinedStatsSecondary('intEvasion'));
 	}
 	
 	public function getModifiedPierceRate(){
@@ -1301,7 +1301,7 @@ class RPGCharacter{
 	}
 	
 	public function getModifiedAccuracy(){
-		return round(($this->_objStats->getCombinedStats('intDexterity') * 2) + $this->_objStats->getCombinedStatsSecondary('intEvasion'));
+		return round(($this->_objStats->getCombinedStats('intDexterity') * 2) + $this->_objStats->getCombinedStatsSecondary('intAccuracy'));
 	}
 	
 	public function getImmobilityFactor(){
