@@ -95,7 +95,7 @@ class DisplayEquipInventory{
 							ON (tbliteminstanceenchant.intSuffixEnchantID = tblSuffix.intEnchantID)
 						LEFT JOIN tblenchant tblPrefix
 							ON (tbliteminstanceenchant.intPrefixEnchantID = tblPrefix.intEnchantID)
-					WHERE (strItemType LIKE 'Armour:%' OR strItemType = 'Accessory' OR strItemType LIKE 'Weapon:%')
+					WHERE (strItemType LIKE 'Armour:%' OR strItemType LIKE 'Secondary:%' OR strItemType = 'Accessory' OR strItemType LIKE 'Weapon:%')
 							AND intRPGCharacterID = " . $objDB->quote($_SESSION['objRPGCharacter']->getRPGCharacterID());
 		$rsResult = $objDB->query($strSQL);
 		$intCounter = 0;
@@ -115,10 +115,10 @@ class DisplayEquipInventory{
 			if($arrItemType[0] == "Armour"){
 				$arrReturn[$intCounter]['txtItemDesc'] .= "<br/><i>* Size " . $arrRow['strSize'] . " armour that defends against " . $arrRow['intDefence'] . " damage.</i>";
 			}
-			else if($arrItemType[0] == "Weapon" && $arrItemType[1] != "Shield"){
+			else if($arrItemType[0] == "Weapon"){
 				$arrReturn[$intCounter]['txtItemDesc'] .= "<br/><i>* " . $arrItemType[1] . " weapon that inflicts " . (($arrRow['strStatDamage'] == 'Strength') ? $arrRow['intDamage'] : $arrRow['intMagicDamage']) . " damage.</i>";
 			}
-			else if($arrItemType[0] == "Weapon" && $arrItemType[1] == "Shield"){
+			else if($arrItemType[0] == "Secondary" && $arrItemType[1] == "Shield"){
 				$arrReturn[$intCounter]['txtItemDesc'] .= "<br/><i>* " . $arrItemType[1] . " that defends against " . $arrRow['intDefence'] . " damage.</i>";
 			}
 			$arrReturn[$intCounter]['strPrefix'] = !is_null($arrRow['strPrefix']) ? '[' . $arrRow['strPrefix'] . ']' : '';

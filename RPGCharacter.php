@@ -603,24 +603,24 @@ class RPGCharacter{
 	}
 	
 	public function equipWeapon($intItemInstanceID, $intItemID){
-		$objTempWeapon = new RPGItem($intItemID, $intItemInstanceID);
-		if($objTempWeapon->getHandType() == "Secondary"){
-			$this->equipSecondary($intItemInstanceID, $intItemID);
+		$this->unequipWeapon();
+		$this->_objEquippedWeapon = new RPGItem($intItemID, $intItemInstanceID);
+		$this->_objEquippedWeapon->equip();
+		if($this->_objEquippedWeapon->getHandType() == 'Both'){
+			$this->unequipSecondary();
 		}
-		else{
-			$this->unequipWeapon();
-			$this->_objEquippedWeapon = new RPGItem($intItemID, $intItemInstanceID);
-			$this->_objEquippedWeapon->equip();
-			if($this->_objEquippedWeapon->getHandType() == 'Both'){
-				$this->unequipSecondary();
-			}
-			$this->statusEffectCheck("_objEquippedWeapon", "addToStatusEffects");
-		}
+		$this->statusEffectCheck("_objEquippedWeapon", "addToStatusEffects");
 	}
 	
 	public function equipSecondary($intItemInstanceID, $intItemID){
 		if($this->getEquippedWeapon()->getHandType() != "Both"){
 			$this->unequipSecondary();
+			$this->_objEquippedSecondary = new RPGItem($intItemID, $intItemInstanceID);
+			$this->_objEquippedSecondary->equip();
+			$this->statusEffectCheck("_objEquippedSecondary", "addToStatusEffects");
+		}
+		else{
+			$this->unequipWeapon();
 			$this->_objEquippedSecondary = new RPGItem($intItemID, $intItemInstanceID);
 			$this->_objEquippedSecondary->equip();
 			$this->statusEffectCheck("_objEquippedSecondary", "addToStatusEffects");

@@ -1,9 +1,3 @@
-ALTER TABLE `tblnpcstats` ADD `intAccuracy` INT NOT NULL DEFAULT '0' AFTER `intDexterity`;
-ALTER TABLE `tblcharacterstats` ADD `intAccuracy` INT NOT NULL DEFAULT '0' AFTER `intDexterity`;
-ALTER TABLE `tblnpcstats` ADD `intFleeResistance` INT NOT NULL DEFAULT '0' AFTER `intBlockReduction`;
-UPDATE `tblnpcstats` SET `intFleeResistance` = '100' WHERE `tblnpcstats`.`intNPCStatsID` = 8;
-UPDATE `tblnpcstats` SET `intFleeResistance` = '100' WHERE `tblnpcstats`.`intNPCStatsID` = 5;
-UPDATE `tblnpcstats` SET `intFleeResistance` = '50' WHERE `tblnpcstats`.`intNPCStatsID` = 7;
-UPDATE `dbwgrpg`.`tblnpcstats` SET `intFleeResistance` = '5' WHERE `tblnpcstats`.`intNPCStatsID` = 6;
-UPDATE `dbwgrpg`.`tblnpcstats` SET `intFleeResistance` = '5' WHERE `tblnpcstats`.`intNPCStatsID` = 4;
-UPDATE `dbwgrpg`.`tblnpcstats` SET `intFleeResistance` = '100' WHERE `tblnpcstats`.`intNPCStatsID` = 2;
+UPDATE tblcharacteritemxr SET blnEquipped = 0 WHERE intItemID = 15;
+ALTER TABLE `tblitem` CHANGE `strItemType` `strItemType` ENUM('Weapon:Blunt','Weapon:Sword','Weapon:Axe','Secondary:Shield','Weapon:Staff','Weapon:Tome','Weapon:Wand','Weapon:Dagger','Weapon:Shuriken','Weapon:Pistols','Weapon:Rifle','Weapon:Bow','Weapon:Claws','Weapon:Gloves','Armour:Top','Armour:Bottom','Armour:Armour','Accessory','Food','Potion','Gem','Material','Quest') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+UPDATE `dbwgrpg`.`tblitem` SET `strItemType` = 'Secondary:Shield' WHERE `tblitem`.`intItemID` = 15;
