@@ -1,3 +1,0 @@
-UPDATE tblcharacteritemxr SET blnEquipped = 0 WHERE intItemID = 15;
-ALTER TABLE `tblitem` CHANGE `strItemType` `strItemType` ENUM('Weapon:Blunt','Weapon:Sword','Weapon:Axe','Secondary:Shield','Weapon:Staff','Weapon:Tome','Weapon:Wand','Weapon:Dagger','Weapon:Shuriken','Weapon:Pistols','Weapon:Rifle','Weapon:Bow','Weapon:Claws','Weapon:Gloves','Armour:Top','Armour:Bottom','Armour:Armour','Accessory','Food','Potion','Gem','Material','Quest') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
-UPDATE `dbwgrpg`.`tblitem` SET `strItemType` = 'Secondary:Shield' WHERE `tblitem`.`intItemID` = 15;

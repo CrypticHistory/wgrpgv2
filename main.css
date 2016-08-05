@@ -370,6 +370,7 @@ fieldset {
 
 .compassMidLine{
 	text-align:center;
+	width:100%;
 }
 
 .compassSLine{
@@ -389,6 +390,24 @@ fieldset {
     -webkit-border-radius: 10px;
 	width: 112.65px;
 	height: 30px;
+}
+
+.compassP{
+	width:33%;
+	background-color: #CFCFCF;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+	height: 40px;
+}
+
+.compassReturn{
+	background-color: #CFCFCF;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+	width: 34%;
+	height: 40px;
 }
 
 .insideEvent{

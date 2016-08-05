@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <event>
+	<type>Forced Event</type>
 	<end>1</end>
 	<end>5</end>
 	<end>6</end>
