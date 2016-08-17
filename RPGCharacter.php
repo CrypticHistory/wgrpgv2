@@ -1017,12 +1017,16 @@ class RPGCharacter{
 		$this->setCurrentHP($this->getModifiedMaxHP());
 		$this->setWeight($this->getWeight() + 20);
 		$this->setReviveText("You awake in your bed feeling heavier than before...");
-		$this->setGold(round($this->getGold() * 0.9));
 		$this->setTownID(1);
 		// home location ID
 		$this->setLocationID(6);
 		$this->setCurrentFloor(NULL);
 		$this->setStateID($arrStateValues['Town']);
+	}
+	
+	public function stuffCharacter($intFullness, $intWeight){
+		$this->setCurrentHunger(min(2000, $this->getCurrentHunger() + $intFullness));
+		$this->setWeight($this->getWeight() + $intWeight);
 	}
 	
 	public function getRPGCharacterID(){
