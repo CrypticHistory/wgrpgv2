@@ -4,12 +4,13 @@ include_once "header.php";
 
 echo "<div class='mainWindow'>";
 echo "<div class='content'>";
+echo "<hr/>";
 
 if ($_POST){
 	$arrUserFields = array('strUserID','strPassword','strRepeatPassword');
 	foreach($_POST as $key=>$value) {
 		if (empty($value) && in_array($key, $arrUserFields) === true) {
-			$arrErrors[] = 'Fields not filled out properly. Try again.';
+			$arrErrors[] = 'Fields not filled out properly.';
 			break 1;
 		}
 	}
@@ -35,18 +36,20 @@ if ($_POST){
 				'strCreatedBy' => 'system'
 			);
 			register_user($arrRegisterData);
-			echo "Registered successfully.";
+			echo "Registered successfully. You may now log in.";
 		}
 		else{
 			foreach($arrErrors as $key => $value){
-				echo $value;
+				echo $value . "<br/>";
 			}
+			echo "<u><a href='register.php'>Try again.</a></u>";
 		}
 	}
 	else{
 		foreach($arrErrors as $key => $value){
-			echo $value;
+			echo $value . "<br/>";
 		}
+		echo "<u><a href='register.php'>Try again.</a></u>";
 	}
 }
 else{

@@ -52,12 +52,16 @@ class RPGCharacter{
 	private $_intLevel;
 	private $_intStatPoints;
 	private $_intGold;
+	private $_intCurrentHunger;
+	private $_intHungerRate;
 	private $_arrCombat;
 	private $_objPotentialEnemy;
 	private $_arrStatusEffectList;
 	private $_arrStatModifiers;
 	private $_strEquipClothingText;
 	private $_strErrorText;
+	private $_strHungerText;
+	private $_strReviveText;
 	private $_arrClasses;
 	private $_objCurrentClass;
 	private $_dtmCreatedOn;
@@ -98,6 +102,8 @@ class RPGCharacter{
 		$this->setLevel($arrCharacterInfo['intLevel']);
 		$this->setStatPoints($arrCharacterInfo['intStatPoints']);
 		$this->setGold($arrCharacterInfo['intGold']);
+		$this->setCurrentHunger($arrCharacterInfo['intCurrentHunger']);
+		$this->setHungerRate($arrCharacterInfo['intHungerRate']);
 		$this->setCreatedOn($arrCharacterInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrCharacterInfo['strCreatedBy']);
 		$this->setModifiedOn($arrCharacterInfo['dtmModifiedOn']);
@@ -138,6 +144,8 @@ class RPGCharacter{
 				$arrCharacterInfo['intLevel'] = $arrRow['intLevel'];
 				$arrCharacterInfo['intStatPoints'] = $arrRow['intStatPoints'];
 				$arrCharacterInfo['intGold'] = $arrRow['intGold'];
+				$arrCharacterInfo['intCurrentHunger'] = $arrRow['intCurrentHunger'];
+				$arrCharacterInfo['intHungerRate'] = $arrRow['intHungerRate'];
 				$arrCharacterInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrCharacterInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrCharacterInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
@@ -163,6 +171,7 @@ class RPGCharacter{
 		}
 		$this->_objStats->loadBaseStats();
 		$this->_objStats->loadAbilityStats();
+		$this->_objStats->loadStatusEffectStats();
 		$this->loadStatusEffects();
 		$this->_intRequiredExperience = $this->loadRequiredExperience();
 		if($this->_objCurrentFloor->getFloorID() != 0 && $this->_objCurrentFloor->getFloorID() != NULL){
@@ -195,7 +204,9 @@ class RPGCharacter{
 						intExperience = " . $objDB->quote($this->_intExperience) . ",
 						intLevel = " . $objDB->quote($this->_intLevel) . ",
 						intStatPoints = " . $objDB->quote($this->_intStatPoints) . ",
-						intGold = " . $objDB->quote($this->_intGold) . "
+						intGold = " . $objDB->quote($this->_intGold) . ",
+						intCurrentHunger = " . $objDB->quote($this->_intCurrentHunger) . ",
+						intHungerRate = " . $objDB->quote($this->_intHungerRate) . "
 						WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
 		$objDB->query($strSQL);
 		foreach($this->_arrStatusEffectList as $key => $objStatusEffect){
@@ -374,7 +385,22 @@ class RPGCharacter{
 						WHERE intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID());
 		$rsResult = $objDB->query($strSQL);
 		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+			
 			$objStatusEffect = new RPGStatusEffect($arrRow['strStatusEffectName']);
+			if($objStatusEffect->getStatusEffectName() == "Hungry"){
+				$this->_objStats->activateHunger();
+			}
+			else if($objStatusEffect->getStatusEffectName() == "Full"){
+				$this->_objStats->activateFull();
+			}
+			else if($objStatusEffect->getStatusEffectName() == "Stuffed"){
+				$this->_objStats->activateStuffed();
+			}
+			
+			if($objStatusEffect->getStatName() != NULL && !$objStatusEffect->getIncremental()){
+				$this->getStats()->addToStats("Status Effect", 'int' . $objStatusEffect->getStatName(), $objStatusEffect->getStatChangeMax());
+			}
+			
 			$objStatusEffect->setTimeRemaining($arrRow['intTimeRemaining']);
 			$objStatusEffect->setItemInstanceID($arrRow['intItemInstanceID']);
 			$objStatusEffect->setCharacterStatusEffectXRID($arrRow['intCharacterStatusEffectXRID']);
@@ -387,6 +413,9 @@ class RPGCharacter{
 	
 	public function addToStatusEffects($strStatusEffectName){
 		$objStatusEffect = new RPGStatusEffect($strStatusEffectName);
+		if($objStatusEffect->getStatName() != NULL && !$objStatusEffect->getIncremental()){
+			$this->getStats()->addToStats("Status Effect", 'int' . $objStatusEffect->getStatName(), $objStatusEffect->getStatChangeMax());
+		}
 		$this->_arrStatusEffectList[$strStatusEffectName] = $objStatusEffect;
 		$this->_arrStatusEffectList[$strStatusEffectName]->create($this->_intRPGCharacterID, $objStatusEffect->getItemInstanceID());
 		if($this->_arrStatusEffectList[$strStatusEffectName]->getOverrideID() != NULL){
@@ -395,6 +424,9 @@ class RPGCharacter{
 	}
 	
 	public function removeFromStatusEffects($strStatusEffectName){
+		if($this->_arrStatusEffectList[$strStatusEffectName]->getStatName() != NULL && !$this->_arrStatusEffectList[$strStatusEffectName]->getIncremental()){
+			$this->getStats()->removeFromStats("Status Effect", 'int' . $this->_arrStatusEffectList[$strStatusEffectName]->getStatName(), $this->_arrStatusEffectList[$strStatusEffectName]->getStatChangeMax());
+		}
 		if($this->_arrStatusEffectList[$strStatusEffectName]->getOverrideID() != NULL){
 			$this->removeOverride($this->_arrStatusEffectList[$strStatusEffectName]->getOverrideID());
 		}
@@ -484,12 +516,79 @@ class RPGCharacter{
 		}
 	}
 	
+	public function tickHunger($intTicks = 1){
+		for($i=0;$i<$intTicks;$i++){
+			$this->_intCurrentHunger = max(0, round($this->_intCurrentHunger - ($this->_intHungerRate + ($this->getBMI() / 3))));
+		}
+		
+		$dblHungerFactor = $this->_intCurrentHunger / $this->_objStats->getCombinedStatsSecondary('intMaxHunger');
+		
+		// if hunger below 10%
+		if($dblHungerFactor <= 0.1 && !$this->hasStatusEffect("Hungry")){
+			// give the hungry status effect
+			$this->addToStatusEffects("Hungry");
+			$this->getStats()->activateHunger();
+			$this->adjustMaxHP();
+			$this->setHungerText("Your stomach growls. You've grown hungry. Better find something to eat!");
+		}
+		else if($dblHungerFactor > 0.1 && $this->hasStatusEffect("Hungry")){
+			// remove the hungry status effect
+			$this->removeFromStatusEffects("Hungry");
+			$this->getStats()->deactivateHunger();
+			$this->adjustMaxHP();
+		}
+		else if($this->hasStatusEffect("Hungry")){
+			// passive weight loss when hungry
+			for($i=0;$i<$intTicks;$i++){
+				$this->setWeight($this->getWeight() * 0.9995);
+			}
+			$this->getStats()->activateHunger();
+		}
+		
+		// if hunger between 100 and 120%
+		if(($dblHungerFactor >= 1 && $dblHungerFactor < 1.2) && !$this->hasStatusEffect("Full")){
+			// give the full status effect
+			$this->addToStatusEffects("Full");
+			$this->getStats()->activateFull();
+			$this->adjustMaxHP();
+			$this->setHungerText("You pat your tummy happily, satisfied with how full you are.");
+		}
+		else if(($dblHungerFactor < 1 || $dblHungerFactor >= 1.2) && $this->hasStatusEffect("Full")){
+			// remove the full status effect
+			$this->removeFromStatusEffects("Full");
+			$this->getStats()->deactivateFull();
+			$this->adjustMaxHP();
+		}
+		else if($this->hasStatusEffect("Full")){
+			$this->getStats()->activateFull();
+		}
+		
+		// if hunger above 120%
+		if($dblHungerFactor >= 1.2 && !$this->hasStatusEffect("Stuffed")){
+			// give the stuffed status effect
+			$this->addToStatusEffects("Stuffed");
+			$this->getStats()->activateStuffed();
+			$this->adjustMaxHP();
+			$this->setHungerText("You rub your stuffed belly gingerly and moan. You've ate more than your limit and it clearly shows in your distended midsection.");
+		}
+		else if($dblHungerFactor < 1.2 && $this->hasStatusEffect("Stuffed")){
+			// remove the stuffed status effect
+			$this->removeFromStatusEffects("Stuffed");
+			$this->getStats()->deactivateStuffed();
+			$this->adjustMaxHP();
+		}
+		else if($this->hasStatusEffect("Stuffed")){
+			$this->getStats()->activateStuffed();
+		}
+	}
+	
 	public function getStatusEffectList(){
 		return $this->_arrStatusEffectList;
 	}
 	
-	public function eatItem($intItemInstanceID, $intHPHeal){
+	public function eatItem($intItemInstanceID, $intHPHeal, $intFullness = 1){
 		$this->healHP($intHPHeal);
+		$this->_intCurrentHunger = min(2000, ($this->_intCurrentHunger + $intFullness));
 		$objDB = new Database();
 		$strSQL = "UPDATE tblcharacteritemxr
 					SET blnDigesting = 1
@@ -508,6 +607,7 @@ class RPGCharacter{
 		$intItemInstanceID = $this->giveItem($intItemID);
 		$objItem = new RPGItem($intItemID);
 		$this->healHP($objItem->getHPHeal());
+		$this->_intCurrentHunger = min(2000, ($this->_intCurrentHunger + $objItem->getFullness()));
 		$objDB = new Database();
 		$strSQL = "UPDATE tblcharacteritemxr
 					SET blnDigesting = 1
@@ -915,6 +1015,9 @@ class RPGCharacter{
 	public function reviveCharacter(){
 		global $arrStateValues;
 		$this->setCurrentHP($this->getModifiedMaxHP());
+		$this->setWeight($this->getWeight() + 20);
+		$this->setReviveText("You awake in your bed feeling heavier than before...");
+		$this->setGold(round($this->getGold() * 0.9));
 		$this->setTownID(1);
 		// home location ID
 		$this->setLocationID(6);
@@ -1245,11 +1348,11 @@ class RPGCharacter{
 	}
 	
 	public function getModifiedDefence(){
-		return round(($this->_objStats->getCombinedStats('intVitality') / 3) + $this->getEquippedArmour()->getDefence() + $this->getEquippedTop()->getDefence() + $this->getEquippedBottom()->getDefence());
+		return round(($this->_objStats->getCombinedStats('intVitality') / 3) + $this->getEquippedArmour()->getDefence() + $this->getEquippedTop()->getDefence() + $this->getEquippedBottom()->getDefence() + $this->getEquippedSecondary()->getDefence());
 	}
 	
 	public function getModifiedMagicDefence(){
-		return round(($this->_objStats->getCombinedStats('intIntelligence') / 3) + $this->getEquippedArmour()->getMagicDefence() + $this->getEquippedTop()->getMagicDefence() + $this->getEquippedBottom()->getMagicDefence());
+		return round(($this->_objStats->getCombinedStats('intIntelligence') / 3) + $this->getEquippedArmour()->getMagicDefence() + $this->getEquippedTop()->getMagicDefence() + $this->getEquippedBottom()->getMagicDefence() + $this->getEquippedSecondary()->getMagicDefence());
 	}
 	
 	public function getModifiedBlockRate(){
@@ -1306,6 +1409,14 @@ class RPGCharacter{
 	
 	public function getImmobilityFactor(){
 		return max(0, ((($this->getBMI() / 40) / 10) - (($this->_objStats->getCombinedStats('intStrength') / 2) / 100)));
+	}
+	
+	public function getModifiedWillpower(){
+		return $this->_objStats->getCombinedStats('intWillpower');
+	}
+	
+	public function getModifiedStrength(){
+		return $this->_objStats->getCombinedStats('intStrength');
 	}
 	
 	public function receiveGold($intGold){
@@ -1406,6 +1517,7 @@ class RPGCharacter{
 		$this->setTime(RPGTime::addHoursToTime($_SESSION['objRPGCharacter']->getTime(), $intHours));
 		$this->digestItems($intHours);
 		$this->tickStatusEffects($intHours * 4);
+		$this->tickHunger($intHours * 4);
 		$this->healHP(round($this->getModifiedMaxHP() * ($intHours / 10)));
 	}
 	
@@ -1459,6 +1571,44 @@ class RPGCharacter{
 	
 	public function setPotentialEnemy($objEnemyID){
 		$this->_objPotentialEnemy = $objEnemyID;
+	}
+	
+	public function getCurrentHunger(){
+		return $this->_intCurrentHunger;
+	}
+	
+	public function setCurrentHunger($intCurrentHunger){
+		$this->_intCurrentHunger = $intCurrentHunger;
+	}
+	
+	public function getHungerRate(){
+		return $this->_intHungerRate;
+	}
+	
+	public function setHungerRate($intHungerRate){
+		$this->_intHungerRate = $intHungerRate;
+	}
+	
+	public function adjustMaxHP(){
+		if($this->_intCurrentHP > $this->getModifiedMaxHP()){
+			$this->_intCurrentHP = $this->getModifiedMaxHP();
+		}
+	}
+	
+	public function getHungerText(){
+		return $this->_strHungerText;
+	}
+	
+	public function setHungerText($strHungerText){
+		$this->_strHungerText = $strHungerText;
+	}
+	
+	public function getReviveText(){
+		return $this->_strReviveText;
+	}
+	
+	public function setReviveText($strReviveText){
+		$this->_strReviveText = $strReviveText;
 	}
 }
 

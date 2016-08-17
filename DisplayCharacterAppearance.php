@@ -13,7 +13,7 @@ class DisplayCharacterAppearance{
 		
 			<div class='characterDiv hidden' id='characterDivAppearance'>
 				<div class='spacedDiv'>
-					You are <b><?=getFatAdj($_SESSION['objRPGCharacter']->getBMI(), true)?> human <?=strtolower($_SESSION['objRPGCharacter']->getGender())?></b> that weighs <b><?=$_SESSION['objRPGCharacter']->getWeight()?></b> pounds, standing at <b><?=$_SESSION['objRPGCharacter']->getHeightInFeet()?></b> tall.
+					You are <b><?=getFatAdj($_SESSION['objRPGCharacter']->getBMI(), true)?> human <?=strtolower($_SESSION['objRPGCharacter']->getGender())?></b> that weighs <b><?=round($_SESSION['objRPGCharacter']->getWeight(), 2)?></b> pounds, standing at <b><?=$_SESSION['objRPGCharacter']->getHeightInFeet()?></b> tall.
 					<br/><br/>
 					You have <b><?=strtolower($_SESSION['objRPGCharacter']->getHairLength())?> <?=strtolower($_SESSION['objRPGCharacter']->getHairColour())?> hair</b>, striking <b><?=strtolower($_SESSION['objRPGCharacter']->getEyeColour())?> eyes</b>, and a <b><?=strtolower($_SESSION['objRPGCharacter']->getEthnicity())?></b> skintone.
 					<br/><br/>

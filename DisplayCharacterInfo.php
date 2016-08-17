@@ -43,6 +43,9 @@ class DisplayCharacterInfo{
 						<td>Digestion Rate:</td><td id='charDigestion'><?=$_SESSION['objRPGCharacter']->getDigestionRate()?> cal/tick</td>
 					</tr>
 					<tr>
+						<td>Fullness:</td><td id='charHunger'><?=$_SESSION['objRPGCharacter']->getCurrentHunger()?> / <?=$_SESSION['objRPGCharacter']->getStats()->getCombinedStatsSecondary('intMaxHunger')?></td>
+					</tr>
+					<tr>
 						<td class='borderTop' colspan='2'>&nbsp;</td>
 					</tr>
 				</table>
@@ -66,38 +69,32 @@ class DisplayCharacterInfo{
 					</tr>
 					<tr>
 						<td>Strength:</td><td id='charStrength'>
-							<?php $intCombinedStrength = $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intStrength'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intStrength']; ?>
-							<?=$intCombinedStrength?>
+							<?=$_SESSION['objRPGCharacter']->getStats()->getCombinedStats("intStrength")?>
 						</td>
 					</tr>
 					<tr>
 						<td>Intelligence:</td><td id='charIntelligence'>
-							<?php $intCombinedIntelligence = $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intIntelligence'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intIntelligence']; ?>
-							<?=$intCombinedIntelligence?>
+							<?=$_SESSION['objRPGCharacter']->getStats()->getCombinedStats("intIntelligence")?>
 						</td>
 					</tr>
 					<tr>
 						<td>Agility:</td><td id='charAgility'>
-							<?php $intCombinedAgility = $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intAgility'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intAgility']; ?>
-							<?=$intCombinedAgility?>
+							<?=$_SESSION['objRPGCharacter']->getStats()->getCombinedStats("intAgility")?>
 						</td>
 					</tr>
 					<tr>
 						<td>Vitality:</td><td id='charVitality'>
-							<?php $intCombinedVitality = $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intVitality'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intVitality']; ?>
-							<?=$intCombinedVitality?>
+							<?=$_SESSION['objRPGCharacter']->getStats()->getCombinedStats("intVitality")?>
 						</td>
 					</tr>
 					<tr>
 						<td>Willpower:</td><td id='charWillpower'>
-							<?php $intCombinedWillpower = $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intWillpower'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intWillpower']; ?>
-							<?=$intCombinedWillpower?>
+							<?=$_SESSION['objRPGCharacter']->getStats()->getCombinedStats("intWillpower")?>
 						</td>
 					</tr>
 					<tr>
 						<td>Dexterity:</td><td id='charDexterity'>
-							<?php $intCombinedDexterity = $_SESSION['objRPGCharacter']->getStats()->getBaseStats()['intDexterity'] + $_SESSION['objRPGCharacter']->getStats()->getAbilityStats()['intDexterity']; ?>
-							<?=$intCombinedDexterity?>
+							<?=$_SESSION['objRPGCharacter']->getStats()->getCombinedStats("intDexterity")?>
 						</td>
 					</tr>
 					<tr>

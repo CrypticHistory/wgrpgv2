@@ -17,7 +17,7 @@
 		public function loadBaseStats(){
 			$this->_arrBaseStats = array();
 			$objDB = new Database();
-			$strSQL = "SELECT intMaxHP, intStrength, intIntelligence, intAgility, intVitality, intWillpower, intDexterity, intEvasion, intCritDamage, intPierce, intBlockRate, intBlockReduction
+			$strSQL = "SELECT intMaxHP, intStrength, intIntelligence, intAgility, intVitality, intWillpower, intDexterity, intEvasion, intCritDamage, intPierce, intBlockRate, intBlockReduction, intMaxHunger, intAccuracy
 						FROM tblcharacterstats
 							WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
 			$rsResult = $objDB->query($strSQL);
@@ -35,6 +35,7 @@
 				$this->_arrBaseStats['intPierce'] = $arrRow['intPierce'];
 				$this->_arrBaseStats['intBlockRate'] = $arrRow['intBlockRate'];
 				$this->_arrBaseStats['intBlockReduction'] = $arrRow['intBlockReduction'];
+				$this->_arrBaseStats['intMaxHunger'] = $arrRow['intMaxHunger'];
 			}
 		}
 		
@@ -54,6 +55,7 @@
 							intPierce = " . $objDB->quote($this->_arrBaseStats['intPierce']) . ",
 							intBlockRate = " . $objDB->quote($this->_arrBaseStats['intBlockRate']) . ",
 							intBlockReduction = " . $objDB->quote($this->_arrBaseStats['intBlockReduction']) . "
+							intMaxHunger = " . $objDB->quote($this->_arrBaseStats['intMaxHunger']) . "
 							WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
 			$objDB->query($strSQL);
 		}
@@ -82,6 +84,26 @@
 		
 		public function loadStatusEffectStats(){
 			$this->_arrStatusEffectStats = array();
+			$this->_arrStatusEffectStats['intStrength']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intIntelligence']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intAgility']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intVitality']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intWillpower']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intDexterity']['Hungry'] = 0;
+			
+			$this->_arrStatusEffectStats['intStrength']['Full'] = 0;
+			$this->_arrStatusEffectStats['intIntelligence']['Full'] = 0;
+			$this->_arrStatusEffectStats['intAgility']['Full'] = 0;
+			$this->_arrStatusEffectStats['intVitality']['Full'] = 0;
+			$this->_arrStatusEffectStats['intWillpower']['Full'] = 0;
+			$this->_arrStatusEffectStats['intDexterity']['Full'] = 0;
+			
+			$this->_arrStatusEffectStats['intStrength']['Stuffed'] = 0;
+			$this->_arrStatusEffectStats['intIntelligence']['Stuffed'] = 0;
+			$this->_arrStatusEffectStats['intAgility']['Stuffed'] = 0;
+			$this->_arrStatusEffectStats['intVitality']['Stuffed'] = 0;
+			$this->_arrStatusEffectStats['intWillpower']['Stuffed'] = 0;
+			$this->_arrStatusEffectStats['intDexterity']['Stuffed'] = 0;
 		}
 		
 		public function loadAbilityStats(){
@@ -104,9 +126,9 @@
 		public function createNewEntry(){
 			$objDB = new Database();
 			$strSQL = "INSERT INTO tblcharacterstats
-						(intRPGCharacterID, intMaxHP, intStrength, intIntelligence, intAgility, intVitality, intWillpower, intDexterity, intAccuracy, intEvasion, intCritDamage, intPierce, intBlockRate, intBlockReduction)
+						(intRPGCharacterID, intMaxHP, intStrength, intIntelligence, intAgility, intVitality, intWillpower, intDexterity, intAccuracy, intEvasion, intCritDamage, intPierce, intBlockRate, intBlockReduction, intMaxHunger)
 						VALUES
-						(" . $objDB->quote($this->_intRPGCharacterID) . ", 10, 5, 5, 5, 5, 5, 5, 0, 0, 150, 0, 0, 10)";
+						(" . $objDB->quote($this->_intRPGCharacterID) . ", 10, 5, 5, 5, 5, 5, 5, 0, 0, 150, 0, 0, 10, 1000)";
 			$objDB->query($strSQL);
 			
 			$strSQL = "INSERT INTO tblcharacterabilitystats
@@ -116,7 +138,7 @@
 			$objDB->query($strSQL);
 		}
 		
-		public function addToStats($strStatArrayName, $strStatName, $intStatAmount){
+		public function addToStats($strStatArrayName, $strStatName, $intStatAmount, $strStatusEffectName = NULL){
 			if($strStatArrayName == 'Base'){
 				$this->_arrBaseStats[$strStatName] += $intStatAmount;
 			}
@@ -124,25 +146,25 @@
 				$this->_arrSkillStats[$strStatName] += $intStatAmount;
 			}
 			else if($strStatArrayName == 'Status Effect'){
-				$this->_arrStatusEffectStats[$strStatName] += $intStatAmount;
+				$this->_arrStatusEffectStats[$strStatName][$strStatusEffectName] += $intStatAmount;
 			}
 			else if($strStatArrayName == 'Ability'){
 				$this->_arrAbilityStats[$strStatName] += $intStatAmount;
 			}
 		}
 		
-		public function removeFromStats($strStatArrayName, $strStatName, $intStatAmount){
+		public function removeFromStats($strStatArrayName, $strStatName, $intStatAmount, $strStatusEffectName = NULL){
 			if($strStatArrayName == 'Base'){
-				$_arrBaseStats[$strStatName] -= $intStatAmount;
+				$this->_arrBaseStats[$strStatName] -= $intStatAmount;
 			}
 			else if($strStatArrayName == 'Skill'){
-				$_arrSkillStats[$strStatName] -= $intStatAmount;
+				$this->_arrSkillStats[$strStatName] -= $intStatAmount;
 			}
 			else if($strStatArrayName == 'Status Effect'){
-				$_arrStatusEffectStats[$strStatName] -= $intStatAmount;
+				$this->_arrStatusEffectStats[$strStatName][$strStatusEffectName] -= $intStatAmount;
 			}
 			else if($strStatArrayName == 'Ability'){
-				$_arrAbilityStats[$strStatName] -= $intStatAmount;
+				$this->_arrAbilityStats[$strStatName] -= $intStatAmount;
 			}
 		}
 		
@@ -162,7 +184,25 @@
 			$this->_arrAbilityStats[$strIndex] = $intValue;
 		}
 		
+		public function setStatusEffectStats($strIndex, $intValue, $strStatusEffectName){
+			$this->_arrStatusEffectStats[$strIndex][$strStatusEffectName] = $intValue;
+		}
+		
+		public function getStatusEffectStats($strIndex, $strStatusEffectName){
+			$this->_arrStatusEffectStats[$strIndex][$strStatusEffectName];
+		}
+		
 		public function getCombinedStats($strIndex){
+			
+			$intSEStatTotal = 0;
+			foreach($this->_arrStatusEffectStats[$strIndex] as $key => $intStrVal){
+				$intSEStatTotal += $intStrVal;
+			}
+			
+			return $this->_arrBaseStats[$strIndex] + $this->_arrAbilityStats[$strIndex] + $intSEStatTotal;
+		}
+		
+		public function getCombinedStatsNoSE($strIndex){
 			return $this->_arrBaseStats[$strIndex] + $this->_arrAbilityStats[$strIndex];
 		}
 		
@@ -188,6 +228,73 @@
 			$this->saveAbilityStats();
 			return $intTotalStatPoints;
 		}
+		
+		public function activateHunger(){
+			$intNewStrength = round($this->getCombinedStatsNoSE("intStrength") * 0.1);
+			$intNewIntelligence = round($this->getCombinedStatsNoSE("intIntelligence") * 0.1);
+			$intNewAgility = round($this->getCombinedStatsNoSE("intAgility") * 0.1);
+			$intNewVitality = round($this->getCombinedStatsNoSE("intVitality") * 0.1);
+			$intNewDexterity = round($this->getCombinedStatsNoSE("intDexterity") * 0.1);
+			$intNewWillpower = round($this->getCombinedStatsNoSE("intWillpower") * 0.1);
+			
+			$this->setStatusEffectStats("intStrength", ($intNewStrength * -1), "Hungry");
+			$this->setStatusEffectStats("intIntelligence", ($intNewIntelligence * -1), "Hungry");
+			$this->setStatusEffectStats("intAgility", ($intNewAgility * -1), "Hungry");
+			$this->setStatusEffectStats("intVitality", ($intNewVitality * -1), "Hungry");
+			$this->setStatusEffectStats("intDexterity", ($intNewDexterity * -1), "Hungry");
+			$this->setStatusEffectStats("intWillpower", ($intNewWillpower * -1), "Hungry");
+		}
+		
+		public function deactivateHunger(){
+			$this->setStatusEffectStats("intStrength", 0, "Hungry");
+			$this->setStatusEffectStats("intIntelligence", 0, "Hungry");
+			$this->setStatusEffectStats("intAgility", 0, "Hungry");
+			$this->setStatusEffectStats("intVitality", 0, "Hungry");
+			$this->setStatusEffectStats("intWillpower", 0, "Hungry");
+			$this->setStatusEffectStats("intDexterity", 0, "Hungry");
+		}
+		
+		public function activateFull(){
+			$intNewStrength = round($this->getCombinedStatsNoSE("intStrength") * 0.1);
+			$intNewIntelligence = round($this->getCombinedStatsNoSE("intIntelligence") * 0.1);
+			$intNewAgility = round($this->getCombinedStatsNoSE("intAgility") * 0.1);
+			$intNewVitality = round($this->getCombinedStatsNoSE("intVitality") * 0.1);
+			$intNewDexterity = round($this->getCombinedStatsNoSE("intDexterity") * 0.1);
+			$intNewWillpower = round($this->getCombinedStatsNoSE("intWillpower") * 0.1);
+			
+			$this->setStatusEffectStats("intStrength", $intNewStrength, "Full");
+			$this->setStatusEffectStats("intIntelligence", $intNewIntelligence, "Full");
+			$this->setStatusEffectStats("intAgility", $intNewAgility, "Full");
+			$this->setStatusEffectStats("intVitality", $intNewVitality, "Full");
+			$this->setStatusEffectStats("intDexterity", $intNewDexterity, "Full");
+			$this->setStatusEffectStats("intWillpower", $intNewWillpower, "Full");
+		}
+		
+		public function deactivateFull(){
+			$this->setStatusEffectStats("intStrength", 0, "Full");
+			$this->setStatusEffectStats("intIntelligence", 0, "Full");
+			$this->setStatusEffectStats("intAgility", 0, "Full");
+			$this->setStatusEffectStats("intVitality", 0, "Full");
+			$this->setStatusEffectStats("intWillpower", 0, "Full");
+			$this->setStatusEffectStats("intDexterity", 0, "Full");
+		}
+		
+		public function activateStuffed(){
+			$intNewAgility = round($this->getCombinedStatsNoSE("intAgility") * 0.1);
+			$intNewDexterity = round($this->getCombinedStatsNoSE("intDexterity") * 0.1);
+			$intNewWillpower = round($this->getCombinedStatsNoSE("intWillpower") * 0.1);
+			
+			$this->setStatusEffectStats("intAgility", ($intNewAgility * -1), "Stuffed");
+			$this->setStatusEffectStats("intDexterity", ($intNewDexterity * -1), "Stuffed");
+			$this->setStatusEffectStats("intWillpower", ($intNewWillpower * -1), "Stuffed");
+		}
+		
+		public function deactivateStuffed(){
+			$this->setStatusEffectStats("intAgility", 0, "Stuffed");
+			$this->setStatusEffectStats("intWillpower", 0, "Stuffed");
+			$this->setStatusEffectStats("intDexterity", 0, "Stuffed");
+		}
+		
 	}
 
 ?>

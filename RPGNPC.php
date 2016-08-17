@@ -307,7 +307,7 @@ class RPGNPC{
 	}
 	
 	public function getModifiedMagicDefence(){
-		return round(($this->_objStats->getCombinedStats('intIntelligence') / 4) + $this->getEquippedArmour()->getMagicDefence());
+		return round(($this->_objStats->getCombinedStats('intIntelligence') / 4) + $this->getEquippedArmour()->getMagicDefence() + $this->getEquippedSecondary()->getMagicDefence());
 	}
 	
 	public function getModifiedBlockRate(){

@@ -2,6 +2,7 @@
 
 <div class='mainWindow'>
 	<div class='content'>
+		<hr/>
 		<form action="changePassword.php" method="post">
 			<ul>
 				<h2>User Settings</h2>

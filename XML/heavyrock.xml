@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>1</end>
+	<end>2</end>
+	<end>3</end>
+	<precondition>CurrentFloorID=1</precondition>
+	<dialog id='0'>
+		<eventText>A section of the ceiling has collapsed up ahead. As you approach the rubble you notice a {EventItem} protruding from underneath a particularly large slab. You consider trying to move the slab to free the {EventItem}.</eventText>
+		<option id='1' precondition="ModifiedStrength&lt;15">Move the slab</option>
+		<option id='2' action="giveItem~{EventItem}" precondition="ModifiedStrength&gt;14">Move the slab</option>
+		<option id='3'>Leave it be</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>Placing your hands on the slab you give it a mighty heave, only to discover it is much heavier than you thought. You adjust your position and try again with all your strength, but the slab doesn't even so much as budge. Clearly, this {EventItem} will be trapped here forever.</eventText>
+	</dialog>
+	<dialog id='2'>
+		<eventText>With a mighty heave you lift the slab and slide it away from the {EventItem}. Holding up the {EventItem} you strike a dramatic pose and flex, nothing can stand in your way!</eventText>
+	</dialog>
+	<dialog id='3'>
+		<eventText>You ignore the rubble before you and continue on your way.</eventText>
+	</dialog>
+</event>

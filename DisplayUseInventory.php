@@ -41,6 +41,7 @@ class DisplayUseInventory{
 									<form method='post' action='command.php'>
 										<input type='hidden' name='itemInstanceID' value='" . $arrCategoryNames['intItemInstanceID'] . "'/>
 										<input type='hidden' name='itemHPHeal' value='" . $arrCategoryNames['intHPHeal'] . "'/>
+										<input type='hidden' name='itemFullness' value='" . $arrCategoryNames['intFullness'] . "'/>
 										<button type='submit' name='itemAction' value='use'>Use</button>
 										<button type='submit' name='itemAction' value='drop'>Drop</button>
 									</form></td><td></td><td></td>
@@ -67,7 +68,7 @@ class DisplayUseInventory{
 	private function getUseInventory(){
 		$arrReturn = array();
 		$objDB = new Database();
-		$strSQL = "SELECT intItemInstanceID, strItemName, txtItemDesc, strItemType, intItemID, intSellPrice, intCalories, intHPHeal
+		$strSQL = "SELECT intItemInstanceID, strItemName, txtItemDesc, strItemType, intItemID, intFullness, intSellPrice, intCalories, intHPHeal
 					FROM tblitem
 						INNER JOIN tblcharacteritemxr
 						USING (intItemID)
@@ -82,6 +83,7 @@ class DisplayUseInventory{
 			$arrReturn[$intCounter]['txtItemDesc'] = $arrRow['txtItemDesc'];
 			$arrReturn[$intCounter]['strItemType'] = $arrRow['strItemType'];
 			$arrReturn[$intCounter]['intHPHeal'] = $arrRow['intHPHeal'];
+			$arrReturn[$intCounter]['intFullness'] = $arrRow['intFullness'];
 			$arrReturn[$intCounter]['intSellPrice'] = $arrRow['intSellPrice'];
 			$arrReturn[$intCounter]['intCalories'] = $arrRow['intCalories'];
 			$arrReturn[$intCounter]['intItemID'] = $arrRow['intItemID'];

@@ -21,6 +21,18 @@ class DisplayTownWindow{
 					$_SESSION['objRPGCharacter']->setEquipClothingText(null);
 				}
 				
+				if($_SESSION['objRPGCharacter']->getHungerText() !== null){
+					echo "<i>" . $_SESSION['objRPGCharacter']->getHungerText() . "</i>";
+					echo "<br/><br/>";
+					$_SESSION['objRPGCharacter']->setHungerText(null);
+				}
+				
+				if($_SESSION['objRPGCharacter']->getReviveText() !== null){
+					echo "<i>" . $_SESSION['objRPGCharacter']->getReviveText() . "</i>";
+					echo "<br/><br/>";
+					$_SESSION['objRPGCharacter']->setReviveText(null);
+				}
+				
 				$objLocation = new RPGLocation($_SESSION['objRPGCharacter']->getLocationID());
 				
 				echo $objLocation->getDescription() . "<br/><br/>";

@@ -60,13 +60,26 @@ table{
 	white-space:normal;
 }
 
-.navigation{
-	float:left;
-	margin:10px;
+.content{
+	padding-left:20px;
+	padding-right:20px;
+	padding-bottom:20px;
 }
 
-.content{
-	padding:20px;
+.cutShort{
+	width:96.3%;
+}
+
+.navigationBar{
+  width:60%;
+  left:19.5%;
+  float:left;
+  position: relative;
+  background-color: #EBE2D1;
+  text-align:center;
+  font-size:20px;
+  padding-top:5px;
+  padding-bottom:3px;
 }
 
 .topWindow{
@@ -76,7 +89,6 @@ table{
   float:left;
   position: relative;
   background-color: #EBE2D1;
-  border: 5px solid #FFFFFF;
   padding-bottom:15px;
 }
 
@@ -87,14 +99,7 @@ table{
   clear:both;
   float:left;
   background-color: #EBE2D1;
-  border: 5px solid #FFFFFF;
   padding-bottom: 20px;
-}
-
-.login{
-	background-color:#EBE2D1;
-	float:right;
-	padding:10px;
 }
 
 .blogHeader{
@@ -122,9 +127,12 @@ table{
 }
 
 .logo{
-	position:absolute;
-	left:46%;
-	top:10%;
+	text-align:center;
+	margin:auto;
+	width:300px;
+	font-size:50px;
+	padding-top:5px;
+	padding-bottom:5px;
 }
 
 .prefix{

@@ -24,6 +24,7 @@ class RPGItem{
 	private $_strItemType;
 	private $_strHandType;
 	private $_intSellPrice;
+	private $_intFullness;
 	private $_objSuffix;
 	private $_objPrefix;
 	private $_dtmCreatedOn;
@@ -55,6 +56,7 @@ class RPGItem{
 		$this->setItemType($arrItemInfo['strItemType']);
 		$this->setHandType($arrItemInfo['strHandType']);
 		$this->setSellPrice($arrItemInfo['intSellPrice']);
+		$this->setFullness($arrItemInfo['intFullness']);
 		$this->setCreatedOn($arrItemInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrItemInfo['strCreatedBy']);
 		$this->setModifiedOn($arrItemInfo['dtmModifiedOn']);
@@ -85,6 +87,7 @@ class RPGItem{
 				$arrItemInfo['strItemType'] = $arrRow['strItemType'];
 				$arrItemInfo['strHandType'] = $arrRow['strHandType'];
 				$arrItemInfo['intSellPrice'] = $arrRow['intSellPrice'];
+				$arrItemInfo['intFullness'] = $arrRow['intFullness'];
 				$arrItemInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrItemInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrItemInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
@@ -298,6 +301,14 @@ class RPGItem{
 	
 	public function setSellPrice($intSellPrice){
 		$this->_intSellPrice = $intSellPrice;
+	}
+	
+	public function getFullness(){
+		return $this->_intFullness;
+	}
+	
+	public function setFullness($intFullness){
+		$this->_intFullness = $intFullness;
 	}
 	
 	public function getStatDamage(){

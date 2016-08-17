@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>1</end>
+	<end>2</end>
+	<end>3</end>
+	<precondition>CurrentFloorID=1</precondition>
+	<dialog id='0'>
+		<eventText>As you make your way down the passage, you see a narrow crevice in the rough stone wall. Something is glittering in the darkness, but you can't quite make out what it might be. The object appears to be just out of reach, although you might be able to reach it if you crawl inside...</eventText>
+		<option id='1' action="giveItem~{EventItem}" precondition="Belly&lt;51">Go after it!</option>
+		<option id='2' precondition="Belly&gt;50">Go after it!</option>
+		<option id='3'>Leave it be</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText precondition="Belly&lt;31">You slip into the crevice, careful of what might be lurking in the darkness. Not feeling anything dangerous you grab the {EventItem} and make your way back into the main chamber.</eventText>
+		<eventText precondition="Belly&gt;30">You suck in your gut, straining to squeeze into the narrow fissure. With much huffing and puffing you are able to reach what turns out to be a {EventItem}. Emerging back into the hallway you breathe a sigh of relief, flustered but victorious you place your new {EventItem} in your bag.</eventText>
+	</dialog>
+	<dialog id='2'>
+		<eventText>You bravely approach the crevice and begin trying to squeeze into it. Quickly it becomes apparent that this is a doomed errand, as there is no way your bulging belly will fit into such tight confines. Leaving the treasure for more lithe adventurers, you press on.</eventText>
+	</dialog>
+	<dialog id='3'>
+		<eventText>You ignore the crevice in the wall and continue on your way.</eventText>
+	</dialog>
+</event>

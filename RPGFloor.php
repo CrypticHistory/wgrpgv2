@@ -18,6 +18,7 @@ class RPGFloor{
 	private $_dtmModifiedOn;
 	private $_strModifiedBy;
 	private $_arrApplicableEvents;
+	private $_arrApplicableEnemies;
 	
 	public function RPGFloor($intFloorID = null){
 		if($intFloorID != 0 && $intFloorID != null){
@@ -58,7 +59,7 @@ class RPGFloor{
 	
 	public function setApplicableEvents($intRPGCharacterID){
 		$objDB = new Database();
-		$strSQL = "SELECT intEventID, intOccurrenceRating
+		$strSQL = "SELECT intEventID, intOccurrenceRating, intCountPerFloor
 					FROM tblflooreventxr
 						INNER JOIN tblevent
 							USING (intEventID)
@@ -73,7 +74,20 @@ class RPGFloor{
 							AND intFloorID = " . $objDB->quote($this->getFloorID());
 		$rsResult = $objDB->query($strSQL);
 		while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
-			$this->_arrApplicableEvents[$arrRow['intEventID']] = $arrRow['intOccurrenceRating'];
+			$this->_arrApplicableEvents[$arrRow['intEventID']]['intOccurrenceRating'] = $arrRow['intOccurrenceRating'];
+			$this->_arrApplicableEvents[$arrRow['intEventID']]['intCountPerFloor'] = $arrRow['intCountPerFloor'];
+		}
+	}
+	
+	public function setApplicableEnemies(){
+		$objDB = new Database();
+		$strSQL = "SELECT intNPCID, intOccurrenceRating
+					FROM tblfloornpcxr
+						WHERE intFloorID = " . $objDB->quote($this->getFloorID()) . "
+							AND intOccurrenceRating <> 9999";
+		$rsResult = $objDB->query($strSQL);
+		while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+			$this->_arrApplicableEnemies[$arrRow['intNPCID']] = $arrRow['intOccurrenceRating'];
 		}
 	}
 	
@@ -81,21 +95,27 @@ class RPGFloor{
 		return $this->_arrApplicableEvents;
 	}
 	
-	public function generateRandomEvent(){
+	public function getApplicableEnemies(){
+		return $this->_arrApplicableEnemies;
+	}
+	
+	public function getRandomEnemy(){
 		$objLottery = new Lottery();
-		foreach($this->getApplicableEvents() as $key => $value){
+		foreach($this->getApplicableEnemies() as $key => $value){
 			$objLottery->addEntry($key, $value);
 		}
-		return $objLottery->getWinner();
+		return new RPGNPC($objLottery->getWinner());
 	}
 	
 	public function pickFromApplicableEvents(){
 		$arrReturn = array();
 		if(!empty($this->getApplicableEvents())){
-			foreach($this->getApplicableEvents() as $key => $value){
-				$intRoll = mt_rand(1, 1000);
-				if($value >= $intRoll){
-					$arrReturn[] = $key;
+			foreach($this->getApplicableEvents() as $key => $arrEventInfo){
+				for($i=0;$i<$arrEventInfo['intCountPerFloor'];$i++){
+					$intRoll = mt_rand(1, 1000);
+					if($arrEventInfo['intOccurrenceRating'] >= $intRoll){
+						$arrReturn[] = $key;
+					}
 				}
 			}
 		}
@@ -104,6 +124,7 @@ class RPGFloor{
 	
 	public function loadMaze($intDimension, $intRPGCharacterID){
 		$this->setApplicableEvents($intRPGCharacterID);
+		$this->setApplicableEnemies();
 		$this->_objMaze = new Maze($intDimension, $this->pickFromApplicableEvents(), $this->getStartEvent($intRPGCharacterID), $this->getEndEvent($intRPGCharacterID));
 	}
 	
@@ -167,23 +188,6 @@ class RPGFloor{
 		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
 		$objEvent = new RPGEvent($arrRow['intEventID']);
 		return $objEvent;
-	}
-	
-	public function getRandomEnemy(){
-		$arrEnemies = array();
-		$objDB = new Database();
-		$strSQL = "SELECT intNPCID
-					FROM tblfloornpcxr
-						WHERE intFloorID = " . $objDB->quote($this->_intFloorID) . "
-							AND intOccurrenceRating <> 9999";
-		$rsResult = $objDB->query($strSQL);
-		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
-			$arrEnemies[] = $arrRow['intNPCID'];
-		}
-		
-		$intPickedEnemyID = $arrEnemies[array_rand($arrEnemies, 1)];
-		$objEnemy = new RPGNPC($intPickedEnemyID);
-		return $objEnemy;
 	}
 	
 	public function getFloorID(){

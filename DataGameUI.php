@@ -171,6 +171,7 @@ class DataGameUI{
 		$_SESSION['objRPGCharacter']->setTime(RPGTime::addTickToTime($_SESSION['objRPGCharacter']->getTime()));
 		$_SESSION['objRPGCharacter']->digestItems();
 		$_SESSION['objRPGCharacter']->tickStatusEffects();
+		$_SESSION['objRPGCharacter']->tickHunger();
 
 		// immobility debuff
 		if($_SESSION['objRPGCharacter']->getImmobilityFactor() > 0.04 && !isset($_SESSION['objUISettings']->getOverrides()[4])){

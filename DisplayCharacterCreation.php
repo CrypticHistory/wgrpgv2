@@ -2,6 +2,8 @@
 
 <div class='mainWindow'>
 	<div class='content'>
+		<hr/>
+		<br/>
 		<b>Create your character:</b><br/>
 		<form id='createCharacterForm' action='createCharacter.php' method='post' onSubmit='return checkFields(); return false;'>
 			<table>

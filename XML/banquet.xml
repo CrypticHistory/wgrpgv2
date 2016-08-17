@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<type>Forced Event</type>
+	<end>2</end>
+	<end>4</end>
+	<dialog id='0'>
+		<eventText>You come across a long banquet table, stretching on for maybe 20 meters it seems. It's meticulously lined with plates and platters of various foods, resembling the likes of a Thanksgiving feast. Though this feast is so grandiose and indulgent that it even seems excessive for the likes of the bourgeois of Turici. Juicy hamburgers, rare cuts of sirloin steak, a massive stuffed turkey and plates of mashed potatoes. Noodles and cheesy pasta, mushrooms, buttered corn and seafood salad. It's certainly much more than what you're accustomed to see on the dinner table. You salivate at the sight.
+
+					This feast is just out in the open, waiting to be eaten. You step closer and the scent of warm roast turkey is overpowering, the first thing you smell. It's a nostalgic and welcoming scent and makes you want to pull up a seat and eat.
+		</eventText>
+		<eventText precondition="ModifiedWillpower&lt;25">
+			Before you know it, you're already seated at the banquet table, scarfing down a chicken wing and a baguette. It seems you couldn't resist the temptation.
+		</eventText>
+		<eventText precondition="ModifiedWillpower&gt;=25">
+			But you know you shouldn't. It's too good to be true. All this warm food just sitting out in the open. It must be a trap, you think to yourself. But you sure are hungry... and the food looks so appetizing...
+
+			Should you eat the food?
+		</eventText>
+		<option precondition="ModifiedWillpower&gt;24" id='1'>Yes</option>
+		<option precondition="ModifiedWillpower&gt;24" id='2'>No</option>
+		<option precondition="ModifiedWillpower&lt;25" id='3'>Continue</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>Alright, just a little taste, you think to yourself. You pull up a seat at the table, grab a chicken wing and a baguette and begin to eat. And eat. And eat some more...</eventText>
+		<option id='3'>Continue</option>
+	</dialog>
+	<dialog id='2'>
+		<eventText>You keep on walking past the banquet table, though it takes everything within you to resist the temptations of a warm meal...</eventText>
+	</dialog>
+	<dialog id='3'>
+		<eventText>Hours pass, and although you didn't put a dent in the banquet table, the damage has been done to your midsection. You lean back in your chair, letting your stuffed belly spill out and over your lap, swollen and distended. Rubbing it gingerly causes a burp to emerge from your lips. What have you done?! You were supposed to be exploring the tower for richest, not pigging out! Even the thought of lifting yourself up out of the banquet chair makes you queasy, however. How can you continue your forays like this? Your eyes begin to grow heavy. Heavy like your belly. Oh, how it aches. Perhaps sleeping off the fullness would be best... Maybe just a little nap... Yes, a nap would be best...
+
+					You drift off to sleep...
+		</eventText>
+		<option id='4' action='reviveCharacter~'>Continue</option>
+	</dialog>
+	<dialog id='4'>
+	</dialog>
+</event>

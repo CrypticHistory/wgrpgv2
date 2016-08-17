@@ -5,12 +5,13 @@ include_once "header.php";
 
 echo "<div class='mainWindow'>";
 echo "<div class='content'>";
+echo "<hr/>";
 	
 if ($_POST){
 	$arrUserFields = array('strUserID','strPassword','strRepeatPassword');
 	foreach($_POST as $key=>$value) {
 		if (empty($value) && in_array($key, $arrUserFields) === true) {
-			$arrErrors[] = 'Error: Fields not filled out properly. Try again. ';
+			$arrErrors[] = 'Error: Fields not filled out properly.';
 			break 1;
 		}
 	}

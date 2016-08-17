@@ -13,6 +13,8 @@
 
 <div class='mainWindow'>
 	<div class='content'>
+		<hr/>
+		<br/>
 		<form id='charForm' action='character.php' method='post'>
 			Existing Character: 
 			<select name='strCharacterName'>

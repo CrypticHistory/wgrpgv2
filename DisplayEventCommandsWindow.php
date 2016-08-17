@@ -25,8 +25,8 @@ class DisplayEventCommandsWindow{
 							if(strlen($value) > 15){
 								echo "<br/>";
 							}
-							$intCounter++;
 						}
+						$intCounter++;
 					}
 					?>
 				</form>

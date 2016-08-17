@@ -22,17 +22,7 @@ class DialogConditionFactory {
 			return true;
 		}
 		else{
-			if(strpos($strCondition, '>')){
-				$variable = explode('>', $strCondition);
-				$function = 'get' . $variable[0];
-				return (intval($_SESSION[$strSession]->$function()) > intval($variable[1]));
-			}
-			else if(strpos($strCondition, '<')){
-				$variable = explode('<', $strCondition);
-				$function = 'get' . $variable[0];
-				return (intval($_SESSION[$strSession]->$function()) < intval($variable[1]));
-			}
-			else if(strpos($strCondition, '>=')){
+			if(strpos($strCondition, '>=')){
 				$variable = explode('>=', $strCondition);
 				$function = 'get' . $variable[0];
 				return (intval($_SESSION[$strSession]->$function()) >= intval($variable[1]));
@@ -41,6 +31,16 @@ class DialogConditionFactory {
 				$variable = explode('<=', $strCondition);
 				$function = 'get' . $variable[0];
 				return (intval($_SESSION[$strSession]->$function()) <= intval($variable[1]));
+			}
+			else if(strpos($strCondition, '>')){
+				$variable = explode('>', $strCondition);
+				$function = 'get' . $variable[0];
+				return (intval($_SESSION[$strSession]->$function()) > intval($variable[1]));
+			}
+			else if(strpos($strCondition, '<')){
+				$variable = explode('<', $strCondition);
+				$function = 'get' . $variable[0];
+				return (intval($_SESSION[$strSession]->$function()) < intval($variable[1]));
 			}
 			else if(strpos($strCondition, '=')){
 				$variable = explode('=', $strCondition);

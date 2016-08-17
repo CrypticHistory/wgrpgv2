@@ -25,6 +25,12 @@ class DisplayEventWindow{
 						$_SESSION['objRPGCharacter']->setEquipClothingText(null);
 					}
 					
+					if($_SESSION['objRPGCharacter']->getHungerText() !== null){
+						echo "<i>" . $_SESSION['objRPGCharacter']->getHungerText() . "</i>";
+						echo "<br/><br/>";
+						$_SESSION['objRPGCharacter']->setHungerText(null);
+					}
+					
 					$intCounter = 0;
 					$objEvent = $_SESSION['objRPGCharacter']->getEvent();
 					$objXML = new RPGXMLReader($objEvent->getXML());
@@ -57,7 +63,12 @@ class DisplayEventWindow{
 	public static function extractVariables($text){
 		if(preg_match_all('/{(.*?)}/', $text, $matches)){
 			foreach($matches[1] as $key => $value){
-				$text = str_replace($matches[0][$key], $_SESSION['objRPGCharacter']->$value(), $text);
+				if($value == "EventItem"){
+					$text = str_replace($matches[0][$key], $_SESSION['objRPGCharacter']->getEvent()->getEventItem()->getItemName(), $text);
+				}
+				else{
+					$text = str_replace($matches[0][$key], $_SESSION['objRPGCharacter']->$value(), $text);
+				}
 			}
 		}
 		return $text;

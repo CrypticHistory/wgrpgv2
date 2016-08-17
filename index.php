@@ -2,6 +2,7 @@
 	<div class='mainWindow'>
 		<div class='content'>
 			<?php
+				echo "<hr/>";
 				$objXML = simplexml_load_file('http://www.weightgaming.com/forum/index.php?action=.xml;sa=news;board=18.0');
 				foreach($objXML->article as $thread){
 					echo "<table class='blogPost'><tr><td><div class='blogHeader'><a href='" . $thread->link . "'>" . $thread->subject . "</a></div>";

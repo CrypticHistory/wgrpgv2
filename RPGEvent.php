@@ -11,6 +11,8 @@ class RPGEvent{
 	private $_txtEventDesc;
 	private $_strXML;
 	private $_blnRepeating;
+	private $_arrEventItems;
+	private $_objEventItem;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
@@ -60,6 +62,8 @@ class RPGEvent{
 			}
 		$this->populateVarFromRow($arrEventInfo);
 		$this->_intEventNodeID = 0;
+		$this->loadApplicableEventItems();
+		$this->loadRandomEventItem();
 	}
 	
 	public function getLinkName($intLocationID){
@@ -127,6 +131,31 @@ class RPGEvent{
 			$blnEndOfEvent = true;
 		}
 		return $blnEndOfEvent;
+	}
+	
+	public function loadApplicableEventItems(){
+		$objDB = new Database();
+		$strSQL = "SELECT intItemID, intOccurrenceRating, intDrawGroup
+					FROM tbleventitemxr
+						WHERE intEventID = " . $objDB->quote($this->_intEventID);
+		$rsResult = $objDB->query($strSQL);
+		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+			$this->_arrEventItems[$arrRow['intItemID']] = $arrRow['intOccurrenceRating'];
+		}
+	}
+	
+	public function loadRandomEventItem(){
+		if(!empty($this->_arrEventItems)){
+			$objLottery = new Lottery();
+			foreach($this->_arrEventItems as $key => $value){
+				$objLottery->addEntry($key, $value);
+			}
+			$this->_objEventItem = new RPGItem($objLottery->getWinner());
+		}
+	}
+	
+	public function getEventItem(){
+		return $this->_objEventItem;
 	}
 	
 	public function getEventID(){

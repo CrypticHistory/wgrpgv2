@@ -21,6 +21,16 @@
 			// command actions require the command index to be passed in
 			if(isset($_POST['commandIndex' . $_POST['command']])){
 				$strCommand = $objXML->getCommandAction($objEvent->getEventNodeID(), intval($_POST['commandIndex' . $_POST['command']]));
+				if(preg_match_all('/{(.*?)}/', $strCommand, $matches)){
+					foreach($matches[1] as $key => $value){
+						if($value == "EventItem"){
+							$strCommand = str_replace($matches[0][$key], $_SESSION['objRPGCharacter']->getEvent()->getEventItem()->getItemID(), $strCommand);
+						}
+						else{
+							$strCommand = str_replace($matches[0][$key], $_SESSION['objRPGCharacter']->$value(), $strCommand);
+						}
+					}
+				}
 				DialogConditionFactory::evaluateAction(strval($strCommand));
 			}
 			$objEvent->setEventNodeID($_POST['command']);
@@ -111,7 +121,7 @@
 		// will there even be weapon/item requirements?
 		if($_SESSION['objRPGCharacter']->hasItem($_POST['itemInstanceID'])){
 			if($_POST['itemAction'] == 'use'){
-				$_SESSION['objRPGCharacter']->eatItem($_POST['itemInstanceID'], $_POST['itemHPHeal']);
+				$_SESSION['objRPGCharacter']->eatItem($_POST['itemInstanceID'], $_POST['itemHPHeal'], $_POST['itemFullness']);
 			}
 			else if($_POST['itemAction'] == 'drop'){
 				$_SESSION['objRPGCharacter']->dropItem($_POST['itemInstanceID']);
