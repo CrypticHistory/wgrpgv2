@@ -22,6 +22,49 @@ class DisplayShopWindow{
 						echo "$('#sellLink').click();";
 					}?>
 					
+					var total = {};
+					
+					$('#shopTable tbody tr').each(function(){
+						total[$(this).attr('id')] = 0;
+					});
+					
+					var table = $("#shopTable").DataTable({
+						"info": false,
+						"bInfo": false,
+						"bFilter": false,
+						"bLengthChange": false,
+						"pageLength": 7,
+						"order": [[ 1, "asc" ]]
+					});
+					
+					$('#shopTable tbody').on('keyup', 'input', function() {
+						newTotal = parseInt($(this).val()) * parseInt($(this).closest('td').prev('td').text());
+						quantity = parseInt($(this).val());
+						total[$(this).closest('tr').attr('id')] = newTotal;
+						$("#hiddenItem" + $(this).closest('tr').attr('id')).find('.quantity').val(quantity);
+						changeTotal();
+					});
+					
+					$('#shopTable tbody').on('change', 'select', function() {
+						$("#hiddenItem" + $(this).closest('tr').attr('id')).find('.size').val($(this).val());
+					});
+					
+					function changeTotal(){
+						newTotal = 0;
+						$.each(total, function(key, val){
+							newTotal += val;
+						});
+						if(!isNaN(newTotal)){
+							$("#totalRow").html("<b>" + newTotal + "</b>");
+						}
+					}
+					
+					$("#purchaseButton").on('click', function(){
+						$("#buyForm").submit();
+					});
+					
+					$(".paginationContainer").append($(".dataTables_paginate"));
+					
 					  $(function() {
 						$('#sizeTooltip').tooltip();
 						$('#itemNameTooltip').tooltip();
@@ -32,22 +75,6 @@ class DisplayShopWindow{
 					  if ( event.which == 45 || event.which == 189 ) {
 						  event.preventDefault();
 					   }
-					});
-					
-					$('input[name="quantity[]"]').keyup(function(){
-						var total = 0;
-						var prices = [];
-						var quantities = [];
-						$('input[name="price[]"]').each(function(){
-							prices.push($(this).val());
-						});
-						$('input[name="quantity[]"]').each(function(){
-							quantities.push($(this).val());
-						});
-						for (i = 0; i < prices.length; i++) {
-							total += prices[i] * quantities[i];
-						}
-						$('#totalRow').html('<b>' + total + '</b>');
 					});
 					
 					$('#buyLink').click(function(){
@@ -121,7 +148,7 @@ class DisplayShopWindow{
 
 			</script>
 		
-			<div class='eventDiv' id='eventDivShopWindow'>
+			<div class='shopDiv' id='eventDivShopWindow'>
 				<?php
 				
 				$blnShowShop = true;
@@ -147,38 +174,55 @@ class DisplayShopWindow{
 							<p>Tip: Mouse over item names listed in the shop window to see their description and stats before buying.</p>
 							<fieldset class='shopFieldset'>
 								<legend><span id='buyLink' class='underline pointer bold'>Buy</span> | <span id='sellLink' class='underline pointer'>Sell</span></legend>
-								<form method='post' action='shoptransactionbuy.php' id='buyForm'>
-									<table class='charTable'>
-										<th class='tableHeader'>Item Name</th><th class='tableHeader'>Price</th><?=(($objShop->getShopType() == 'Tailor') ? "<th class='tableHeader'>Size <img id='sizeTooltip' class='pointer' title='The recommended size for your weight and height is selected by default.' src='tooltip.png'/></th>" : "")?><th class='tableHeader'>Quantity</th>
-										<?php
-										
-										foreach($objShop->getShopInv() as $arrItemDetails){
-											$strDamage = (strpos($arrItemDetails['objItem']->getItemType(),'Weapon') !== false && $arrItemDetails['objItem']->getStatDamage() == "Strength" && strpos($arrItemDetails['objItem']->getItemType(),'Shield') == false) ? "\nDamage: " . $arrItemDetails['objItem']->getDamage() : "";
-											$strMagicDamage = (strpos($arrItemDetails['objItem']->getItemType(),'Weapon') !== false && $arrItemDetails['objItem']->getStatDamage() == "Intelligence")  ? "\nMagic Damage: " . $arrItemDetails['objItem']->getMagicDamage() : "";
-											$strDefence = (strpos($arrItemDetails['objItem']->getItemType(), 'Armour') !== false || strpos($arrItemDetails['objItem']->getItemType(),'Shield') !== false) ? "\nDefence: " . $arrItemDetails['objItem']->getDefence() : "";
-											$strMagicDefence = strpos($arrItemDetails['objItem']->getItemType(), 'Armour') !== false ? "\nMagic Defence: " . $arrItemDetails['objItem']->getMagicDefence() : "";
-											$strHPHeal = strpos($arrItemDetails['objItem']->getItemType(), 'Food') !== false || strpos($arrItemDetails['objItem']->getItemType(), 'Potion') !== false ? "\nHP Heal: " . $arrItemDetails['objItem']->getHPHeal() : "";
-											$strCalories = strpos($arrItemDetails['objItem']->getItemType(), 'Food') !== false || strpos($arrItemDetails['objItem']->getItemType(), 'Potion') !== false ? "\nCalories: " . $arrItemDetails['objItem']->getCalories() : "";
-											$strTooltip = "Description: " . htmlspecialchars($arrItemDetails['objItem']->getItemDesc(), ENT_QUOTES) . $strDamage . $strMagicDamage . $strDefence . $strHPHeal . $strCalories;
-											echo "<input type='hidden' name='itemID[]' value='" . $arrItemDetails['objItem']->getItemID() . "'/>";
-											echo "<input type='hidden' name='price[]' value='" . $arrItemDetails['dblPrice'] . "'/>";
-											echo "<tr><td><span class='itemNameTooltip pointer' title='" . $strTooltip . "'>" . $arrItemDetails['objItem']->getItemName() . "</span></td><td>" . $arrItemDetails['dblPrice'] . "</td>";
-											if($objShop->getShopType() == 'Tailor'){
-												echo "<td><select name='size[]' autocomplete='off'>";
-												foreach($arrNumberedClothingSizes as $key => $val){
-													$strSelected = ($strClosestClothingSize == $val) ? " selected" : "";
-													echo "<option" . $strSelected . ">" . $val . "</option>";
-												}
-												echo "</select></td>";
-											}
-											echo "<td><input type='text' name='quantity[]' class='quantityWidth' maxlength='2' value='0'/></td></tr>";
-										}
-										
-										?>
-										<tr><td><b>Total</b></td><td id='totalRow' colspan='<?=(($objShop->getShopType() == 'Tailor') ? "3" : "2")?>'><b>0</b></td></tr>
-									</table>
-									<button type='submit'>Purchase Items</button>
+								<form method='post' action='shoptransactionbuy.php' id='buyForm' style="margin:0px">
+									<?php
+									
+									foreach($objShop->getShopInv() as $arrItemDetails){
+										echo "<div id='hiddenItem" . $arrItemDetails['objItem']->getItemID() . "'>";
+											echo "<input type='hidden' class='itemID' name='itemID[]' value='" . $arrItemDetails['objItem']->getItemID() . "'/>";
+											echo "<input type='hidden' class='price' name='price[]' value='" . $arrItemDetails['dblPrice'] . "'/>";
+											echo "<input type='hidden' class='size' name='size[]'>";
+											echo "<input type='hidden' class='quantity' name='quantity[]' value='0'/>";
+										echo "</div>";
+									}
+									
+									?>
 								</form>
+								<table id="shopTable" class='charTable'>
+									<thead>
+										<th style="width:50%;" class='tableHeader'>Item Name</th><th class='tableHeader'>Price</th><?=(($objShop->getShopType() == 'Tailor') ? "<th class='tableHeader'>Size <img id='sizeTooltip' class='pointer' title='The recommended size for your weight and height is selected by default.' src='tooltip.png'/></th>" : "")?><th class='tableHeader'>Quantity</th>
+									</thead>
+									<tbody>
+									<?php
+									
+									foreach($objShop->getShopInv() as $arrItemDetails){
+										$strDamage = (strpos($arrItemDetails['objItem']->getItemType(),'Weapon') !== false && $arrItemDetails['objItem']->getStatDamage() == "Strength" && strpos($arrItemDetails['objItem']->getItemType(),'Shield') == false) ? "\nDamage: " . $arrItemDetails['objItem']->getDamage() : "";
+										$strMagicDamage = (strpos($arrItemDetails['objItem']->getItemType(),'Weapon') !== false && $arrItemDetails['objItem']->getStatDamage() == "Intelligence")  ? "\nMagic Damage: " . $arrItemDetails['objItem']->getMagicDamage() : "";
+										$strDefence = (strpos($arrItemDetails['objItem']->getItemType(), 'Armour') !== false || strpos($arrItemDetails['objItem']->getItemType(),'Shield') !== false) ? "\nDefence: " . $arrItemDetails['objItem']->getDefence() : "";
+										$strMagicDefence = strpos($arrItemDetails['objItem']->getItemType(), 'Armour') !== false ? "\nMagic Defence: " . $arrItemDetails['objItem']->getMagicDefence() : "";
+										$strHPHeal = strpos($arrItemDetails['objItem']->getItemType(), 'Food') !== false || strpos($arrItemDetails['objItem']->getItemType(), 'Potion') !== false ? "\nHP Heal: " . $arrItemDetails['objItem']->getHPHeal() : "";
+										$strCalories = strpos($arrItemDetails['objItem']->getItemType(), 'Food') !== false || strpos($arrItemDetails['objItem']->getItemType(), 'Potion') !== false ? "\nCalories: " . $arrItemDetails['objItem']->getCalories() : "";
+										$strTooltip = "Description: " . htmlspecialchars($arrItemDetails['objItem']->getItemDesc(), ENT_QUOTES) . $strDamage . $strMagicDamage . $strDefence . $strHPHeal . $strCalories;
+										echo "<tr id='" . $arrItemDetails['objItem']->getItemID() . "'><td><span class='itemNameTooltip pointer' title='" . $strTooltip . "'>" . $arrItemDetails['objItem']->getItemName() . "</span></td><td>" . $arrItemDetails['dblPrice'] . "</td>";
+										if($objShop->getShopType() == 'Tailor'){
+											echo "<td><select autocomplete='off'>";
+											foreach($arrNumberedClothingSizes as $key => $val){
+												$strSelected = ($strClosestClothingSize == $val) ? " selected" : "";
+												echo "<option" . $strSelected . ">" . $val . "</option>";
+											}
+											echo "</select></td>";
+										}
+										echo "<td><input type='text' id='quantity" . $arrItemDetails['objItem']->getItemID() . "' class='quantityWidth' maxlength='2' value='0'/></td></tr>";
+									}
+									
+									?>
+									</tbody>
+									<tr style="background-color:#ffffff;"><td><b>Total</b></td><td id='totalRow' colspan='<?=(($objShop->getShopType() == 'Tailor') ? "3" : "2")?>'><b>0</b></td></tr>
+								</table>
+								<div class="shopBottomLine">
+									<div class="purchaseButton"><button id='purchaseButton'>Purchase Items</button></div>
+									<div class="paginationContainer"></div>
+								</div>
 								<form method='post' action='shoptransactionsell.php' class='hidden' id='sellForm'>
 									Drag items you wish to sell from your inventory into the box below.
 									<div id='sellDiv'></div>

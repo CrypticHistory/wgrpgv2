@@ -16,9 +16,9 @@
 
 			Should you eat the food?
 		</eventText>
-		<option precondition="ModifiedWillpower&gt;24" action="StuffCharacter~2000~10" id='1'>Yes</option>
+		<option precondition="ModifiedWillpower&gt;24" action="StuffCharacter~2000~10~20" id='1'>Yes</option>
 		<option precondition="ModifiedWillpower&gt;24" id='2'>No</option>
-		<option precondition="ModifiedWillpower&lt;25" action="StuffCharacter~2000~10" id='3'>Continue</option>
+		<option precondition="ModifiedWillpower&lt;25" action="StuffCharacter~2000~10~20" id='3'>Continue</option>
 	</dialog>
 	<dialog id='1'>
 		<eventText>Alright, just a little taste, you think to yourself. You pull up a seat at the table, grab a chicken wing and a baguette and begin to eat. And eat. And eat some more...</eventText>

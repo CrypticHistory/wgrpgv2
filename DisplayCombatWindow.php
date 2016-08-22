@@ -9,7 +9,13 @@ class DisplayCombatWindow{
 	public static function toHTML(){
 		ob_start(); ?>
 		
-			<div class='eventDiv' id='eventDivCombatWindow'>
+			<script type='text/javascript'>
+				$(document).ready(function(){
+					$('.combatTurnLog').scrollTop($('.combatTurnLog')[0].scrollHeight);
+				});
+			</script>
+		
+			<div class='combatDiv' id='eventDivCombatWindow'>
 				<?php
 				
 					if(isset($_SESSION['objCombat'])){

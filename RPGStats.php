@@ -229,6 +229,31 @@
 			return $intTotalStatPoints;
 		}
 		
+		public function activateStarving(){
+			$intNewStrength = round($this->getCombinedStatsNoSE("intStrength") * 0.2);
+			$intNewIntelligence = round($this->getCombinedStatsNoSE("intIntelligence") * 0.2);
+			$intNewAgility = round($this->getCombinedStatsNoSE("intAgility") * 0.2);
+			$intNewVitality = round($this->getCombinedStatsNoSE("intVitality") * 0.2);
+			$intNewDexterity = round($this->getCombinedStatsNoSE("intDexterity") * 0.2);
+			$intNewWillpower = round($this->getCombinedStatsNoSE("intWillpower") * 0.2);
+			
+			$this->setStatusEffectStats("intStrength", ($intNewStrength * -1), "Starving");
+			$this->setStatusEffectStats("intIntelligence", ($intNewIntelligence * -1), "Starving");
+			$this->setStatusEffectStats("intAgility", ($intNewAgility * -1), "Starving");
+			$this->setStatusEffectStats("intVitality", ($intNewVitality * -1), "Starving");
+			$this->setStatusEffectStats("intDexterity", ($intNewDexterity * -1), "Starving");
+			$this->setStatusEffectStats("intWillpower", ($intNewWillpower * -1), "Starving");
+		}
+		
+		public function deactivateStarving(){
+			$this->setStatusEffectStats("intStrength", 0, "Starving");
+			$this->setStatusEffectStats("intIntelligence", 0, "Starving");
+			$this->setStatusEffectStats("intAgility", 0, "Starving");
+			$this->setStatusEffectStats("intVitality", 0, "Starving");
+			$this->setStatusEffectStats("intWillpower", 0, "Starving");
+			$this->setStatusEffectStats("intDexterity", 0, "Starving");
+		}
+		
 		public function activateHunger(){
 			$intNewStrength = round($this->getCombinedStatsNoSE("intStrength") * 0.1);
 			$intNewIntelligence = round($this->getCombinedStatsNoSE("intIntelligence") * 0.1);
@@ -255,12 +280,12 @@
 		}
 		
 		public function activateFull(){
-			$intNewStrength = round($this->getCombinedStatsNoSE("intStrength") * 0.1);
-			$intNewIntelligence = round($this->getCombinedStatsNoSE("intIntelligence") * 0.1);
-			$intNewAgility = round($this->getCombinedStatsNoSE("intAgility") * 0.1);
-			$intNewVitality = round($this->getCombinedStatsNoSE("intVitality") * 0.1);
-			$intNewDexterity = round($this->getCombinedStatsNoSE("intDexterity") * 0.1);
-			$intNewWillpower = round($this->getCombinedStatsNoSE("intWillpower") * 0.1);
+			$intNewStrength = round($this->getCombinedStatsNoSE("intStrength") * 0.15);
+			$intNewIntelligence = round($this->getCombinedStatsNoSE("intIntelligence") * 0.15);
+			$intNewAgility = round($this->getCombinedStatsNoSE("intAgility") * 0.15);
+			$intNewVitality = round($this->getCombinedStatsNoSE("intVitality") * 0.15);
+			$intNewDexterity = round($this->getCombinedStatsNoSE("intDexterity") * 0.15);
+			$intNewWillpower = round($this->getCombinedStatsNoSE("intWillpower") * 0.15);
 			
 			$this->setStatusEffectStats("intStrength", $intNewStrength, "Full");
 			$this->setStatusEffectStats("intIntelligence", $intNewIntelligence, "Full");
@@ -283,16 +308,19 @@
 			$intNewAgility = round($this->getCombinedStatsNoSE("intAgility") * 0.1);
 			$intNewDexterity = round($this->getCombinedStatsNoSE("intDexterity") * 0.1);
 			$intNewWillpower = round($this->getCombinedStatsNoSE("intWillpower") * 0.1);
+			$intNewVitality = round($this->getCombinedStatsNoSE("intVitality") * 0.2);
 			
 			$this->setStatusEffectStats("intAgility", ($intNewAgility * -1), "Stuffed");
 			$this->setStatusEffectStats("intDexterity", ($intNewDexterity * -1), "Stuffed");
 			$this->setStatusEffectStats("intWillpower", ($intNewWillpower * -1), "Stuffed");
+			$this->setStatusEffectStats("intVitality", $intNewVitality, "Stuffed");
 		}
 		
 		public function deactivateStuffed(){
 			$this->setStatusEffectStats("intAgility", 0, "Stuffed");
 			$this->setStatusEffectStats("intWillpower", 0, "Stuffed");
 			$this->setStatusEffectStats("intDexterity", 0, "Stuffed");
+			$this->setStatusEffectStats("intVitality", 0, "Stuffed");
 		}
 		
 	}

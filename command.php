@@ -27,7 +27,13 @@
 							$strCommand = str_replace($matches[0][$key], $_SESSION['objRPGCharacter']->getEvent()->getEventItem()->getItemID(), $strCommand);
 						}
 						else{
-							$strCommand = str_replace($matches[0][$key], $_SESSION['objRPGCharacter']->$value(), $strCommand);
+							if(strpos($value, "Enemy")){
+								$newValue = str_replace("Enemy", "", $value);
+								$strCommand = str_replace($matches[0][$key], $_SESSION['objRPGCharacter']->getPotentialEnemy()->$newValue(), $strCommand);
+							}
+							else{
+								$strCommand = str_replace($matches[0][$key], $_SESSION['objRPGCharacter']->$value(), $strCommand);
+							}
 						}
 					}
 				}
@@ -121,7 +127,7 @@
 		// will there even be weapon/item requirements?
 		if($_SESSION['objRPGCharacter']->hasItem($_POST['itemInstanceID'])){
 			if($_POST['itemAction'] == 'use'){
-				$_SESSION['objRPGCharacter']->eatItem($_POST['itemInstanceID'], $_POST['itemHPHeal'], $_POST['itemFullness']);
+				$_SESSION['objRPGCharacter']->eatItem($_POST['itemID'], $_POST['itemInstanceID'], $_POST['itemHPHeal'], $_POST['itemFullness']);
 			}
 			else if($_POST['itemAction'] == 'drop'){
 				$_SESSION['objRPGCharacter']->dropItem($_POST['itemInstanceID']);

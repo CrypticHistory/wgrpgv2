@@ -26,6 +26,7 @@ class RPGNPC{
 	private $_blnHasStartEvent;
 	private $_blnHasEndEvent;
 	private $_strAIName;
+	private $_intWeightGain;
 	private $_arrSkillList;
 	private $_arrActiveSkillList;
 	private $_objEquippedWeapon;
@@ -61,6 +62,7 @@ class RPGNPC{
 		$this->setHasStartEvent($arrNPCInfo['blnHasStartEvent']);
 		$this->setHasEndEvent($arrNPCInfo['blnHasEndEvent']);
 		$this->setAIName($arrNPCInfo['strAIName']);
+		$this->setWeightGain($arrNPCInfo['intWeightGain']);
 		$this->setCreatedOn($arrNPCInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrNPCInfo['strCreatedBy']);
 		$this->setModifiedOn($arrNPCInfo['dtmModifiedOn']);
@@ -93,6 +95,7 @@ class RPGNPC{
 				$arrNPCInfo['blnHasStartEvent'] = $arrRow['blnHasStartEvent'];
 				$arrNPCInfo['blnHasEndEvent'] = $arrRow['blnHasEndEvent'];
 				$arrNPCInfo['strAIName'] = $arrRow['strAIName'];
+				$arrNPCInfo['intWeightGain'] = $arrRow['intWeightGain'];
 				$arrNPCInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrNPCInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrNPCInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
@@ -528,6 +531,14 @@ class RPGNPC{
 	
 	public function setAIName($strAIName){
 		$this->_strAIName = $strAIName;
+	}
+	
+	public function getWeightGain(){
+		return $this->_intWeightGain;
+	}
+	
+	public function setWeightGain($intWeightGain){
+		$this->_intWeightGain = $intWeightGain;
 	}
 	
 	public function getCreatedOn(){

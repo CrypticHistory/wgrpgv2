@@ -21,7 +21,7 @@
 	</dialog>
 	<dialog id="4">
 		<eventText>{getEnemyDefeatText}</eventText>
-		<option id="5" action="reviveCharacter~">Continue</option>
+		<option id="5" action="reviveCharacter~{getEnemyWeightGain}">Continue</option>
 	</dialog>
 	<dialog id="5">
 		<eventText>You revived miraculously. Go forth and conquer.</eventText>

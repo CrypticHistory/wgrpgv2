@@ -18,6 +18,7 @@ class RPGItem{
 	private $_intMagicDefence;
 	private $_intWaitTime;
 	private $_strStatDamage;
+	private $_strFileName;
 	private $_strSize;
 	private $_strXML;
 	private $_intQuantity;
@@ -27,6 +28,7 @@ class RPGItem{
 	private $_intFullness;
 	private $_objSuffix;
 	private $_objPrefix;
+	private $_objItemProperties;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
@@ -53,6 +55,7 @@ class RPGItem{
 		$this->setMagicDefence($arrItemInfo['intMagicDefence']);
 		$this->setWaitTime($arrItemInfo['intWaitTime']);
 		$this->setStatDamage($arrItemInfo['strStatDamage']);
+		$this->setFileName($arrItemInfo['strFileName']);
 		$this->setItemType($arrItemInfo['strItemType']);
 		$this->setHandType($arrItemInfo['strHandType']);
 		$this->setSellPrice($arrItemInfo['intSellPrice']);
@@ -84,6 +87,7 @@ class RPGItem{
 				$arrItemInfo['intMagicDefence'] = $arrRow['intMagicDefence'];
 				$arrItemInfo['intWaitTime'] = $arrRow['intWaitTime'];
 				$arrItemInfo['strStatDamage'] = $arrRow['strStatDamage'];
+				$arrItemInfo['strFileName'] = $arrRow['strFileName'];
 				$arrItemInfo['strItemType'] = $arrRow['strItemType'];
 				$arrItemInfo['strHandType'] = $arrRow['strHandType'];
 				$arrItemInfo['intSellPrice'] = $arrRow['intSellPrice'];
@@ -94,6 +98,9 @@ class RPGItem{
 				$arrItemInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
 			}
 		$this->populateVarFromRow($arrItemInfo);
+		if($this->_strFileName != NULL){
+			$this->loadItemProperties();
+		}
 		$arrItemType = explode(":", $this->getItemType());
 		if($arrItemType[0] == 'Armour'){
 			$this->_strXML = $this->loadXMLName();
@@ -156,6 +163,17 @@ class RPGItem{
 			$strSQL = "INSERT INTO tbliteminstanceenchant (intItemInstanceID, intPrefixEnchantID, intSuffixEnchantID)
 						VALUES (" . $objDB->quote($this->_intItemInstanceID) . ", " . $objDB->quote($this->_objPrefix->getEnchantID()) . ", " . $objDB->quote($this->_objSuffix->getEnchantID()) . ")";
 			$objDB->query($strSQL);
+		}
+	}
+	
+	public function loadItemProperties(){
+		include_once "Items/" . $this->_strFileName . ".php";
+		$this->_objItemProperties = new $this->_strFileName();
+	}
+	
+	public function useItem($objRPGCharacter){
+		if($this->_strFileName != NULL){
+			$this->_objItemProperties->useItem($objRPGCharacter);
 		}
 	}
 	
@@ -317,6 +335,14 @@ class RPGItem{
 	
 	public function setStatDamage($strStatDamage){
 		$this->_strStatDamage = $strStatDamage;
+	}
+	
+	public function getFileName(){
+		return $this->_strFileName;
+	}
+	
+	public function setFileName($strFileName){
+		$this->_strFileName = $strFileName;
 	}
 	
 	public function getSize(){
