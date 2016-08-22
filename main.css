@@ -375,6 +375,14 @@ fieldset {
 		height:96% !important;
 	}
 	
+	div.combatDiv {
+		height:96% !important;
+	}
+	
+	div.shopDiv {
+		height:96% !important;
+	}
+	
 	fieldset.leftFieldset{
 		width:380px;
 	}

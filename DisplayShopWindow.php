@@ -78,7 +78,7 @@ class DisplayShopWindow{
 					});
 					
 					$('#buyLink').click(function(){
-						$('#buyForm').show();
+						$('#buyDiv').show();
 						$('#sellForm').hide();
 						$('#buyLink').addClass('bold');
 						$('#sellLink').removeClass('bold');
@@ -86,7 +86,7 @@ class DisplayShopWindow{
 					
 					$('#sellLink').click(function(){
 						$('#sellForm').show();
-						$('#buyForm').hide();
+						$('#buyDiv').hide();
 						$('#sellLink').addClass('bold');
 						$('#buyLink').removeClass('bold');
 					});
@@ -174,54 +174,56 @@ class DisplayShopWindow{
 							<p>Tip: Mouse over item names listed in the shop window to see their description and stats before buying.</p>
 							<fieldset class='shopFieldset'>
 								<legend><span id='buyLink' class='underline pointer bold'>Buy</span> | <span id='sellLink' class='underline pointer'>Sell</span></legend>
-								<form method='post' action='shoptransactionbuy.php' id='buyForm' style="margin:0px">
-									<?php
-									
-									foreach($objShop->getShopInv() as $arrItemDetails){
-										echo "<div id='hiddenItem" . $arrItemDetails['objItem']->getItemID() . "'>";
-											echo "<input type='hidden' class='itemID' name='itemID[]' value='" . $arrItemDetails['objItem']->getItemID() . "'/>";
-											echo "<input type='hidden' class='price' name='price[]' value='" . $arrItemDetails['dblPrice'] . "'/>";
-											echo "<input type='hidden' class='size' name='size[]'>";
-											echo "<input type='hidden' class='quantity' name='quantity[]' value='0'/>";
-										echo "</div>";
-									}
-									
-									?>
-								</form>
-								<table id="shopTable" class='charTable'>
-									<thead>
-										<th style="width:50%;" class='tableHeader'>Item Name</th><th class='tableHeader'>Price</th><?=(($objShop->getShopType() == 'Tailor') ? "<th class='tableHeader'>Size <img id='sizeTooltip' class='pointer' title='The recommended size for your weight and height is selected by default.' src='tooltip.png'/></th>" : "")?><th class='tableHeader'>Quantity</th>
-									</thead>
-									<tbody>
-									<?php
-									
-									foreach($objShop->getShopInv() as $arrItemDetails){
-										$strDamage = (strpos($arrItemDetails['objItem']->getItemType(),'Weapon') !== false && $arrItemDetails['objItem']->getStatDamage() == "Strength" && strpos($arrItemDetails['objItem']->getItemType(),'Shield') == false) ? "\nDamage: " . $arrItemDetails['objItem']->getDamage() : "";
-										$strMagicDamage = (strpos($arrItemDetails['objItem']->getItemType(),'Weapon') !== false && $arrItemDetails['objItem']->getStatDamage() == "Intelligence")  ? "\nMagic Damage: " . $arrItemDetails['objItem']->getMagicDamage() : "";
-										$strDefence = (strpos($arrItemDetails['objItem']->getItemType(), 'Armour') !== false || strpos($arrItemDetails['objItem']->getItemType(),'Shield') !== false) ? "\nDefence: " . $arrItemDetails['objItem']->getDefence() : "";
-										$strMagicDefence = strpos($arrItemDetails['objItem']->getItemType(), 'Armour') !== false ? "\nMagic Defence: " . $arrItemDetails['objItem']->getMagicDefence() : "";
-										$strHPHeal = strpos($arrItemDetails['objItem']->getItemType(), 'Food') !== false || strpos($arrItemDetails['objItem']->getItemType(), 'Potion') !== false ? "\nHP Heal: " . $arrItemDetails['objItem']->getHPHeal() : "";
-										$strCalories = strpos($arrItemDetails['objItem']->getItemType(), 'Food') !== false || strpos($arrItemDetails['objItem']->getItemType(), 'Potion') !== false ? "\nCalories: " . $arrItemDetails['objItem']->getCalories() : "";
-										$strTooltip = "Description: " . htmlspecialchars($arrItemDetails['objItem']->getItemDesc(), ENT_QUOTES) . $strDamage . $strMagicDamage . $strDefence . $strHPHeal . $strCalories;
-										echo "<tr id='" . $arrItemDetails['objItem']->getItemID() . "'><td><span class='itemNameTooltip pointer' title='" . $strTooltip . "'>" . $arrItemDetails['objItem']->getItemName() . "</span></td><td>" . $arrItemDetails['dblPrice'] . "</td>";
-										if($objShop->getShopType() == 'Tailor'){
-											echo "<td><select autocomplete='off'>";
-											foreach($arrNumberedClothingSizes as $key => $val){
-												$strSelected = ($strClosestClothingSize == $val) ? " selected" : "";
-												echo "<option" . $strSelected . ">" . $val . "</option>";
-											}
-											echo "</select></td>";
+								<div id="buyDiv">
+									<form method='post' action='shoptransactionbuy.php' id='buyForm' style="margin:0px">
+										<?php
+										
+										foreach($objShop->getShopInv() as $arrItemDetails){
+											echo "<div id='hiddenItem" . $arrItemDetails['objItem']->getItemID() . "'>";
+												echo "<input type='hidden' class='itemID' name='itemID[]' value='" . $arrItemDetails['objItem']->getItemID() . "'/>";
+												echo "<input type='hidden' class='price' name='price[]' value='" . $arrItemDetails['dblPrice'] . "'/>";
+												echo "<input type='hidden' class='size' name='size[]'>";
+												echo "<input type='hidden' class='quantity' name='quantity[]' value='0'/>";
+											echo "</div>";
 										}
-										echo "<td><input type='text' id='quantity" . $arrItemDetails['objItem']->getItemID() . "' class='quantityWidth' maxlength='2' value='0'/></td></tr>";
-									}
-									
-									?>
-									</tbody>
-									<tr style="background-color:#ffffff;"><td><b>Total</b></td><td id='totalRow' colspan='<?=(($objShop->getShopType() == 'Tailor') ? "3" : "2")?>'><b>0</b></td></tr>
-								</table>
-								<div class="shopBottomLine">
-									<div class="purchaseButton"><button id='purchaseButton'>Purchase Items</button></div>
-									<div class="paginationContainer"></div>
+										
+										?>
+									</form>
+									<table id="shopTable" class='charTable'>
+										<thead>
+											<th style="width:50%;" class='tableHeader'>Item Name</th><th class='tableHeader'>Price</th><?=(($objShop->getShopType() == 'Tailor') ? "<th class='tableHeader'>Size <img id='sizeTooltip' class='pointer' title='The recommended size for your weight and height is selected by default.' src='tooltip.png'/></th>" : "")?><th class='tableHeader'>Quantity</th>
+										</thead>
+										<tbody>
+										<?php
+										
+										foreach($objShop->getShopInv() as $arrItemDetails){
+											$strDamage = (strpos($arrItemDetails['objItem']->getItemType(),'Weapon') !== false && $arrItemDetails['objItem']->getStatDamage() == "Strength" && strpos($arrItemDetails['objItem']->getItemType(),'Shield') == false) ? "\nDamage: " . $arrItemDetails['objItem']->getDamage() : "";
+											$strMagicDamage = (strpos($arrItemDetails['objItem']->getItemType(),'Weapon') !== false && $arrItemDetails['objItem']->getStatDamage() == "Intelligence")  ? "\nMagic Damage: " . $arrItemDetails['objItem']->getMagicDamage() : "";
+											$strDefence = (strpos($arrItemDetails['objItem']->getItemType(), 'Armour') !== false || strpos($arrItemDetails['objItem']->getItemType(),'Shield') !== false) ? "\nDefence: " . $arrItemDetails['objItem']->getDefence() : "";
+											$strMagicDefence = strpos($arrItemDetails['objItem']->getItemType(), 'Armour') !== false ? "\nMagic Defence: " . $arrItemDetails['objItem']->getMagicDefence() : "";
+											$strHPHeal = strpos($arrItemDetails['objItem']->getItemType(), 'Food') !== false || strpos($arrItemDetails['objItem']->getItemType(), 'Potion') !== false ? "\nHP Heal: " . $arrItemDetails['objItem']->getHPHeal() : "";
+											$strCalories = strpos($arrItemDetails['objItem']->getItemType(), 'Food') !== false || strpos($arrItemDetails['objItem']->getItemType(), 'Potion') !== false ? "\nCalories: " . $arrItemDetails['objItem']->getCalories() : "";
+											$strTooltip = "Description: " . htmlspecialchars($arrItemDetails['objItem']->getItemDesc(), ENT_QUOTES) . $strDamage . $strMagicDamage . $strDefence . $strHPHeal . $strCalories;
+											echo "<tr id='" . $arrItemDetails['objItem']->getItemID() . "'><td><span class='itemNameTooltip pointer' title='" . $strTooltip . "'>" . $arrItemDetails['objItem']->getItemName() . "</span></td><td>" . $arrItemDetails['dblPrice'] . "</td>";
+											if($objShop->getShopType() == 'Tailor'){
+												echo "<td><select autocomplete='off'>";
+												foreach($arrNumberedClothingSizes as $key => $val){
+													$strSelected = ($strClosestClothingSize == $val) ? " selected" : "";
+													echo "<option" . $strSelected . ">" . $val . "</option>";
+												}
+												echo "</select></td>";
+											}
+											echo "<td><input type='text' id='quantity" . $arrItemDetails['objItem']->getItemID() . "' class='quantityWidth' maxlength='2' value='0'/></td></tr>";
+										}
+										
+										?>
+										</tbody>
+										<tr style="background-color:#ffffff;"><td><b>Total</b></td><td id='totalRow' colspan='<?=(($objShop->getShopType() == 'Tailor') ? "3" : "2")?>'><b>0</b></td></tr>
+									</table>
+									<div class="shopBottomLine">
+										<div class="purchaseButton"><button id='purchaseButton'>Purchase Items</button></div>
+										<div class="paginationContainer"></div>
+									</div>
 								</div>
 								<form method='post' action='shoptransactionsell.php' class='hidden' id='sellForm'>
 									Drag items you wish to sell from your inventory into the box below.
