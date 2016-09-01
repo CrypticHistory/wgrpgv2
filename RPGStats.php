@@ -54,7 +54,7 @@
 							intCritDamage = " . $objDB->quote($this->_arrBaseStats['intCritDamage']) . ",
 							intPierce = " . $objDB->quote($this->_arrBaseStats['intPierce']) . ",
 							intBlockRate = " . $objDB->quote($this->_arrBaseStats['intBlockRate']) . ",
-							intBlockReduction = " . $objDB->quote($this->_arrBaseStats['intBlockReduction']) . "
+							intBlockReduction = " . $objDB->quote($this->_arrBaseStats['intBlockReduction']) . ",
 							intMaxHunger = " . $objDB->quote($this->_arrBaseStats['intMaxHunger']) . "
 							WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
 			$objDB->query($strSQL);

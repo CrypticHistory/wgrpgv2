@@ -209,7 +209,7 @@ class RPGCharacter{
 						intStatPoints = " . $objDB->quote($this->_intStatPoints) . ",
 						intGold = " . $objDB->quote($this->_intGold) . ",
 						intCurrentHunger = " . $objDB->quote($this->_intCurrentHunger) . ",
-						intTicksStuffed = " . $objDB->quote($this->_intCurrentHunger) . ",
+						intTicksStuffed = " . $objDB->quote($this->_intTicksStuffed) . ",
 						intHungerRate = " . $objDB->quote($this->_intHungerRate) . "
 						WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
 		$objDB->query($strSQL);
@@ -606,7 +606,7 @@ class RPGCharacter{
 		else if($this->hasStatusEffect("Stuffed")){
 			$this->getStats()->activateStuffed();
 			$this->_intTicksStuffed++;
-			if($this->_intTicksStuffed >= 4){
+			if($this->_intTicksStuffed >= 8){
 				$this->getStats()->setBaseStats('intMaxHunger', ($this->getStats()->getBaseStats()['intMaxHunger'] + 5));
 				$this->_intTicksStuffed = 0;
 			}
@@ -785,46 +785,52 @@ class RPGCharacter{
 		
 		$strGetClothingFunc = "getEquipped" . $strClothingType;
 		
-		$intClothingBMI = $arrClothingSizes[$this->$strGetClothingFunc()->getSize()];
-		$intCharacterBMI = $this->getBMI();
-		$objXML = new RPGOutfitReader($this->$strGetClothingFunc()->getXML());
-		
-		$blnReturn = true;
-		foreach($arrBodyParts as $strBodyPart){
-			$strBodyPartLC = strtolower($strBodyPart);
-			$strGetFunction = "get" . $strBodyPart;
-			$strSetFunction = "set" . $strBodyPart . "RipLevel";
-			$intBMIDifference = round(($intCharacterBMI + $this->getBody()->$strGetFunction()) - $intClothingBMI);
-			
-			if(isset($_SESSION['objUISettings']->getOverrides()[2]) || $this->$strGetClothingFunc()->getSize() == 'Stretch'){
-				$intBMIDifference = 0;
-			}
-			
-			$node = $objXML->findNodeBetweenBMI('equip', $intBMIDifference);
-			
-			if(!isset($node[0]->$strBodyPartLC->text)){
-				continue;
-			}
-			
-			$this->setEquipClothingText($this->getEquipClothingText() . strval($node[0]->$strBodyPartLC->text . " "));
-			
-			if($node[0]->$strBodyPartLC->wearable == 'false'){
-				$blnReturn = false;
-				break;
-			}
+		if($this->$strGetClothingFunc()->getRipped()){
+			$this->setEquipClothingText("The clothing you are trying to put on is ripped! You should get it fixed at the tailor first.");
+			return false;
 		}
-		
-		if($blnReturn == true){
+		else{
+			$intClothingBMI = $arrClothingSizes[$this->$strGetClothingFunc()->getSize()];
+			$intCharacterBMI = $this->getBMI();
+			$objXML = new RPGOutfitReader($this->$strGetClothingFunc()->getXML());
+			
+			$blnReturn = true;
 			foreach($arrBodyParts as $strBodyPart){
-				$strSetFunction = "set" . $strBodyPart . "RipLevel";
+				$strBodyPartLC = strtolower($strBodyPart);
 				$strGetFunction = "get" . $strBodyPart;
+				$strSetFunction = "set" . $strBodyPart . "RipLevel";
 				$intBMIDifference = round(($intCharacterBMI + $this->getBody()->$strGetFunction()) - $intClothingBMI);
+				
+				if(isset($_SESSION['objUISettings']->getOverrides()[2]) || $this->$strGetClothingFunc()->getSize() == 'Stretch'){
+					$intBMIDifference = 0;
+				}
+				
 				$node = $objXML->findNodeBetweenBMI('equip', $intBMIDifference);
-				$this->getBody()->$strSetFunction(intval($node[0]->responseBMI));
+				
+				if(!isset($node[0]->$strBodyPartLC->text)){
+					continue;
+				}
+				
+				$this->setEquipClothingText($this->getEquipClothingText() . strval($node[0]->$strBodyPartLC->text . " "));
+				
+				if($node[0]->$strBodyPartLC->wearable == 'false'){
+					$blnReturn = false;
+					break;
+				}
 			}
+			
+			if($blnReturn == true){
+				foreach($arrBodyParts as $strBodyPart){
+					$strSetFunction = "set" . $strBodyPart . "RipLevel";
+					$strGetFunction = "get" . $strBodyPart;
+					$intBMIDifference = round(($intCharacterBMI + $this->getBody()->$strGetFunction()) - $intClothingBMI);
+					$node = $objXML->findNodeBetweenBMI('equip', $intBMIDifference);
+					$this->getBody()->$strSetFunction(intval($node[0]->responseBMI));
+				}
+			}
+			
+			return $blnReturn;
 		}
-		
-		return $blnReturn;
 	}
 	
 	public function ripClothingCheck($strClothingType){
@@ -874,7 +880,15 @@ class RPGCharacter{
 				
 				if($blnChange){
 					$node = $objXML->findNodeAtBMI('response', $this->getBody()->$strGetRipFunction());
-					if(isset($node[0]->$strBodyPartLC->effect) && ($node[0]->$strBodyPartLC->effect == 'rip' || $node[0]->$strBodyPartLC->effect == 'fall')){
+					if(isset($node[0]->$strBodyPartLC->effect) && $node[0]->$strBodyPartLC->effect == 'fall'){
+						$this->$strUnequipFunc();
+						$strReturn .= $node[0]->$strBodyPartLC->text . " ";
+						break;
+					}
+					else if(isset($node[0]->$strBodyPartLC->effect) && $node[0]->$strBodyPartLC->effect == 'rip'){
+						$strGetEquipFunction = "getEquipped" . $strClothingType;
+						$this->$strGetEquipFunction()->setRipped(1);
+						$this->$strGetEquipFunction()->save();
 						$this->$strUnequipFunc();
 						$strReturn .= $node[0]->$strBodyPartLC->text . " ";
 						break;
@@ -887,6 +901,22 @@ class RPGCharacter{
 			
 			return $strReturn;
 		}
+	}
+	
+	public function repairItem($intItemInstanceID){
+		$objDB = new Database();
+		$strSQL = "UPDATE tblcharacteritemxr
+					SET blnRipped = 0
+					WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
+		$objDB->query($strSQL);
+	}
+	
+	public function resizeItem($intItemInstanceID, $strSize){
+		$objDB = new Database();
+		$strSQL = "UPDATE tblcharacteritemxr
+					SET strSize = " . $objDB->quote($strSize) . "
+					WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
+		$objDB->query($strSQL);
 	}
 	
 	public function getEquippedArmour(){

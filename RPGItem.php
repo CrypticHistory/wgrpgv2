@@ -20,6 +20,7 @@ class RPGItem{
 	private $_strStatDamage;
 	private $_strFileName;
 	private $_strSize;
+	private $_blnRipped;
 	private $_strXML;
 	private $_intQuantity;
 	private $_strItemType;
@@ -108,9 +109,18 @@ class RPGItem{
 		if(isset($this->_intItemInstanceID)){
 			$this->loadEnchants();
 			if($arrItemType[0] == 'Armour'){
-				$this->_strSize = $this->loadSize();
+				$this->loadArmourStatus();
 			}
 		}
+	}
+	
+	public function save(){
+		$objDB = new Database();
+		$strSQL = "UPDATE tblcharacteritemxr
+					SET strSize = " . $objDB->quote($this->_strSize) . ",
+						blnRipped = " . $objDB->quote($this->_blnRipped) . "
+							WHERE intItemInstanceID = " . $objDB->quote($this->_intItemInstanceID);
+		$objDB->query($strSQL);
 	}
 	
 	private function loadEnchants(){
@@ -138,14 +148,15 @@ class RPGItem{
 		return $arrRow['strXML'];
 	}
 		
-	private function loadSize(){
+	public function loadArmourStatus(){
 		$objDB = new Database();
-		$strSQL = "SELECT strSize
+		$strSQL = "SELECT strSize, blnRipped
 					FROM tblcharacteritemxr
 						WHERE intItemInstanceID = " . $objDB->quote($this->_intItemInstanceID);
 		$rsResult = $objDB->query($strSQL);
 		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		return $arrRow['strSize'];
+		$this->_strSize = $arrRow['strSize'];
+		$this->_blnRipped = $arrRow['blnRipped'];
 	}
 	
 	public function saveEnchants(){
@@ -351,6 +362,14 @@ class RPGItem{
 	
 	public function setSize($strSize){
 		$this->_strSize = $strSize;
+	}
+	
+	public function getRipped(){
+		return $this->_blnRipped;
+	}
+	
+	public function setRipped($blnRipped){
+		$this->_blnRipped = $blnRipped;
 	}
 	
 	public function getQuantity(){

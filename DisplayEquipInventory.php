@@ -47,10 +47,12 @@ class DisplayEquipInventory{
 							}
 							
 							echo "<tr class='textCenter' id='equipItem" . $intCounter . "'>";
-							echo "<td id='itemName' class='" . (($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID'])) ? "equipped" : "") . "'><a href=\"javascript:showItemDetails('equip', '" . $intCounter . "');\"><span class='prefix'>" . $arrCategoryNames['strPrefix'] . "</span> <span class='suffix'>" . $arrCategoryNames['strSuffix'] . "</span> <span class='itemName'>" . $arrCategoryNames['strItemName'] . "</span></a>" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? " (E)" : "") . "</td>";
+							echo "<td id='itemName' class='" . (($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID'])) ? "equipped" : "") . ($arrCategoryNames['blnRipped'] ? "ripped" : "") . "'><a href=\"javascript:showItemDetails('equip', '" . $intCounter . "');\"><span class='prefix'>" . $arrCategoryNames['strPrefix'] . "</span> <span class='suffix'>" . $arrCategoryNames['strSuffix'] . "</span> <span class='itemName'>" . $arrCategoryNames['strItemName'] . "</span></a>" . ($_SESSION['objRPGCharacter']->isEquipped($arrCategoryNames['intItemInstanceID']) ? " (E)" : "") . ($arrCategoryNames['blnRipped'] ? " (R)" : "") . "</td>";
 							echo "<td class='hidden' name='itemInstanceID'>" . $arrCategoryNames['intItemInstanceID'] . "</td>";
 							echo "<td class='hidden' name='itemID'>" . $arrCategoryNames['intItemID'] . "</td>";
 							echo "<td class='hidden' name='itemSellPrice'>" . $arrCategoryNames['intSellPrice'] . "</td>";
+							echo "<td class='hidden' name='blnRipped'>" . $arrCategoryNames['blnRipped'] . "</td>";
+							echo "<td class='hidden' name='itemSize'>" . $arrCategoryNames['strSize'] . "</td>";
 							echo "<td class='hidden' name='itemType'>" . $strItemType . "</td>";
 							echo "<td>" . $arrItemType[1] . "</td>";
 							echo "</tr>";
@@ -85,7 +87,7 @@ class DisplayEquipInventory{
 	private function getEquipInventory(){
 		$arrReturn = array();
 		$objDB = new Database();
-		$strSQL = "SELECT tblcharacteritemxr.intItemInstanceID as intItemInstanceID, strItemName, txtItemDesc, intItemID, intSellPrice, strStatDamage, strItemType, intDamage, intMagicDamage, intDefence, intMagicDefence, strSize, tblSuffix.strEnchantName as strSuffix, tblPrefix.strEnchantName as strPrefix
+		$strSQL = "SELECT tblcharacteritemxr.intItemInstanceID as intItemInstanceID, strItemName, txtItemDesc, intItemID, intSellPrice, strStatDamage, strItemType, intDamage, intMagicDamage, intDefence, intMagicDefence, strSize, blnRipped, tblSuffix.strEnchantName as strSuffix, tblPrefix.strEnchantName as strPrefix
 					FROM tblitem
 						INNER JOIN tblcharacteritemxr
 							USING (intItemID)
@@ -111,6 +113,7 @@ class DisplayEquipInventory{
 			$arrReturn[$intCounter]['intMagicDefence'] = $arrRow['intMagicDefence'];
 			$arrReturn[$intCounter]['intSellPrice'] = $arrRow['intSellPrice'];
 			$arrReturn[$intCounter]['strSize'] = $arrRow['strSize'];
+			$arrReturn[$intCounter]['blnRipped'] = $arrRow['blnRipped'];
 			$arrItemType = explode(':', $arrRow['strItemType']);
 			if($arrItemType[0] == "Armour"){
 				$arrReturn[$intCounter]['txtItemDesc'] .= "<br/><i>* Size " . $arrRow['strSize'] . " armour that defends against " . $arrRow['intDefence'] . " damage.</i>";

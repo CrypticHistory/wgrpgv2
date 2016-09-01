@@ -175,7 +175,7 @@
 			<maxBMI>-4</maxBMI>
 			<responseBMI>-4</responseBMI>
 			<belly>
-				<text>Holding the blue jeans to your waist, you can tell they will also be too large. However, you try them on anyways. They sag below your waist, on the verge of falling off. Lose any more weight and they surely will.</text>
+				<text>Holding the blue jeans to your waist, you can tell they will be too large. However, you try them on anyways. They sag below your waist, on the verge of falling off. Lose any more weight and they surely will.</text>
 				<wearable>true</wearable>
 			</belly>
 		</equip>

@@ -16,9 +16,6 @@
 		if(isset($_POST['size'][$i])){
 			$tmpItem->setSize($_POST['size'][$i]);
 		}
-		if($tmpItem->getItemType() == 'Armour:Armour'){
-			$tmpItem->setSize('Stretch');
-		}
 		$tmpItem->setQuantity($_POST['quantity'][$i]);
 		$arrItemsPurchased[] = $tmpItem;
 	}

@@ -1,0 +1,13 @@
+ALTER TABLE `tblcharacteritemxr` ADD `blnRipped` TINYINT(1) NOT NULL DEFAULT '0' AFTER `strSize`;
+INSERT INTO `tblshop` (`intShopID`, `strShopName`, `txtShopDesc`, `strShopType`) VALUES (NULL, 'Repair Clothing', 'Repair your ripped clothing. Located within the Tailor.', 'Repair'), (NULL, 'Resize Clothing', 'Resize your clothing or armour. Located within the Tailor.', 'Resize');
+INSERT INTO `tbllocationshoplink` (`intLocationShopLinkID`, `intLocationID`, `intShopID`, `strLinkName`) VALUES (NULL, '7', '6', 'Repair Clothing'), (NULL, '7', '7', 'Resize Clothing');
+UPDATE `tblshop` SET `txtShopDesc` = 'Buy weapons.' WHERE `tblshop`.`intShopID` = 2;
+INSERT INTO `tblshop` (`intShopID`, `strShopName`, `txtShopDesc`, `strShopType`) VALUES (NULL, 'Armourer', 'Buy armour here.', 'Armourer'), (NULL, 'Magic Shop', 'Buy magic weapons here.', 'Blacksmith');
+INSERT INTO `tbllocation` (`intLocationID`, `strLocationName`, `strLocationType`, `intTownID`, `txtDescription`) VALUES (NULL, 'Armourer', 'Building', '1', NULL);
+INSERT INTO `tbllocationshoplink` (`intLocationShopLinkID`, `intLocationID`, `intShopID`, `strLinkName`) VALUES (NULL, '12', '8', 'Shop'), (NULL, '11', '9', 'Magic Shop');
+UPDATE `tblshopitemxr` SET `intShopID` = '9' WHERE `tblshopitemxr`.`intShopItemID` = 11;
+UPDATE `tblshopitemxr` SET `intShopID` = '9' WHERE `tblshopitemxr`.`intShopItemID` = 14;
+INSERT INTO `tblshopitemxr` (`intShopItemID`, `intShopID`, `intItemID`, `dblPrice`) VALUES (NULL, '2', '33', '10');
+INSERT INTO `tblshopitemxr` (`intShopItemID`, `intShopID`, `intItemID`, `dblPrice`) VALUES (NULL, '8', '6', '25');
+UPDATE `tblshopitemxr` SET `intShopID` = '8' WHERE `tblshopitemxr`.`intShopItemID` = 15;
+INSERT INTO `tbllocationxrlink` (`intLocationXRLinkID`, `intFromLocationID`, `intToLocationID`, `strLinkName`) VALUES ('8', '3', '12', 'Armourer');
