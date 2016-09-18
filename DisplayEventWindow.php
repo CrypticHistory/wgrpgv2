@@ -33,6 +33,7 @@ class DisplayEventWindow{
 					
 					$intCounter = 0;
 					$objEvent = $_SESSION['objRPGCharacter']->getEvent();
+					
 					$objXML = new RPGXMLReader($objEvent->getXML());
 					foreach($objXML->getEventTextList($objEvent->getEventNodeID()) as $key => $value){
 						if(($objXML->hasEventTextPrecondition($objEvent->getEventNodeID(), $intCounter) == true && DialogConditionFactory::evaluateCondition($objXML->getEventTextPrecondition($objEvent->getEventNodeID(), $intCounter)) == true)
@@ -47,6 +48,11 @@ class DisplayEventWindow{
 					echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck('Top') . "</i><br/>";
 					echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck('Bottom') . "</i><br/>";
 					echo "<i>" . $_SESSION['objRPGCharacter']->ripClothingCheck('Armour') . "</i>";
+					
+					if($objEvent->checkEndOfEvent()){
+						unset($_SESSION['objEnemy']);
+						unset($_SESSION['objRelationship']);
+					}
 				}
 				
 				?>

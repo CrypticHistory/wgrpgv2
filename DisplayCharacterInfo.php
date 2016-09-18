@@ -25,9 +25,6 @@ class DisplayCharacterInfo{
 						<td>Personality:</td><td id='charPersonality'><?=$_SESSION['objRPGCharacter']->getPersonality()?></td>
 					</tr>
 					<tr>
-						<td>Stance on Fat:</td><td id='charFatStance'><?=$_SESSION['objRPGCharacter']->getFatStance()?></td>
-					</tr>
-					<tr>
 						<td class='borderTop' colspan='2'>&nbsp;</td>
 					</tr>
 				</table>
@@ -89,7 +86,7 @@ class DisplayCharacterInfo{
 					</tr>
 					<tr>
 						<td>Willpower:</td><td id='charWillpower'>
-							<?=$_SESSION['objRPGCharacter']->getStats()->getCombinedStats("intWillpower")?>
+							<?=$_SESSION['objRPGCharacter']->getModifiedWillpower()?>
 						</td>
 					</tr>
 					<tr>

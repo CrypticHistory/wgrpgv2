@@ -9,7 +9,7 @@ include_once 'UISettings.php';
 include_once "DisplayCharacterInfo.php";
 include_once "DisplayCharacterAppearance.php";
 include_once "DisplayCharacterSkills.php";
-include_once "DisplayCharacterQuests.php";
+include_once "DisplayCharacterSocial.php";
 include_once "DisplayEventWindow.php";
 include_once "DisplayCombatWindow.php";
 include_once "DisplayStatGainWindow.php";
@@ -31,7 +31,7 @@ class DisplayGameUI extends DataGameUI{
 	protected $_objCharacterInfo;
 	protected $_objCharacterAppearance;
 	protected $_objCharacterSkills;
-	protected $_objCharacterQuests;
+	protected $_objCharacterSocial;
 	protected $_objTownWindow;
 	protected $_objEventWindow;
 	protected $_objCombatWindow;
@@ -52,7 +52,7 @@ class DisplayGameUI extends DataGameUI{
 		$this->_objCharacterInfo = new DisplayCharacterInfo();
 		$this->_objCharacterAppearance = new DisplayCharacterAppearance();
 		$this->_objCharacterSkills = new DisplayCharacterSkills();
-		$this->_objCharacterQuests = new DisplayCharacterQuests();
+		$this->_objCharacterSocial = new DisplayCharacterSocial();
 		$this->_objEventWindow = new DisplayEventWindow();
 		$this->_objCombatWindow = new DisplayCombatWindow();
 		$this->_objStatGainWindow = new DisplayStatGainWindow();
@@ -211,8 +211,8 @@ class DisplayGameUI extends DataGameUI{
 				
 				<?php
 				
-				$arrCharTabHeadings = array("Info", "Appearance", "Skills", "Quests");
-				$arrCharTabObjects = array("_objCharacterInfo", "_objCharacterAppearance", "_objCharacterSkills", "_objCharacterQuests");
+				$arrCharTabHeadings = array("Info", "Appearance", "Skills", "Social");
+				$arrCharTabObjects = array("_objCharacterInfo", "_objCharacterAppearance", "_objCharacterSkills", "_objCharacterSocial");
 				
 				foreach($arrCharTabHeadings as $intTabID => $strTabTitle){
 					echo "<div class='characterTabHeading' id='characterTabHeading" . $strTabTitle . "' onclick=\"switchCharacterTab('" . $strTabTitle . "')\">" . $strTabTitle . "</div>";

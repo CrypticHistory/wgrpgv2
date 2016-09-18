@@ -74,7 +74,7 @@
 				$intCounter = 1;
 				foreach($arrDrops as $key => $value){
 					$this->_objPlayer->giveItem($key);
-					$this->_arrCombatMessage["System"][] = 'Loot received: ' . $value . '<br/>';
+					$this->_arrCombatMessage["System"][] = 'Loot received: ' . $value . '';
 					$intCounter++;
 				}
 				

@@ -36,10 +36,10 @@ class RPGItem{
 	private $_strModifiedBy;
 	
 	public function RPGItem($intItemID = null, $intItemInstanceID = null){
-		if($intItemInstanceID){
+		if($intItemInstanceID != null){
 			$this->_intItemInstanceID = $intItemInstanceID;
 		}
-		if($intItemID){
+		if($intItemID != null){
 			$this->loadItemInfo($intItemID);
 		}
 	}
@@ -186,6 +186,10 @@ class RPGItem{
 		if($this->_strFileName != NULL){
 			$this->_objItemProperties->useItem($objRPGCharacter);
 		}
+	}
+	
+	public function getEnchantStats($strIndex){
+		return (isset($this->_objPrefix) ? $this->_objPrefix->getFixedStatChanges($strIndex) : 0) + (isset($this->_objSuffix) ? $this->_objSuffix->getFixedStatChanges($strIndex) : 0);
 	}
 	
 	public function setPrefix($objPrefix){

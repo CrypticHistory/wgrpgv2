@@ -22,10 +22,10 @@ class RPGStatusEffect{
 	private $_strModifiedBy;
 	
 	public function RPGStatusEffect($strStatusEffectName = null, $intStatusEffectID = null){
-		if($strStatusEffectName){
+		if($strStatusEffectName != null){
 			$this->loadStatusEffectInfo($strStatusEffectName);
 		}
-		if($intStatusEffectID){
+		if($intStatusEffectID != null){
 			$this->loadStatusEffectInfoFromID($intStatusEffectID);
 		}
 	}

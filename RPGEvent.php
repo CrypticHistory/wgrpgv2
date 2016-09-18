@@ -13,18 +13,22 @@ class RPGEvent{
 	private $_blnRepeating;
 	private $_arrEventItems;
 	private $_objEventItem;
+	private $_intNPCID;
+	private $_intConversationLevel;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
 	private $_strModifiedBy;
 	private $_intRPGCharacterID;
+	private $_blnHasViewedEvent;
 	
 	public function RPGEvent($intEventID = null, $intRPGCharacterID = null){
-		if($intEventID){
+		if($intEventID != null){
 			$this->loadEventInfo($intEventID);
 		}
-		if($intRPGCharacterID){
+		if($intRPGCharacterID != null){
 			$this->_intRPGCharacterID = $intRPGCharacterID;
+			$this->loadHasViewedEvent();
 		}
 	}
 	
@@ -35,6 +39,8 @@ class RPGEvent{
 		$this->setXML($arrEventInfo['strXML']);
 		$this->setEventType($arrEventInfo['strEventType']);
 		$this->setRepeating($arrEventInfo['blnRepeating']);
+		$this->setNPCID($arrEventInfo['intNPCID']);
+		$this->setConversationLevel($arrEventInfo['intConversationLevel']);
 		$this->setCreatedOn($arrEventInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrEventInfo['strCreatedBy']);
 		$this->setModifiedOn($arrEventInfo['dtmModifiedOn']);
@@ -46,6 +52,8 @@ class RPGEvent{
 		$arrEventInfo = array();
 			$strSQL = "SELECT *
 						FROM tblevent
+							LEFT JOIN tbleventconversation
+								USING (intEventID)
 							WHERE intEventID = " . $objDB->quote($intEventID);
 			$rsResult = $objDB->query($strSQL);
 			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
@@ -55,6 +63,8 @@ class RPGEvent{
 				$arrEventInfo['strXML'] = $arrRow['strXML'];
 				$arrEventInfo['strEventType'] = $arrRow['strEventType'];
 				$arrEventInfo['blnRepeating'] = $arrRow['blnRepeating'];
+				$arrEventInfo['intNPCID'] = $arrRow['intNPCID'];
+				$arrEventInfo['intConversationLevel'] = $arrRow['intConversationLevel'];
 				$arrEventInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrEventInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrEventInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
@@ -86,14 +96,18 @@ class RPGEvent{
 		$objDB->query($strSQL);
 	}
 	
-	public function hasViewedEvent(){
+	public function loadHasViewedEvent(){
 		$objDB = new Database();
 		$strSQL = "SELECT intEventID FROM tblcharactereventxr
 					WHERE intEventID = " . $objDB->quote($this->_intEventID) . " AND
 							intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
 		$rsResult = $objDB->query($strSQL);
 		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		return (isset($arrRow['intEventID']) ? true : false);
+		$this->_blnHasViewedEvent = isset($arrRow['intEventID']) ? true : false;
+	}
+	
+	public function hasViewedEvent(){
+		return $this->_blnHasViewedEvent;
 	}
 	
 	public function setViewedEvent(){
@@ -124,9 +138,6 @@ class RPGEvent{
 				else{
 					$objCurrentFloor->getMaze()->setEventAtCurrentLocation("S");	
 				}	
-			}
-			if(isset($_SESSION['objEnemy'])){
-				unset($_SESSION['objEnemy']);
 			}
 			$blnEndOfEvent = true;
 		}
@@ -212,6 +223,22 @@ class RPGEvent{
 	
 	public function setRepeating($blnRepeating){
 		$this->_blnRepeating = $blnRepeating;
+	}
+	
+	public function getNPCID(){
+		return $this->_intNPCID;
+	}
+	
+	public function setNPCID($intNPCID){
+		$this->_intNPCID = $intNPCID;
+	}
+	
+	public function getConversationLevel(){
+		return $this->_intConversationLevel;
+	}
+	
+	public function setConversationLevel($intConversationLevel){
+		$this->_intConversationLevel = $intConversationLevel;
 	}
 	
 	public function getCreatedOn(){

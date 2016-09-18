@@ -9,13 +9,14 @@ class RPGEnchant{
 	private $_strEnchantName;
 	private $_strEnchantType;
 	private $_arrStatChanges;
+	private $_arrFixedStatChanges;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
 	private $_strModifiedBy;
 	
 	public function RPGEnchant($intEnchantID = null){
-		if($intEnchantID){
+		if($intEnchantID != null){
 			$this->loadEnchantInfo($intEnchantID);
 		}
 	}
@@ -49,15 +50,30 @@ class RPGEnchant{
 			}
 		$this->populateVarFromRow($arrEnchantInfo);
 		$this->loadStatChanges();
+		$this->loadFixedStatChanges();
 	}
 	
 	private function loadStatChanges(){
 		$objDB = new Database();
 		$strSQL = "SELECT * FROM tblenchantstatchanges
-					WHERE intEnchantID = " . $this->_intEnchantID;
+					WHERE intEnchantID = " . $this->_intEnchantID . "
+						AND intStatusEffectID IS NOT NULL";
 		$rsResult = $objDB->query($strSQL);
 		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
 			$this->_arrStatChanges[$arrRow['intEnchantStatChangeID']] = new RPGStatChange($arrRow['intEnchantStatChangeID']);
+		}
+	}
+	
+	private function loadFixedStatChanges(){
+		$objDB = new Database();
+		$strSQL = "SELECT * FROM tblenchantstatchanges
+					WHERE intEnchantID = " . $this->_intEnchantID . "
+						AND intStatusEffectID IS NULL";
+		$rsResult = $objDB->query($strSQL);
+		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+			if($arrRow['strStatName'] != NULL){
+				$this->_arrFixedStatChanges[$arrRow['strStatName']] = $arrRow['intStatChangeMax'];
+			}
 		}
 	}
 	
@@ -67,6 +83,15 @@ class RPGEnchant{
 	
 	public function setStatChanges($arrStatChanges){
 		$this->_arrStatChanges = $arrStatChanges;
+	}
+	
+	public function getFixedStatChanges($strIndex){
+		if(isset($this->_arrFixedStatChanges[$strIndex])){
+			return $this->_arrFixedStatChanges[$strIndex];
+		}
+		else{
+			return 0;
+		}
 	}
 	
 	public function getEnchantID(){

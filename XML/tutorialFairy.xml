@@ -78,7 +78,7 @@
 			"Since your Enchant rank is too low, I'll explain those stats to you! You won't be able to take the armour off unless it is torn off or the enchant is removed! Additionally, you gain one to three pounds per action while wearing this armour. On the bright side, the armour will adjust to whatever weight you gain or lose! But, the only thing you'll be doing right now is gaining weight! Because I'm going to force feed you cupcakes now! Teehee!"
 
 			Seraphine charges at you, cupcake in hand. You must fight!</eventText>
-		<option id='9' action='setCombat~2~Opponent'>Prepare yourself!</option>
+		<option id='9' action='setCombat~2~Opponent~1'>Prepare yourself!</option>
 	</dialog>
 	<dialog id='9'>
 		<eventText>You exited the game in the middle of a battle, and any progress you made during the battle has been lost. Press continue to resume your game.</eventText>
@@ -116,7 +116,7 @@
 		<option id='14'>Feed her</option>
 	</dialog>
 	<dialog id='14'>
-		<eventText>You grab a cupcake from the stack and insert it into Seraphine's open mouth. She begins to chew slowly, and eventually swallows. She opens her mouth again without resistance.</eventText>
+		<eventText>You grab a cupcake from the stack and insert it into Seraphine's open mouth. She begins to chew slowly, and eventually swallows. She opens her mouth again without resistance. </eventText>
 		
 		<eventText precondition='EnemyBMI&gt;30&amp;EnemyBMI&lt;40'>The excess calories are beginning to manifest themselves in Seraphine's body. You notice her figure looks much fuller now, especially her now protruding belly which is jam packed with all the cupcakes you've been feeding her.</eventText>
 		<eventText precondition='EnemyBMI&gt;39&amp;EnemyBMI&lt;50'>The cupcakes are beginning to take their toll on Seraphine's figure. Her breasts have grown a few cup sizes since you started feeding her. Her arms and thighs are quite plump. Her gut continues to grow bigger, packed to the brim with sweets.</eventText>

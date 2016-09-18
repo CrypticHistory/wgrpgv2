@@ -90,14 +90,17 @@
 						</select></td>
 					</tr>
 					<tr>
-						<td>Stance on Fat:</td>
-						<td><select name='strFatStance'/>
-						<?php
-							$arrFatStances = get_enum_values('tblrpgcharacter', 'strFatStance');
-							foreach($arrFatStances as $key => $value){
-								echo "<option>" . $value . "</option>";
-							}
-						?>
+						<td>Does your character enjoy being fat?</td>
+						<td><select name='blnLikesFatSelf'/>
+							<option value='1'>Yes</option>
+							<option value='0'>No</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>Is your character sexually attracted to other fat people?</td>
+						<td><select name='blnLikesFatOthers'/>
+							<option value='1'>Yes</option>
+							<option value='0'>No</option>
 						</select></td>
 					</tr>
 					<tr>

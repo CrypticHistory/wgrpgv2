@@ -17,7 +17,7 @@ class SkillMagicBolt{
 		
 		$objRPGCombatHelper = new RPGCombatHelper();
 		
-		$intDamage = $objRPGCombatHelper->calculateDamage($objNPC, $objPlayer, $this->getSkillBaseModifier());
+		$intDamage = max(0, $objRPGCombatHelper->calculateDamage($objNPC, $objPlayer, $this->getSkillBaseModifier()));
 		$objPlayer->takeDamage($intDamage);
 		
 		$strReturnText = $objNPC->getNPCName() . " waves its " . $objNPC->getEquippedWeapon()->getItemName() . " and hurls a bolt of magical energy at you. It connects, inflicting " . $intDamage . " damage.";

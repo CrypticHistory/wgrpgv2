@@ -6,6 +6,9 @@ class DialogConditionFactory {
 		if(strpos($strCondition, 'Enemy') !== false){
 			$strSession = 'objEnemy';
 		}
+		else if(strpos($strCondition, 'Relationship') !== false){
+			$strSession = 'objRelationship';
+		}
 		else{
 			$strSession = 'objRPGCharacter';
 		}
@@ -53,6 +56,9 @@ class DialogConditionFactory {
 	public static function evaluateAction($strAction){
 		if(strpos($strAction, 'Enemy') !== false){
 			$strSession = 'objEnemy';
+		}
+		else if(strpos($strAction, 'Relationship') !== false){
+			$strSession = 'objRelationship';
 		}
 		else{
 			$strSession = 'objRPGCharacter';

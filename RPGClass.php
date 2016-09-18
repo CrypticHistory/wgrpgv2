@@ -11,7 +11,7 @@ class RPGClass{
 	private $_intClassExperience;
 	
 	public function RPGClass($intClassID = null){
-		if($intClassID){
+		if($intClassID != null){
 			$this->loadClassInfo($intClassID);
 		}
 	}

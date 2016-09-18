@@ -3,6 +3,8 @@
 require_once "Database.php";
 include_once "RPGItem.php";
 include_once "RPGCharacterBody.php";
+include_once "RPGRelationship.php";
+include_once "RPGNPC.php";
 include_once "RPGTime.php";
 include_once "RPGFloor.php";
 include_once "RPGStats.php";
@@ -35,7 +37,8 @@ class RPGCharacter{
 	private $_strGender;
 	private $_strOrientation;
 	private $_strPersonality;
-	private $_strFatStance;
+	private $_blnLikesFatSelf;
+	private $_blnLikesFatOthers;
 	private $_strHairColour;
 	private $_strHairLength;
 	private $_strEyeColour;
@@ -63,6 +66,7 @@ class RPGCharacter{
 	private $_strErrorText;
 	private $_strHungerText;
 	private $_strReviveText;
+	private $_arrRelationships;
 	private $_arrClasses;
 	private $_objCurrentClass;
 	private $_dtmCreatedOn;
@@ -71,7 +75,7 @@ class RPGCharacter{
 	private $_strModifiedBy;
 	
 	public function RPGCharacter($intRPGCharacterID = null){
-		if($intRPGCharacterID){
+		if($intRPGCharacterID != null){
 			$this->loadRPGCharacterInfo($intRPGCharacterID);
 		}
 	}
@@ -93,7 +97,8 @@ class RPGCharacter{
 		$this->setGender($arrCharacterInfo['strGender']);
 		$this->setOrientation($arrCharacterInfo['strOrientation']);
 		$this->setPersonality($arrCharacterInfo['strPersonality']);
-		$this->setFatStance($arrCharacterInfo['strFatStance']);
+		$this->setLikesFatSelf($arrCharacterInfo['blnLikesFatSelf']);
+		$this->setLikesFatOthers($arrCharacterInfo['blnLikesFatOthers']);
 		$this->setHairColour($arrCharacterInfo['strHairColour']);
 		$this->setHairLength($arrCharacterInfo['strHairLength']);
 		$this->setEyeColour($arrCharacterInfo['strEyeColour']);
@@ -136,7 +141,8 @@ class RPGCharacter{
 				$arrCharacterInfo['strGender'] = $arrRow['strGender'];
 				$arrCharacterInfo['strOrientation'] = $arrRow['strOrientation'];
 				$arrCharacterInfo['strPersonality'] = $arrRow['strPersonality'];
-				$arrCharacterInfo['strFatStance'] = $arrRow['strFatStance'];
+				$arrCharacterInfo['blnLikesFatSelf'] = $arrRow['blnLikesFatSelf'];
+				$arrCharacterInfo['blnLikesFatOthers'] = $arrRow['blnLikesFatOthers'];
 				$arrCharacterInfo['strHairColour'] = $arrRow['strHairColour'];
 				$arrCharacterInfo['strHairLength'] = $arrRow['strHairLength'];
 				$arrCharacterInfo['strEyeColour'] = $arrRow['strEyeColour'];
@@ -157,6 +163,8 @@ class RPGCharacter{
 		$this->populateVarFromRow($arrCharacterInfo);
 		$this->_arrClasses = array();
 		$this->loadClasses();
+		$this->_arrRelationships = array();
+		$this->loadRelationships();
 		$this->_objEquippedArmour = $this->loadEquippedArmour();
 		$this->_objEquippedTop = $this->loadEquippedTop();
 		$this->_objEquippedBottom = $this->loadEquippedBottom();
@@ -198,7 +206,8 @@ class RPGCharacter{
 						strGender = " . $objDB->quote($this->_strGender) . ",
 						strOrientation = " . $objDB->quote($this->_strOrientation) . ",
 						strPersonality = " . $objDB->quote($this->_strPersonality) . ",
-						strFatStance = " . $objDB->quote($this->_strFatStance) . ",
+						blnLikesFatSelf = " . $objDB->quote($this->_blnLikesFatSelf) . ",
+						blnLikesFatOthers = " . $objDB->quote($this->_blnLikesFatOthers) . ",
 						strHairColour = " . $objDB->quote($this->_strHairColour) . ",
 						strHairLength = " . $objDB->quote($this->_strHairLength) . ",
 						strEyeColour = " . $objDB->quote($this->_strEyeColour) . ",
@@ -220,12 +229,12 @@ class RPGCharacter{
 		$this->_objBody->save();
 	}
 	
-	public function createNewCharacter($strUserID, $strRPGCharacterName, $dblWeight, $intHeight, $strGender, $strOrientation, $strPersonality, $strFatStance, $strHairColour, $strHairLength, $strEyeColour, $strEthnicity, $intFace, $intBelly, $intBreasts, $intArms, $intLegs, $intButt){
+	public function createNewCharacter($strUserID, $strRPGCharacterName, $dblWeight, $intHeight, $strGender, $strOrientation, $strPersonality, $blnLikesFatSelf, $blnLikesFatOthers, $strHairColour, $strHairLength, $strEyeColour, $strEthnicity, $intFace, $intBelly, $intBreasts, $intArms, $intLegs, $intButt){
 		$objDB = new Database();
 		$strSQL = "INSERT INTO tblrpgcharacter
-					(strUserID, strRPGCharacterName, dblWeight, intHeight, strGender, strOrientation, strPersonality, strFatStance, strHairColour, strHairLength, strEyeColour, strEthnicity, intStateID, intLocationID, intCurrentFloorID, dtmCreatedOn, strCreatedBy)
+					(strUserID, strRPGCharacterName, dblWeight, intHeight, strGender, strOrientation, strPersonality, blnLikesFatSelf, blnLikesFatOthers, strHairColour, strHairLength, strEyeColour, strEthnicity, intStateID, intLocationID, intCurrentFloorID, dtmCreatedOn, strCreatedBy)
 						VALUES
-					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($strFatStance) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", 8, 0, 1, NOW(), 'system')";
+					(" . $objDB->quote($strUserID) . ", " . $objDB->quote($strRPGCharacterName) . ", " . $objDB->quote($dblWeight) . ", " . $objDB->quote($intHeight) . ", " . $objDB->quote($strGender) . ", " . $objDB->quote($strOrientation) . ", " . $objDB->quote($strPersonality) . ", " . $objDB->quote($blnLikesFatSelf) . ", " . $objDB->quote($blnLikesFatOthers) . ", " . $objDB->quote($strHairColour) . ", " . $objDB->quote($strHairLength) . ", " . $objDB->quote($strEyeColour) . ", " . $objDB->quote($strEthnicity) . ", 8, 0, 1, NOW(), 'system')";
 		$objDB->query($strSQL);
 		$intRPGCharacterID = $objDB->lastInsertID();
 		$this->loadRPGCharacterInfo($intRPGCharacterID, true, $intFace, $intBelly, $intBreasts, $intArms, $intLegs, $intButt);
@@ -247,6 +256,26 @@ class RPGCharacter{
 				$this->_objCurrentClass = $objClass;
 			}
 		}
+	}
+	
+	public function loadRelationships(){
+		$objDB = new Database();
+		$strSQL = "SELECT * FROM tblnpcinstance
+					WHERE intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
+						ORDER BY intRelationshipLevel DESC";
+		$rsResult = $objDB->query($strSQL);
+		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+			$objRelationship = new RPGRelationship($arrRow['intNPCID'], $arrRow['intRPGCharacterID']);
+			$this->_arrRelationships[$arrRow['intNPCID']] = $objRelationship;
+		}
+	}
+	
+	public function getRelationships(){
+		return $this->_arrRelationships;
+	}
+	
+	public function setRelationship($objRelationship){
+		$this->_arrRelationships[$objRelationship->getNPCID()] = $objRelationship;
 	}
 	
 	public function getClasses(){
@@ -360,7 +389,7 @@ class RPGCharacter{
 					FROM tblitem
 						INNER JOIN tblcharacteritemxr
 							USING (intItemID)
-					WHERE strItemType LIKE 'Weapon:%'
+					WHERE strItemType LIKE 'Secondary:%'
 						AND strHandType = 'Secondary'
 						AND intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
 						AND blnEquipped = 1";
@@ -462,6 +491,18 @@ class RPGCharacter{
 		return $objDB->lastInsertID();
 	}
 	
+	public function giveItemMulti($intItemID, $intAmount){
+		$objDB = new Database();
+		for($i=0;$i<$intAmount;$i++){
+			$objItem = new RPGItem($intItemID);
+			$strSQL = "INSERT INTO tblcharacteritemxr
+							(intRPGCharacterID, intItemID, intCaloriesRemaining, strSize, dtmDateAdded)
+						VALUES
+							(" . $objDB->quote($this->getRPGCharacterID()) . ", " . $objDB->quote($intItemID) . ", " . $objDB->quote($objItem->getCalories()) . ", NULL, NOW())";
+			$objDB->query($strSQL);
+		}
+	}
+	
 	public function giveItemWithSetEnchants($intItemID, $strClothingSize = null, $intPrefixID = null, $intSuffixID = null){
 		$objDB = new Database();
 		$objItem = new RPGItem($intItemID);
@@ -475,9 +516,12 @@ class RPGCharacter{
 		$strSQL = "INSERT INTO tbliteminstanceenchant
 						(intItemInstanceID, intPrefixEnchantID, intSuffixEnchantID)
 					VALUES
-						(" . $objDB->quote($itemInstanceID) . ", " . $objDB->quote($intPrefixID) . ", " . $objDB->quote($intSuffixID) . ")";
+						(" . $objDB->quote($itemInstanceID) . ", " . $intPrefixID . ", " . $intSuffixID . ")";
 		$objDB->query($strSQL);
-		$this->addOverride(3);
+		// this is a hack for being able to equip the cuirass during the tutorial
+		if($intItemID == 6){
+			$this->addOverride(3);
+		}
 	}
 	
 	public function removeEnchantsFromEquippedArmour(){
@@ -542,6 +586,14 @@ class RPGCharacter{
 			// passive weight loss when hungry
 			for($i=0;$i<$intTicks;$i++){
 				$this->setWeight($this->getWeight() * 0.9995);
+			}
+			// random hp loss when starving
+			$intHPLossRoll = mt_rand(0, 100);
+			$intHPPercentageRoll = mt_rand(1,8);
+			$intNewHPModifier = ((100 - $intHPPercentageRoll) / 100);
+			if($intHPLossRoll >= 90){
+				$this->setCurrentHP(floor($this->getCurrentHP() * $intNewHPModifier));
+				$this->setHungerText("You double over, clutching your stomach in pain. Continually starving yourself like this will seriously affect your health!");
 			}
 			$this->getStats()->activateStarving();
 		}
@@ -646,6 +698,20 @@ class RPGCharacter{
 					SET blnDigesting = 1
 					WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
 		$objDB->query($strSQL);
+	}
+	
+	public function forceEatItemMulti($intItemID, $intAmount){
+		for($i=0;$i<$intAmount;$i++){
+			$intItemInstanceID = $this->giveItem($intItemID);
+			$objItem = new RPGItem($intItemID);
+			$this->healHP($objItem->getHPHeal());
+			$this->_intCurrentHunger = min(2000, ($this->_intCurrentHunger + $objItem->getFullness()));
+			$objDB = new Database();
+			$strSQL = "UPDATE tblcharacteritemxr
+						SET blnDigesting = 1
+						WHERE intItemInstanceID = " . $objDB->quote($intItemInstanceID);
+			$objDB->query($strSQL);
+		}
 	}
 	
 	public function hasItem($intItemInstanceID){
@@ -1224,12 +1290,20 @@ class RPGCharacter{
 		$this->_strPersonality = $strPersonality;
 	}
 	
-	public function getFatStance(){
-		return $this->_strFatStance;
+	public function getLikesFatSelf(){
+		return $this->_blnLikesFatSelf;
 	}
 	
-	public function setFatStance($strFatStance){
-		$this->_strFatStance = $strFatStance;
+	public function setLikesFatSelf($blnLikesFatSelf){
+		$this->_blnLikesFatSelf = $blnLikesFatSelf;
+	}
+	
+	public function getLikesFatOthers(){
+		return $this->_blnLikesFatOthers;
+	}
+	
+	public function setLikesFatOthers($blnLikesFatOthers){
+		$this->_blnLikesFatOthers = $blnLikesFatOthers;
 	}
 	
 	public function getHairColour(){
@@ -1304,13 +1378,16 @@ class RPGCharacter{
 		$this->_objEvent = $objEvent;
 	}
 	
-	public function setCombat($intEnemyID, $strFirstTurn = "Player"){
+	public function setCombat($intEnemyID, $strFirstTurn = "Player", $blnNPCInstance = false){
 		global $arrStateValues;
 		$this->setStateID($arrStateValues["Combat"]);
 		if($intEnemyID == 0){
 				$this->_arrCombat["Enemy"] = $this->_objPotentialEnemy;
 		}
-		else{
+		else if($blnNPCInstance && $intEnemyID > 0){
+			$this->_arrCombat["Enemy"] = $_SESSION['objRelationship'];
+		}
+		else if(!$blnNPCInstance && $intEnemyID > 0){
 			$this->_arrCombat["Enemy"] = new RPGNPC($intEnemyID);
 		}
 		$this->_arrCombat["FirstTurn"] = $strFirstTurn;
@@ -1483,11 +1560,19 @@ class RPGCharacter{
 	}
 	
 	public function getModifiedWillpower(){
-		return $this->_objStats->getCombinedStats('intWillpower');
+		return $this->_objStats->getCombinedStats('intWillpower') + $this->getEquippedSecondary()->getEnchantStats('Willpower');
 	}
 	
 	public function getModifiedStrength(){
-		return $this->_objStats->getCombinedStats('intStrength');
+		return $this->_objStats->getCombinedStats('intStrength') + $this->getEquippedSecondary()->getEnchantStats('Strength');
+	}
+	
+	public function getModifiedIntelligence(){
+		return $this->_objStats->getCombinedStats('intIntelligence') + $this->getEquippedSecondary()->getEnchantStats('Intelligence');
+	}
+	
+	public function getModifiedAgility(){
+		return $this->_objStats->getCombinedStats('intAgility') + $this->getEquippedSecondary()->getEnchantStats('Agility');
 	}
 	
 	public function receiveGold($intGold){
@@ -1528,13 +1613,21 @@ class RPGCharacter{
 	
 	public function enterFloor($intFloorID){
 		global $arrStateValues;
+		unset($_SESSION['objEnemy']);
+		unset($_SESSION['objRelationship']);
 		$this->setTownID(0);
 		$this->setLocationID(NULL);
 		$this->setCurrentFloor($intFloorID);
-		$this->setStateID($arrStateValues['Field']);
-		// todo: standstill according to floor
-		$objStandStillEvent = new RPGEvent(1, $this->_intRPGCharacterID);
-		$this->setEvent($objStandStillEvent);
+		$objStartEvent = new RPGEvent($this->getCurrentFloor()->getStartEvent($this->_intRPGCharacterID), $this->_intRPGCharacterID);
+		$objStandStillEvent = $this->getCurrentFloor()->getStandstill($this->_intRPGCharacterID);
+		if($objStartEvent->getEventID() != NULL){
+			$this->setEvent($objStartEvent);
+			$this->setStateID($arrStateValues["Event"]);
+		}
+		else{
+			$this->setEvent($objStandStillEvent);
+			$this->setStateID($arrStateValues['Field']);
+		}
 		$this->_objCurrentFloor->loadMaze($this->_objCurrentFloor->getDimension(), $this->_intRPGCharacterID);
 	}
 	
@@ -1549,26 +1642,43 @@ class RPGCharacter{
 	public function ascendFloor(){
 		if($this->getCurrentFloor()->getFloorID() != 2){
 			global $arrStateValues;
+			unset($_SESSION['objEnemy']);
+			unset($_SESSION['objRelationship']);
 			$intPreviousFloor = $this->getCurrentFloor()->getFloorID();
 			$intNextFloor = $intPreviousFloor + 1;
 			$this->_intFloorID = $intNextFloor;
 			$this->setCurrentFloor($intNextFloor);
-			// todo: standstill according to floor
-			$objStandStillEvent = new RPGEvent(1, $this->_intRPGCharacterID);
-			$this->setEvent($objStandStillEvent);
-			$this->setStateID($arrStateValues["Field"]);
+			$objStartEvent = new RPGEvent($this->getCurrentFloor()->getStartEvent($this->_intRPGCharacterID), $this->_intRPGCharacterID);
+			$objStandStillEvent = $this->getCurrentFloor()->getStandstill($this->_intRPGCharacterID);
+			if($objStartEvent->getEventID() != NULL){
+				$this->setEvent($objStartEvent);
+				$this->setStateID($arrStateValues["Event"]);
+			}
+			else{
+				$this->setEvent($objStandStillEvent);
+				$this->setStateID($arrStateValues["Field"]);
+			}
 			$this->_objCurrentFloor->loadMaze($this->_objCurrentFloor->getDimension(), $this->_intRPGCharacterID);
 		}
 	}
 	
 	public function descendFloor(){
 		global $arrStateValues;
+		unset($_SESSION['objEnemy']);
+		unset($_SESSION['objRelationship']);
 		$intPreviousFloor = $this->getCurrentFloor()->getFloorID();
 		$intNextFloor = $intPreviousFloor - 1;
 		$this->setCurrentFloor($intNextFloor);
-		// todo: standstill according to floor
-		$objStandStillEvent = new RPGEvent(1, $this->_intRPGCharacterID);
-		$this->setEvent($objStandStillEvent);
+		$objStartEvent = new RPGEvent($this->getCurrentFloor()->getStartEvent($this->_intRPGCharacterID), $this->_intRPGCharacterID);
+		$objStandStillEvent = $this->getCurrentFloor()->getStandstill($this->_intRPGCharacterID);
+		if($objStartEvent->getEventID() != NULL){
+			$this->setEvent($objStartEvent);
+			$this->setStateID($arrStateValues["Event"]);
+		}
+		else{
+			$this->setEvent($objStandStillEvent);
+			$this->setStateID($arrStateValues["Field"]);
+		}
 		$this->_objCurrentFloor->loadMaze($this->_objCurrentFloor->getDimension(), $this->_intRPGCharacterID);
 	}
 	
@@ -1689,6 +1799,7 @@ class RPGCharacter{
 	public function setReviveText($strReviveText){
 		$this->_strReviveText = $strReviveText;
 	}
+	
 }
 
 ?>

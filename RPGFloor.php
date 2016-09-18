@@ -76,6 +76,7 @@ class RPGFloor{
 		while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
 			$this->_arrApplicableEvents[$arrRow['intEventID']]['intOccurrenceRating'] = $arrRow['intOccurrenceRating'];
 			$this->_arrApplicableEvents[$arrRow['intEventID']]['intCountPerFloor'] = $arrRow['intCountPerFloor'];
+			$this->_arrApplicableEvents[$arrRow['intEventID']]['objEvent'] = new RPGEvent($arrRow['intEventID'], $intRPGCharacterID);
 		}
 	}
 	
@@ -114,7 +115,7 @@ class RPGFloor{
 				for($i=0;$i<$arrEventInfo['intCountPerFloor'];$i++){
 					$intRoll = mt_rand(1, 1000);
 					if($arrEventInfo['intOccurrenceRating'] >= $intRoll){
-						$arrReturn[] = $key;
+						$arrReturn[] = $arrEventInfo['objEvent'];
 					}
 				}
 			}
@@ -145,8 +146,13 @@ class RPGFloor{
 										AND blnRepeating = 0)";
 		$rsResult = $objDB->query($strSQL);
 		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		return $arrRow['intEventID'];
-		
+		if(!isset($arrRow['intEventID'])){
+			return null;
+		}
+		else{
+			$objEvent = new RPGEvent($arrRow['intEventID'], $intRPGCharacterID);
+			return $objEvent;
+		}
 	}
 	
 	public function getEndEvent($intRPGCharacterID){
@@ -166,7 +172,13 @@ class RPGFloor{
 										AND blnRepeating = 0)";
 		$rsResult = $objDB->query($strSQL);
 		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		return $arrRow['intEventID'];
+		if(!isset($arrRow['intEventID'])){
+			return null;
+		}
+		else{
+			$objEvent = new RPGEvent($arrRow['intEventID'], $intRPGCharacterID);
+			return $objEvent;
+		}
 	}
 	
 	public function getStandstill($intRPGCharacterID){
@@ -186,7 +198,7 @@ class RPGFloor{
 										AND blnRepeating = 0)";
 		$rsResult = $objDB->query($strSQL);
 		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		$objEvent = new RPGEvent($arrRow['intEventID']);
+		$objEvent = new RPGEvent($arrRow['intEventID'], $intRPGCharacterID);
 		return $objEvent;
 	}
 	

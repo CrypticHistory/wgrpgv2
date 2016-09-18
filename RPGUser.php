@@ -14,7 +14,7 @@ class RPGUser{
 	
 	public function RPGUser($strUserID = null){
 		$objDB = new Database();
-		if($strUserID){
+		if($strUserID != null){
 			$arrUserInfo = array();
 			$strSQL = "SELECT *
 						FROM tbluser

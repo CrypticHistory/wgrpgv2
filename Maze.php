@@ -19,13 +19,13 @@ class Maze{
 	// for fog of war
 	private $_arrExplored = array();
 	
-	public function Maze($intDim, $arrEventIDs, $intStartEvent = null, $intEndEvent = null){
+	public function Maze($intDim, $arrEventIDs, $objStartEvent = null, $objEndEvent = null){
 		$this->_intDim = $intDim;
 		$this->_intCurrentX = 1;
 		$this->_intCurrentY = 1;
 		$this->init();
 		$this->generate(1, 1);
-		$this->placeEvents($arrEventIDs, $intStartEvent, $intEndEvent);
+		$this->placeEvents($arrEventIDs, $objStartEvent, $objEndEvent);
 	}
 	
 	public function init(){
@@ -120,8 +120,8 @@ class Maze{
 		}
 	}
 	
-	public function placeEvents($arrEventIDs, $intStartEvent, $intEndEvent){
-		foreach($arrEventIDs as $intEventID){
+	public function placeEvents($arrEventIDs, $objStartEvent, $objEndEvent){
+		foreach($arrEventIDs as $objEvent){
 			$intLocationX = mt_rand(1, $this->_intDim);
 			$intLocationY = mt_rand(1, $this->_intDim);
 			// prevent events from landing on start or end squares
@@ -131,11 +131,11 @@ class Maze{
 			if($intLocationX == $this->_intDim && $intLocationY == $this->_intDim){
 				$intLocationY--;
 			}
-			$this->_arrEvents[$intLocationX][$intLocationY] = $intEventID;
+			$this->_arrEvents[$intLocationX][$intLocationY] = $objEvent;
 		}
 		// make start/end events stairway events if none exist (ie. already viewed once)
-		$this->_arrEvents[1][1] = (isset($intStartEvent)) ? $intStartEvent : "B";
-		$this->_arrEvents[$this->_intDim][$this->_intDim] = isset($intEndEvent) ? $intEndEvent : "E";
+		$this->_arrEvents[1][1] = (isset($objStartEvent)) ? $objStartEvent : "B";
+		$this->_arrEvents[$this->_intDim][$this->_intDim] = isset($objEndEvent) ? $objEndEvent : "E";
 	}
 	
 	public function draw(){

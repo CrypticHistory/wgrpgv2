@@ -2,6 +2,7 @@
 
 include_once 'DialogConditionFactory.php';
 include_once 'RPGNPC.php';
+include_once 'RPGRelationship.php';
 include_once 'RPGTime.php';
 include_once 'RPGCombat.php';
 include_once 'RPGFloor.php';
@@ -17,13 +18,40 @@ class DataGameUI{
 	public function handleEvents(){
 		global $arrStateNames;
 		global $arrStateValues;
-		
 		// town events are accessed using the URL ($_GET)
 		$this->handleTownEvents();
 		$objEvent = $_SESSION['objRPGCharacter']->getEvent();
-		$objXML = new RPGXMLReader($objEvent->getXML());
 		
 		$blnEndOfEvent = $objEvent->checkEndOfEvent();
+
+		$objXML = new RPGXMLReader($objEvent->getXML());
+		
+		// handle social link inside current event if one exists
+		if(!$blnEndOfEvent && $objEvent->getNPCID() != null && $objEvent->getConversationLevel() != null){
+			// first conversation with NPC
+			if($objEvent->getConversationLevel() == 0 && !isset($_SESSION['objRelationship'])){
+				$_SESSION['objRelationship'] = new RPGRelationship($objEvent->getNPCID(), $_SESSION['objRPGCharacter']->getRPGCharacterID(), true);
+			}
+			else if(!isset($_SESSION['objRelationship'])){
+				$_SESSION['objRelationship'] = new RPGRelationship($objEvent->getNPCID(), $_SESSION['objRPGCharacter']->getRPGCharacterID(), false);
+			}
+			
+			// if this conversation level is too high, show standstill
+			if($objEvent->getConversationLevel() != null && $objEvent->getConversationLevel() != $_SESSION['objRelationship']->getConversationLevel() + 1){
+				$objEvent = $_SESSION['objRPGCharacter']->getCurrentFloor()->getStandstill($_SESSION['objRPGCharacter']->getRPGCharacterID());
+				$_SESSION['objRPGCharacter']->setEvent($objEvent);
+				$blnEndOfEvent = true;
+				unset($_SESSION['objRelationship']);
+			}
+			
+		}
+		
+		// increment conversation level of social link within current event
+		if($blnEndOfEvent && isset($_SESSION['objRelationship']) && $objEvent->getNPCID() != null && $objEvent->getConversationLevel() != null){
+			$_SESSION['objRelationship']->incrementConversationLevel();
+			$_SESSION['objRelationship']->save();
+			$_SESSION['objRPGCharacter']->setRelationship($_SESSION['objRelationship']);
+		}
 			
 		// if initiated combat from an event
 		if($_SESSION['objRPGCharacter']->getCombat()["Enemy"] != null && !isset($_SESSION['objCombat'])){

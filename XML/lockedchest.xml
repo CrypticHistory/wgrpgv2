@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>1</end>
+	<end>2</end>
+	<end>3</end>
+	<end>4</end>
+	<precondition>CurrentFloorID=1</precondition>
+	<dialog id='0'>
+		<eventText>You draw a sudden breath, sitting in the center of the room is a magnificent wooden chest. You wonder how such a fine piece of craftsmanship could have wound up in this dank cave but you've been around long enough to know when things look too good to be true. Still, the thought of what riches could be contained within fills your imagination.</eventText>
+		<option id='1' precondition='ModifiedIntelligence&gt;14' action='giveItem~{EventItem}'>Disarm Trap</option>
+		<option id='2' precondition='ModifiedAgility&gt;14' action='giveItem~{EventItem}'>Open Chest</option>
+		<option id='3' precondition='ModifiedAgility&lt;15' action='takeDamage~5'>Open Chest</option>
+		<option id='4'>Ignore Chest</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>You recognize this chest! This is one of the chests used by merchants when traveling through dangerous territory. You carefully disarm the crossbow lurking just beneath the lid, leaving it's riches free for the taking!</eventText>
+	</dialog>
+	<dialog id='2'>
+		<eventText>As you lift the lid you hear a click followed by the snap of a crossbow loosing its bolt. You leap to the side as the bolt clatters against the wall, where you stood moments before. Before the lid can close again you quickly insert your hand and pull out a {EventItem}. Not today, chest. Not today.</eventText>
+	</dialog>
+	<dialog id='3'>
+		<eventText>As you lift the lid you hear a click followed by the snap of a crossbow loosing its bolt. You try to move out of the way but you're not quite fast enough. You feel the bolt pierce your flesh with a sickening thud. The chest slams shut.</eventText>
+	</dialog>
+	<dialog id='4'>
+		<eventText>You ignore the chest and carry on your way.</eventText>
+	</dialog>
+</event>

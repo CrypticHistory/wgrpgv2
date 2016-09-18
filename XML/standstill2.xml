@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>0</end>
+	<precondition>CurrentFloorID=2</precondition>
+	<dialog id='0'>
+		<eventText precondition="BMI&gt;0&amp;BMI&lt;30">You press forward, each careful </eventText>
+		<eventText precondition="BMI&gt;29&amp;BMI&lt;40">You lumber forward, each heavy </eventText>
+		<eventText precondition="BMI&gt;39">You waddle forward, each breathless </eventText>
+		<eventText>step clicking against the uneven stone tile. The only response you receive is the occasional clatter in the distance, like that of bones falling to the ground.
+
+		</eventText>
+		<eventText precondition="BMI&gt;19&amp;BMI&lt;30">You're a bit tired, but you know you cannot rest.
+		
+		</eventText>
+		<eventText precondition="BMI&gt;29&amp;BMI&lt;40">Your weight is putting a great amount of strain on your lower body, but you know you cannot rest.
+		
+		</eventText>
+		<eventText precondition="BMI&gt;39&amp;BMI&lt;50">Your girth is putting an immense amount of strain on your lower body, but you know you cannot rest.
+		
+		</eventText>
+		<eventText precondition="BMI&gt;49&amp;BMI&lt;60">Hefting around your jiggling rolls is beginning to put immense strain on your lower body. You are absolutely exausted, but you know you cannot rest.
+		
+		</eventText>
+		<eventText precondition="BMI&gt;59">Your body has become utterly massive as of late, and each step you take sends ripples jolting across your jiggling rolls of fat. You're surprised you can even continue waddling forward, even at such a slow pace. You are absolutely exausted, but you know you cannot rest.
+		
+		</eventText>
+		<eventText>Unlike the cavern-like structure you had explored previously, your surroundings here are more refined to a degree. The tunnel you navigate seems to be made from roughly hewn stone. The ceiling is low, but not so much that you can't walk upright or fight properly. Keeping your footing is difficult, but at least your feet are dry.</eventText>
+	</dialog>
+</event>

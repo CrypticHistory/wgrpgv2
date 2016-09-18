@@ -87,8 +87,7 @@
 				$objCurrentFloor->getMaze()->setEventAtCurrentLocation("S");
 			}
 			else{
-				$intEventID = $strEventType;
-				$objEvent = new RPGEvent($intEventID, $_SESSION['objRPGCharacter']->getRPGCharacterID());
+				$objEvent = $strEventType;
 				$_SESSION['objRPGCharacter']->setEvent($objEvent);		
 				$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
 			}

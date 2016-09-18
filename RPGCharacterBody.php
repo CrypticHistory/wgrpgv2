@@ -19,7 +19,7 @@ class RPGCharacterBody{
 	private $_intLegsRipLevel;
 	
 	public function RPGCharacterBody($intRPGCharacterID = null){
-		if($intRPGCharacterID){
+		if($intRPGCharacterID != null){
 			$this->loadCharacterBodyInfo($intRPGCharacterID);
 		}
 	}

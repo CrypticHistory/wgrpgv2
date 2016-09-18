@@ -12,7 +12,7 @@
 		private $_txtDescription;
 		
 		public function RPGLocation ($intLocationID = null){
-			if($intLocationID){
+			if($intLocationID != null){
 				$this->loadLocationInfo($intLocationID);
 			}
 		}

@@ -12,7 +12,7 @@ class RPGShop{
 	private $_arrShopInv;
 	
 	public function RPGShop($intShopID = null){
-		if($intShopID){
+		if($intShopID != null){
 			$this->loadShopInfo($intShopID);
 		}
 	}

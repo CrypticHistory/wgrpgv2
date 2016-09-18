@@ -40,7 +40,7 @@ class RPGNPC{
 	private $_strModifiedBy;
 	
 	public function RPGNPC($intNPCID = null){
-		if($intNPCID){
+		if($intNPCID != null){
 			$this->loadNPCInfo($intNPCID);
 		}
 	}
@@ -102,7 +102,7 @@ class RPGNPC{
 				$arrNPCInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
 			}
 		$this->populateVarFromRow($arrNPCInfo);
-		$this->loadSkills();
+		$this->loadSkills();	
 		$this->_objEquippedArmour = $this->loadEquippedArmour();
 		$this->_objEquippedTop = $this->loadEquippedTop();
 		$this->_objEquippedBottom = $this->loadEquippedBottom();

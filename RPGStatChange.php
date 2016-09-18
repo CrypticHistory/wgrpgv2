@@ -13,7 +13,7 @@ class RPGStatChange{
 	private $_objStatusEffect;
 	
 	public function RPGStatChange($intStatChangeID = null){
-		if($intStatChangeID){
+		if($intStatChangeID != null){
 			$this->loadStatChangeInfo($intStatChangeID);
 		}
 	}

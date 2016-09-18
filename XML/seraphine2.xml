@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>7</end>
+	<end>2</end>
+	<end>3</end>
+	<type>Forced Event</type>
+	<precondition>CurrentFloorID=2</precondition>
+	<dialog id='0'>
+		<eventText>You hear a fluttering echoing down the hallway, approaching you rapidly from the front. As you drop into a defensive stance, you hear an all too familiar voice.
+
+					"If it isn't my favorite adventurer! Oh, I've missed you so much!"
+
+					Seraphine! Your stomach clenches at the memory of your last encounter with the mischievous fairy.</eventText>
+		<eventText precondition="RelationshipBMI&gt;30">
+					
+					You can't help but notice the formerly waifish fairy is looking a little curvier. Actually she's looking downright chubby. You're pretty sure her blouse hadn't exposed so much of her belly before, and what was once a scandalously short skirt has been stretched to the point where you can confidently say she's not wearing anything underneath. Even her high-boots seem to be cutting into her newly thickened thighs. You grin, imagining the struggle she must have gone through to get into her clothes in the first place. </eventText>
+		<eventText precondition="RelationshipBMI&gt;29&amp;LikesFatOthers=1">As much as you want to hate her for what she did to you, part of you wants to run your hands over her body and find out what such a fat fairy feels like up close.</eventText>
+		<eventText precondition="RelationshipBMI&gt;29&amp;Personality=Outgoing">
+					
+					"Back for more?" you taunt, "It looks like your outfit's a little snug."</eventText>
+		<eventText precondition="BMI&gt;27">
+		
+					"Wow, look at you!" She smiles, looking you up and down. You realize you have gained quite a bit of weight since you last saw Seraphine. "Someone's been eating well, it really shows! Still, you might want to consider not gorging yourself on everything in sight, but hey, who am I to judge!"</eventText>
+		<eventText>
+		
+					"Anyway, I'm back to teach you a lesson! Specifically I'm here to teach you about social interactions! No need to thank me, I'm just doing my job as your tutorial fairy!"
+
+					"You see, as you continue your adventure you'll often come across others who need or want something from you! Doing what they want will raise your relationship with them and then you can get them to do things for you! Isn't that fun??"
+
+					"Right now there's something I want you to do, and as a good friend I'm sure you'll happily oblige!"
+
+					She waves her hand and a platter of cupcakes appears.
+
+					"It would make me soooo happy if you'd eat these cupcakes for me! I hope you can let bygones be bygones and take this first step toward our new friendship!"</eventText>
+		<option id='1' action='RelationshipGainRelationshipEXP~100'>Accept</option>
+		<option id='2'>Refuse</option>
+		<option id='3' action='RelationshipGainRelationshipEXP~50'>Ask her to eat the cupcakes instead</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>You smile and pick up the first of six cupcakes. The fairy perks up and leans toward you slightly, excitement in her eyes.
+
+					All things considered, these are damn good cupcakes. It's nice to be able to enjoy them by choice instead of having them rammed down your throat by a crazed fairy. Although, the way she's watching you makes you a bit uneasy.
+
+					"Ahh yes!" she says, "I can feel us becoming better friends by the minute!"</eventText>
+		<option id='4' action='forceEatItemMulti~9~5'>Keep Eating</option>
+	</dialog>
+	<dialog id='2'>
+		<eventText>"Well that's too bad, I'm sorry that you can't find it in your heart to move past your previous misdeeds! </eventText>
+		<eventText precondition="RelationshipBMI&gt;24">I guess I should have seen this coming given that you force fed me cupcakes the last time we met! Thanks for that by the way! I think of you every morning when my skirt won't button!" </eventText>
+		<eventText precondition="RelationshipBMI&lt;25">I guess I should have seen this coming given that you kicked me in the face the last time we met! Thanks for that by the way!" </eventText>
+		<eventText precondition="BMI&gt;27">
+		
+		"I'm especially surprised you'd turn down my delicious cupcakes given how much you obviously love to eat! Perhaps you're on a diet? Well I've got news for you, honey! It's not working!" </eventText>
+		<eventText>
+		
+					The fairy pouts and begins to flap her wings.
+					
+					"You've really done it now! You've soiled our friendship for good! I hope you're happy!"
+					
+					She begins to fly away slowly, possibly expecting you to feel sorry for your actions, but no guilt is present. You're a bit thankful she didn't press you further, seeing as how the last encounter you two had, you ended up walking away with a belly stuffed full of cupcakes. Perhaps she recognized that you've become stronger and decided to leave you alone? Either way, you're happy she's gone.</eventText>
+	</dialog>
+	<dialog id='3'>
+		<eventText>"What! You want me to do WHAT!" Seraphine drops her sweet tone in an instant.
+		
+		</eventText>
+
+		<eventText precondition="Gender=Female">"You're a bitch, you know that! </eventText>
+		<eventText precondition="Gender=Male">"You're a bastard, you know that! </eventText>
+		<eventText>You knew that I was bound as a tutorial fairy to demonstrate relationships to you, and you decided to take advantage of me! Now I will admit to sampling my own cupcakes from time to time, but a whole platter? Impossible!"
+		
+				Still fuming, Seraphine summons another platter of six cupcakes.
+
+				"You're a terrible person, abusing me for your own enjoyment like this! After I even gave you cupcakes!" She takes a big bite "You know, if the developers hadn't half-assed the relationship system I'd be attacking you right now, but no, we're FRIENDS!"
+
+				Seraphine summons a glass of milk and takes a swig.
+
+				"If not for me, couldn't you at least have mercy on my poor outfit? What has this skirt ever done to hurt you? I'm probably going to bust out of it and then you'll be sorry! Innocent skirts don't deserve your cruelty!"
+
+				Now on her third cupcake, Seraphine isn't letting up.
+
+				"Anyway, at least I won't be as fat as you! You'll see! We fairies have very fast metabolisms! Flying around burns calories! I can't wait until next time we meet, assuming you can even fit through the door by then!"
+
+				Seraphine adjusts her skirt, making room for her bloated belly to spill over the waistband. With one cupcake to go she seems to be tiring.
+
+				"Hmph! I hope you're having fun! Imagine, wanting to stuff someone for enjoyment! What kind of demon could enjoy such debauchery! We'll see how fun it is when you're the one up to your ears in food and I'm standing triumphantly over your overfed body!"
+
+				Having finished the cupcakes, Seraphine hauls herself to her feet.
+
+				"There, I did it! I'm not going to hang around and let you gawk at my poor, abused, stomach!"
+
+				She gives her belly a pat before flapping her wings. She wrinkles her nose and flaps her wings harder, rising with great difficulty into the air. She takes off down the passage, burdened by her expanded form.</eventText>
+	</dialog>
+	<dialog id='4'>
+		<eventText>With one to go you're not feeling so hot. These cupcakes are certainly tasty but they're oh so rich. Your stomach moans as you bravely pick up the last confection. You can do this, you've faced down a goblin chief!</eventText>
+		<option id='5' action='forceEatItem~9'>Keep Eating</option>
+	</dialog>
+	<dialog id='5'>
+		<eventText>Oooooh yeah, that was a lot. You rub your belly, hoping to ease the enormous pressure building in your gut. Stifling a belch you look over at Seraphine.
+
+					"How'd I do?" you ask, feeling the beginnings of a food coma setting in.
+
+					"You did wonderfully! I should have known better than to force feed someone with such an appetite! Yes, I can feel our relationship is much better now! Here, I've wrapped up some more cupcakes for you to enjoy later! They're pretty heavy though, so you might want to get some exercise before you eat them!"</eventText>
+		<option id='6' action='giveItemMulti~9~6'>Accept</option>
+	</dialog>
+	<dialog id='6'>
+		<eventText>"Now to demonstrate the joys of maintaining positive relationships with your peers, I'll give you a *special* present! Please, take this enchanted shield, it should protect you on your journey!"</eventText>
+		<option id='7' action='giveItemWithSetEnchants~15~NULL~3~NULL'>Accept</option>
+	</dialog>
+	<dialog id='7'>
+		<eventText>"Wonderful! Aren't relationships fun??" Seraphine beams. "Bye now! Stay safe! I wouldn't want anything bad to happen to my favourite feedee-- I mean friend!!"
+		
+					She sure doesn't sound sincere, but at least she gave you a shield and some cupcakes. Maybe befriending this peculiar little fairy was a good idea after all.</eventText>
+	</dialog>
+</event>

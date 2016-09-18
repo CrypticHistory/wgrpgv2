@@ -17,7 +17,7 @@ class SkillRend{
 		
 		$objRPGCombatHelper = new RPGCombatHelper();
 		
-		$intDamage = $objRPGCombatHelper->calculateDamage($objNPC, $objPlayer, $this->getSkillBaseModifier());
+		$intDamage = max(0, $objRPGCombatHelper->calculateDamage($objNPC, $objPlayer, $this->getSkillBaseModifier()));
 		
 		$objPlayer->takeDamage($intDamage);
 		

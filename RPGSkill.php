@@ -17,7 +17,7 @@ class RPGSkill{
 	private $_intCurrentCooldown;
 	
 	public function RPGSkill($intSkillID = null){
-		if($intSkillID){
+		if($intSkillID != null){
 			$this->loadSkillInfo($intSkillID);
 		}
 	}
