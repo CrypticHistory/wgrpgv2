@@ -1618,9 +1618,9 @@ class RPGCharacter{
 		$this->setTownID(0);
 		$this->setLocationID(NULL);
 		$this->setCurrentFloor($intFloorID);
-		$objStartEvent = new RPGEvent($this->getCurrentFloor()->getStartEvent($this->_intRPGCharacterID), $this->_intRPGCharacterID);
+		$objStartEvent = $this->getCurrentFloor()->getStartEvent($this->_intRPGCharacterID);
 		$objStandStillEvent = $this->getCurrentFloor()->getStandstill($this->_intRPGCharacterID);
-		if($objStartEvent->getEventID() != NULL){
+		if($objStartEvent != NULL){
 			$this->setEvent($objStartEvent);
 			$this->setStateID($arrStateValues["Event"]);
 		}
@@ -1648,9 +1648,9 @@ class RPGCharacter{
 			$intNextFloor = $intPreviousFloor + 1;
 			$this->_intFloorID = $intNextFloor;
 			$this->setCurrentFloor($intNextFloor);
-			$objStartEvent = new RPGEvent($this->getCurrentFloor()->getStartEvent($this->_intRPGCharacterID), $this->_intRPGCharacterID);
+			$objStartEvent = $this->getCurrentFloor()->getStartEvent($this->_intRPGCharacterID);
 			$objStandStillEvent = $this->getCurrentFloor()->getStandstill($this->_intRPGCharacterID);
-			if($objStartEvent->getEventID() != NULL){
+			if($objStartEvent != NULL){
 				$this->setEvent($objStartEvent);
 				$this->setStateID($arrStateValues["Event"]);
 			}
@@ -1669,9 +1669,9 @@ class RPGCharacter{
 		$intPreviousFloor = $this->getCurrentFloor()->getFloorID();
 		$intNextFloor = $intPreviousFloor - 1;
 		$this->setCurrentFloor($intNextFloor);
-		$objStartEvent = new RPGEvent($this->getCurrentFloor()->getStartEvent($this->_intRPGCharacterID), $this->_intRPGCharacterID);
+		$objStartEvent = $this->getCurrentFloor()->getStartEvent($this->_intRPGCharacterID);
 		$objStandStillEvent = $this->getCurrentFloor()->getStandstill($this->_intRPGCharacterID);
-		if($objStartEvent->getEventID() != NULL){
+		if($objStartEvent != NULL){
 			$this->setEvent($objStartEvent);
 			$this->setStateID($arrStateValues["Event"]);
 		}
