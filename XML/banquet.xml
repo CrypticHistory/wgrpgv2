@@ -8,17 +8,17 @@
 
 					This feast is just out in the open, waiting to be eaten. You step closer and the scent of warm roast turkey is overpowering, the first thing you smell. It's a nostalgic and welcoming scent and makes you want to pull up a seat and eat.
 		</eventText>
-		<eventText precondition="ModifiedWillpower&lt;15">
-			Before you know it, you're already seated at the banquet table, scarfing down a chicken wing and a baguette. It seems you couldn't resist the temptation.
-		</eventText>
-		<eventText precondition="ModifiedWillpower&gt;=15">
+		<eventText precondition="{Willpower~15}">
 			But you know you shouldn't. It's too good to be true. All this warm food just sitting out in the open. It must be a trap, you think to yourself. But you sure are hungry... and the food looks so appetizing...
 
 			Should you eat the food?
 		</eventText>
-		<option precondition="ModifiedWillpower&gt;14" action="StuffCharacter~2000~10~20" id='1'>Yes</option>
-		<option precondition="ModifiedWillpower&gt;14" id='2'>No</option>
-		<option precondition="ModifiedWillpower&lt;15" action="StuffCharacter~2000~10~20" id='3'>Continue</option>
+		<eventText precondition="{LastRollFailed}">
+			Before you know it, you're already seated at the banquet table, scarfing down a chicken wing and a baguette. It seems you couldn't resist the temptation.
+		</eventText>
+		<option precondition="{LastRollSucceeded}" action="StuffCharacter~2000~10~20" id='1'>Yes</option>
+		<option precondition="{LastRollSucceeded}" id='2'>No</option>
+		<option precondition="{LastRollFailed}" action="StuffCharacter~2000~10~20" id='3'>Continue</option>
 	</dialog>
 	<dialog id='1'>
 		<eventText>Alright, just a little taste, you think to yourself. You pull up a seat at the table, grab a chicken wing and a baguette and begin to eat. And eat. And eat some more...</eventText>

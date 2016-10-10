@@ -670,7 +670,7 @@ span.close {padding-left: 5px; color: red;cursor: pointer;}
 }
 
 .combatTopLine{
-	height:70px;
+	height:90px;
 	width:100%;
 	margin:auto;
 }
@@ -678,7 +678,7 @@ span.close {padding-left: 5px; color: red;cursor: pointer;}
 .combatTopLeft{
 	width:20%;
 	float:left;
-	height:50px;
+	height:73px;
 	border-bottom:1px solid grey;
 	text-align:center;
 }
@@ -686,7 +686,7 @@ span.close {padding-left: 5px; color: red;cursor: pointer;}
 .combatTopRight{
 	width:20%;
 	float:left;
-	height:50px;
+	height:73px;
 	border-bottom:1px solid grey;
 	text-align:center;
 }
@@ -694,7 +694,7 @@ span.close {padding-left: 5px; color: red;cursor: pointer;}
 .combatTopMid{
 	width:58%;
 	float:left;
-	height:50px;
+	height:73px;
 	border-right:1px solid grey;
 	border-left:1px solid grey;
 	border-bottom:1px solid grey;
@@ -709,11 +709,12 @@ span.close {padding-left: 5px; color: red;cursor: pointer;}
 
 .combatHPBar{
 	display:block;
+	padding-top:5px;
 }
 
 .combatTurnLog{
 	overflow-y:scroll;
-	height:83.3%;
+	height:79.3%;
 }
 
 .combatTurn{
@@ -727,7 +728,11 @@ span.close {padding-left: 5px; color: red;cursor: pointer;}
 
 .combatHeader{
 	font-weight:bold;
-	color:#520B6B;
+}
+
+.combatHeaderVersus{
+	font-weight:bold;
+	color:black;
 }
 
 .player{

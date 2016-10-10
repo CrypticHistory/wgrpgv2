@@ -9,7 +9,7 @@
 	<precondition>CurrentFloorID=1</precondition>
 	<dialog id='0'>
 		<eventText>A snarling, hulking creature approaches you, its beady eyes glaring into your own with a hatred that seems almost bestial in origin. Its muscles are locked in a rigid battle pose, one hand gripping a thick stock of wood with a metal chunk affixed at the end. This is what may pass for a hammer for him, you imagine. This creature seems different from the others that you've encountered thus far. It seems prestiged; decorated. Donned in chainmail and heavy combat boots, you can tell that this creature is accustomed to battle, and it even exudes leadership qualities as if it were the chief of its people. You have little time to take all of this in however, as without warning the creature lurches forward with a wet, guttural warcry!</eventText>
-		<option id='2' action='setCombat~5~Player'>Prepare yourself!</option>
+		<option id='2' action='setCombat~5~NULL~NULL~Player'>Prepare yourself!</option>
 	</dialog>
 	<dialog id="1">
 		<eventText>You flee from the battle.</eventText>

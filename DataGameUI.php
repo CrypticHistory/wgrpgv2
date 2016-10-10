@@ -18,6 +18,7 @@ class DataGameUI{
 	public function handleEvents(){
 		global $arrStateNames;
 		global $arrStateValues;
+		
 		// town events are accessed using the URL ($_GET)
 		$this->handleTownEvents();
 		$objEvent = $_SESSION['objRPGCharacter']->getEvent();
@@ -54,8 +55,8 @@ class DataGameUI{
 		}
 			
 		// if initiated combat from an event
-		if($_SESSION['objRPGCharacter']->getCombat()["Enemy"] != null && !isset($_SESSION['objCombat'])){
-			$_SESSION['objCombat'] = new RPGCombat($_SESSION['objRPGCharacter'], $_SESSION['objRPGCharacter']->getCombat()["Enemy"], $_SESSION['objRPGCharacter']->getCombat()["FirstTurn"]);
+		if($_SESSION['objRPGCharacter']->getCombat()["EnemyTeam"] != null && !isset($_SESSION['objCombat'])){
+			$_SESSION['objCombat'] = new RPGCombat($_SESSION['objRPGCharacter']->getParty(), $_SESSION['objRPGCharacter']->getCombat()["EnemyTeam"], $_SESSION['objRPGCharacter']->getCombat()["FirstTurn"]);
 			$_SESSION['objCombat']->initiateCombat();
 			$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Combat']);
 		}

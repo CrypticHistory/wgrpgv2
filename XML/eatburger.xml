@@ -7,7 +7,8 @@
 		<eventText>There's a burger on the ground with grease soaking through the wrapper. Should you eat it or ignore it?</eventText>
 		<option id="1" action="forceEatItem~1">Eat it</option>
 		<option id="3" action="giveItem~1">Save it for later</option>
-		<option id="2" action="forceEatItem~1">Ignore it</option>
+		<option id="5" precondition="{Willpower~15}">Ignore it</option>
+		<option id="2" precondition="{LastRollFailed}" action="forceEatItem~1">Ignore it</option>
 	</dialog>
 	<dialog id="1">
 		<eventText>You unwrap the burger and throw the greasy wrapper behind you. The fact that you found a warm burger sitting in a damp cave makes you feel a bit paranoid. But your overwhelming feelings of gluttony are far more powerful. With a shrug, you dig in.</eventText>
@@ -22,5 +23,8 @@
 	</dialog>
 	<dialog id="4">
 		<eventText>You finish the burger in a matter of seconds. A burp escapes your lips and echos throughout the cavern. Normally you'd surpress it but you felt comfortable that nobody would be around to hear your burp. You pat your distended belly, feeling uncomfortably full. You've eaten many a burger in your day, but never felt this full afterwards. Hopefully you'll be able to walk it off...</eventText>
+	</dialog>
+	<dialog id="5">
+		<eventText>You ignore the burger and carry on your path.</eventText>
 	</dialog>
 </event>

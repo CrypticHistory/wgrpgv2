@@ -100,11 +100,11 @@
 					"How'd I do?" you ask, feeling the beginnings of a food coma setting in.
 
 					"You did wonderfully! I should have known better than to force feed someone with such an appetite! Yes, I can feel our relationship is much better now! Here, I've wrapped up some more cupcakes for you to enjoy later! They're pretty heavy though, so you might want to get some exercise before you eat them!"</eventText>
-		<option id='6' action='giveItemMulti~9~6'>Accept</option>
+		<option id='6' action='giveItemMulti~9~6~1'>Accept</option>
 	</dialog>
 	<dialog id='6'>
 		<eventText>"Now to demonstrate the joys of maintaining positive relationships with your peers, I'll give you a *special* present! Please, take this enchanted shield, it should protect you on your journey!"</eventText>
-		<option id='7' action='giveItemWithSetEnchants~15~NULL~3~NULL'>Accept</option>
+		<option id='7' action='giveItemWithSetEnchants~15~NULL~3~NULL~1'>Accept</option>
 	</dialog>
 	<dialog id='7'>
 		<eventText>"Wonderful! Aren't relationships fun??" Seraphine beams. "Bye now! Stay safe! I wouldn't want anything bad to happen to my favourite feedee-- I mean friend!!"

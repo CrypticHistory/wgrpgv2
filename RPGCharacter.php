@@ -69,6 +69,8 @@ class RPGCharacter{
 	private $_arrRelationships;
 	private $_arrClasses;
 	private $_objCurrentClass;
+	private $_objParty;
+	private $_blnLastRoll;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
@@ -240,6 +242,7 @@ class RPGCharacter{
 		$this->loadRPGCharacterInfo($intRPGCharacterID, true, $intFace, $intBelly, $intBreasts, $intArms, $intLegs, $intButt);
 		$objTutorialEvent = new RPGEvent(2, $this->_intRPGCharacterID);
 		$this->setEvent($objTutorialEvent);
+		$this->_objParty = new RPGPlayerTeam($this);
 	}
 	
 	public function loadClasses(){
@@ -476,51 +479,75 @@ class RPGCharacter{
 		}
 	}
 	
-	public function giveItem($intItemID, $strClothingSize = null){
-		global $arrClothingSizes;
-		if($strClothingSize == null){
-			$strClothingSize = array_search(getClosest($this->getBMI(), array_values($arrClothingSizes)), $arrClothingSizes);
+	public function checkGiveItem($intItemID, $blnUniqueGift){
+		if($blnUniqueGift){
+			if(!$this->getEvent()->hasObtainedUniqueItem($intItemID)){
+				$this->getEvent()->obtainUniqueItem($intItemID);
+				return true;
+			}
+			else{
+				return false;
+			}
 		}
-		$objDB = new Database();
-		$objItem = new RPGItem($intItemID);
-		$strSQL = "INSERT INTO tblcharacteritemxr
-						(intRPGCharacterID, intItemID, intCaloriesRemaining, strSize, dtmDateAdded)
-					VALUES
-						(" . $objDB->quote($this->getRPGCharacterID()) . ", " . $objDB->quote($intItemID) . ", " . $objDB->quote($objItem->getCalories()) . ", " . $objDB->quote($strClothingSize) . ", NOW())";
-		$objDB->query($strSQL);
-		return $objDB->lastInsertID();
+		else{
+			return true;
+		}
 	}
 	
-	public function giveItemMulti($intItemID, $intAmount){
-		$objDB = new Database();
-		for($i=0;$i<$intAmount;$i++){
+	public function giveItem($intItemID, $strClothingSize = null, $blnUniqueGift = false){
+		global $arrClothingSizes;
+		$blnGiveItem = $this->checkGiveItem($intItemID, $blnUniqueGift);
+		if($blnGiveItem){
+			if($strClothingSize == null){
+				$strClothingSize = array_search(getClosest($this->getBMI(), array_values($arrClothingSizes)), $arrClothingSizes);
+			}
+			$objDB = new Database();
 			$objItem = new RPGItem($intItemID);
 			$strSQL = "INSERT INTO tblcharacteritemxr
 							(intRPGCharacterID, intItemID, intCaloriesRemaining, strSize, dtmDateAdded)
 						VALUES
-							(" . $objDB->quote($this->getRPGCharacterID()) . ", " . $objDB->quote($intItemID) . ", " . $objDB->quote($objItem->getCalories()) . ", NULL, NOW())";
+							(" . $objDB->quote($this->getRPGCharacterID()) . ", " . $objDB->quote($intItemID) . ", " . $objDB->quote($objItem->getCalories()) . ", " . $objDB->quote($strClothingSize) . ", NOW())";
 			$objDB->query($strSQL);
+			return $objDB->lastInsertID();
 		}
 	}
 	
-	public function giveItemWithSetEnchants($intItemID, $strClothingSize = null, $intPrefixID = null, $intSuffixID = null){
-		$objDB = new Database();
-		$objItem = new RPGItem($intItemID);
-		$strSQL = "INSERT INTO tblcharacteritemxr
-						(intRPGCharacterID, intItemID, intCaloriesRemaining, strSize, dtmDateAdded)
-					VALUES
-						(" . $objDB->quote($this->getRPGCharacterID()) . ", " . $objDB->quote($intItemID) . ", " . $objDB->quote($objItem->getCalories()) . ", " . $objDB->quote($strClothingSize) . ", NOW())";
-		$objDB->query($strSQL);
-		$itemInstanceID = $objDB->lastInsertID();
-		
-		$strSQL = "INSERT INTO tbliteminstanceenchant
-						(intItemInstanceID, intPrefixEnchantID, intSuffixEnchantID)
-					VALUES
-						(" . $objDB->quote($itemInstanceID) . ", " . $intPrefixID . ", " . $intSuffixID . ")";
-		$objDB->query($strSQL);
-		// this is a hack for being able to equip the cuirass during the tutorial
-		if($intItemID == 6){
-			$this->addOverride(3);
+	public function giveItemMulti($intItemID, $intAmount, $blnUniqueGift = false){
+		$blnGiveItem = $this->checkGiveItem($intItemID, $blnUniqueGift);
+		if($blnGiveItem){
+			$objDB = new Database();
+			for($i=0;$i<$intAmount;$i++){
+				$objItem = new RPGItem($intItemID);
+				$strSQL = "INSERT INTO tblcharacteritemxr
+								(intRPGCharacterID, intItemID, intCaloriesRemaining, strSize, dtmDateAdded)
+							VALUES
+								(" . $objDB->quote($this->getRPGCharacterID()) . ", " . $objDB->quote($intItemID) . ", " . $objDB->quote($objItem->getCalories()) . ", NULL, NOW())";
+				$objDB->query($strSQL);
+			}
+		}
+	}
+	
+	public function giveItemWithSetEnchants($intItemID, $strClothingSize = null, $intPrefixID = null, $intSuffixID = null, $blnUniqueGift = false){
+		$blnGiveItem = $this->checkGiveItem($intItemID, $blnUniqueGift);
+		if($blnGiveItem){
+			$objDB = new Database();
+			$objItem = new RPGItem($intItemID);
+			$strSQL = "INSERT INTO tblcharacteritemxr
+							(intRPGCharacterID, intItemID, intCaloriesRemaining, strSize, dtmDateAdded)
+						VALUES
+							(" . $objDB->quote($this->getRPGCharacterID()) . ", " . $objDB->quote($intItemID) . ", " . $objDB->quote($objItem->getCalories()) . ", " . $objDB->quote($strClothingSize) . ", NOW())";
+			$objDB->query($strSQL);
+			$itemInstanceID = $objDB->lastInsertID();
+			
+			$strSQL = "INSERT INTO tbliteminstanceenchant
+							(intItemInstanceID, intPrefixEnchantID, intSuffixEnchantID)
+						VALUES
+							(" . $objDB->quote($itemInstanceID) . ", " . $intPrefixID . ", " . $intSuffixID . ")";
+			$objDB->query($strSQL);
+			// this is a hack for being able to equip the cuirass during the tutorial
+			if($intItemID == 6){
+				$this->addOverride(3);
+			}
 		}
 	}
 	
@@ -592,7 +619,7 @@ class RPGCharacter{
 			$intHPPercentageRoll = mt_rand(1,8);
 			$intNewHPModifier = ((100 - $intHPPercentageRoll) / 100);
 			if($intHPLossRoll >= 90){
-				$this->setCurrentHP(floor($this->getCurrentHP() * $intNewHPModifier));
+				$this->setCurrentHP(max(1, floor($this->getCurrentHP() * $intNewHPModifier)));
 				$this->setHungerText("You double over, clutching your stomach in pain. Continually starving yourself like this will seriously affect your health!");
 			}
 			$this->getStats()->activateStarving();
@@ -1137,6 +1164,10 @@ class RPGCharacter{
 		return $intDamage;
 	}
 	
+	public function takeDamageNoDeath($intDamage){
+		$this->setCurrentHP(max(1, ($this->getCurrentHP() - $intDamage)));
+	}
+	
 	public function isDead(){
 		return intval($this->getCurrentHP()) <= 0 ? 1 : 0;
 	}
@@ -1176,6 +1207,10 @@ class RPGCharacter{
 	
 	public function setUserID($strUserID){
 		$this->_strUserID = $strUserID;
+	}
+	
+	public function getNPCName(){
+		return $this->_strRPGCharacterName;
 	}
 	
 	public function getRPGCharacterName(){
@@ -1378,18 +1413,51 @@ class RPGCharacter{
 		$this->_objEvent = $objEvent;
 	}
 	
-	public function setCombat($intEnemyID, $strFirstTurn = "Player", $blnNPCInstance = false){
+	public function getParty(){
+		return $this->_objParty;
+	}
+	
+	public function setParty($objParty){
+		$this->_objParty = $objParty;
+	}
+	
+	public function setCombat($intLeaderID, $intEnemyOne = null, $intEnemyTwo = null, $strFirstTurn = "Player", $blnNPCInstance = false){
+		if($intEnemyOne == "NULL"){
+			$intEnemyOne = null;
+		}
+		if($intEnemyTwo == "NULL"){
+			$intEnemyTwo = null;
+		}
 		global $arrStateValues;
 		$this->setStateID($arrStateValues["Combat"]);
-		if($intEnemyID == 0){
-				$this->_arrCombat["Enemy"] = $this->_objPotentialEnemy;
+		
+		$this->_arrCombat["EnemyTeam"] = new RPGEnemyTeam();
+		
+		// set enemy leader
+		if($intLeaderID == 0){
+			$this->_arrCombat["EnemyTeam"]->setLeader($this->_objPotentialEnemy->getLeader());
+			$this->_arrCombat["EnemyTeam"]->setEnemyOne($this->_objPotentialEnemy->getEnemyOne());
+			$this->_arrCombat["EnemyTeam"]->setEnemyTwo($this->_objPotentialEnemy->getEnemyTwo());
 		}
-		else if($blnNPCInstance && $intEnemyID > 0){
-			$this->_arrCombat["Enemy"] = $_SESSION['objRelationship'];
+		else if($blnNPCInstance && $intLeaderID > 0){
+			$this->_arrCombat["EnemyTeam"]->setLeader($_SESSION['objRelationship']);
+			if($intEnemyOne != null){
+				$this->_arrCombat["EnemyTeam"]->setEnemyOne($intEnemyOne);
+			}
+			if($intEnemyTwo != null){
+				$this->_arrCombat["EnemyTeam"]->setEnemyTwo($intEnemyTwo);
+			}
 		}
-		else if(!$blnNPCInstance && $intEnemyID > 0){
-			$this->_arrCombat["Enemy"] = new RPGNPC($intEnemyID);
+		else if(!$blnNPCInstance && $intLeaderID > 0){
+			$this->_arrCombat["EnemyTeam"]->setLeader(new RPGNPC($intLeaderID));
+			if($intEnemyOne != null){
+				$this->_arrCombat["EnemyTeam"]->setEnemyOne($intEnemyOne);
+			}
+			if($intEnemyTwo != null){
+				$this->_arrCombat["EnemyTeam"]->setEnemyTwo($intEnemyTwo);
+			}
 		}
+		
 		$this->_arrCombat["FirstTurn"] = $strFirstTurn;
 		if(isset($_SESSION['objUISettings']->getOverrides()[3])){
 			$this->removeOverride(3);
@@ -1397,32 +1465,32 @@ class RPGCharacter{
 	}
 	
 	public function clearCombat(){
-		$this->_arrCombat["Enemy"] = null;
+		$this->_arrCombat["EnemyTeam"] = null;
 		$this->_arrCombat["FirstTurn"] = null;
 	}
 	
 	public function getEnemyStartText(){
-		return $this->getPotentialEnemy()->getStartText();
+		return $this->getPotentialEnemy()->getLeader()->getStartText();
 	}
 	
 	public function getEnemyForceStartText(){
-		return $this->getPotentialEnemy()->getForceStartText();
+		return $this->getPotentialEnemy()->getLeader()->getForceStartText();
 	}
 	
 	public function getEnemyFleeText(){
-		return $this->getPotentialEnemy()->getFleeText();
+		return $this->getPotentialEnemy()->getLeader()->getFleeText();
 	}
 	
 	public function getEnemyFailFleeText(){
-		return $this->getPotentialEnemy()->getFailFleeText();
+		return $this->getPotentialEnemy()->getLeader()->getFailFleeText();
 	}
 	
 	public function getEnemyEndText(){
-		return $this->getPotentialEnemy()->getEndText();
+		return $this->getPotentialEnemy()->getLeader()->getEndText();
 	}
 	
 	public function getEnemyDefeatText(){
-		return $this->getPotentialEnemy()->getDefeatText();
+		return $this->getPotentialEnemy()->getLeader()->getDefeatText();
 	}
 	
 	public function gainExperience($intExpGain){
@@ -1615,6 +1683,7 @@ class RPGCharacter{
 		global $arrStateValues;
 		unset($_SESSION['objEnemy']);
 		unset($_SESSION['objRelationship']);
+		$this->_objParty = new RPGPlayerTeam($this);
 		$this->setTownID(0);
 		$this->setLocationID(NULL);
 		$this->setCurrentFloor($intFloorID);
@@ -1633,6 +1702,7 @@ class RPGCharacter{
 	
 	public function exitFloor($intLocationID){
 		global $arrStateValues;
+		unset($this->_objParty);
 		$this->setTownID(1);
 		$this->setLocationID($intLocationID);
 		$this->setCurrentFloor(NULL);
@@ -1750,8 +1820,8 @@ class RPGCharacter{
 		return $this->_objPotentialEnemy;
 	}
 	
-	public function setPotentialEnemy($objEnemyID){
-		$this->_objPotentialEnemy = $objEnemyID;
+	public function setPotentialEnemy($objEnemy){
+		$this->_objPotentialEnemy = $objEnemy;
 	}
 	
 	public function getCurrentHunger(){
@@ -1798,6 +1868,14 @@ class RPGCharacter{
 	
 	public function setReviveText($strReviveText){
 		$this->_strReviveText = $strReviveText;
+	}
+	
+	public function getLastRoll(){
+		return $this->_blnLastRoll;
+	}
+	
+	public function setLastRoll($blnRoll){
+		$this->_blnLastRoll = $blnRoll;
 	}
 	
 }

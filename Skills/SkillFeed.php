@@ -19,7 +19,7 @@ class SkillFeed{
 		$this->loadNPCFood($objNPC->getNPCID());
 		$objPlayer->forceEatItem($this->_objFood->getItemID());
 		// todo: strFeedText in tblnpcbattletext
-		$strReturnText = $objNPC->getNPCName() . " charges at you, stuffing your mouth with a " . $this->_objFood->getItemName() . ". You instinctively begin to chew, lest you choke on the food.";
+		$strReturnText = $objNPC->getNPCName() . " charges at " . $objPlayer->getNPCName() . ", stuffing their mouth with a " . $this->_objFood->getItemName() . ".";
 		return $strReturnText;
 	}
 	

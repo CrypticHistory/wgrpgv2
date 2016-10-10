@@ -3,6 +3,8 @@
 class DialogConditionFactory {
 
 	public static function evaluateCondition($strCondition){
+		
+		// determine which entity we evaluate the condition on
 		if(strpos($strCondition, 'Enemy') !== false){
 			$strSession = 'objEnemy';
 		}
@@ -12,6 +14,58 @@ class DialogConditionFactory {
 		else{
 			$strSession = 'objRPGCharacter';
 		}
+		
+		// if this is a stat roll condition
+		if(preg_match_all('/{(.*?)}/', $strCondition, $matches)){
+			// failure/success of previous roll
+			if($matches[1][0] == "LastRollFailed"){
+				if($_SESSION[$strSession]->getLastRoll() == 0){
+					$blnReturn = true;
+				}
+				else{
+					$blnReturn = false;
+				}
+			}
+			else if($matches[1][0] == "LastRollSucceeded"){
+				if($_SESSION[$strSession]->getLastRoll() == 1){
+					$blnReturn = true;
+				}
+				else{
+					$blnReturn = false;
+				}
+			}
+			else{
+				foreach($matches[1] as $key => $value){
+					$strSplit = explode("~", $value);
+					$strStatName = $strSplit[0];
+					$intStatValue = $strSplit[1];
+					$strQueryFunction = "getModified" . $strStatName;
+					$intCharacterStatValue = $_SESSION[$strSession]->$strQueryFunction();
+					
+					// if roll for this stat already exists in current dialog node
+					if($_SESSION['objRPGCharacter']->getEvent()->getRolls($strStatName) != 0){
+						$intStatRoll = $_SESSION['objRPGCharacter']->getEvent()->getRolls($strStatName);
+					}
+					else{
+						$intStatRoll = mt_rand(1, $intStatValue);
+						$_SESSION['objRPGCharacter']->getEvent()->setRolls($strStatName, $intStatRoll);
+					}
+					
+					if($intCharacterStatValue >= $intStatRoll){
+						$blnReturn = true;
+						$_SESSION[$strSession]->setLastRoll(1);
+					}
+					else{
+						$blnReturn = false;
+						$_SESSION[$strSession]->setLastRoll(0);
+						break;
+					}
+				}
+			}
+			return $blnReturn;
+		}
+		
+		// recursion for multiple conditions
 		if(strpos($strCondition, '&')){
 			$strSplit = explode('&', $strCondition);
 			$intSplitCount = count($strSplit);
@@ -54,6 +108,8 @@ class DialogConditionFactory {
 	}
 	
 	public static function evaluateAction($strAction){
+		
+		// determine which entity to evaluate the action on
 		if(strpos($strAction, 'Enemy') !== false){
 			$strSession = 'objEnemy';
 		}
@@ -63,6 +119,9 @@ class DialogConditionFactory {
 		else{
 			$strSession = 'objRPGCharacter';
 		}
+		
+		// todo: recursion for multiple actions
+		
 		if(strpos($strAction, '+')){
 			$variable = explode('+', $strAction);
 			$setFunction = 'set' . $variable[0];
@@ -87,7 +146,7 @@ class DialogConditionFactory {
 				$_SESSION[$strSession]->$function[0]();
 			}
 			else{
-				$_SESSION[$strSession]->$function[0]($function[1], (isset($function[2]) ? $function[2] : null), (isset($function[3]) ? $function[3] : null), (isset($function[4]) ? $function[4] : null));
+				$_SESSION[$strSession]->$function[0]($function[1], (isset($function[2]) ? $function[2] : null), (isset($function[3]) ? $function[3] : null), (isset($function[4]) ? $function[4] : null), (isset($function[5]) ? $function[5] : null));
 			}
 		}
 	}

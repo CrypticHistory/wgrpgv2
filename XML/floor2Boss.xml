@@ -156,7 +156,7 @@
 					She moves forward, her breasts jiggling with every step.
 
 					"I am a gatekeeper. I defend this tower for my queen. Defeat me to proceed."</eventText>
-		<option id="2" action="setCombat~8~Player">Fight!</option>
+		<option id="2" action="setCombat~8~NULL~NULL~Player">Fight!</option>
 	</dialog>
 	<dialog id="9">
 		<eventText>"Are the stories about the tower true?" you ask.

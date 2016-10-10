@@ -4,35 +4,52 @@
 
 	class RPGCombat{
 	
-		private $_intTurn;
-		private $_arrCombatMessage;
-		private $_intCurrPlayerWait;
-		private $_intCurrEnemyWait;
-		private $_objPlayer;
-		private $_objEnemy;
+		private $_intTurn; // turn counter
+		private $_arrCombatMessage; // output to combat window
+		private $_arrWaitTimes; // alive participant's wait times
+		private $_objPlayerTeam; // player team data
+		private $_objEnemyTeam; // enemy team data
 		private $_strFirstTurn; // who gets to attack first
+		private $_objTurnTaker; // specific entity who attacks next
+		private $_strTurnTaker; // specific name of entity who attacks next
 		private $_strCombatState; // in progress, victory, defeat, fled
-		private $_strNextTurn; // who attacks next
-		private $_strPrevTurn; // who attacked last
-		private $_blnEnemyConsecutiveAttacks = false; // to output exhausted message
+		private $_strNextTurn; // team that attacks next
+		private $_strPrevTurn; // team that attacked last
 	
-		public function RPGCombat($objPlayer, $objEnemy, $strFirstTurn){
+		public function RPGCombat($objPlayerTeam, $objEnemyTeam, $strFirstTurn){
 			$this->_intTurn = 1;
-			$this->_objPlayer = $objPlayer;
-			$this->_objEnemy = $objEnemy;
-			$this->_objEnemy->loadActiveSkillList();
+			$this->_objPlayerTeam = $objPlayerTeam;
+			$this->_objEnemyTeam = $objEnemyTeam;
+			$this->_objEnemyTeam->loadActiveSkillList();
+			$this->_objPlayerTeam->loadActiveSkillList();
 			$this->_strFirstTurn = $strFirstTurn;
 			$this->_arrCombatMessage = array();
 			$this->_arrCombatMessage["Combat"] = array();
 			$this->_arrCombatMessage["System"] = array();
+			$this->_arrWaitTimes = array();
 		}
 	
 		public function initiateCombat(){
 			$this->_arrCombatMessage["Combat"][1]["Player"] = "";
 			$this->_arrCombatMessage["Combat"][1]["Enemy"] = "";
 			$this->_strCombatState = 'In Progress';
-			$this->_intCurrPlayerWait = $this->_objPlayer->getWaitTime('Standard');
-			$this->_intCurrEnemyWait = $this->_objEnemy->getWaitTime('Standard');
+			
+			// initiate wait times and participant array
+			$this->_arrWaitTimes["Player"] = $this->_objPlayerTeam->getPlayer()->getWaitTime("Standard");
+			$this->_arrWaitTimes["Leader"] = $this->_objEnemyTeam->getLeader()->getWaitTime("Standard");
+			if($this->_objPlayerTeam->getPartyOne() != null){
+				$this->_arrWaitTimes["PartyOne"] = $this->_objPlayerTeam->getPartyOne()->getWaitTime("Standard");
+			}
+			if($this->_objPlayerTeam->getPartyTwo() != null){
+				$this->_arrWaitTimes["PartyTwo"] = $this->_objPlayerTeam->getPartyTwo()->getWaitTime("Standard");
+			}
+			if($this->_objEnemyTeam->getEnemyOne() != null){
+				$this->_arrWaitTimes["EnemyOne"] = $this->_objEnemyTeam->getEnemyOne()->getWaitTime("Standard");
+			}
+			if($this->_objEnemyTeam->getEnemyTwo() != null){
+				$this->_arrWaitTimes["EnemyTwo"] = $this->_objEnemyTeam->getEnemyTwo()->getWaitTime("Standard");
+			}
+			
 			if($this->_strFirstTurn == 'Player'){
 				$this->_strNextTurn = 'Player';
 				$this->_strPrevTurn = 'Player';
@@ -40,228 +57,353 @@
 			else{
 				$this->_strNextTurn = 'Opponent';
 				$this->_strPrevTurn = 'Opponent';
+				$this->_objTurnTaker = $this->_objEnemyTeam->getLeader();
+				$this->_strTurnTaker = "Leader";
+				$this->enemyTurn();
+				$this->determineNextTurn();
 			}
 		}
 		
 		public function determineNextTurn(){
 			
 			// check if anyone died
-			if($this->_objEnemy->isDead()){
+			if($this->_objPlayerTeam->getPlayer()->isDead() && isset($this->_arrWaitTimes["Player"])){
+				$this->_intTurn++;
+				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = "";
+				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] .= "You collapse to the ground in injury, defeated. ";
+				unset($this->_arrWaitTimes["Player"]);
+			}
+			else if(isset($this->_arrWaitTimes["PartyOne"]) && $this->_objPlayerTeam->getPartyOne()->isDead()){
+				$this->_intTurn++;
+				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = "";
+				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] .= $this->_objPlayerTeam->getPartyOne()->getNPCName() . " collapses to the ground in injury, defeated. ";
+				unset($this->_arrWaitTimes["PartyOne"]);
+			}
+			else if(isset($this->_arrWaitTimes["PartyTwo"]) && $this->_objPlayerTeam->getPartyTwo()->isDead()){
+				$this->_intTurn++;
+				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = "";
+				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] .= $this->_objPlayerTeam->getPartyTwo()->getNPCName() . " collapses to the ground in injury, defeated. ";
+				unset($this->_arrWaitTimes["PartyTwo"]);
+			}
+			else if(isset($this->_arrWaitTimes["Leader"]) && $this->_objEnemyTeam->getLeader()->isDead()){
+				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] .= $this->_objEnemyTeam->getLeader()->getNPCName() . " collapses to the ground in injury, defeated. ";
+				unset($this->_arrWaitTimes["Leader"]);
+			}
+			else if(isset($this->_arrWaitTimes["EnemyOne"]) && $this->_objEnemyTeam->getEnemyOne()->isDead()){
+				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] .= $this->_objEnemyTeam->getEnemyOne()->getNPCName() . " collapses to the ground in injury, defeated. ";
+				unset($this->_arrWaitTimes["EnemyOne"]);
+			}
+			else if(isset($this->_arrWaitTimes["EnemyTwo"]) && $this->_objEnemyTeam->getEnemyTwo()->isDead()){
+				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] .= $this->_objEnemyTeam->getEnemyTwo()->getNPCName() . " collapses to the ground in injury, defeated. ";
+				unset($this->_arrWaitTimes["EnemyTwo"]);
+			}
+
+			// check if everyone died
+			if($this->_objEnemyTeam->allDead()){
 				$this->_strCombatState = 'Victory';
 				
-				// death message
-				if($this->_objEnemy->getEndText() != ''){
-					$this->_arrCombatMessage["System"][] = $this->_objEnemy->getEndText();
-				}
-				else{
-					$this->_arrCombatMessage["System"][] = $this->_objEnemy->getNPCName() . ' collapses to the ground with injury.';
-				}
+				// victory message
+				$this->_arrCombatMessage["System"][] = "You have emerged victorious!";
 				
 				// exp gain
-				$intExpGain = $this->_objEnemy->getExperienceGiven();
-				$this->_objPlayer->gainExperience($intExpGain);
+				$intExpGain = $this->_objEnemyTeam->getExperienceGiven();
+				$this->_objPlayerTeam->gainExperience($intExpGain);
 				$this->_arrCombatMessage["System"][] = 'You gained <b>' . $intExpGain . ' experience</b> from the battle.';
 				
 				// receive money
-				if($this->_objEnemy->getGoldDropMax() != 0){
-					$intMoneyGain = mt_rand($this->_objEnemy->getGoldDropMin(), $this->_objEnemy->getGoldDropMax());
-					$this->_objPlayer->receiveGold($intMoneyGain);
+				if($this->_objEnemyTeam->getGoldDropMax() != 0){
+					$intMoneyGain = mt_rand($this->_objEnemyTeam->getGoldDropMin(), $this->_objEnemyTeam->getGoldDropMax());
+					$this->_objPlayerTeam->getPlayer()->receiveGold($intMoneyGain);
 					$this->_arrCombatMessage["System"][] = 'You picked up <b>' . $intMoneyGain . ' gold</b> from the enemy\'s remains.';
 				}
 				
 				// roll for loot
-				$arrDrops = $this->_objEnemy->getRandomDrops();
-				$intCounter = 1;
+				$arrDrops = $this->_objEnemyTeam->getRandomDrops();
 				foreach($arrDrops as $key => $value){
 					$this->_objPlayer->giveItem($key);
 					$this->_arrCombatMessage["System"][] = 'Loot received: ' . $value . '';
-					$intCounter++;
 				}
 				
 			}
-			else if($this->_objPlayer->isDead()){
+			else if($this->_objPlayerTeam->allDead()){
 				$this->_strCombatState = 'Defeat';
-				if($this->_objEnemy->getDefeatText() != ''){
-					$this->_arrCombatMessage["System"][] = $this->_objEnemy->getDefeatText();
-				}
-				else{
-					$this->_arrCombatMessage["System"][] = 'You collapse to the ground in injury. You are defeated.';
-				}
+				$this->_arrCombatMessage["System"][] = 'You have lost the battle.';
 			}
-			else{
+			else{	
 				$this->_intTurn++;
 				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = "";
 				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = "";
+				$this->_strTurnTaker = $this->getNextInLine();
 				// determine the next turn using AGI formula
-				if($this->_intCurrPlayerWait <= $this->_intCurrEnemyWait){
+				if($this->_strTurnTaker == "Player"){
 					//status effect check
-					if($this->_objPlayer->hasStatusEffect('Hypnotized')){
+					if($this->_objPlayerTeam->getPlayer()->hasStatusEffect('Hypnotized')){
 						//todo: random skills or action controlled by NPC?
 						$this->playerFriendlyFire();
-						$this->_objPlayer->tickStatusEffects();
+						$this->_objPlayerTeam->getPlayer()->tickStatusEffects();
 						$this->determineNextTurn();
 					}
 					else{
 						$this->_strNextTurn = 'Player';
 					}
 				}
+				else if($this->_strTurnTaker == "PartyOne" || $this->_strTurnTaker == "PartyTwo"){
+					$this->_strNextTurn = 'Party';
+				}
 				else{
 					$this->_strNextTurn = 'Opponent';
-					// consecutive opponent attacks means you were too exhausted to move
-					if($this->_strPrevTurn == 'Opponent' && $this->_strNextTurn == 'Opponent'){
-						$strMessage = "You stop to catch your breath, too exhausted to move. ";
-						if($this->_objPlayer->getBMI() > 40 && $this->_objPlayer->getBMI() <= 60){
-							$strMessage .= "Clearly the excess pounds have really done a number on your stamina.";
-						}
-						else if($this->_objPlayer->getBMI() > 60 && $this->_objPlayer->getBMI() <= 80){
-							$strMessage .= "Your belly heaves up and down with each deep breath you take. Fighting with this much extra weight puts you at a massive disadvantage on the battlefield.";
-						}
-						else if($this->_objPlayer->getBMI() > 80){
-							$strMessage .= "Despite your best efforts, maneuvering your oversized body in combat has proven to be too much for you. As your enemy prepares to charge at you again, you wonder if your sluggishness on the battlefield may lead to your demise.";
-						}
-						$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = $strMessage;
-					}
 				}
 			}
 			
 		}
 		
-		public function playerAttack(){
+		public function playerAttack($strTarget){
 			$this->_strPrevTurn = "Player";
-			$this->_intCurrPlayerWait += $this->_objPlayer->getWaitTime('Standard');
+			$this->_arrWaitTimes["Player"] += $this->_objPlayerTeam->getPlayer()->getWaitTime('Standard');
+			
+			$objTarget = $this->determineTarget($strTarget);
 			
 			$objRPGCombatHelper = new RPGCombatHelper();
 			
-			$intDamage = $this->_objEnemy->takeDamage($objRPGCombatHelper->calculateDamage($this->_objPlayer, $this->_objEnemy));
+			$intDamage = $objTarget->takeDamage($objRPGCombatHelper->calculateDamage($this->_objPlayerTeam->getPlayer(), $objTarget));
 			
 			if(!$objRPGCombatHelper->getEvaded()){
 				if($objRPGCombatHelper->getBlocked() && $objRPGCombatHelper->getCrit()){
-					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = "You land a critical blow on " . $this->_objEnemy->getNPCName() . " but they block the attack, sustaining " . $intDamage . " damage.";
+					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = "You land a critical blow on " . $objTarget->getNPCName() . " but they block the attack, sustaining " . $intDamage . " damage.";
 				}
+				
+				
 				else if($objRPGCombatHelper->getBlocked() && !$objRPGCombatHelper->getCrit()){
-					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = "You attack " . $this->_objEnemy->getNPCName() . " but they successfully block the attack, sustaining " . $intDamage . " damage.";
+					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = "You attack " . $objTarget->getNPCName() . " but they successfully block the attack, sustaining " . $intDamage . " damage.";
 				}
 				else if(!$objRPGCombatHelper->getBlocked() && $objRPGCombatHelper->getCrit()){
-					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = "You land a critical blow on " . $this->_objEnemy->getNPCName() . ", dealing " . $intDamage . " damage.";
+					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = "You land a critical blow on " . $objTarget->getNPCName() . ", dealing " . $intDamage . " damage.";
 				}
 				else{
-					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = "You attack " . $this->_objEnemy->getNPCName() . " for " . $intDamage . " damage.";
+					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = "You attack " . $objTarget->getNPCName() . " for " . $intDamage . " damage.";
 				}
 			}
 			else{
-				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = "You attack " . $this->_objEnemy->getNPCName() . " but your attack is evaded.";
+				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = "You attack " . $objTarget->getNPCName() . " but your attack is evaded.";
 			}
 		}
 		
-		public function playerSkill($intSkillID){
+		public function playerSkill($intSkillID, $strTarget){
+			$objTarget = $this->determineTarget($strTarget);
 			// todo
 		}
 		
 		public function playerWait(){
 			$this->_strPrevTurn = "Player";
-			$this->_intCurrPlayerWait += $this->_objPlayer->getWaitTime('Standard');
+			$this->_arrWaitTimes["Player"] += $this->_objPlayerTeam->getPlayer()->getWaitTime('Standard');
 			$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = "You stand still, doing absolutely nothing...";
 		}
 		
 		public function playerFlee(){
-			$intPlayerFleeRoll = mt_rand(1, $this->_objPlayer->getModifiedFleeRate());
+			$intPlayerFleeRoll = mt_rand(1, $this->_objPlayerTeam->getPlayer()->getModifiedFleeRate());
 			
-			if($intPlayerFleeRoll >= $this->_objEnemy->getModifiedFleeResistance()){
-				if($this->_objEnemy->getFleeText() != ''){
-					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = $this->_objEnemy->getFleeText();
-				}
-				else{
-					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = 'You fled from the battle.';
-				}
+			if($intPlayerFleeRoll >= $this->_objEnemyTeam->getLeader()->getModifiedFleeResistance()){
+				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = 'You fled from the battle.';
 				$this->_strCombatState = 'Fled';	
 			}
 			else{
 				$this->_strPrevTurn = "Player";
-				$this->_intCurrPlayerWait += $this->_objPlayer->getWaitTime('Standard');
-				if($this->_objEnemy->getFailFleeText() != ''){
-					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = $this->_objEnemy->getFailFleeText();
-				}
-				else{
-					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = "You attempt to flee but fail, opening yourself up to an attack.";
-				}
+				$this->_arrWaitTimes["Player"] += $this->_objPlayerTeam->getPlayer()->getWaitTime('Standard');
+				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = "You attempt to flee but fail, opening yourself up to an attack.";
 			}
 		}
 		
 		public function playerFriendlyFire(){
 			$this->_strPrevTurn = "Player";
-			$this->_intCurrPlayerWait += $this->_objPlayer->getWaitTime('Standard');
+			$this->_arrWaitTimes["Player"] += $this->_objPlayerTeam->getPlayer()->getWaitTime('Standard');
 			
-			if($this->_objPlayer->getEquippedWeapon()->getStatDamage() === null || $this->_objPlayer->getEquippedWeapon()->getStatDamage() == 'Strength'){
-				$intDamage = $this->_objPlayer->takeDamage(round($this->_objPlayer->getModifiedDamage()));
+			if($this->_objPlayerTeam->getPlayer()->getEquippedWeapon()->getStatDamage() === null || $this->_objPlayerTeam->getPlayer()->getEquippedWeapon()->getStatDamage() == 'Strength'){
+				$intDamage = $this->_objPlayerTeam->getPlayer()->takeDamage(round($this->_objPlayerTeam->getPlayer()->getModifiedDamage()));
 			}
-			else if($this->_objPlayer->getEquippedWeapon()->getStatDamage() == 'Intelligence'){
-				$intDamage = $this->_objPlayer->takeDamage(round($this->_objPlayer->getModifiedMagicDamage()));	
+			else if($this->_objTurnTaker->getEquippedWeapon()->getStatDamage() == 'Intelligence'){
+				$intDamage = $this->_objPlayerTeam->getPlayer()->takeDamage(round($this->_objPlayerTeam->getPlayer()->getModifiedMagicDamage()));	
 			}
-			$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = "You attack yourself for " . $intDamage . " damage under hypnosis.";
+			$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = "You attack yourself for " . $intDamage . " damage under hypnosis. ";
 		}
 		
 		public function enemyTurn(){
 			// load enemy AI
-			$strAIName = $this->_objEnemy->getAIName();
+			$strAIName = $this->_objTurnTaker->getAIName();
 			include_once "AI/" . $strAIName . ".php";
-			$objAI = new $strAIName($this->_objEnemy);
-			$strAction = $objAI->determineAction();
+			$objAI = new $strAIName($this->_objTurnTaker, $this->_objPlayerTeam->getPlayer(), $this->_objEnemyTeam->getLeader(), $this->_objEnemyTeam->getEnemyOne(), $this->_objEnemyTeam->getEnemyTwo(), $this->_objPlayerTeam->getPartyOne(), $this->_objPlayerTeam->getPartyTwo());
+			$strAction = $objAI->determineActionEnemy();
+			$objTarget = $objAI->getTarget();
 			
 			if($strAction == 'Attack'){
-				$this->enemyAttack();
+				$this->enemyAttack($objTarget);
 			}
 			else if(strpos($strAction, 'Skill') !== false){
 				include_once "Skills/" . $strAction . ".php";
 				$objSkill = new $strAction();
 				$intWaitTime = $objSkill->getWaitTime();
 				$this->_strPrevTurn = "Opponent";
-				$this->_intCurrEnemyWait += $this->_objEnemy->getWaitTime($intWaitTime);
-				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = $objSkill->castedByNPC($this->_objPlayer, $this->_objEnemy);
+				$this->_arrWaitTimes[$this->_strTurnTaker] += $this->_objTurnTaker->getWaitTime($intWaitTime);
+				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = $objSkill->castedByNPC($objTarget, $this->_objTurnTaker);
 			}
 			else{
 				$this->enemyWait();
 			}
 		}
 		
-		public function enemyAttack(){
+		public function enemyAttack($objTarget){
 			$this->_strPrevTurn = "Opponent";
-			$this->_intCurrEnemyWait += $this->_objEnemy->getWaitTime('Standard');
+			$this->_arrWaitTimes[$this->_strTurnTaker] += $this->_objTurnTaker->getWaitTime('Standard');
 			
 			$objRPGCombatHelper = new RPGCombatHelper();
 
-			$intDamage = $this->_objPlayer->takeDamage($objRPGCombatHelper->calculateDamage($this->_objEnemy, $this->_objPlayer));
+			$intDamage = $objTarget->takeDamage($objRPGCombatHelper->calculateDamage($this->_objTurnTaker, $objTarget));
 			
 			if(!$objRPGCombatHelper->getEvaded()){
 				if($objRPGCombatHelper->getBlocked() && $objRPGCombatHelper->getCrit()){
-					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = $this->_objEnemy->getNPCName() . " lands a critical blow on you but you block it, sustaining " . $intDamage . " damage.";
+					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = $this->_objTurnTaker->getNPCName() . " lands a critical blow on " . $objTarget->getNPCName() . " but " . $objTarget->getNPCName() . " blocks it, sustaining " . $intDamage . " damage.";
 				}
 				else if($objRPGCombatHelper->getBlocked() && !$objRPGCombatHelper->getCrit()){
-					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = $this->_objEnemy->getNPCName() . " attacks you and you block the attack, sustaining " . $intDamage . " damage.";
+					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = $this->_objTurnTaker->getNPCName() . " attacks " . $objTarget->getNPCName() . " and " . $objTarget->getNPCName() . " blocks the attack, sustaining " . $intDamage . " damage.";
 				}
 				else if(!$objRPGCombatHelper->getBlocked() && $objRPGCombatHelper->getCrit()){
-					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = $this->_objEnemy->getNPCName() . " lands a critical blow on you, dealing " . $intDamage . " damage.";
+					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = $this->_objTurnTaker->getNPCName() . " lands a critical blow on " . $objTarget->getNPCName() . ", dealing " . $intDamage . " damage.";
 				}
 				else{
-					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = $this->_objEnemy->getNPCName() . " attacks you for " . $intDamage . " damage.";
+					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = $this->_objTurnTaker->getNPCName() . " attacks " . $objTarget->getNPCName() . " for " . $intDamage . " damage.";
 				}
 			}
 			else{
-				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = $this->_objEnemy->getNPCName() . " attacks you but you successfully evade the attack.";
+				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = $this->_objTurnTaker->getNPCName() . " attacks " . $objTarget->getNPCName() . " but " . $objTarget->getNPCName() . " successfully evades the attack.";
 			}
 		}
 		
 		public function enemyWait(){
 			$this->_strPrevTurn = "Opponent";
-			$this->_intCurrEnemyWait += $this->_objEnemy->getWaitTime('Standard');
-			$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = $this->_objEnemy->getNPCName() . " stands still, doing absolutely nothing...";
+			$this->_arrWaitTimes[$this->_strTurnTaker] += $this->_objTurnTaker->getWaitTime('Standard');
+			$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = $this->_objTurnTaker->getNPCName() . " stands still, doing absolutely nothing...";
 		}
 		
-		public function getPlayer(){
-			return $this->_objPlayer;
+		public function partyTurn(){
+			// load party member AI
+			$strAIName = $this->_objTurnTaker->getAIName();
+			include_once "AI/" . $strAIName . ".php";
+			$objAI = new $strAIName($this->_objTurnTaker, $this->_objPlayerTeam->getPlayer(), $this->_objEnemyTeam->getLeader(), $this->_objEnemyTeam->getEnemyOne(), $this->_objEnemyTeam->getEnemyTwo(), $this->_objPlayerTeam->getPartyOne(), $this->_objPlayerTeam->getPartyTwo());
+			$strAction = $objAI->determineActionParty();
+			$objTarget = $objAI->getTarget();
+			
+			if($strAction == 'Attack'){
+				$this->partyAttack($objTarget);
+			}
+			else if(strpos($strAction, 'Skill') !== false){
+				include_once "Skills/" . $strAction . ".php";
+				$objSkill = new $strAction();
+				$intWaitTime = $objSkill->getWaitTime();
+				$this->_strPrevTurn = "Party";
+				$this->_arrWaitTimes[$this->_strTurnTaker] += $this->_objTurnTaker->getWaitTime($intWaitTime);
+				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = $objSkill->castedByNPC($this->_objTarget, $this->_objTurnTaker);
+			}
+			else{
+				$this->partyWait();
+			}
 		}
 		
-		public function getEnemy(){
-			return $this->_objEnemy;
+		public function partyAttack($objTarget){
+			$this->_strPrevTurn = "Party";
+			$this->_arrWaitTimes[$this->_strTurnTaker] += $this->_objTurnTaker->getWaitTime('Standard');
+			
+			$objRPGCombatHelper = new RPGCombatHelper();
+
+			$intDamage = $objTarget->takeDamage($objRPGCombatHelper->calculateDamage($this->_objTurnTaker, $objTarget));
+			
+			if(!$objRPGCombatHelper->getEvaded()){
+				if($objRPGCombatHelper->getBlocked() && $objRPGCombatHelper->getCrit()){
+					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = $this->_objTurnTaker->getNPCName() . " lands a critical blow on " . $objTarget->getNPCName() . " but " . $objTarget->getNPCName() . " blocks it, sustaining " . $intDamage . " damage.";
+				}
+				else if($objRPGCombatHelper->getBlocked() && !$objRPGCombatHelper->getCrit()){
+					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = $this->_objTurnTaker->getNPCName() . " attacks " . $objTarget->getNPCName() . " and " . $objTarget->getNPCName() . " blocks the attack, sustaining " . $intDamage . " damage.";
+				}
+				else if(!$objRPGCombatHelper->getBlocked() && $objRPGCombatHelper->getCrit()){
+					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = $this->_objTurnTaker->getNPCName() . " lands a critical blow on " . $objTarget->getNPCName() . ", dealing " . $intDamage . " damage.";
+				}
+				else{
+					$this->_arrCombatMessage["Combat"][$this->_intTurn]["Party"] = $this->_objTurnTaker->getNPCName() . " attacks " . $objTarget->getNPCName() . " for " . $intDamage . " damage.";
+				}
+			}
+			else{
+				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Party"] = $this->_objTurnTaker->getNPCName() . " attacks " . $objTarget->getNPCName() . " but " . $objTarget->getNPCName() . " successfully evades the attack.";
+			}
+		}
+		
+		public function partyFriendlyFire(){
+			$this->_strPrevTurn = "Party";
+			$this->_arrWaitTimes[$this->_strTurnTaker] += $this->_objTurnTaker->getWaitTime('Standard');
+			
+			if($this->_objTurnTaker->getEquippedWeapon()->getStatDamage() === null || $this->_objTurnTaker->getEquippedWeapon()->getStatDamage() == 'Strength'){
+				$intDamage = $this->_objTurnTaker->takeDamage(round($this->_objTurnTaker->getModifiedDamage()));
+			}
+			else if($this->_objTurnTaker->getEquippedWeapon()->getStatDamage() == 'Intelligence'){
+				$intDamage = $this->_objTurnTaker->takeDamage(round($this->_objTurnTaker->getModifiedMagicDamage()));	
+			}
+			$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = " " . $this->_objTurnTaker->getNPCName() . " attacks themselves for " . $intDamage . " damage under hypnosis.";
+		}
+		
+		public function partyWait(){
+			$this->_strPrevTurn = "Party";
+			$this->_arrWaitTimes[$this->_strTurnTaker] += $this->_objTurnTaker->getWaitTime('Standard');
+			$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] = $this->_objTurnTaker->getNPCName() . " stands still, doing absolutely nothing...";
+		}
+		
+		public function getNextInLine(){
+			$strTurnTaker = min(array_keys($this->_arrWaitTimes, min($this->_arrWaitTimes)));
+			if($strTurnTaker == "Player"){
+				$this->_objTurnTaker = $this->_objPlayerTeam->getPlayer();
+			}
+			else if($strTurnTaker == "PartyOne"){
+				$this->_objTurnTaker = $this->_objPlayerTeam->getPartyOne();
+			}
+			else if($strTurnTaker == "PartyTwo"){
+				$this->_objTurnTaker = $this->_objPlayerTeam->getPartyTwo();
+			}
+			else if($strTurnTaker == "Leader"){
+				$this->_objTurnTaker = $this->_objEnemyTeam->getLeader();
+			}
+			else if($strTurnTaker == "EnemyOne"){
+				$this->_objTurnTaker = $this->_objEnemyTeam->getEnemyOne();
+			}
+			else if($strTurnTaker == "EnemyTwo"){
+				$this->_objTurnTaker = $this->_objEnemyTeam->getEnemyTwo();
+			}
+			return $strTurnTaker;
+		}
+		
+		public function determineTarget($strTarget){
+			if($strTarget == "Player"){
+				$objTarget = $this->_objPlayerTeam->getPlayer();
+			}
+			else if($strTarget == "PartyOne"){
+				$objTarget = $this->_objPlayerTeam->getPartyOne();
+			}
+			else if($strTarget == "PartyTwo"){
+				$objTarget = $this->_objPlayerTeam->getPartyTwo();
+			}
+			else if($strTarget == "Leader"){
+				$objTarget = $this->_objEnemyTeam->getLeader();
+			}
+			else if($strTarget == "EnemyOne"){
+				$objTarget = $this->_objEnemyTeam->getEnemyOne();
+			}
+			else if($strTarget == "EnemyTwo"){
+				$objTarget = $this->_objEnemyTeam->getEnemyTwo();
+			}
+			return $objTarget;
+		}
+		
+		public function getPlayerTeam(){
+			return $this->_objPlayerTeam;
+		}
+		
+		public function getEnemyTeam(){
+			return $this->_objEnemyTeam;
 		}
 		
 		public function getCombatMessage($strIndex){
@@ -282,6 +424,10 @@
 		
 		public function getTurnCount(){
 			return $this->_intTurn;
+		}
+		
+		public function getWaitTimes(){
+			return $this->_arrWaitTimes;
 		}
 		
 	}

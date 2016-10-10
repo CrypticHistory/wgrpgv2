@@ -124,7 +124,7 @@ class DisplayGameUI extends DataGameUI{
 							strInventoryFrame: strTabName
 						},
 						error: function(textStatus, errorThrown){
-							alert(textStatus);
+							alert("Error processing ajax request; Please refresh page and try again.");
 						}
 				});
 				

@@ -34,6 +34,7 @@ class RPGNPC{
 	private $_objEquippedTop;
 	private $_objEquippedBottom;
 	private $_objEquippedSecondary;
+	private $_blnLastRoll;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
@@ -134,6 +135,14 @@ class RPGNPC{
 				$this->_arrActiveSkillList[$strSkillType][$key]->setCurrentCooldown(0);
 			}
 		}
+	}
+	
+	public function addToStatusEffects(){
+		// todo
+	}
+	
+	public function hasStatusEffect($strStatusEffect){
+		// todo
 	}
 	
 	public function takeDamage($intDamage){
@@ -599,6 +608,14 @@ class RPGNPC{
 	
 	public function getActiveSkillList($strSkillType){
 		return $this->_arrActiveSkillList[$strSkillType];
+	}
+	
+	public function getLastRoll(){
+		return $this->_blnLastRoll;
+	}
+	
+	public function setLastRoll($blnRoll){
+		$this->_blnLastRoll = $blnRoll;
 	}
 }
 

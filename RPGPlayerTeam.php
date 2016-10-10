@@ -1,0 +1,78 @@
+<?php
+
+	class RPGPlayerTeam{
+		
+		private $_objPlayer;
+		private $_objPartyOne;
+		private $_objPartyTwo;
+		
+		public function RPGPlayerTeam($objPlayer = null, $objPartyOne = null, $objPartyTwo = null){
+			$this->_objPlayer = $objPlayer;
+			$this->_objPartyOne = $objPartyOne;
+			$this->_objPartyTwo = $objPartyTwo;
+		}
+		
+		public function getPlayer(){
+			return $this->_objPlayer;
+		}
+		
+		public function setPlayer($objPlayer){
+			$this->_objPlayer = $objPlayer;
+		}
+		
+		public function getPartyOne(){
+			return $this->_objPartyOne;
+		}
+		
+		public function setPartyOne($objPartyOne){
+			$this->_objPartyOne = $objPartyOne;
+		}
+		
+		public function getPartyTwo(){
+			return $this->_objPartyTwo;
+		}
+		
+		public function setPartyTwo($objPartyTwo){
+			$this->_objPartyTwo = $objPartyTwo;
+		}
+		
+		public function loadActiveSkillList(){
+			if($this->_objPartyOne != null){
+				$this->_objPartyOne->loadActiveSkillList();
+			}
+			if($this->_objPartyTwo != null){
+				$this->_objPartyTwo->loadActiveSkillList();
+			}
+		}
+		
+		public function isAnyDead(){
+			if($this->_objPlayer->isDead() || ($this->_objPartyOne != null && $this->_objPartyOne->isDead()) || ($this->_objPartyTwo != null && $this->_objPartyTwo->isDead())){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		
+		public function allDead(){
+			if($this->_objPlayer->isDead() && ($this->_objPartyOne == null || $this->_objPartyOne->isDead()) && ($this->_objPartyTwo == null || $this->_objPartyTwo->isDead())){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		
+		public function gainExperience($intAmount){
+			$this->_objPlayer->gainExperience($intAmount);
+			if($this->_objPartyOne != null){
+				$this->_objPartyOne->gainExperience($intAmount);
+			}
+			if($this->_objPartyTwo != null){
+				$this->_objPartyTwo->gainExperience($intAmount);
+			}
+		}
+		
+	}
+
+?>

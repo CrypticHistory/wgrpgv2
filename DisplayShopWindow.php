@@ -395,7 +395,7 @@ class DisplayShopWindow{
 					echo "You do not have permission to view this shop.";
 				}
 				if(isset($_SESSION['strShopError'])){
-					echo $_SESSION['strShopError'];
+					echo "<div class='insideEvent'>" . $_SESSION['strShopError'] . "</div>";
 					unset($_SESSION['strShopError']);
 				}
 			?>

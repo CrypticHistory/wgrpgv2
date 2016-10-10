@@ -29,7 +29,7 @@
 						else{
 							if(strpos($value, "Enemy")){
 								$newValue = str_replace("Enemy", "", $value);
-								$strCommand = str_replace($matches[0][$key], $_SESSION['objRPGCharacter']->getPotentialEnemy()->$newValue(), $strCommand);
+								$strCommand = str_replace($matches[0][$key], $_SESSION['objRPGCharacter']->getPotentialEnemy()->getLeader()->$newValue(), $strCommand);
 							}
 							else{
 								$strCommand = str_replace($matches[0][$key], $_SESSION['objRPGCharacter']->$value(), $strCommand);
@@ -40,6 +40,7 @@
 				DialogConditionFactory::evaluateAction(strval($strCommand));
 			}
 			$objEvent->setEventNodeID($_POST['command']);
+			$objEvent->clearRolls();
 		}
 	}
 	

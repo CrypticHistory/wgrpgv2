@@ -64,6 +64,19 @@ class RPGShop{
 		return $arrRow['strLinkName'];
 	}
 	
+	public function hasItem($intItemID){
+		if(!empty($this->_arrShopInv[$intItemID])){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public function getItemPrice($intItemID){
+		return $this->_arrShopInv[$intItemID]['dblPrice'];
+	}
+	
 	public function getShopID(){
 		return $this->_intShopID;
 	}

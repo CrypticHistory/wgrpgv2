@@ -5,6 +5,7 @@ include_once "Lottery.php";
 include_once "RPGEvent.php";
 include_once "Maze.php";
 include_once "RPGNPC.php";
+include_once "RPGEnemyTeam.php";
 
 class RPGFloor{
 
@@ -82,13 +83,16 @@ class RPGFloor{
 	
 	public function setApplicableEnemies(){
 		$objDB = new Database();
-		$strSQL = "SELECT intNPCID, intOccurrenceRating
+		$strSQL = "SELECT intFloorNPCXRID, intNPCID, intNPCID2, intNPCID3, intOccurrenceRating
 					FROM tblfloornpcxr
 						WHERE intFloorID = " . $objDB->quote($this->getFloorID()) . "
 							AND intOccurrenceRating <> 9999";
 		$rsResult = $objDB->query($strSQL);
 		while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
-			$this->_arrApplicableEnemies[$arrRow['intNPCID']] = $arrRow['intOccurrenceRating'];
+			$this->_arrApplicableEnemies[$arrRow['intFloorNPCXRID']]['intOccurrenceRating'] = $arrRow['intOccurrenceRating'];
+			$this->_arrApplicableEnemies[$arrRow['intFloorNPCXRID']]['intNPCID'] = $arrRow['intNPCID'];
+			$this->_arrApplicableEnemies[$arrRow['intFloorNPCXRID']]['intNPCID2'] = $arrRow['intNPCID2'];
+			$this->_arrApplicableEnemies[$arrRow['intFloorNPCXRID']]['intNPCID3'] = $arrRow['intNPCID3'];
 		}
 	}
 	
@@ -102,10 +106,25 @@ class RPGFloor{
 	
 	public function getRandomEnemy(){
 		$objLottery = new Lottery();
-		foreach($this->getApplicableEnemies() as $key => $value){
-			$objLottery->addEntry($key, $value);
+		foreach($this->getApplicableEnemies() as $key => $arrEnemyInfo){
+			$objLottery->addEntry($key, $arrEnemyInfo['intOccurrenceRating']);
 		}
-		return new RPGNPC($objLottery->getWinner());
+		$intWinner = $objLottery->getWinner();
+		$objEnemyTeam = new RPGEnemyTeam();
+		$objEnemyTeam->setLeader(new RPGNPC($this->_arrApplicableEnemies[$intWinner]['intNPCID']));
+		if(isset($this->_arrApplicableEnemies[$intWinner]['intNPCID2'])){
+			$objEnemyTeam->setEnemyOne(new RPGNPC($this->_arrApplicableEnemies[$intWinner]['intNPCID2']));
+		}
+		else{
+			$objEnemyTeam->setEnemyOne(null);
+		}
+		if(isset($this->_arrApplicableEnemies[$intWinner]['intNPCID3'])){
+			$objEnemyTeam->setEnemyTwo(new RPGNPC($this->_arrApplicableEnemies[$intWinner]['intNPCID3']));
+		}
+		else{
+			$objEnemyTeam->setEnemyTwo(null);
+		}
+		return $objEnemyTeam;
 	}
 	
 	public function pickFromApplicableEvents(){

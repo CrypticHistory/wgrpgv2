@@ -6,8 +6,8 @@
 	<precondition>CurrentFloorID=1</precondition>
 	<dialog id='0'>
 		<eventText>A section of the ceiling has collapsed up ahead. As you approach the rubble you notice a {EventItem} protruding from underneath a particularly large slab. You consider trying to move the slab to free the {EventItem}.</eventText>
-		<option id='1' precondition="ModifiedStrength&lt;15">Move the slab</option>
-		<option id='2' action="giveItem~{EventItem}" precondition="ModifiedStrength&gt;14">Move the slab</option>
+		<option id='2' action="giveItem~{EventItem}" precondition="{Strength~15}">Move the slab</option>
+		<option id='1' precondition="{LastRollFailed}">Move the slab</option>
 		<option id='3'>Leave it be</option>
 	</dialog>
 	<dialog id='1'>

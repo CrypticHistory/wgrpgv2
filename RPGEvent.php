@@ -17,6 +17,7 @@ class RPGEvent{
 	private $_intConversationLevel;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
+	private $_arrRolls;
 	private $_dtmModifiedOn;
 	private $_strModifiedBy;
 	private $_intRPGCharacterID;
@@ -74,6 +75,16 @@ class RPGEvent{
 		$this->_intEventNodeID = 0;
 		$this->loadApplicableEventItems();
 		$this->loadRandomEventItem();
+		$this->initRolls();
+	}
+	
+	public function initRolls(){
+		$this->_arrRolls["Strength"] = 0;
+		$this->_arrRolls["Intelligence"] = 0;
+		$this->_arrRolls["Vitality"] = 0;
+		$this->_arrRolls["Agility"] = 0;
+		$this->_arrRolls["Dexterity"] = 0;
+		$this->_arrRolls["Willpower"] = 0;
 	}
 	
 	public function getLinkName($intLocationID){
@@ -104,6 +115,26 @@ class RPGEvent{
 		$rsResult = $objDB->query($strSQL);
 		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
 		$this->_blnHasViewedEvent = isset($arrRow['intEventID']) ? true : false;
+	}
+	
+	public function hasObtainedUniqueItem($intItemID){
+		$objDB = new Database();
+		$strSQL = "SELECT intItemID FROM tbluniqueeventgifts
+					WHERE intEventID = " . $objDB->quote($this->_intEventID) . " AND
+							intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID) . " AND
+							intItemID = " . $objDB->quote($intItemID);
+		$rsResult = $objDB->query($strSQL);
+		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
+		return (isset($arrRow['intItemID']) ? true : false);
+	}
+	
+	public function obtainUniqueItem($intItemID){
+		$objDB = new Database();
+		$strSQL = "INSERT INTO tbluniqueeventgifts
+						(intRPGCharacterID, intEventID, intItemID, dtmDateObtained)
+					VALUES
+						(" . $objDB->quote($this->_intRPGCharacterID) . ", " . $objDB->quote($this->_intEventID) . ", " . $objDB->quote($intItemID) . ", NOW())";
+		$objDB->query($strSQL);
 	}
 	
 	public function hasViewedEvent(){
@@ -271,6 +302,20 @@ class RPGEvent{
 	
 	public function setModifiedBy($strModifiedBy){
 		$this->_strModifiedBy = $strModifiedBy;
+	}
+	
+	public function getRolls($strIndex){
+		return $this->_arrRolls[$strIndex];
+	}
+	
+	public function setRolls($strIndex, $intValue){
+		$this->_arrRolls[$strIndex] = $intValue;
+	}
+	
+	public function clearRolls(){
+		foreach($this->_arrRolls as $strIndex => $intValue){
+			$this->_arrRolls[$strIndex] = 0;
+		}
 	}
 }
 

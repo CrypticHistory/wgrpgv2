@@ -80,11 +80,11 @@ class Maze{
 		// roll to see what type of event this square will contain
 		$dblEventRoll = mt_rand(1, 100);
 		
-		if($dblEventRoll <= 80){
-			$this->_arrEvents[$intX][$intY] = "S"; // standstill (no event) - 80%
+		if($dblEventRoll <= 75){
+			$this->_arrEvents[$intX][$intY] = "S"; // standstill (no event) - 75%
 		}
 		else{
-			$this->_arrEvents[$intX][$intY] = "C"; // combat - 20%
+			$this->_arrEvents[$intX][$intY] = "C"; // combat - 25%
 		}
 		
 		// while there is an unvisited neighbor
