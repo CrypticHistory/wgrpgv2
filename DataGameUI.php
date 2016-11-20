@@ -22,15 +22,13 @@ class DataGameUI{
 		// town events are accessed using the URL ($_GET)
 		$this->handleTownEvents();
 		$objEvent = $_SESSION['objRPGCharacter']->getEvent();
-		
 		$blnEndOfEvent = $objEvent->checkEndOfEvent();
-
 		$objXML = new RPGXMLReader($objEvent->getXML());
 		
 		// handle social link inside current event if one exists
 		if(!$blnEndOfEvent && $objEvent->getNPCID() != null && $objEvent->getConversationLevel() != null){
 			// first conversation with NPC
-			if($objEvent->getConversationLevel() == 0 && !isset($_SESSION['objRelationship'])){
+			if($objEvent->getConversationLevel() == 0 && !isset($_SESSION['objRelationship']) && !$objEvent->hasViewedEvent()){
 				$_SESSION['objRelationship'] = new RPGRelationship($objEvent->getNPCID(), $_SESSION['objRPGCharacter']->getRPGCharacterID(), true);
 			}
 			else if(!isset($_SESSION['objRelationship'])){
@@ -38,18 +36,20 @@ class DataGameUI{
 			}
 			
 			// if this conversation level is too high, show standstill
-			if($objEvent->getConversationLevel() != null && (($_SESSION['objRelationship']->getConversationLevel() != null && $objEvent->getConversationLevel() != $_SESSION['objRelationship']->getConversationLevel() + 1) || $_SESSION['objRelationship']->getConversationLevel() == null)){
+			if($_SESSION['objRPGCharacter']->getTownID() == 0 && $objEvent->getConversationLevel() != null && (($_SESSION['objRelationship']->getConversationLevel() != null && $objEvent->getConversationLevel() != $_SESSION['objRelationship']->getConversationLevel() + 1) || $_SESSION['objRelationship']->getConversationLevel() == null)){
 				$objEvent = $_SESSION['objRPGCharacter']->getCurrentFloor()->getStandstill($_SESSION['objRPGCharacter']->getRPGCharacterID());
 				$_SESSION['objRPGCharacter']->setEvent($objEvent);
 				$blnEndOfEvent = true;
 				unset($_SESSION['objRelationship']);
 			}
-			
 		}
 		
 		// increment conversation level of social link within current event
 		if($blnEndOfEvent && isset($_SESSION['objRelationship']) && $objEvent->getNPCID() != null && $objEvent->getConversationLevel() != null){
-			$_SESSION['objRelationship']->incrementConversationLevel();
+			// prevent incrementing convo level if the one in the event is less than your current (allows for revisiting convos)
+			if($objEvent->getConversationLevel() > $_SESSION['objRelationship']->getConversationLevel()){
+				$_SESSION['objRelationship']->incrementConversationLevel();
+			}
 			$_SESSION['objRelationship']->save();
 			$_SESSION['objRPGCharacter']->setRelationship($_SESSION['objRelationship']);
 		}
@@ -171,6 +171,7 @@ class DataGameUI{
 			
 			if(isset($_GET['EventID'])){
 				$objEvent = new RPGEvent($_GET['EventID'], $_SESSION['objRPGCharacter']->getRPGCharacterID());
+				$_SESSION['objRPGCharacter']->setEvent($objEvent);
 				$objXML = new RPGXMLReader($objEvent->getXML());
 				
 				$blnConditionsPassed = false;
@@ -186,6 +187,17 @@ class DataGameUI{
 				if($blnConditionsPassed){
 					$_SESSION['objRPGCharacter']->setEvent($objEvent);
 					$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
+				}
+				else{
+					// Turici
+					$_SESSION['objRPGCharacter']->setTownID(1);
+					// Town State
+					$_SESSION['objRPGCharacter']->setStateID(4);
+					// Home Location
+					$_SESSION['objRPGCharacter']->setLocationID(6);
+					// Set default event
+					$objEvent = new RPGEvent(1, $_SESSION['objRPGCharacter']->getRPGCharacterID());
+					$_SESSION['objRPGCharacter']->setEvent($objEvent);
 				}
 			}
 			else if(isset($_GET['ShopID'])){

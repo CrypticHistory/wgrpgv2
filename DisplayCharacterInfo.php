@@ -25,6 +25,12 @@ class DisplayCharacterInfo{
 						<td>Personality:</td><td id='charPersonality'><?=$_SESSION['objRPGCharacter']->getPersonality()?></td>
 					</tr>
 					<tr>
+						<td>Attitude on Fat (self)</td><td id='charFeedee'><?=($_SESSION['objRPGCharacter']->getLikesFatSelf() ? "Positive" : "Negative")?></td>
+					</tr>
+					<tr>
+						<td>Attitude on Fat (others)</td><td id='charFatAdmirer'><?=($_SESSION['objRPGCharacter']->getLikesFatOthers() ? "Positive" : "Negative")?></td>
+					</tr>
+					<tr>
 						<td class='borderTop' colspan='2'>&nbsp;</td>
 					</tr>
 				</table>

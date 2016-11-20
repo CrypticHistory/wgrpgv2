@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>1</end>
+	<end>2</end>
+	<type>Forced Event</type>
+	<precondition>TownID=1</precondition>
+	<precondition>RelLevelFromID=1</precondition>
+	<dialog id='0'>
+		<eventText>Iyanna turn in quest.</eventText>
+		<option id='1' action='turnInQuest~2~6~5'>Accept</option>
+		<option id='2'>Refuse</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>Turned in.</eventText>
+	</dialog>
+	<dialog id='2'>
+		<eventText>Not turn in.</eventText>
+	</dialog>
+</event>

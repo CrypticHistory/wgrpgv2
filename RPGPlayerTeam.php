@@ -73,6 +73,16 @@
 			}
 		}
 		
+		public function takeDamage($intAmount){
+			$this->_objPlayer->takeDamage($intAmount);
+			if($this->_objPartyOne != null){
+				$this->_objPartyOne->takeDamage($intAmount);
+			}
+			if($this->_objPartyTwo != null){
+				$this->_objPartyTwo->takeDamage($intAmount);
+			}
+		}
+		
 	}
 
 ?>

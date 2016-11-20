@@ -79,30 +79,42 @@ class DialogConditionFactory {
 			return true;
 		}
 		else{
-			if(strpos($strCondition, '>=')){
-				$variable = explode('>=', $strCondition);
-				$function = 'get' . $variable[0];
-				return (intval($_SESSION[$strSession]->$function()) >= intval($variable[1]));
-			}
-			else if(strpos($strCondition, '<=')){
-				$variable = explode('<=', $strCondition);
-				$function = 'get' . $variable[0];
-				return (intval($_SESSION[$strSession]->$function()) <= intval($variable[1]));
-			}
-			else if(strpos($strCondition, '>')){
-				$variable = explode('>', $strCondition);
-				$function = 'get' . $variable[0];
-				return (intval($_SESSION[$strSession]->$function()) > intval($variable[1]));
-			}
-			else if(strpos($strCondition, '<')){
-				$variable = explode('<', $strCondition);
-				$function = 'get' . $variable[0];
-				return (intval($_SESSION[$strSession]->$function()) < intval($variable[1]));
-			}
-			else if(strpos($strCondition, '=')){
+			// this is a function that takes in an argument
+			if(strpos($strCondition, '~')){
 				$variable = explode('=', $strCondition);
-				$function = 'get' . $variable[0];
-				return ($_SESSION[$strSession]->$function() == $variable[1]);
+				$long_function = $variable[0];
+				$bool = $variable[1];
+				$args = explode("~", $long_function);
+				$function = $args[0];
+				$arg = $args[1];
+				return (intval($_SESSION[$strSession]->$function($arg)) == intval($bool));
+			}
+			else{
+				if(strpos($strCondition, '>=')){
+					$variable = explode('>=', $strCondition);
+					$function = 'get' . $variable[0];
+					return (intval($_SESSION[$strSession]->$function()) >= intval($variable[1]));
+				}
+				else if(strpos($strCondition, '<=')){
+					$variable = explode('<=', $strCondition);
+					$function = 'get' . $variable[0];
+					return (intval($_SESSION[$strSession]->$function()) <= intval($variable[1]));
+				}
+				else if(strpos($strCondition, '>')){
+					$variable = explode('>', $strCondition);
+					$function = 'get' . $variable[0];
+					return (intval($_SESSION[$strSession]->$function()) > intval($variable[1]));
+				}
+				else if(strpos($strCondition, '<')){
+					$variable = explode('<', $strCondition);
+					$function = 'get' . $variable[0];
+					return (intval($_SESSION[$strSession]->$function()) < intval($variable[1]));
+				}
+				else if(strpos($strCondition, '=')){
+					$variable = explode('=', $strCondition);
+					$function = 'get' . $variable[0];
+					return ($_SESSION[$strSession]->$function() == $variable[1]);
+				}
 			}
 		}
 	}
@@ -120,33 +132,41 @@ class DialogConditionFactory {
 			$strSession = 'objRPGCharacter';
 		}
 		
-		// todo: recursion for multiple actions
-		
-		if(strpos($strAction, '+')){
-			$variable = explode('+', $strAction);
-			$setFunction = 'set' . $variable[0];
-			$getFunction = 'get' . $variable[0];
-			$_SESSION[$strSession]->$setFunction(intval($_SESSION[$strSession]->$getFunction()) + intval($variable[1]));
-		}
-		else if(strpos($strAction, '-')){
-			$variable = explode('-', $strAction);
-			$setfunction = 'set' . $variable[0];
-			$getFunction = 'get' . $variable[0];
-			$_SESSION[$strSession]->$setFunction(intval($_SESSION[$strSession]->$getFunction()) - intval($variable[1]));
-		}
-		else if(strpos($strAction, '*')){
-			$variable = explode('*', $strAction);
-			$setFunction = 'set' . $variable[0];
-			$getFunction = 'get' . $variable[0];
-			$_SESSION[$strSession]->$setFunction(floatval($variable[1]) * floatval($_SESSION[$strSession]->$getFunction()));
-		}
-		else if(strpos($strAction, '~')){
-			$function = explode('~', $strAction);
-			if(!isset($function[1])){
-				$_SESSION[$strSession]->$function[0]();
+		// recursion for multiple actions
+		if(strpos($strAction, '&')){
+			$strSplit = explode('&', $strAction);
+			$intSplitCount = count($strSplit);
+			for($i = 0; $i < $intSplitCount; $i++){
+				self::evaluateAction($strSplit[$i]);
 			}
-			else{
-				$_SESSION[$strSession]->$function[0]($function[1], (isset($function[2]) ? $function[2] : null), (isset($function[3]) ? $function[3] : null), (isset($function[4]) ? $function[4] : null), (isset($function[5]) ? $function[5] : null));
+		}
+		else{
+			if(strpos($strAction, '+')){
+				$variable = explode('+', $strAction);
+				$setFunction = 'set' . $variable[0];
+				$getFunction = 'get' . $variable[0];
+				$_SESSION[$strSession]->$setFunction(intval($_SESSION[$strSession]->$getFunction()) + intval($variable[1]));
+			}
+			else if(strpos($strAction, '-')){
+				$variable = explode('-', $strAction);
+				$setfunction = 'set' . $variable[0];
+				$getFunction = 'get' . $variable[0];
+				$_SESSION[$strSession]->$setFunction(intval($_SESSION[$strSession]->$getFunction()) - intval($variable[1]));
+			}
+			else if(strpos($strAction, '*')){
+				$variable = explode('*', $strAction);
+				$setFunction = 'set' . $variable[0];
+				$getFunction = 'get' . $variable[0];
+				$_SESSION[$strSession]->$setFunction(floatval($variable[1]) * floatval($_SESSION[$strSession]->$getFunction()));
+			}
+			else if(strpos($strAction, '~')){
+				$function = explode('~', $strAction);
+				if(!isset($function[1])){
+					$_SESSION[$strSession]->$function[0]();
+				}
+				else{
+					$_SESSION[$strSession]->$function[0]($function[1], (isset($function[2]) ? $function[2] : null), (isset($function[3]) ? $function[3] : null), (isset($function[4]) ? $function[4] : null), (isset($function[5]) ? $function[5] : null));
+				}
 			}
 		}
 	}

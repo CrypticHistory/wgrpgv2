@@ -28,6 +28,7 @@ class RPGNPC{
 	private $_strAIName;
 	private $_intWeightGain;
 	private $_arrSkillList;
+	private $_arrStatusEffectList;
 	private $_arrActiveSkillList;
 	private $_objEquippedWeapon;
 	private $_objEquippedArmour;
@@ -112,6 +113,7 @@ class RPGNPC{
 		$this->_objStats = new RPGNPCStats($intNPCID);
 		$this->_objStats->loadBaseStats();
 		$this->setCurrentHP($this->getModifiedMaxHP());
+		$this->_arrStatusEffectList = array();
 	}
 	
 	public function loadSkills(){
@@ -128,6 +130,10 @@ class RPGNPC{
 		}
 	}
 	
+	public function getStatusEffectList(){
+		return $this->_arrStatusEffectList;
+	}
+	
 	public function loadActiveSkillList(){
 		$this->_arrActiveSkillList = $this->_arrSkillList;
 		foreach($this->_arrActiveSkillList as $strSkillType => $arrSkillList){
@@ -137,12 +143,54 @@ class RPGNPC{
 		}
 	}
 	
-	public function addToStatusEffects(){
-		// todo
+	public function addToStatusEffects($strStatusEffectName){
+		$objStatusEffect = new RPGStatusEffect($strStatusEffectName);
+		$objStatusEffect->setTimeRemaining($objStatusEffect->getDuration());
+		if($objStatusEffect->getStatName() != NULL && !$objStatusEffect->getIncremental()){
+			$this->_objStats->setStatusEffectStats($objStatusEffect->getStatName(), $objStatusEffect->getStatChangeMax(), $objStatusEffect->getStatusEffectName());
+		}
+		$this->_arrStatusEffectList[$strStatusEffectName] = $objStatusEffect;
 	}
 	
-	public function hasStatusEffect($strStatusEffect){
-		// todo
+	public function removeFromStatusEffects($strStatusEffectName){
+		if($this->_arrStatusEffectList[$strStatusEffectName]->getStatName() != NULL && !$this->_arrStatusEffectList[$strStatusEffectName]->getIncremental()){
+			$this->_objStats->setStatusEffectStats($this->_arrStatusEffectList[$strStatusEffectName]->getStatName(), 0, $this->_arrStatusEffectList[$strStatusEffectName]->getStatusEffectName());
+		}
+		unset($this->_arrStatusEffectList[$strStatusEffectName]);
+	}
+	
+	public function hasStatusEffect($strStatusEffectName){
+		if(array_key_exists($strStatusEffectName, $this->_arrStatusEffectList)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public function tickStatusEffects($intTicks = 1){
+		for($i=0;$i<$intTicks;$i++){
+			foreach($this->_arrStatusEffectList as $key => $objStatusEffect){
+				if(!$this->_arrStatusEffectList[$key]->getInfinite()){
+					$this->_arrStatusEffectList[$key]->tickStatusEffect();
+					if($this->_arrStatusEffectList[$key]->getTimeRemaining() <= 0){
+						$this->removeFromStatusEffects($key);
+						break;
+					}
+				}
+				$strStatName = $this->_arrStatusEffectList[$key]->getStatName();
+				if($strStatName !== null){
+					$intStatMin = $this->_arrStatusEffectList[$key]->getStatChangeMin();
+					$intStatMax = $this->_arrStatusEffectList[$key]->getStatChangeMax();
+					$intStatChange = mt_rand($intStatMin, $intStatMax);
+					$strFunctionNameSet = "set" . $strStatName;
+					$strFunctionNameGet = "get" . $strStatName;
+					if($this->_arrStatusEffectList[$key]->getIncremental()){
+						$this->$strFunctionNameSet($this->$strFunctionNameGet() + $intStatChange);
+					}
+				}
+			}		
+		}
 	}
 	
 	public function takeDamage($intDamage){
@@ -303,7 +351,7 @@ class RPGNPC{
 	}
 	
 	public function getModifiedMaxHP(){
-		return round($this->_objStats->getCombinedStats('intMaxHP') + ($this->_objStats->getCombinedStats('intVitality') / 2));
+		return round($this->_objStats->getBaseStats()['intMaxHP'] + ($this->_objStats->getCombinedStats('intVitality') / 2));
 	}
 	
 	public function getModifiedDamage(){

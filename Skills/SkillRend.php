@@ -9,7 +9,37 @@ class SkillRend{
 	}
 
 	public function castedByPlayer($objPlayer, $objNPC){
-		// todo
+		if($this->isUsableSkill($objPlayer)){
+			$objRPGCombatHelper = new RPGCombatHelper();
+		
+			if($objRPGCombatHelper->calculateEvadeRoll($objPlayer, $objNPC)){
+				$strReturnText = "You swing your " . $objPlayer->getEquippedWeapon()->getItemName() . " rapidly over top your head, swapping between hands before taking a swing at " . $objNPC->getNPCName() . "'s head. The attack is dodged, inflicting 0 damage.";
+			}
+			else{
+				
+				if($objRPGCombatHelper->calculateCritRoll($objPlayer, $objNPC)){
+					$intCritDmgModifier = $objRPGCombatHelper->calculateCritDmg($objPlayer);
+				}
+				else{
+					$intCritDmgModifier = 1.0;
+				}
+				
+				if($objRPGCombatHelper->calculateBlockRoll($objPlayer, $objNPC)){
+					$intBlockDmgModifier = $objRPGCombatHelper->calculateBlockDmg($objNPC);
+				}
+				else{
+					$intBlockDmgModifier = 1.0;
+				}
+				
+				$intDamage = max(0, round((((($objPlayer->getModifiedDamage() * $this->getSkillBaseModifier() + $objRPGCombatHelper->calculateAdditionalDmg($objPlayer)) * $intCritDmgModifier) - $objNPC->getModifiedDefence()) * $intBlockDmgModifier)));
+				$objNPC->takeDamage($intDamage);
+				$strReturnText = "You swing your " . $objPlayer->getEquippedWeapon()->getItemName() . " rapidly over top your head, swapping between hands before finally landing the blade on " . $objNPC->getNPCName() . "'s skull with a crushing blow. You rend " . $objNPC->getNPCName() . ", inflicting " . $intDamage . " damage.";
+			}
+		}
+		else{
+			$strReturnText = "You aren't using the correct weapon for this skill! You must equip a blunt, sword, or an axe.";
+		}
+		return $strReturnText;
 	}
 	
 	public function castedByNPC($objPlayer, $objNPC){
@@ -26,11 +56,25 @@ class SkillRend{
 	}
 	
 	public function getWaitTime(){
-		return 50;
+		return 60;
 	}
 	
 	public function getSkillBaseModifier(){
 		return 2;
+	}
+	
+	public function getSkillSubType(){
+		return "Strong Melee";
+	}
+	
+	public function isUsableSkill($objPlayer){
+		$strItemType = $objPlayer->getEquippedWeapon()->getTypeSecondary();
+		if($strItemType == "Sword" || $strItemType == "Blunt" || $strItemType == "Axe"){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 }
 

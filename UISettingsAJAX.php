@@ -4,6 +4,8 @@
 		switch($action){
 			case 'setInventoryFrame' : setInventoryFrame(); break;
 			case 'setCharacterFrame' : setCharacterFrame(); break;
+			case 'setQuestTab' : setQuestTab(); break;
+			case 'setClassTab' : setClassTab(); break;
 			default: break;
 		}
 	}
@@ -18,6 +20,18 @@
 		include_once "UISettings.php";
 		session_start();
 		$_SESSION['objUISettings']->setCharacterFrame($_POST['strCharacterFrame']);
+	}
+	
+	function setQuestTab(){
+		include_once "UISettings.php";
+		session_start();
+		$_SESSION['objUISettings']->setQuestTab($_POST['intQuestTab']);
+	}
+	
+	function setClassTab(){
+		include_once "UISettings.php";
+		session_start();
+		$_SESSION['objUISettings']->setClassTab($_POST['intClassTab']);
 	}
 	
 ?>

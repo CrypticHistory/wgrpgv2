@@ -141,14 +141,6 @@ class RPGEvent{
 		return $this->_blnHasViewedEvent;
 	}
 	
-	public function setViewedEvent(){
-		$objDB = new Database();
-		$strSQL = "INSERT INTO tblcharactereventxr
-					(intEventID, intRPGCharacterID, dtmDateAdded) VALUES
-					(" . $objDB->quote($this->_intEventID) . ", " . $objDB->quote($this->_intRPGCharacterID) . ", NOW())";
-		$rsResult = $objDB->query($strSQL);
-	}
-	
 	public function checkEndOfEvent(){
 		global $arrStateValues;
 		$blnEndOfEvent = false;

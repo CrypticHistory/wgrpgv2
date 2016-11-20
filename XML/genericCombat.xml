@@ -11,7 +11,7 @@
 	</dialog>
 	<dialog id="1">
 		<eventText>{getEnemyStartText}</eventText>
-		<option id="3" action="setCombat~0~Player">Prepare yourself!</option>
+		<option id="3" action="setCombat~0~NULL~NULL~Player">Prepare yourself!</option>
 	</dialog>
 	<dialog id="2">
 		<eventText>{getEnemyFleeText}</eventText>
@@ -25,7 +25,7 @@
 	</dialog>
 	<dialog id="5">
 		<eventText>{getEnemyDefeatText}</eventText>
-		<option id="6" action="reviveCharacter~">Continue</option>
+		<option id="6" action="reviveCharacter~{getEnemyWeightGain}">Continue</option>
 	</dialog>
 	<dialog id="6">
 		<eventText>You revived miraculously. Go forth and conquer.</eventText>

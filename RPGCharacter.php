@@ -3,6 +3,7 @@
 require_once "Database.php";
 include_once "RPGItem.php";
 include_once "RPGCharacterBody.php";
+include_once "RPGPlayerQuests.php";
 include_once "RPGRelationship.php";
 include_once "RPGNPC.php";
 include_once "RPGTime.php";
@@ -10,6 +11,8 @@ include_once "RPGFloor.php";
 include_once "RPGStats.php";
 include_once "RPGSkill.php";
 include_once "RPGClass.php";
+include_once "RPGPlayerClasses.php";
+include_once "RPGCheckpoint.php";
 include_once "RPGEvent.php";
 include_once "RPGStatusEffect.php";
 include_once "RPGXMLReader.php";
@@ -67,8 +70,9 @@ class RPGCharacter{
 	private $_strHungerText;
 	private $_strReviveText;
 	private $_arrRelationships;
-	private $_arrClasses;
-	private $_objCurrentClass;
+	private $_objClassList;
+	private $_arrCheckpoints;
+	private $_objQuestList;
 	private $_objParty;
 	private $_blnLastRoll;
 	private $_dtmCreatedOn;
@@ -163,8 +167,9 @@ class RPGCharacter{
 				$arrCharacterInfo['strModifiedBy'] = $arrRow['strModifiedBy'];
 			}
 		$this->populateVarFromRow($arrCharacterInfo);
-		$this->_arrClasses = array();
-		$this->loadClasses();
+		$this->_objClassList = new RPGPlayerClasses($this->_intRPGCharacterID);
+		$this->_arrCheckpoints = array();
+		$this->loadCheckpoints();
 		$this->_arrRelationships = array();
 		$this->loadRelationships();
 		$this->_objEquippedArmour = $this->loadEquippedArmour();
@@ -190,6 +195,7 @@ class RPGCharacter{
 		if($this->_objCurrentFloor->getFloorID() != 0 && $this->_objCurrentFloor->getFloorID() != NULL){
 			$this->_objCurrentFloor->loadMaze($this->_objCurrentFloor->getDimension(), $this->_intRPGCharacterID);
 		}
+		$this->_objQuestList = new RPGPlayerQuests($this->_intRPGCharacterID);
 	}
 	
 	public function save(){
@@ -245,19 +251,14 @@ class RPGCharacter{
 		$this->_objParty = new RPGPlayerTeam($this);
 	}
 	
-	public function loadClasses(){
+	public function loadCheckpoints(){
 		$objDB = new Database();
-		$strSQL = "SELECT * FROM tblcharacterclassxr
+		$strSQL = "SELECT * FROM tblcharactercheckpointxr
 					WHERE intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID());
 		$rsResult = $objDB->query($strSQL);
 		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
-			$objClass = new RPGClass($arrRow['intClassID']);
-			$objClass->setClassLevel($arrRow['intClassLevel']);
-			$objClass->setClassExperience($arrRow['intClassExperience']);
-			$this->_arrClasses[] = $objClass;
-			if($arrRow['blnCurrentClass']){
-				$this->_objCurrentClass = $objClass;
-			}
+			$objCheckpoint = new RPGCheckpoint($arrRow['intCheckpointID'], $this->_intRPGCharacterID, true);
+			$this->_arrCheckpoints[$arrRow['intCheckpointID']] = $objCheckpoint;
 		}
 	}
 	
@@ -277,24 +278,58 @@ class RPGCharacter{
 		return $this->_arrRelationships;
 	}
 	
+	public function getRelLevelFromID(){
+		if(!isset($this->_arrRelationships[$this->getEvent()->getNPCID()])){
+			return -1;
+		}
+		else{
+			return $this->_arrRelationships[$this->getEvent()->getNPCID()]->getRelationshipLevel();
+		}
+	}
+	
 	public function setRelationship($objRelationship){
 		$this->_arrRelationships[$objRelationship->getNPCID()] = $objRelationship;
 	}
 	
-	public function getClasses(){
-		return $this->_arrClasses;
+	public function getQuests(){
+		return $this->_objQuestList;
 	}
 	
-	public function addToClasses($objClass){
-		$this->_arrClasses[] = $objClass;
+	public function getClasses(){
+		return $this->_objClassList;
+	}
+	
+	public function addToClasses($intClassID){
+		$this->_objClassList->addToClassList($intClassID);
 	}
 	
 	public function getCurrentClass(){
-		return $this->_objCurrentClass;
+		return $this->_objClassList->getCurrentClass();
 	}
 	
-	public function setCurrentClass($objClass){
-		$this->_objCurrentClass = $objClass;
+	public function setCurrentClass($intClassID){
+		$this->_objClassList->setCurrentClass($intClassID);
+	}
+	
+	public function turnInQuest($intQuestID, $intCheckpointID = NULL, $intClassID = NULL){
+		if($this->_objQuestList->isQuestCompleted($intQuestID)){
+			$this->_objQuestList->turnInQuest($intQuestID, $this);
+			
+			if($intCheckpointID != NULL){
+				$this->viewCheckpoint($intCheckpointID);
+			}
+			
+			if($intClassID != NULL){
+				$this->addToClasses($intClassID);
+			}
+		}
+		else{
+			$this->_strErrorText = "The quest you are trying to turn in has not been completed yet.";
+		}
+	}
+	
+	public function startNewQuest($intQuestID){
+		$this->_objQuestList->startNewQuest($intQuestID);
 	}
 	
 	public function loadEquippedArmour(){
@@ -434,7 +469,7 @@ class RPGCharacter{
 			}
 			
 			if($objStatusEffect->getStatName() != NULL && !$objStatusEffect->getIncremental()){
-				$this->getStats()->addToStats("Status Effect", 'int' . $objStatusEffect->getStatName(), $objStatusEffect->getStatChangeMax());
+				$this->getStats()->addToStats("Status Effect", $objStatusEffect->getStatName(), $objStatusEffect->getStatChangeMax());
 			}
 			
 			$objStatusEffect->setTimeRemaining($arrRow['intTimeRemaining']);
@@ -620,6 +655,7 @@ class RPGCharacter{
 			$intNewHPModifier = ((100 - $intHPPercentageRoll) / 100);
 			if($intHPLossRoll >= 90){
 				$this->setCurrentHP(max(1, floor($this->getCurrentHP() * $intNewHPModifier)));
+				$this->getStats()->setBaseStats('intMaxHunger', min(1000, ($this->getStats()->getBaseStats()['intMaxHunger'] - 5)));
 				$this->setHungerText("You double over, clutching your stomach in pain. Continually starving yourself like this will seriously affect your health!");
 			}
 			$this->getStats()->activateStarving();
@@ -700,7 +736,7 @@ class RPGCharacter{
 		$objItem = new RPGItem($intItemID);
 		$objItem->useItem($this);
 		$this->healHP($intHPHeal);
-		$this->_intCurrentHunger = min(2000, ($this->_intCurrentHunger + $intFullness));
+		$this->_intCurrentHunger = min(($this->getStats()->getCombinedStatsSecondary('intMaxHunger') * 2), ($this->_intCurrentHunger + $intFullness));
 		$objDB = new Database();
 		$strSQL = "UPDATE tblcharacteritemxr
 					SET blnDigesting = 1
@@ -719,7 +755,7 @@ class RPGCharacter{
 		$intItemInstanceID = $this->giveItem($intItemID);
 		$objItem = new RPGItem($intItemID);
 		$this->healHP($objItem->getHPHeal());
-		$this->_intCurrentHunger = min(2000, ($this->_intCurrentHunger + $objItem->getFullness()));
+		$this->_intCurrentHunger = min(($this->getStats()->getCombinedStatsSecondary('intMaxHunger') * 2), ($this->_intCurrentHunger + $objItem->getFullness()));
 		$objDB = new Database();
 		$strSQL = "UPDATE tblcharacteritemxr
 					SET blnDigesting = 1
@@ -732,7 +768,7 @@ class RPGCharacter{
 			$intItemInstanceID = $this->giveItem($intItemID);
 			$objItem = new RPGItem($intItemID);
 			$this->healHP($objItem->getHPHeal());
-			$this->_intCurrentHunger = min(2000, ($this->_intCurrentHunger + $objItem->getFullness()));
+			$this->_intCurrentHunger = min(($this->getStats()->getCombinedStatsSecondary('intMaxHunger') * 2), ($this->_intCurrentHunger + $objItem->getFullness()));
 			$objDB = new Database();
 			$strSQL = "UPDATE tblcharacteritemxr
 						SET blnDigesting = 1
@@ -1172,7 +1208,7 @@ class RPGCharacter{
 		return intval($this->getCurrentHP()) <= 0 ? 1 : 0;
 	}
 	
-	public function reviveCharacter($intWeightGain){
+	public function reviveCharacter($intWeightGain, $intEventID = NULL){
 		global $arrStateValues;
 		$this->setCurrentHP($this->getModifiedMaxHP());
 		$this->setWeight($this->getWeight() + $intWeightGain);
@@ -1185,10 +1221,17 @@ class RPGCharacter{
 		$this->setLocationID(6);
 		$this->setCurrentFloor(NULL);
 		$this->setStateID($arrStateValues['Town']);
+		if($intEventID != NULL){
+			$objEvent = new RPGEvent($intEventID, $this->_intRPGCharacterID);
+			if(!$objEvent->hasViewedEvent()){
+				$this->setEvent($objEvent);
+				$this->setStateID($arrStateValues["Event"]);
+			}
+		}
 	}
 	
 	public function stuffCharacter($intFullness, $intWeight, $intHPHeal){
-		$this->setCurrentHunger(min(2000, $this->getCurrentHunger() + $intFullness));
+		$this->setCurrentHunger(min(($this->getStats()->getCombinedStatsSecondary('intMaxHunger') * 2), $this->getCurrentHunger() + $intFullness));
 		$this->setWeight($this->getWeight() + $intWeight);
 		$this->healHP($intHPHeal);
 	}
@@ -1413,6 +1456,11 @@ class RPGCharacter{
 		$this->_objEvent = $objEvent;
 	}
 	
+	public function setEventWithinEvent($intEventID, $intNodeID = 0){
+		$this->_objEvent = new RPGEvent($intEventID, $this->_intRPGCharacterID);
+		$this->_objEvent->setEventNodeID($intNodeID);
+	}
+	
 	public function getParty(){
 		return $this->_objParty;
 	}
@@ -1421,7 +1469,7 @@ class RPGCharacter{
 		$this->_objParty = $objParty;
 	}
 	
-	public function setCombat($intLeaderID, $intEnemyOne = null, $intEnemyTwo = null, $strFirstTurn = "Player", $blnNPCInstance = false){
+	public function setCombat($intLeaderID, $intEnemyOne = null, $intEnemyTwo = null, $strFirstTurn = "Calculate", $blnNPCInstance = false){
 		if($intEnemyOne == "NULL"){
 			$intEnemyOne = null;
 		}
@@ -1500,6 +1548,7 @@ class RPGCharacter{
 		if($this->_intExperience >= $this->_intRequiredExperience){
 			$this->levelUp();
 		}
+		$this->_objClassList->gainExperience($intExpGain);
 	}
 	
 	public function levelUp(){
@@ -1514,13 +1563,7 @@ class RPGCharacter{
 	}
 	
 	public function loadRequiredExperience(){
-		$objDB = new Database();
-		$strSQL = "SELECT intExpToLvl
-					FROM tblexperiencechart
-					WHERE intLevelID = " . $objDB->quote($this->_intLevel);
-		$rsResult = $objDB->query($strSQL);
-		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
-		return $arrRow['intExpToLvl'];
+		return pow(($this->_intLevel + 1) * 2, 2) * 100;
 	}
 	
 	public function getCurrentHP(){
@@ -1876,6 +1919,26 @@ class RPGCharacter{
 	
 	public function setLastRoll($blnRoll){
 		$this->_blnLastRoll = $blnRoll;
+	}
+	
+	public function viewCheckpoint($intCheckpointID){
+		if(isset($this->_arrCheckpoints[$intCheckpointID])){
+			$this->_arrCheckpoints[$intCheckpointID]->viewCheckpoint();
+		}
+		else{
+			$objCheckpoint = new RPGCheckpoint($intCheckpointID, $this->_intRPGCharacterID, false);
+			$objCheckpoint->viewCheckpoint();
+			$this->_arrCheckpoints[$intCheckpointID] = $objCheckpoint;
+		}
+	}
+	
+	public function hasViewedCheckpoint($intCheckpointID){
+		if(isset($this->_arrCheckpoints[$intCheckpointID])){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 }

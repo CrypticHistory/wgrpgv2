@@ -463,6 +463,11 @@ class RPGItem{
 	public function setXML($strXML){
 		$this->_strXML = $strXML;
 	}
+	
+	public function getTypeSecondary(){
+		$arrTypes = explode(":", $this->_strItemType);
+		return $arrTypes[1];
+	}
 }
 
 ?>

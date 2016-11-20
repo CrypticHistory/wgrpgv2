@@ -2,6 +2,7 @@
 <event>
 	<end>3</end>
 	<end>4</end>
+	<end>5</end>
 	<precondition>CurrentFloorID=1</precondition>
 	<dialog id="0">
 		<eventText>There's a burger on the ground with grease soaking through the wrapper. Should you eat it or ignore it?</eventText>

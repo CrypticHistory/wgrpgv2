@@ -32,9 +32,34 @@
 			else{
 				$strFunction = 'player' . $_POST['command'];
 				
-				if(isset($_POST['target'])){
+				if(isset($_POST['target']) && $_POST['command'] == 'skill'){
 					$strTarget = $_POST['target'];
-					$_SESSION['objCombat']->$strFunction($strTarget);
+					if(isset($_POST['intSkillID'])){
+						if($_POST['intSkillID'] != null && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getSkills()->hasSkill($_POST['intSkillID']) && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getSkills()->isOffCooldown($_POST['intSkillID'])){
+							if($strTarget == "AllEnemy" && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getSkills()[$_POST['intSkillID']]->getTargetCount() != '3'){
+								$_SESSION['objCombat']->playerWait();
+							}
+							else{
+								$intSkillID = $_POST['intSkillID'];
+								$_SESSION['objCombat']->$strFunction($strTarget, $intSkillID);
+							}
+						}
+						else{
+							$_SESSION['objCombat']->playerWait();
+						}
+					}
+					else{
+						$_SESSION['objCombat']->playerWait();
+					}
+				}
+				else if(isset($_POST['target']) && $_POST['command'] == 'attack'){
+					$strTarget = $_POST['target'];
+					if($strTarget == 'AllEnemy' || $strTarget == 'AllPlayer'){
+						$_SESSION['objCombat']->playerWait();
+					}
+					else{
+						$_SESSION['objCombat']->$strFunction($strTarget);
+					}
 				}
 				else{
 					$_SESSION['objCombat']->$strFunction();

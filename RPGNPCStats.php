@@ -5,6 +5,7 @@
 	class RPGNPCStats{
 	
 		private $_arrBaseStats;
+		private $_arrStatusEffectStats;
 		private $_intNPCID;
 		private $_intRPGCharacterID;
 
@@ -13,6 +14,21 @@
 			if($intRPGCharacterID != null){
 				$this->_intRPGCharacterID = $intRPGCharacterID;
 			}
+			$this->_arrStatusEffectStats = array();
+			$this->_arrStatusEffectStats['intMaxHP']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intAccuracy']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intEvasion']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intCritDamage']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intPierce']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intBlockRate']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intBlockReduction']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intFleeResistance']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intStrength']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intIntelligence']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intAgility']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intVitality']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intWillpower']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intDexterity']['Hungry'] = 0;
 		}
 		
 		public function loadBaseStats(){
@@ -69,33 +85,21 @@
 			}
 		}
 		
-		public function addToStats($strStatArrayName, $strStatName, $intStatAmount){
+		public function addToStats($strStatArrayName, $strStatName, $intStatAmount, $strStatusEffectName = NULL){
 			if($strStatArrayName == 'Base'){
 				$this->_arrBaseStats[$strStatName] += $intStatAmount;
 			}
-			else if($strStatArrayName == 'Skill'){
-				$this->_arrSkillStats[$strStatName] += $intStatAmount;
-			}
 			else if($strStatArrayName == 'Status Effect'){
-				$this->_arrStatusEffectStats[$strStatName] += $intStatAmount;
-			}
-			else if($strStatArrayName == 'Ability'){
-				$this->_arrAbilityStats[$strStatName] += $intStatAmount;
+				$this->_arrStatusEffectStats[$strStatName][$strStatusEffectName] += $intStatAmount;
 			}
 		}
 		
-		public function removeFromStats($strStatArrayName, $strStatName, $intStatAmount){
+		public function removeFromStats($strStatArrayName, $strStatName, $intStatAmount, $strStatusEffectName = NULL){
 			if($strStatArrayName == 'Base'){
-				$_arrBaseStats[$strStatName] -= $intStatAmount;
-			}
-			else if($strStatArrayName == 'Skill'){
-				$_arrSkillStats[$strStatName] -= $intStatAmount;
+				$this->_arrBaseStats[$strStatName] -= $intStatAmount;
 			}
 			else if($strStatArrayName == 'Status Effect'){
-				$_arrStatusEffectStats[$strStatName] -= $intStatAmount;
-			}
-			else if($strStatArrayName == 'Ability'){
-				$_arrAbilityStats[$strStatName] -= $intStatAmount;
+				$this->_arrStatusEffectStats[$strStatName][$strStatusEffectName] -= $intStatAmount;
 			}
 		}
 		
@@ -107,7 +111,25 @@
 			$this->_arrBaseStats[$strIndex] = $intValue;
 		}
 		
+		public function setStatusEffectStats($strIndex, $intValue, $strStatusEffectName){
+			$this->_arrStatusEffectStats[$strIndex][$strStatusEffectName] = $intValue;
+		}
+		
+		public function getStatusEffectStats($strIndex, $strStatusEffectName){
+			$this->_arrStatusEffectStats[$strIndex][$strStatusEffectName];
+		}
+		
 		public function getCombinedStats($strIndex){
+			
+			$intSEStatTotal = 0;
+			foreach($this->_arrStatusEffectStats[$strIndex] as $key => $intStrVal){
+				$intSEStatTotal += $intStrVal;
+			}
+			
+			return $this->_arrBaseStats[$strIndex] + $intSEStatTotal;
+		}
+		
+		public function getCombinedStatsNoSE($strIndex){
 			return $this->_arrBaseStats[$strIndex];
 		}
 		

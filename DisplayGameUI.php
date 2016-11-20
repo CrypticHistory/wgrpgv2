@@ -8,7 +8,7 @@ include_once 'RPGXMLReader.php';
 include_once 'UISettings.php';
 include_once "DisplayCharacterInfo.php";
 include_once "DisplayCharacterAppearance.php";
-include_once "DisplayCharacterSkills.php";
+include_once "DisplayCharacterClasses.php";
 include_once "DisplayCharacterSocial.php";
 include_once "DisplayEventWindow.php";
 include_once "DisplayCombatWindow.php";
@@ -30,7 +30,7 @@ class DisplayGameUI extends DataGameUI{
 
 	protected $_objCharacterInfo;
 	protected $_objCharacterAppearance;
-	protected $_objCharacterSkills;
+	protected $_objCharacterClasses;
 	protected $_objCharacterSocial;
 	protected $_objTownWindow;
 	protected $_objEventWindow;
@@ -51,7 +51,7 @@ class DisplayGameUI extends DataGameUI{
 	public function DisplayGameUI(){
 		$this->_objCharacterInfo = new DisplayCharacterInfo();
 		$this->_objCharacterAppearance = new DisplayCharacterAppearance();
-		$this->_objCharacterSkills = new DisplayCharacterSkills();
+		$this->_objCharacterClasses = new DisplayCharacterClasses();
 		$this->_objCharacterSocial = new DisplayCharacterSocial();
 		$this->_objEventWindow = new DisplayEventWindow();
 		$this->_objCombatWindow = new DisplayCombatWindow();
@@ -150,7 +150,7 @@ class DisplayGameUI extends DataGameUI{
 							strCharacterFrame: strTabName
 						},
 						error: function(textStatus, errorThrown){
-							alert(textStatus);
+							alert("Error processing ajax request; Please refresh page and try again.");
 						}
 				});
 				
@@ -175,9 +175,68 @@ class DisplayGameUI extends DataGameUI{
 				}
 			}
 			
-			function update_rows() {
-				$("tr:even").css("background-color", "#aaa").find('a').removeClass('sam').addClass('sams');
-				$("tr:odd").css("background-color", "#eee").find('a').removeClass('sams').addClass('sam');
+			function showQuestDetails(intItemRow){
+				hide = false;
+				$("[id*='questEntryDetails']").each(function(){
+					$(this).addClass('hidden');
+				});
+				if($('#questEntry' + intItemRow).hasClass('selectedRow')){
+					hide = true;
+					intItemRow = -1;
+				}
+				$("[id*='questEntry']").each(function(){
+					$(this).removeClass('selectedRow');
+				});
+				if(hide == false){
+					$('#questEntryDetails' + intItemRow).removeClass('hidden');
+					$('#questEntry' + intItemRow).addClass('selectedRow');
+				}
+				
+				$.ajax({
+						url: 'UISettingsAJAX.php',
+						async: true,
+						type: 'post',
+						contentType: "application/x-www-form-urlencoded;charset=ISO-8859-15",
+						data: {
+							action: 'setQuestTab',
+							intQuestTab: intItemRow
+						},
+						error: function(textStatus, errorThrown){
+							alert("Error processing ajax request; Please refresh page and try again.");
+						}
+				});
+			}
+			
+			function showClassDetails(intItemRow){
+				hide = false;
+				$("[id*='classEntryDetails']").each(function(){
+					$(this).addClass('hidden');
+				});
+				if($('#classEntry' + intItemRow).hasClass('selectedRow')){
+					hide = true;
+					intItemRow = -1;
+				}
+				$("[id*='classEntry']").each(function(){
+					$(this).removeClass('selectedRow');
+				});
+				if(hide == false){
+					$('#classEntryDetails' + intItemRow).removeClass('hidden');
+					$('#classEntry' + intItemRow).addClass('selectedRow');
+				}
+				
+				$.ajax({
+						url: 'UISettingsAJAX.php',
+						async: true,
+						type: 'post',
+						contentType: "application/x-www-form-urlencoded;charset=ISO-8859-15",
+						data: {
+							action: 'setClassTab',
+							intClassTab: intItemRow
+						},
+						error: function(textStatus, errorThrown){
+							alert("Error processing ajax request; Please refresh page and try again.");
+						}
+				});
 			}
 			
 		</script>
@@ -211,8 +270,8 @@ class DisplayGameUI extends DataGameUI{
 				
 				<?php
 				
-				$arrCharTabHeadings = array("Info", "Appearance", "Skills", "Social");
-				$arrCharTabObjects = array("_objCharacterInfo", "_objCharacterAppearance", "_objCharacterSkills", "_objCharacterSocial");
+				$arrCharTabHeadings = array("Info", "Appearance", "Classes", "Social");
+				$arrCharTabObjects = array("_objCharacterInfo", "_objCharacterAppearance", "_objCharacterClasses", "_objCharacterSocial");
 				
 				foreach($arrCharTabHeadings as $intTabID => $strTabTitle){
 					echo "<div class='characterTabHeading' id='characterTabHeading" . $strTabTitle . "' onclick=\"switchCharacterTab('" . $strTabTitle . "')\">" . $strTabTitle . "</div>";

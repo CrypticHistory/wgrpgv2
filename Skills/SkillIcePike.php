@@ -2,9 +2,9 @@
 
 include_once "RPGCombatHelper.php";
 	
-class SkillMagicBolt{
+class SkillIcePike{
 	
-	public function SkillMagicBolt(){
+	public function SkillIcePike(){
 		
 	}
 
@@ -13,10 +13,9 @@ class SkillMagicBolt{
 			$objRPGCombatHelper = new RPGCombatHelper();
 		
 			if($objRPGCombatHelper->calculateEvadeRoll($objPlayer, $objNPC)){
-				$strReturnText = "You wave your " . $objPlayer->getEquippedWeapon()->getItemName() . " and hurl a bolt of magical energy at " . $objNPC->getNPCName() . ", but they dodge it successfully!";
+				$strReturnText = "You wave your " . $objPlayer->getEquippedWeapon()->getItemName() . " and hurl an ice pike at " . $objNPC->getNPCName() . ", but they dodge it successfully!";
 			}
 			else{
-				
 				if($objRPGCombatHelper->calculateCritRoll($objPlayer, $objNPC)){
 					$intCritDmgModifier = $objRPGCombatHelper->calculateCritDmg($objPlayer);
 				}
@@ -33,7 +32,14 @@ class SkillMagicBolt{
 				
 				$intDamage = max(0, round((((($objPlayer->getModifiedMagicDamage() * $this->getSkillBaseModifier() + $objRPGCombatHelper->calculateAdditionalDmg($objPlayer)) * $intCritDmgModifier) - $objNPC->getModifiedMagicDefence()) * $intBlockDmgModifier)));
 				$objNPC->takeDamage($intDamage);
-				$strReturnText = "You wave your " . $objPlayer->getEquippedWeapon()->getItemName() . " and hurl a bolt of magical energy at " . $objNPC->getNPCName() . ". It connects, inflicting " . $intDamage . " damage.";
+				$strReturnText = "You wave your " . $objPlayer->getEquippedWeapon()->getItemName() . " and hurl an ice pike at " . $objNPC->getNPCName() . ". It connects, inflicting " . $intDamage . " damage.";
+				
+				$intFreezeRoll = mt_rand(0, 100);
+		
+				if($intFreezeRoll >= round($objNPC->getStatusEffectResistance() - $objPlayer->getStatusEffectSuccessRate())){
+					$strReturnText .= " " . $objNPC->getNPCName() . " is frozen in place following the attack!";
+					$objNPC->addToStatusEffects("Frozen");
+				}
 			}
 		}
 		else{
@@ -45,17 +51,10 @@ class SkillMagicBolt{
 	public function castedByNPC($objPlayer, $objNPC){
 		// todo: strSkillUseText in tblnpcskillxr
 		
-		$objRPGCombatHelper = new RPGCombatHelper();
-		
-		$intDamage = max(0, $objRPGCombatHelper->calculateDamage($objNPC, $objPlayer, $this->getSkillBaseModifier()));
-		$objPlayer->takeDamage($intDamage);
-		
-		$strReturnText = $objNPC->getNPCName() . " waves its " . $objNPC->getEquippedWeapon()->getItemName() . " and hurls a bolt of magical energy at " . $objPlayer->getNPCName() . ". It connects, inflicting " . $intDamage . " damage.";
-		return $strReturnText;
 	}
 	
 	public function getSkillSubType(){
-		return "Strong Ranged";
+		return "Debuff Ranged";
 	}
 	
 	public function getWaitTime(){
@@ -63,7 +62,7 @@ class SkillMagicBolt{
 	}
 	
 	public function getSkillBaseModifier(){
-		return 1.8;
+		return 0.5;
 	}
 	
 	public function isUsableSkill($objPlayer){

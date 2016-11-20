@@ -7,7 +7,7 @@
 	<end>6</end>
 	<dialog id="0">
 		<eventText>{getEnemyForceStartText}</eventText>
-		<option id="2" action="setCombat~0~NULL~NULL~Player">Prepare yourself!</option>
+		<option id="2" action="setCombat~0~NULL~NULL~Calculate">Prepare yourself!</option>
 	</dialog>
 	<dialog id="1">
 		<eventText>{getEnemyFleeText}</eventText>

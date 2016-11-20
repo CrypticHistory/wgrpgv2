@@ -108,7 +108,7 @@
 		}
 		else{
 			// give them the long leave tower event
-			$_SESSION['objRPGCharacter']->getEvent()->setViewedEvent();
+			$_SESSION['objRPGCharacter']->getEvent()->addToCharacterEventLog();
 		}
 		$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
 	}
@@ -139,6 +139,17 @@
 			else if($_POST['itemAction'] == 'unequip'){
 				$strUnequipFunction = 'unequip' . $_POST['itemType'];
 				$_SESSION['objRPGCharacter']->$strUnequipFunction();
+			}
+		}
+	}
+	
+	if(isset($_POST['toggleClass'])){
+		if($_SESSION['objRPGCharacter']->getClasses()->hasClass($_POST['toggleClass'])){
+			if($_SESSION['objRPGCharacter']->getClasses()->isCurrentClass($_POST['toggleClass'])){
+				$_SESSION['objRPGCharacter']->getClasses()->disableCurrentClass();
+			}
+			else{
+				$_SESSION['objRPGCharacter']->getClasses()->setCurrentClass($_POST['toggleClass']);
 			}
 		}
 	}

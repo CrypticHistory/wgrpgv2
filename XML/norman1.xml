@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>2</end>
+	<end>4</end>
+	<end>8</end>
+	<end>20</end>
+	<end>21</end>
+	<type>Forced Event</type>
+	<precondition>TownID=1</precondition>
+	<dialog id='0'>
+		<eventText>Strolling the aisle, your eyes wander</eventText>
+		<eventText precondition="ModifiedIntelligence&gt;9"> curiously</eventText>
+		<eventText precondition="ModifiedIntelligence&lt;10"> listlessly</eventText>
+		<eventText> across spines upon spines of books. Some names are playful, like "The Wanderlust Wican", others are all business, like "Hexes: The dark side of the arcane".
+
+At the end of the aisle is a robed man with his face hidden behind a book. His beard, however, is too large for cover, and rivals his chestnut brown hair in length. He wears a beige wizard hat that matches his robe.</eventText>
+		<option id='1' precondition="RelationshipLevel=0&amp;RelationshipEXP&lt;50">Approach Him</option>
+		<option id='22' precondition="RelationshipLevel=0&amp;RelationshipEXP=50">Approach Him</option>
+		<option id='23' precondition="RelationshipLevel=1&amp;hasViewedCheckpoint~4=0" action="setEventWithinEvent~30~0">Approach Him</option>
+		<option id='23' precondition="RelationshipLevel=1&amp;hasViewedCheckpoint~4=1" action="setEventWithinEvent~30~1">Approach Him</option>
+		<option id='2'>Turn Back</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>He senses your presence, lowering his book to greet you with a smile. His round glasses rest on the lower portion of his long nose. Slight wrinkles decorate his forehead and smile.
+
+"Can I help you, young</eventText>
+		<eventText precondition="Gender=Male"> man?"</eventText>
+		<eventText precondition="Gender=Female"> lady?"</eventText>
+		<eventText> he asks in a welcoming tone. "I don't work here, but I know these shelves like the back of my hand."</eventText>
+		<option id='3'>"I was just wondering what you were reading."</option>
+		<option id='4'>"No, sorry for disturbing you."</option>
+	</dialog>
+	<dialog id='2'>
+		<eventText>You turn back, avoiding the bearded man at the end of the aisle.</eventText>
+	</dialog>
+	<dialog id='3'>
+		<eventText>He shuts the book, a feather keeping his page. "Why, it's the 'Monster Manual'!" He shows off the cover's illustration: a ferocious looking hybrid between beast and man. "That's a Grendel." He points. "All but extinct, save for the few in the Rhodonian mountains east of here. Extraordinary creatures, they are, with the raw strength to rip trees straight from the ground!"
+
+His enthusiasm is contagious, which along with the setting, sparks your desire to learn.
+
+"This area is a haven for beastkeepers and rare monster hunters alike. The Turician fjord is home to some of the world's most elusive creatures. Werebeasts, grendels, hydra. A stark contrast to the sprawling metropolis that is the Desmiyan empire, its motherland. Also my place of origin."</eventText>
+		<option id='5'>"Is that why you've come to Turici? For research?"</option>
+	</dialog>
+	<dialog id='4'>
+		<eventText>"Oh, no worries! I'm Norman, by the way. Norman Foelsch. If there's anything you need help with, you know where to find me."</eventText>
+	</dialog>
+	<dialog id='5'>
+		<eventText>"You could say that. There was simply nothing left for me in Desmiya. The city is no place for a vagrant like me." He smiles warmly. "And what brings you to Turici, young</eventText>
+		<eventText precondition="Gender=Male"> man?"</eventText>
+		<eventText precondition="Gender=Female"> lady?"</eventText>
+		<option id='6'>"The tower."</option>
+	</dialog>
+	<dialog id='6'>
+		<eventText>"Ah, young and ambitious. I should have known! I'm sure I don't need to warn you of the tower's dangers, then. Have you come to the library to study magic?"</eventText>
+		<option id='7'>"Yes, I want to improve my magic."</option>
+		<option id='8'>"I'm just browsing for now."</option>
+	</dialog>
+	<dialog id='7'>
+		<eventText>"Well, you're talking to the right person then. I used to be a professor at the University of Desmiya. I'm retired now, though. The name's Norman Foelsch, by the way." He extends his hand to greet you.</eventText>
+		<option id='9' action='RelationshipGainRelationshipEXP~50'>"What did you teach?"</option>
+	</dialog>
+	<dialog id='8'>
+		<eventText>"Ah, well, carry on then! Don't let this old man distract you." he chuckles. "Though, if you ever need some help with your studies, you know where to find me!"</eventText>
+	</dialog>
+	<dialog id='9'>
+		<eventText>"Manipulation of the Elements. Pyromancy and Cryomancy, primarily. Simple concepts, really. You harness the power of the elements to enhance your magical output. A regular expulsion of magical energy will appear as a bolt of lightning, which, on its own is powerful, but it's predictable and easy to defend against in many cases. If your magical output is tainted by fire, your enemy must also have sufficient means to defend against burns, and similarly with water pressure and ice. Do you follow?"</eventText>
+		<option id='10'>"Yes, and I want to know more."</option>
+	</dialog>
+	<dialog id='10'>
+		<eventText>Norman grins. "I like your drive, {getRPGCharacterName}. I sense great potential for magical prowess in you. I'm eager to see what you're capable of." He motions you to follow him. "Come, and I will teach you the way of the Caster."
+		
+		You trail behind Norman and he leads you to the back of the library. There are a few empty couches and a coffee table on which Norman places his book as he passes by. He stops at a door labelled "Staff Only" and begins fumbling for his keys.</eventText>
+		<option id='11'>"I thought you didn't work here?"</option>
+	</dialog>
+	<dialog id='11'>
+		<eventText>"I don't. Being a professor at an esteemed university has its privileges." The door cracks open and he motions for you to enter. "After you."
+		
+		Upon your first step into the room, candles on the wall begin to light themselves one by one, starting closest to you. As light invades the room, you realize quickly that this is a magical armoury judging by the racks of wands and staves before you. Norman places his hat on a coat rack and makes his way into the armoury. "Wand or staff, {getRPGCharacterName}?" he yells back at you.</eventText>
+		<option id='12'>"Wand please!"</option>
+		<option id='13'>"Staff please!"</option>
+		<option id='14'>"I don't know the difference!"</option>
+	</dialog>
+	<dialog id='12'>
+		<eventText>"Well then, I've got just thing thing for you!" He returns quickly with a small wooden rod. "Here you go." He offers you the wand warmly like a gift, and you accept. "This is just a plain wooden wand, nothing special. I'm sure the librarians won't even notice it's gone." He winks at you.
+
+"Oh yeah, I also brought this back," he raises a staff with a sapphire gemstone endowed in the tip. "For me, though," he grins, "A sapphire staff might be a little much for a beginner."</eventText>
+		<option id='15'>"Why is that?"</option>
+	</dialog>
+	<dialog id='13'>
+		<eventText>"Well then, I've got just thing thing for you!" He returns quickly with a wooden staff. "Here you go." He offers you the staff warmly like a gift, and you accept. "This is just a plain wooden staff, nothing special. I'm sure the librarians won't even notice it's gone." He winks at you.
+
+"Oh yeah, I also brought this back," he raises another staff, but this time with a sapphire gemstone endowed in the tip. "For me, though," he grins, "A sapphire staff might be a little much for a beginner."</eventText>
+		<option id='15'>"Why is that?"</option>
+	</dialog>
+	<dialog id='14'>
+		<eventText>He returns upon hearing your answer. "No worries, {getRPGCharacterName}! Allow me to explain. A wand is light but cannot hold much mana, whereas a staff is heavy but can hold a great amount of mana. Wands are for those who favour nimbleness in battle, staves are for those who favour a greater magical capacity. Take your pick."</eventText>
+		<option id='12'>"Wand please!"</option>
+		<option id='13'>"Staff please!"</option>
+	</dialog>
+	<dialog id='15'>
+		<eventText>"Ah, I'm glad you asked, {getRPGCharacterName}! Come, let's grab a seat outside and I'll explain."
+
+After exiting the armoury, Norman locks the door behind him, only to realize he left his hat on the coat rack in the armoury. You sit comfortably at the back of the library, legs crossed under the coffee table you saw previously, waiting for the bearded wizard to retrieve his hat.
+
+"Alright, where were we?" Norman asks as he gets settled in the seat across from you. The "Monster Manual" is right where Norman left it previously. "Right, magical conductivity. We call any material that allows for mana to flow through it a magical conductor. Conversely, any material that halts the flow of mana is called an insulator. Certain materials will conduct mana better than others. A prime example of a magical conductor is wood. It can reliably be charged with enough mana for a powerful expulsion, and it is also cheap to obtain, which is why it is seen the most in magical weaponry. Do you follow?"</eventText>
+		<option id='16'>"Yes."</option>
+	</dialog>
+	<dialog id='16'>
+		<eventText>"Good. Gemstones are another example of a magical conductor, but they conduct mana much more potently than wood. They're also very expensive. That's why we only endow weapons with a small amount in the tip." He raises his staff above the table and points to at the brilliant blue tip. "Just like this."</eventText>
+		<option id='17'>"I see. That's good to know."</option>
+	</dialog>
+	<dialog id='17'>
+		<eventText>"Mhm. When you are more comfortable with spellcasting, you can move on to a wand or staff with a stronger conductor endowed in the tip such as sapphire. But for now, just wood will suffice."
+
+"Now, before you can learn advanced magic like Cryomancy or Pyromancy, we must start with the basics. What do you know about mana?"</eventText>
+		<option id='18'>"I don't know anything."</option>
+		<option id='19'>"I know quite a bit, actually."</option>
+	</dialog>
+	<dialog id='18'>
+		<eventText>"Good. You'll learn from a reliable source then," he beams. "Now, listen closely."
+
+"Mana is the most important life force of living things in this world. It controls the human brain and serves as a life force for plants, and it is produced by all living cells. The human body has a system to regulate how much mana it can store. Any excess mana is expelled into the air, where it then becomes "passive mana", as opposed to the "active mana" which is circulating the body. Passive mana can be absorbed by plants, but animals by default do not have a mechanism to absorb passive mana for their own safety, as the body on its own already produces a sufficient amount of mana for living. An over-excess of mana is dangerous since it can overwhelm the brain and lead to what's referred to as a "manalepsis", an intense seizure-like state where the body violently releases its mana in a series of convulsions. In the event of mana deficiency, the brain will simply stop issuing commands to the body, leading to cardiac arrest."
+
+"Casting magic is done by channeling mana into an object such as a staff. The staff storing magic becomes charged. Because the staff is not living and therefore has a much greater limit to how much mana it can contain, it can be charged with a deadly amount of mana to later be expelled at enemies in battle."
+
+To demonstrate, Norman holds out his staff and you watch as it glows a bright blue in the sapphire tip. "As you can see, I am currently channeling my active mana into my staff. Note that staves cannot absorb passive mana from the surrounding air, and they MUST be charged using active mana from within the body. This makes spell casting a dangerous foray and without the proper training and mana regulation it can lead to a deficiency."
+
+"And this is where training comes into play. You will practice through trial and error, how to charge your weapon with the appropriate amount of mana to expel it at your enemies. In doing so, you will inflict damage upon your enemies while sustaining minimum losses to your own well-being from the act of casting."
+
+Norman lowers his staff and lets it rest against the coffee table. You blink, trying your best to understand everything the old mage is telling you. You're thankful for the quiet library, for without it you might have lost your concentration a number of times!
+
+"Now, I have the utmost faith in your abilities, so let's see if we can start you off on a more difficult assignment right off the bat. Return to me upon defeating 5 Skeleton Mages in a duel of magic, and I shall continue with our next lecture. You can find Skeleton Mages on the 2nd floor of the tower. Are you up for the task?"</eventText>
+		<option id='20' action='startNewQuest~1&amp;RelationshipGainRelationshipEXP~50'>"Yes. I'm ready."</option>
+		<option id='21'>"No. I'm not ready yet."</option>
+	</dialog>
+	<dialog id='19'>
+		<eventText>"Well then, that saves me some time. How about we start you off on a difficult assignment right off the bat, since you know so much already?"</eventText>
+		<option id='20' action='startNewQuest~1&amp;RelationshipGainRelationshipEXP~50'>"Yes. I'm ready."</option>
+		<option id='21'>"No. I'm not ready yet."</option>
+	</dialog>
+	<dialog id='20'>
+		<eventText>"Excellent! If you need any help on the assignment, you know where to find me." Norman swipes his open palm to the side of the Monster Manual and it flips open, right to the page where he left it last. "Now, if you'll excuse me, I must continue my research."
+
+Skeleton Mages on the second floor of the tower, huh? Quite the interesting assignment...</eventText>
+	</dialog>
+	<dialog id='21'>
+		<eventText>"Very well then," Norman frowns. "It seems I've misjudged your drive. But no worries. I understand the task seems a little daunting at first, but I know you're capable of completing it. Give it some time, [name]."
+
+Norman swipes his open palm to the side of the Monster Manual and it flips open, right to the page where he left it last. "Now, if you'll excuse me, I must continue my research."</eventText>
+	</dialog>
+	<dialog id='22'>
+		<eventText>He senses your presence, lowering his book to greet you with a smile. His round glasses rest on the lower portion of his long nose. Slight wrinkles decorate his forehead and smile.
+		
+		"Ah, hello again, {getRPGCharacterName}! Have you come to the library to improve your magic?" he asks.</eventText>
+		<option id='7'>"Yes, and I need help."</option>
+		<option id='8'>"I'm just browsing for now."</option>
+	</dialog>
+	<dialog id='23'>
+		<eventText>He senses your presence, lowering his book to greet you with a smile. His round glasses rest on the lower portion of his long nose. Slight wrinkles decorate his forehead and smile.
+		
+		"Ah, hello again, {getRPGCharacterName}! Are you ready to take on your first assignment that we discussed earlier?" he asks.</eventText>
+		<option id='20' action='startNewQuest~1&amp;RelationshipGainRelationshipEXP~50'>"Yes. I'm ready."</option>
+		<option id='21'>"No. I'm not ready yet."</option>
+		<option id='24'>"What was the assignment again?"</option>
+	</dialog>
+	<dialog id='24'>
+		<eventText>"To defeat 5 Skeleton Mages in a duel of magic. Skeleton Mages are located on the second floor of the tower. Are you up for the task?" he asks.</eventText>
+		<option id='20' action='startNewQuest~1&amp;RelationshipGainRelationshipEXP~50'>"Yes. I'm ready."</option>
+		<option id='21'>"No. I'm not ready yet."</option>
+	</dialog>
+</event>

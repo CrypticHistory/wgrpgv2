@@ -86,12 +86,12 @@
 		
 		public function getRandomDrops(){
 			$arrReturn = array();
-			array_merge($arrReturn, parent::getPlayer()->getRandomDrops());
+			$arrReturn = $arrReturn + parent::getPlayer()->getRandomDrops();
 			if(parent::getPartyOne() != null){
-				array_merge($arrReturn, parent::getPartyOne()->getRandomDrops());
+				$arrReturn = $arrReturn + parent::getPartyOne()->getRandomDrops();
 			}
 			if(parent::getPartyTwo() != null){
-				array_merge($arrReturn, parent::getPartyTwo()->getRandomDrops());
+				$arrReturn = $arrReturn + parent::getPartyTwo()->getRandomDrops();
 			}
 			return $arrReturn;
 		}

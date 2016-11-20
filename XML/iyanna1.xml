@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>3</end>
+	<type>Forced Event</type>
+	<precondition>TownID=1</precondition>
+	<dialog id='0'>
+		<eventText precondition="Gender=Male">"He should be okay... Don't worry about it... I'll watch over him."</eventText>
+		<eventText precondition="Gender=Female">"She should be okay... Don't worry about it... I'll watch over her."</eventText>
+		<eventText>
+		
+			An unfamiliar female voice wakes you from your slumber. Opening your eyes, you can scarcely make out the owner of the voice, as all you see is a shield on her back, and a black ponytail. Her figure is mostly hidden beneath heavy mail, her limbs equipped with gauntlets and cuisses, but just from the outline of her muscular arms and legs, you can tell she's fit. A soldier, most likely, given that she's so well outfitted. The sheathed sword at her side is just a little more than arms length.
+
+			You can't make out anything about the other figure the woman is speaking to, so you try to sit up to get a better look. However, sitting up proves to be quite difficult, as jolts of pain surge through your ribs to halt your attempt. Perhaps you weren't asleep of your own accord. Were you knocked out in battle? And how did you end up in your bed?
+
+			"Don't move so suddenly," the strong womanly voice commands, "You'll open your wound." In your agony, it seems you've missed that the woman has now turned her attention towards you. Perhaps you made enough noise to warrant her attention. You feel a bit sheepish, given that her eyes are now directly on you, and what beautiful brown eyes they are. Sharp and perceptive, you can tell she's intelligent just from the way she looks at you.
+
+			The second figure is now visible to you, and you can see that he was just about to be leaving, as his hand is outstretched, reaching for your door. Another well-equipped individual, perhaps a soldier as well, however on his back is a massive polearm. Unwieldy, though it makes sense now, given his appearance: curly, shoulder-length hair that can hardly be kept from his eyes, and wild, thick eyebrows. His lips seem to be perpetually glued in a grin, accentuating his dimples. He stares at you with careless eyes of unknown colour, probably black, but you can't really tell from where you're seated.
+			
+			</eventText>
+		<eventText precondition="Gender=Male">"He's awake now, eh?" the scraggly man asks rhetorically, given that he's staring directly at you. "Well, you can give him the briefing. I have to go see Kayo at the camp. Found a few interesting items in the tower that he should have a look at."</eventText>
+		<eventText precondition="Gender=Female">"She's awake now, eh?" the scraggly man asks rhetorically, given that he's staring directly at you. "Well, you can give her the briefing. I have to go see Kayo at the camp. Found a few interesting items in the tower that he should have a look at."</eventText>
+		<eventText>
+		
+			"Alright, I'll meet up with you back at camp then, Jay," the womanly figure replies, looking over her back and raising her hand in acknowledgement of his leaving.
+
+			"Catch ya later," the man says, letting the door close on his way out.
+
+			You notice the woman briefly look around the room and catch yourself doing the same. Embarrassingly, there is not much in terms of furniture in your home, given that you've just moved here. One could scarcely call it a home; perhaps "room" would be a better fit, given that you only have a bed, a nightstand, a full-body-mirror, a closet, a desk, and a door that leads to the residential district. Times are rough, which is why you came to Turici in the first place, given that the Tower had been advertised to you to hold great riches for anyone physically able to plumb it. And you like to think of yourself as the physically able type.</eventText>
+		<eventText precondition="BMI&gt;29"> At least, you used to be, but that hardly holds true now, given how you've let yourself go.</eventText>
+		<eventText>
+		
+			"I don't have much time, so I'll keep this short," the woman explains. "My name is Iyanna Rue. I lead an organization named Deo Regnos which aims to overthrow the corrupt Desmiyan military that currently occupies Turici. You may or may not have heard of us already. It makes no difference.
+
+			What you need to understand is that the Tower is a hoax. There are riches, but they ultimately end up in the hands of the government. There is a chance for livelihood for adventurers like yourself, but it is at the mercy of the government. If you find that disconcerting, as you should, then please seek us out."
+
+			You have to crane your neck slightly to look at Iyanna's face as she addresses you. She's quite tall, and without seeing her face or hearing her voice you would probably believe she were a man from her physique.
+
+			"I've been watching the way you fight in the tower, and you have great potential. Should you decide to join the resistance, I will be happy to teach you the ways of the Warrior.
+
+			Now, any questions?" she asks.</eventText>
+		<option id='1' action='startNewQuest~2&amp;RelationshipGainRelationshipEXP~100'>"How can I join the resistance?"</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>"On the second floor of the tower, defeat 5 Armoured Skeletons to further prove your strength. Once you've done that, visit The Dragon's Barrel, in the red light district. Tell the bartender I sent you. He'll guide you from there."</eventText>
+		<option id='2'>"What injuries have I sustained?"</option>
+	</dialog>
+	<dialog id='2'>
+		<eventText>"You have a few broken ribs after falling to the enemies of the second floor. And you should recover fast, given that Savannah, our resident healer has had a look at you. You will be on your feet in no time."</eventText>
+		<option id='3'>No further questions.</option>
+	</dialog>
+	<dialog id='3'>
+		<eventText>"Well then, {getRPGCharacterName}, I hope to see you around." You follow Iyanna with your eyes as she strides toward the door, entranced by the aura of physical and mental fortitude she exudes. You really should take her up on her offer, if only to learn more about combat from her...</eventText>
+	</dialog>
+</event>

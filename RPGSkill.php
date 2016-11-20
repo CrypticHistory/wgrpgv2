@@ -15,6 +15,7 @@ class RPGSkill{
 	private $_strWeaponType;
 	private $_intCooldown;
 	private $_intCurrentCooldown;
+	private $_intPreCooldown;
 	
 	public function RPGSkill($intSkillID = null){
 		if($intSkillID != null){
@@ -33,6 +34,7 @@ class RPGSkill{
 		$this->setUsableOutsideBattle($arrSkillInfo['blnUsableOutsideBattle']);
 		$this->setWeaponType($arrSkillInfo['strWeaponType']);
 		$this->setCooldown($arrSkillInfo['intCooldown']);
+		$this->setPreCooldown($arrSkillInfo['intPreCooldown']);
 	}
 	
 	private function loadSkillInfo($intSkillID){
@@ -53,6 +55,7 @@ class RPGSkill{
 				$arrSkillInfo['blnUsableOutsideBattle'] = $arrRow['blnUsableOutsideBattle'];
 				$arrSkillInfo['strWeaponType'] = $arrRow['strWeaponType'];
 				$arrSkillInfo['intCooldown'] = $arrRow['intCooldown'];
+				$arrSkillInfo['intPreCooldown'] = $arrRow['intPreCooldown'];
 			}
 		$this->populateVarFromRow($arrSkillInfo);
 	}
@@ -137,6 +140,14 @@ class RPGSkill{
 		$this->_intCooldown = $intCooldown;
 	}
 	
+	public function getPreCooldown(){
+		return $this->_intPreCooldown;
+	}
+	
+	public function setPreCooldown($intPreCooldown){
+		$this->_intPreCooldown = $intPreCooldown;
+	}
+	
 	public function getCurrentCooldown(){
 		return $this->_intCurrentCooldown;
 	}
@@ -149,9 +160,26 @@ class RPGSkill{
 		$this->_intCurrentCooldown = $this->_intCooldown;
 	}
 	
+	public function applyCooldown(){
+		$this->_intCurrentCooldown = $this->_intCooldown;
+	}
+	
+	public function removeCooldown(){
+		$this->_intCurrentCooldown = 0;
+	}
+	
 	public function decrementCooldown(){
 		if($this->_intCurrentCooldown != 0){
 			$this->_intCurrentCooldown--;
+		}
+	}
+	
+	public function isOffCooldown(){
+		if($this->_intCurrentCooldown == 0){
+			return true;
+		}
+		else{
+			return false;
 		}
 	}
 }

@@ -735,6 +735,30 @@ span.close {padding-left: 5px; color: red;cursor: pointer;}
 	color:black;
 }
 
+.completedQuest{
+	color:green;
+	font-style:italic;
+}
+
+.inprogressQuest{
+	color:#E38217;
+	font-style:italic;
+}
+
+.playerClassActive{
+	color:green;
+	font-style:italic;
+}
+
+.playerClassInactive{
+	color:#E38217;
+	font-style:italic;
+}
+
+.completedReq{
+	text-decoration:line-through;
+}
+
 .player{
 	background-color:#F5F5F5;
 }

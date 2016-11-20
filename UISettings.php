@@ -14,6 +14,8 @@ class UISettings{
 	private $_blnDisableInv;
 	private $_blnDisableStats;
 	private $_intRPGCharacterID;
+	private $_intQuestTab;
+	private $_intClassTab;
 	
 	public function UISettings($intRPGCharacterID){
 		//defaults
@@ -28,6 +30,8 @@ class UISettings{
 		$this->_blnDisableTraversal = true;
 		$this->_blnDisableInv = true;
 		$this->_blnDisableStats = false;
+		$this->_intQuestTab = 0;
+		$this->_intClassTab = 0;
 	}
 	
 	public function loadOverrides(){
@@ -126,6 +130,22 @@ class UISettings{
 	
 	public function setNavigationFrame($strNavigationFrame){
 		$this->_strNavigationFrame = $strNavigationFrame;
+	}
+	
+	public function setQuestTab($intQuestTab){
+		$this->_intQuestTab = $intQuestTab;
+	}
+	
+	public function getQuestTab(){
+		return $this->_intQuestTab;
+	}
+	
+	public function setClassTab($intClassTab){
+		$this->_intClassTab = $intClassTab;
+	}
+	
+	public function getClassTab(){
+		return $this->_intClassTab;
 	}
 }
 

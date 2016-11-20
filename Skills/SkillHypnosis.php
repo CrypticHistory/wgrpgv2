@@ -26,6 +26,10 @@ class SkillHypnosis{
 		return $strReturnText;
 	}
 	
+	public function getSkillSubType(){
+		return "Debuff Ranged";
+	}
+	
 	public function getWaitTime(){
 		return 10;
 	}
