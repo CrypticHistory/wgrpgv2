@@ -13,6 +13,7 @@ include_once "DisplayCharacterSocial.php";
 include_once "DisplayEventWindow.php";
 include_once "DisplayCombatWindow.php";
 include_once "DisplayStatGainWindow.php";
+include_once "DisplaySkillViewWindow.php";
 include_once "DisplayTownWindow.php";
 include_once "DisplayShopWindow.php";
 include_once "DisplayUseInventory.php";
@@ -36,6 +37,7 @@ class DisplayGameUI extends DataGameUI{
 	protected $_objEventWindow;
 	protected $_objCombatWindow;
 	protected $_objStatGainWindow;
+	protected $_objSkillViewWindow;
 	protected $_objShopWindow;
 	protected $_objUseInventory;
 	protected $_objEquipInventory;
@@ -56,6 +58,7 @@ class DisplayGameUI extends DataGameUI{
 		$this->_objEventWindow = new DisplayEventWindow();
 		$this->_objCombatWindow = new DisplayCombatWindow();
 		$this->_objStatGainWindow = new DisplayStatGainWindow();
+		$this->_objSkillViewWindow = new DisplaySkillViewWindow();
 		$this->_objTownWindow = new DisplayTownWindow();
 		$this->_objShopWindow = new DisplayShopWindow();
 		$this->_objUseInventory = new DisplayUseInventory();

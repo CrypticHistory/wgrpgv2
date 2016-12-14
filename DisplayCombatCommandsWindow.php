@@ -103,7 +103,7 @@ class DisplayCombatCommandsWindow{
 							else{
 								$intCounter = 0;
 								$arrSkillCooldowns = array();
-								foreach($_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getSkills()->getSkillList() as $intSkillID => $objSkill){
+								foreach($_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getSkills()->getActiveSkillList() as $intSkillID => $objSkill){
 									$strChecked = (($intCounter == 0 && $objSkill->isOffCooldown()) ? " checked='checked'" : "");
 									$strDisabled = $objSkill->isOffCooldown() ? "" : " disabled";
 									if(!$objSkill->isOffCooldown()){

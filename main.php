@@ -6,6 +6,7 @@
 	require_once 'RPGUser.php';
 	
 	$blnPageFlag = false;
+	$blnGameDown = false;
 	
 	if(isset($_GET['page']) && file_exists($_GET['page'] . ".php")){
 		$blnPageFlag = true;
@@ -28,19 +29,26 @@
 		<link rel="stylesheet" type="text/css" href="JS/DataTables/css/dataTables.css">
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
 		<?php header('Content-Type: text/html; charset=ISO-8859-15');
-		if($blnPageFlag){
-			$objPage = new $_GET['page']();
-			$objPage->toJavascript();
+		if(!$blnGameDown){
+			if($blnPageFlag){
+				$objPage = new $_GET['page']();
+				$objPage->toJavascript();
+			}
 		}
 		?>
 	</head>
 	<body>
 		<?php
-		if($blnPageFlag){
-			$objPage->toHTML();
+		if(!$blnGameDown){
+			if($blnPageFlag){
+				$objPage->toHTML();
+			}
+			else{
+				print_r("You do not have permission to view this page");
+			}			
 		}
 		else{
-			print_r("You do not have permission to view this page");
+			print_r("The game has been taken down for maintenance. Please check back later.");
 		}
 		?>
 	</body>

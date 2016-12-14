@@ -47,16 +47,22 @@ class SkillPunish{
 	}
 	
 	public function playerParrySkill($objPlayer, $objNPC, $objSkill){
-		if($objNPC->getEquippedWeapon()->getStatDamage() === null || $objNPC->getEquippedWeapon()->getStatDamage() == 'Strength'){
-			$intDamage = round((($objNPC->getModifiedDamage() * ($objSkill->getSkillBaseModifier() + $this->getSkillBaseModifier())) + $objNPC->getAdditionalDamage()) - $objNPC->getModifiedDefence());
+		if($objSkill->getSkillSubType() == "Strong Melee" || $objSkill->getSkillSubType() == "Weak Melee"){
+			if($objNPC->getEquippedWeapon()->getStatDamage() === null || $objNPC->getEquippedWeapon()->getStatDamage() == 'Strength'){
+				$intDamage = round((($objNPC->getModifiedDamage() * ($objSkill->getSkillBaseModifier() + $this->getSkillBaseModifier())) + $objNPC->getAdditionalDamage()) - $objNPC->getModifiedDefence());
+			}
+			else if($objNPC->getEquippedWeapon()->getStatDamage() == 'Intelligence'){
+				$intDamage = round((($objNPC->getModifiedMagicDamage() * ($objSkill->getSkillBaseModifier() + $this->getSkillBaseModifier())) + $objNPC->getAdditionalDamage()) - $objNPC->getModifiedMagicDefence());
+			}
+			
+			$objNPC->takeDamage($intDamage);
+			
+			$strReturnText = $objNPC->getNPCName() . " attacks you, but you parry the attack! " . $objNPC->getNPCName() . " sustains " . $intDamage . " damage from the counterattack and is knocked onto the ground, unable to attack.";
 		}
-		else if($objNPC->getEquippedWeapon()->getStatDamage() == 'Intelligence'){
-			$intDamage = round((($objNPC->getModifiedMagicDamage() * ($objSkill->getSkillBaseModifier() + $this->getSkillBaseModifier())) + $objNPC->getAdditionalDamage()) - $objNPC->getModifiedMagicDefence());
+		else{
+			$strReturnText = "You fail to counter " . $objNPC->getNPCName() . "'s attack as it was not a melee attack! ";
+			$strReturnText .= $objSkill->castedByNPC($objPlayer, $objNPC);
 		}
-		
-		$objNPC->takeDamage($intDamage);
-		
-		$strReturnText = $objNPC->getNPCName() . " attacks you, but you parry the attack! " . $objNPC->getNPCName() . " sustains " . $intDamage . " damage from the counterattack and is knocked onto the ground, unable to attack.";
 		
 		return $strReturnText;
 	}

@@ -1,8 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <event>
-	<end>0</end>
+	<end>6</end>
 	<precondition>TownID=1</precondition>
 	<dialog id="0">
-		<eventText>Eyy dis event be under construction.</eventText>
+		<eventText precondition="BMI&lt;30">After stripping down to your naked form, you approach the mirror</eventText>
+		<eventText precondition="BMI&lt;30&amp;Personality=Confident"> confidently</eventText>
+		<eventText precondition="BMI&lt;30&amp;Personality=Shy"> anxiously</eventText>
+		<eventText precondition="BMI&lt;30&amp;Personality=Confident&amp;LikesFatSelf=1">, eager to see the progress you've made in gaining</eventText>
+		<eventText precondition="BMI&lt;30&amp;Personality=Shy&amp;LikesFatSelf=1">, eager to see if you've made any progress in gaining</eventText>
+		<eventText precondition="BMI&lt;30&amp;Personality=Shy&amp;LikesFatSelf=0">, afraid of what you might see</eventText>
+		<eventText precondition="BMI&lt;30">.</eventText>
+		<eventText precondition="BMI&gt;29&amp;BMI&lt;40">After stripping down to your naked form, you lumber toward the mirror</eventText>
+		<eventText precondition="BMI&gt;29&amp;BMI&lt;40&amp;Personality=Confident"> confidently</eventText>
+		<eventText precondition="BMI&gt;29&amp;BMI&lt;40&amp;Personality=Shy"> anxiously</eventText>
+		<eventText precondition="BMI&gt;29&amp;BMI&lt;40&amp;Personality=Confident&amp;LikesFatSelf=1">, eager to see the progress you've made in gaining</eventText>
+		<eventText precondition="BMI&gt;29&amp;BMI&lt;40&amp;Personality=Shy&amp;LikesFatSelf=1">, eager to see if you've made any progress in gaining</eventText>
+		<eventText precondition="BMI&gt;29&amp;BMI&lt;40&amp;Personality=Shy&amp;LikesFatSelf=0">, afraid of what you might see</eventText>
+		<eventText precondition="BMI&gt;29&amp;BMI&lt;40">.</eventText>
+		<eventText precondition="BMI&gt;39">Huffing and puffing from exertion, you've finally stripped down to your naked form, leaving your clothes strewn across your bed. You waddle towards your mirror</eventText>
+		<eventText precondition="BMI&gt;39&amp;Personality=Confident"> confidently</eventText>
+		<eventText precondition="BMI&gt;39&amp;Personality=Shy"> anxiously</eventText>
+		<eventText precondition="BMI&gt;39&amp;Personality=Confident&amp;LikesFatSelf=1">, eager to see the progress you've made in gaining</eventText>
+		<eventText precondition="BMI&gt;39&amp;Personality=Shy&amp;LikesFatSelf=1">, eager to see if you've made any progress in gaining</eventText>
+		<eventText precondition="BMI&gt;39&amp;Personality=Shy&amp;LikesFatSelf=0">, afraid of what you might see</eventText>
+		<eventText precondition="BMI&gt;39">.</eventText>
+		<option id="1">Belly</option>
+		<option id="2">Breasts</option>
+		<option id="3">Arms</option>
+		<option id="4">Legs</option>
+		<option id="5">Butt</option>
+		<option id="6">Finished Looking</option>
+	</dialog>
+	<dialog id="1">
+		<eventText precondition="Belly&lt;20">Your belly is not really even a belly... it's just flat. Your abs can be seen, indicating that your body fat percentage is quite low.</eventText>
+		<eventText precondition="Belly&lt;20&amp;LikesFatSelf=1"> This flat tummy won't do. You must eat more!</eventText>
+		<eventText precondition="Belly&gt;19&amp;Belly&lt;25">Your belly looks fairly average. Not chubby, but not flat either. Your abs aren't visible any longer though, indicating a general lack of exercise.</eventText>
+		<eventText precondition="Belly&gt;19&amp;Belly&lt;25&amp;LikesFatSelf=0"> You better cut down on the snacks, because it seems like the only direction your weight's moving is up.</eventText>
+		<eventText precondition="Belly&gt;19&amp;Belly&lt;25&amp;LikesFatSelf=1"> You better start eating more if you want this tummy to grow.</eventText>
+		<eventText precondition="Belly&gt;24&amp;Belly&lt;30">Your belly is actually looking a bit chubby,</eventText>
+		<eventText precondition="Belly&gt;24&amp;Belly&lt;30&amp;LikesFatSelf=0"> and much to your distaste,</eventText>
+		<eventText precondition="Belly&gt;24&amp;Belly&lt;30&amp;LikesFatSelf=1"> and much to your delight,</eventText>
+		<eventText precondition="Belly&gt;24&amp;Belly&lt;30"> you notice a slight roll of fat forming over your groin area.</eventText>
+		<eventText precondition="Belly&gt;24&amp;Belly&lt;30&amp;LikesFatSelf=0"> What happened to your fat stomach and abs? How could you let yourself get this chubby?</eventText>
+		<eventText precondition="Belly&gt;24&amp;Belly&lt;30&amp;LikesFatSelf=1"> There's still a lot of room to grow, however. You need to keep stuffing yourself to make your belly grow fatter.</eventText>
+		<eventText precondition="Belly&gt;29&amp;Belly&lt;40">Your belly, </eventText>
+		<eventText precondition="Belly&gt;29&amp;Belly&lt;40&amp;LikesFatSelf=0"> much to your distaste,</eventText>
+		<eventText precondition="Belly&gt;29&amp;Belly&lt;40&amp;LikesFatSelf=1"> much to your delight,</eventText>
+		<eventText precondition="Belly&gt;29&amp;Belly&lt;40"> sits pudgy around your midsection, spilling over top your groin area slightly. You jiggly and squeeze it a bit,</eventText>
+		<eventText precondition="Belly&gt;29&amp;Belly&lt;40&amp;LikesFatSelf=0&amp;Personality=Shy"> self-conscious of just how visible it is nowadays.</eventText>
+		<eventText precondition="Belly&gt;29&amp;Belly&lt;40&amp;LikesFatSelf=0&amp;Personality=Confident"> annoyed that you even allowed your flat stomach to turn this soft. You have to lose this paunch!</eventText>
+		<eventText precondition="Belly&gt;29&amp;Belly&lt;40&amp;LikesFatSelf=1&amp;Personality=Shy"> slightly aroused but too shy to admit how much you're turned on by your newfound fatness.</eventText>
+		<eventText precondition="Belly&gt;29&amp;Belly&lt;40&amp;LikesFatSelf=1&amp;Personality=Confident"> loving the progress you're making in gaining, and eager to see just how far you can go!</eventText>
+		<eventText precondition="Belly&gt;29&amp;Belly&lt;40&amp;&amp;Personality=Stoic"> worried that the added belly fat will affect your stamina in battle.</eventText>
+		<eventText precondition="Belly&gt;39">Your belly, </eventText>
+		<eventText precondition="Belly&gt;39&amp;LikesFatSelf=0">much to your distaste,</eventText>
+		<eventText precondition="Belly&gt;39&amp;LikesFatSelf=1">much to your delight,</eventText>
+		<eventText precondition="Belly&gt;39"> now folds into two distinctive rolls; one that spills over top your belly button, and one that hangs lazily, covering your groin area. You lift your belly with both hands before letting it fall with an immense jiggle.</eventText>
+		<eventText precondition="Belly&gt;39&amp;LikesFatSelf=0"> How could you let this happen? You used to be so thin and athletic, and now look... you became complacent! Years of effort and conscientiousness in maintaining your slender figure, now ruined, replaced by this disgusting ball of lard at your waist.</eventText>
+		<eventText precondition="Belly&gt;39&amp;LikesFatSelf=1"> Amazing! You've really been working hard at stuffing yourself past your limits recently, and you've been especially conscious to avoid exercise whenever possible. Looks like your efforts are paying off nicely!</eventText>
+		<option id="1">Belly</option>
+		<option id="2">Breasts</option>
+		<option id="3">Arms</option>
+		<option id="4">Legs</option>
+		<option id="5">Butt</option>
+		<option id="6">Finished Looking</option>
+	</dialog>
+	<dialog id="2">
+		<eventText precondition="Breasts&lt;20">Your breasts are pretty average. Because you're so thin, there's not a lot of weight to go around, but at least your breasts have got their fair share. You squeeze them a bit,</eventText>
+		<eventText precondition="Breasts&lt;20&amp;LikesFatSelf=1"> not satisfied with their current size. You need to gain more weight.</eventText>
+		<eventText precondition="Breasts&lt;20&amp;LikesFatSelf=0"> content with their current size.</eventText>
+		<eventText precondition="Breasts&gt;19&amp;Breasts&lt;25">Now eyeing your breasts, they seem fairly average. Perhaps a bit bigger than usual, but not by much.</eventText>
+		<eventText precondition="Breasts&gt;19&amp;Breasts&lt;25&amp;LikesFatSelf=1"> Unsatisfied, you pledge to eat more at the next meal to help your breasts grow.</eventText>
+		<eventText precondition="Breasts&gt;24&amp;Breasts&lt;30">Now eyeing your breasts, you notice they've grown, but not by much. You've been eating well, so it makes sense that they'd be bigger now.</eventText>
+		<eventText precondition="Breasts&gt;24&amp;Breasts&lt;30&amp;LikesFatSelf=1"> Groping them a bit feels nice, but a bit unfulfilling. They need to be bigger.</eventText>
+		<eventText precondition="Breasts&gt;24&amp;Breasts&lt;30&amp;LikesFatSelf=0"> Groping them a bit feels good, though. At least getting chubby has some benefits.</eventText>
+		<eventText precondition="Breasts&gt;29&amp;Breasts&lt;40">Now eyeing your breasts, you notice they're slightly rounder than usual. To confirm this belief, you squeeze them, and to your surprise they feel much softer than usual.</eventText>
+		<eventText precondition="Breasts&gt;29&amp;Breasts&lt;40&amp;LikesFatSelf=0"> Well, at least your overeating has been good for something. Your breasts really have grown in size.</eventText>
+		<eventText precondition="Breasts&gt;29&amp;Breasts&lt;40&amp;LikesFatSelf=1"> You're getting bigger everywhere, including your breasts. It won't be long before you're moving up another cup size now!</eventText>
+		<eventText precondition="Breasts&gt;39">Now eyeing your breasts, you notice they're quite a bit rounder than usual. To confirm this belief, you attempt to squeeze them, but to your surprise, you find that you can't even fit your palms around them entirely!</eventText>
+		<eventText precondition="Breasts&gt;39&amp;LikesFatSelf=0"> It took getting fatter everywhere else for your boobs to grow, but damn it, they look good, and you can at least appreciate that about your recent weight gain.</eventText>
+		<eventText precondition="Breasts&gt;39&amp;LikesFatSelf=1"> You've gotten fatter everywhere, including your breasts, and it seems it won't be long until you move up another cup size at this rate!</eventText>
+		<option id="1">Belly</option>
+		<option id="2">Breasts</option>
+		<option id="3">Arms</option>
+		<option id="4">Legs</option>
+		<option id="5">Butt</option>
+		<option id="6">Finished Looking</option>
+	</dialog>
+	<dialog id="3">
+		<eventText precondition="Arms&lt;20">You raise your arms horizontally to get a better look. They're quite toned, and no traces of fat can be seen on them.</eventText>
+		<eventText precondition="Arms&gt;19&amp;Arms&lt;25">You raise your arms horizontally to get a better look. Not much fat on your arms, but they do look a bit softer than usual.</eventText>
+		<eventText precondition="Arms&gt;24&amp;Arms&lt;30">You raise your arms horizontally to get a better look. A bit of under-arm fat hangs, but not much. That's to be expected. You've gained some weight, but not enough to have noticeable arm chub.</eventText>
+		<eventText precondition="Arms&gt;29&amp;Arms&lt;40">You raise your arms horizontally to get a better look. A bit of under-arm fat hangs.</eventText>
+		<eventText precondition="Arms&gt;29&amp;Arms&lt;40&amp;LikesFatSelf=0"> You poke and squeeze it as if to confirm it's real, in denial that you could have this fat in a place that fat is not often familiar with.</eventText>
+		<eventText precondition="Arms&gt;29&amp;Arms&lt;40&amp;LikesFatSelf=1"> You poke and squeeze it, excited that even your arms are getting chubby.</eventText>
+		<eventText precondition="Arms&gt;29&amp;Arms&lt;40&amp;LikesFatSelf=1&amp;Gender=Female"> Further evidence that you're a growing girl.</eventText>
+		<eventText precondition="Arms&gt;29&amp;Arms&lt;40&amp;LikesFatSelf=1&amp;Gender=Male"> Further evidence that you're a growing boy.</eventText>
+		<eventText precondition="Arms&gt;39">You raise your arms horizontally to get a better look. A distinct roll of under-arm fat hangs.</eventText>
+		<eventText precondition="Arms&gt;39&amp;LikesFatSelf=0"> You poke and squeeze it as if to confirm it's real, in denial that you could have this much fat in a place that fat is not often familiar with. Further evidence that you've gotten undeniably big.</eventText>
+		<eventText precondition="Arms&gt;39&amp;LikesFatSelf=1"> You poke and squeeze it, proud that even your arms have grown in size. Every inch of your body is expanding nicely.</eventText> 
+		<option id="1">Belly</option>
+		<option id="2">Breasts</option>
+		<option id="3">Arms</option>
+		<option id="4">Legs</option>
+		<option id="5">Butt</option>
+		<option id="6">Finished Looking</option>
+	</dialog>
+	<dialog id="4">
+		<eventText precondition="Legs&lt;20">Your thighs are quite toned. It's evident that you've been keeping up with your cardiovascular exercise routine.</eventText>
+		<eventText precondition="Legs&lt;20&amp;LikesFatSelf=1"> You could afford to indulge a little here and there.</eventText>
+		<eventText precondition="Legs&gt;19&amp;Legs&lt;25">Your thighs seem a bit thicker than usual, but it's hard to tell. There's still a gap between your thighs, and they never rub together unless you force them to.</eventText>
+		<eventText precondition="Legs&gt;24&amp;Legs&lt;30">Your attention is now directed towards your thighs, which you've noticed have gotten a bit fuller. It makes sense given that you've been neglecting your diet recently.</eventText>
+		<eventText precondition="Legs&gt;24&amp;Legs&lt;30&amp;LikesFatSelf=0"> No signs of cellulite or chub rub though, so at least there's that.</eventText>
+		<eventText precondition="Legs&gt;24&amp;Legs&lt;30&amp;LikesFatSelf=1"> You're a bit disappointed at their size though. There's a lot of room for growth.</eventText>
+		<eventText precondition="Legs&gt;29&amp;Legs&lt;40">Your attention is now directed towards your thighs which have gotten to be quite thick now. Bending one leg and turning to the side allows you to see the the area of flesh that connects your butt to your thighs. You notice a bit of cellulite forming there, something you were previously unfamiliar with.</eventText>
+		<eventText precondition="Legs&gt;29&amp;Legs&lt;40&amp;LikesFatSelf=0"> The sight of cellulite upsets you. You must get back in shape!</eventText>
+		<eventText precondition="Legs&gt;29&amp;Legs&lt;40&amp;LikesFatSelf=0"> The sight of cellulite is slightly arousing, just further proof of how chubby you've been getting lately.</eventText>
+		<eventText precondition="Legs&gt;39">Your attention is now directed towards your thighs which are rich with decadent fat. Bending one leg and turning to the side allows you to see the cellulite-ridden area of flesh that connects your thighs to your butt. Spreading your legs apart, you can see a bit of red markings on your inner thighs, possibly stretch marks, possibly chub rub.</eventText>
+		<eventText precondition="Legs&gt;39&amp;LikesFatSelf=0"> Either way, you're appalled by the sight. You must get back in shape!</eventText>
+		<eventText precondition="Legs&gt;39&amp;LikesFatSelf=1"> Either way, you're aroused by the sight. You can't even walk without your thighs rubbing together, and it's visual proof of just how fat you've become.</eventText> 
+		<option id="1">Belly</option>
+		<option id="2">Breasts</option>
+		<option id="3">Arms</option>
+		<option id="4">Legs</option>
+		<option id="5">Butt</option>
+		<option id="6">Finished Looking</option>
+	</dialog>
+	<dialog id="5">
+		<eventText>In order to see your backside, you twist yourself around and look over your shoulder. </eventText>
+		<eventText precondition="Butt&lt;20">Your ass looks more fit than it does fat</eventText>
+		<eventText precondition="Butt&lt;20&amp;LikesFatSelf=0">, but you're certainly not complaining. That's what exercise will do for you.</eventText>
+		<eventText precondition="Butt&lt;20&amp;LikesFatSelf=1">. You might have to change up your routine if you want it to grow.</eventText>
+		<eventText precondition="Butt&gt;19&amp;Butt&lt;25">Your ass isn't particularly large, but it's also not small by any means. It's just... average.</eventText>
+		<eventText precondition="Butt&gt;19&amp;Butt&lt;25&amp;LikesFatSelf=1"> As you gain more weight, it should grow more to your liking.</eventText>
+		<eventText precondition="Butt&gt;24&amp;Butt&lt;30">Your ass is looking pretty average. Maybe a bit bigger than usual, as you have put on some weight recently.</eventText>
+		<eventText precondition="Butt&gt;24&amp;Butt&lt;30&amp;LikesFatSelf=0"> On second thought, the extra padding looks pretty good on you. You could get used to having a bigger butt, though the rest of your fat needs to go.</eventText>
+		<eventText precondition="Butt&gt;24&amp;Butt&lt;30&amp;LikesFatSelf=1"> Not enough though, clearly. You have work to do.</eventText>
+		<eventText precondition="Butt&gt;29&amp;Butt&lt;40">Your ass is looking pretty thick. Putting your hands on your hips and checking out your side profile, you're actually pleasantly surprised at how far your rear extends.</eventText>
+		<eventText precondition="Butt&gt;29&amp;Butt&lt;40&amp;LikesFatSelf=0"> Another benefit of gaining weight, you think to yourself. However, after turning back around and watching your belly jiggle from even that motion, you begin to wonder if the costs outweigh the benefits...</eventText>
+		<eventText precondition="Butt&gt;29&amp;Butt&lt;40&amp;LikesFatSelf=1"> Impressive! You're really packing on the pounds and it shows!</eventText>
+		<eventText precondition="Butt&gt;39">Your ass is... quite large, to say the least. Putting your hands on your hips and checking out your side profile, and are amazed at how far your rear extends.</eventText>
+		<eventText precondition="Butt&gt;39&amp;LikesFatSelf=0"> Curious, you take a step forward such that your belly is hidden from view in your reflection. You could very well pass as a thick</eventText>
+		<eventText precondition="Butt&gt;39&amp;LikesFatSelf=0&amp;Gender=Female"> girl</eventText>
+		<eventText precondition="Butt&gt;39&amp;LikesFatSelf=0&amp;Gender=Male"> guy</eventText>
+		<eventText precondition="Butt&gt;39&amp;LikesFatSelf=0"> if one could only see your behind and nothing more, as your ass looks immaculate! But upon turning to face the mirror, your belly becomes impossible to hide. Sigh... You grab your belly and jiggle it a bit. This gut has to go!</eventText>
+		<option id="1">Belly</option>
+		<option id="2">Breasts</option>
+		<option id="3">Arms</option>
+		<option id="4">Legs</option>
+		<option id="5">Butt</option>
+		<option id="6">Finished Looking</option>
+	</dialog>
+	<dialog id="6">
+		<eventText>You step away from the mirror and dress yourself in what you were wearing previously.</eventText>
 	</dialog>
 </event>

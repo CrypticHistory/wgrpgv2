@@ -28,6 +28,10 @@ class SkillFatten{
 	public function getWaitTime(){
 		return 10;
 	}
+	
+	public function getSkillSubType(){
+		return "Debuff Ranged";
+	}
 }
 
 ?>

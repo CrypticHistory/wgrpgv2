@@ -258,6 +258,10 @@ p{
 	background-color:#EBE2D1 !important;
 }
 
+.greyBG{
+	background-color:#CFCFCF;
+}
+
 .innerBorder {
 	margin:0 auto;
 }

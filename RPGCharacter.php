@@ -655,7 +655,6 @@ class RPGCharacter{
 			$intNewHPModifier = ((100 - $intHPPercentageRoll) / 100);
 			if($intHPLossRoll >= 90){
 				$this->setCurrentHP(max(1, floor($this->getCurrentHP() * $intNewHPModifier)));
-				$this->getStats()->setBaseStats('intMaxHunger', min(1000, ($this->getStats()->getBaseStats()['intMaxHunger'] - 5)));
 				$this->setHungerText("You double over, clutching your stomach in pain. Continually starving yourself like this will seriously affect your health!");
 			}
 			$this->getStats()->activateStarving();

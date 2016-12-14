@@ -67,6 +67,7 @@ class DataGameUI{
 				$_SESSION['objUISettings']->setDisableTraversal(true);
 				$_SESSION['objUISettings']->setDisableInv(false);
 				$_SESSION['objUISettings']->setDisableStats(true);
+				$_SESSION['objUISettings']->setDisableSkills(true);
 				$_SESSION['objUISettings']->setEventFrame('Event');
 				$_SESSION['objUISettings']->setCommandsFrame('Event');
 				$_SESSION['objUISettings']->setNavigationFrame('Compass');
@@ -76,11 +77,13 @@ class DataGameUI{
 					$_SESSION['objUISettings']->setDisableTraversal(true);
 					$_SESSION['objUISettings']->setDisableInv(true);
 					$_SESSION['objUISettings']->setDisableStats(true);
+					$_SESSION['objUISettings']->setDisableSkills(true);
 				}
 				else{
 					$_SESSION['objUISettings']->setDisableTraversal(false);
 					$_SESSION['objUISettings']->setDisableInv(false);
 					$_SESSION['objUISettings']->setDisableStats(false);
+					$_SESSION['objUISettings']->setDisableSkills(false);
 				}
 				$_SESSION['objUISettings']->setEventFrame('Event');
 				if($blnEndOfEvent && $_SESSION['objRPGCharacter']->getTownID() == 1){
@@ -102,6 +105,7 @@ class DataGameUI{
 				$_SESSION['objUISettings']->setDisableTraversal(true);
 				$_SESSION['objUISettings']->setDisableInv(true);
 				$_SESSION['objUISettings']->setDisableStats(true);
+				$_SESSION['objUISettings']->setDisableSkills(true);
 				$_SESSION['objUISettings']->setEventFrame('Combat');
 				$_SESSION['objUISettings']->setCommandsFrame('Combat');
 				$_SESSION['objUISettings']->setNavigationFrame('Compass');
@@ -110,6 +114,7 @@ class DataGameUI{
 				$_SESSION['objUISettings']->setDisableTraversal(false);
 				$_SESSION['objUISettings']->setDisableInv(false);
 				$_SESSION['objUISettings']->setDisableStats(false);
+				$_SESSION['objUISettings']->setDisableSkills(false);
 				$_SESSION['objUISettings']->setEventFrame('Event');
 				$_SESSION['objUISettings']->setCommandsFrame('Event');
 				$_SESSION['objUISettings']->setNavigationFrame('Compass');
@@ -118,6 +123,7 @@ class DataGameUI{
 				$_SESSION['objUISettings']->setDisableTraversal(false);
 				$_SESSION['objUISettings']->setDisableInv(false);
 				$_SESSION['objUISettings']->setDisableStats(false);
+				$_SESSION['objUISettings']->setDisableSkills(false);
 				$_SESSION['objUISettings']->setEventFrame('Town');
 				$_SESSION['objUISettings']->setCommandsFrame('Town');
 				$_SESSION['objUISettings']->setNavigationFrame('Menu');
@@ -126,6 +132,7 @@ class DataGameUI{
 				$_SESSION['objUISettings']->setDisableTraversal(true);
 				$_SESSION['objUISettings']->setDisableInv(true);
 				$_SESSION['objUISettings']->setDisableStats(false);
+				$_SESSION['objUISettings']->setDisableSkills(true);
 				$_SESSION['objUISettings']->setEventFrame('StatGain');
 				$_SESSION['objUISettings']->setCommandsFrame('Return');
 				$_SESSION['objUISettings']->setNavigationFrame('Compass');
@@ -134,15 +141,26 @@ class DataGameUI{
 				$_SESSION['objUISettings']->setDisableTraversal(false);
 				$_SESSION['objUISettings']->setDisableInv(false);
 				$_SESSION['objUISettings']->setDisableStats(false);
+				$_SESSION['objUISettings']->setDisableSkills(false);
 				$_SESSION['objUISettings']->setEventFrame('Shop');
 				$_SESSION['objUISettings']->setCommandsFrame('Return');
 				$_SESSION['objUISettings']->setNavigationFrame('Menu');
+				break;
+			case "Skills":
+				$_SESSION['objUISettings']->setDisableTraversal(true);
+				$_SESSION['objUISettings']->setDisableInv(true);
+				$_SESSION['objUISettings']->setDisableStats(true);
+				$_SESSION['objUISettings']->setDisableSkills(false);
+				$_SESSION['objUISettings']->setEventFrame('SkillView');
+				$_SESSION['objUISettings']->setCommandsFrame('Return');
+				$_SESSION['objUISettings']->setNavigationFrame('Compass');
 				break;
 			default:
 				$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Tutorial']);
 				$_SESSION['objUISettings']->setDisableTraversal(true);
 				$_SESSION['objUISettings']->setDisableInv(false);
 				$_SESSION['objUISettings']->setDisableStats(true);
+				$_SESSION['objUISettings']->setDisableSkills(true);
 				$_SESSION['objUISettings']->setEventFrame('Event');
 				$_SESSION['objUISettings']->setCommandsFrame('Event');
 				$_SESSION['objUISettings']->setNavigationFrame('Compass');

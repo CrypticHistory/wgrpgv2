@@ -30,6 +30,16 @@ class RPGSkillList{
 		return $this->_arrSkills;
 	}
 	
+	public function getActiveSkillList(){
+		$arrReturn = array();
+		foreach($this->_arrSkills as $intSkillID => $objSkill){
+			if($objSkill->getSkillType() != "Kill Buff" && $objSkill->getSkillType() != "Passive"){
+				$arrReturn[$intSkillID] = $objSkill;
+			}
+		}
+		return $arrReturn;
+	}
+	
 	public function resetAllCooldowns(){
 		foreach($this->_arrSkills as $intSkillID => $objSkill){
 			$objSkill->setCurrentCooldown($objSkill->getPreCooldown());

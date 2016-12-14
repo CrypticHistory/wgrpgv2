@@ -23,11 +23,19 @@ class DisplayCharacterClasses{
 									echo "<td id='className'><span class='itemName className'><a href=\"javascript:showClassDetails('" . $intCounter . "');\">" . $objClass->getClassName() . " - " . ($objClass->getCurrentClass() ? "<span class='playerClassActive'>Active</span>" : "<span class='playerClassInactive'>Inactive</span>") . "</a></span></td>";
 									echo "</tr>";
 									echo "<tr id='classEntryDetails" . $intCounter . "' class='" . (($_SESSION['objUISettings']->getClassTab() == $intCounter) ? "" : "hidden") . "'>
-											<td class='itemDesc background" . ($intCounter % 2) . "'><b>Level:</b> " . $objClass->getClassLevel() . "<br/><b>Experience: </b>" . $objClass->getClassExperience() . " / " . $objClass->getRequiredExperience() . "<br/><br/><b>Description:</b><br/>" . $objClass->getClassDesc() . "<br/>
-												<form method='post' action='command.php'>
+											<td class='itemDesc background" . ($intCounter % 2) . "'><b>Level:</b> " . $objClass->getClassLevel() . "<br/><b>Experience: </b>" . $objClass->getClassExperience() . " / " . $objClass->getRequiredExperience() . "<br/><br/><b>Description:</b><br/>" . $objClass->getClassDesc() . "<br/>";
+									if(!$_SESSION['objUISettings']->getDisableSkills()){
+										echo
+												"<form method='post' action='command.php'>
+													<a href='changeEventWindow.php?changeTo=SkillView&intClassID=" . $objClass->getClassID() . "'><button type='button'>View Skills</button></a>
 													<button type='submit' name='toggleClass' value='" . $objClass->getClassID() . "'>" . ($objClass->getCurrentClass() ? "Disable" : "Enable") . "</button>
-												</form>
-											</td>
+												</form>";
+									}
+									else{
+										echo "<br/>";
+									}
+										echo
+											"</td>
 										  </tr>";
 								  $intCounter++;
 								}

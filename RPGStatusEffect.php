@@ -16,6 +16,7 @@ class RPGStatusEffect{
 	private $_blnInfinite;
 	private $_intDuration;
 	private $_blnIncremental;
+	private $_blnKillBuff;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
@@ -40,6 +41,7 @@ class RPGStatusEffect{
 		$this->setInfinite($arrStatusEffectInfo['blnInfinite']);
 		$this->setDuration($arrStatusEffectInfo['intDuration']);
 		$this->setIncremental($arrStatusEffectInfo['blnIncremental']);
+		$this->setKillBuff($arrStatusEffectInfo['blnKillBuff']);
 		$this->setCreatedOn($arrStatusEffectInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrStatusEffectInfo['strCreatedBy']);
 		$this->setModifiedOn($arrStatusEffectInfo['dtmModifiedOn']);
@@ -49,7 +51,7 @@ class RPGStatusEffect{
 	private function loadStatusEffectInfo($strStatusEffectName){
 		$objDB = new Database();
 		$arrStatusEffectInfo = array();
-			$strSQL = "SELECT intStatusEffectID, strStatusEffectName, strStatName, intStatChangeMin, intStatChangeMax, intOverrideID, blnInfinite, intDuration, blnIncremental, dtmCreatedOn, strCreatedBy, dtmModifiedOn, strModifiedBy
+			$strSQL = "SELECT intStatusEffectID, strStatusEffectName, strStatName, intStatChangeMin, intStatChangeMax, intOverrideID, blnInfinite, intDuration, blnIncremental, blnKillBuff, dtmCreatedOn, strCreatedBy, dtmModifiedOn, strModifiedBy
 						FROM tblstatuseffect
 							INNER JOIN tblstatuseffectstatchange
 								USING (intStatusEffectID)
@@ -65,6 +67,7 @@ class RPGStatusEffect{
 				$arrStatusEffectInfo['blnInfinite'] = $arrRow['blnInfinite'];
 				$arrStatusEffectInfo['intDuration'] = $arrRow['intDuration'];
 				$arrStatusEffectInfo['blnIncremental'] = $arrRow['blnIncremental'];
+				$arrStatusEffectInfo['blnKillBuff'] = $arrRow['blnKillBuff'];
 				$arrStatusEffectInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrStatusEffectInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrStatusEffectInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
@@ -76,7 +79,7 @@ class RPGStatusEffect{
 	private function loadStatusEffectInfoFromID($intStatusEffectID){
 		$objDB = new Database();
 		$arrStatusEffectInfo = array();
-			$strSQL = "SELECT intStatusEffectID, strStatusEffectName, strStatName, intStatChangeMin, intStatChangeMax, intOverrideID, blnInfinite, intDuration, blnIncremental, dtmCreatedOn, strCreatedBy, dtmModifiedOn, strModifiedBy
+			$strSQL = "SELECT intStatusEffectID, strStatusEffectName, strStatName, intStatChangeMin, intStatChangeMax, intOverrideID, blnInfinite, intDuration, blnIncremental, blnKillBuff, dtmCreatedOn, strCreatedBy, dtmModifiedOn, strModifiedBy
 						FROM tblstatuseffect
 							INNER JOIN tblstatuseffectstatchange
 								USING (intStatusEffectID)
@@ -92,6 +95,7 @@ class RPGStatusEffect{
 				$arrStatusEffectInfo['blnInfinite'] = $arrRow['blnInfinite'];
 				$arrStatusEffectInfo['intDuration'] = $arrRow['intDuration'];
 				$arrStatusEffectInfo['blnIncremental'] = $arrRow['blnIncremental'];
+				$arrStatusEffectInfo['blnKillBuff'] = $arrRow['blnKillBuff'];
 				$arrStatusEffectInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrStatusEffectInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrStatusEffectInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
@@ -223,6 +227,14 @@ class RPGStatusEffect{
 	
 	public function setIncremental($blnIncremental){
 		$this->_blnIncremental = $blnIncremental;
+	}
+	
+	public function getKillBuff(){
+		return $this->_blnKillBuff;
+	}
+	
+	public function setKillBuff($blnKillBuff){
+		$this->_blnKillBuff = $blnKillBuff;
 	}
 	
 	public function getCreatedOn(){
