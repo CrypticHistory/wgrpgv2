@@ -30,7 +30,7 @@ class SkillIcePike{
 					$intBlockDmgModifier = 1.0;
 				}
 				
-				$intDamage = max(0, round((((($objPlayer->getModifiedMagicDamage() * $this->getSkillBaseModifier() + $objRPGCombatHelper->calculateAdditionalDmg($objPlayer)) * $intCritDmgModifier) - $objNPC->getModifiedMagicDefence()) * $intBlockDmgModifier)));
+				$intDamage = max(0, round((((($objPlayer->getModifiedMagicDamage() + $objRPGCombatHelper->calculateAdditionalDmg($objPlayer)) * $this->getSkillBaseModifier()) * $intCritDmgModifier) - $objNPC->getModifiedMagicDefence()) * $intBlockDmgModifier));
 				$objNPC->takeDamage($intDamage);
 				$strReturnText = "You wave your " . $objPlayer->getEquippedWeapon()->getItemName() . " and hurl an ice pike at " . $objNPC->getNPCName() . ". It connects, inflicting " . $intDamage . " damage.";
 				

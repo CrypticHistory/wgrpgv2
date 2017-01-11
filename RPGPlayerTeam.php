@@ -63,6 +63,15 @@
 			}
 		}
 		
+		public function hasStatusEffect($strStatusEffectName){
+			if($this->_objPlayer->hasStatusEffect($strStatusEffectName) || ($this->_objPartyOne != null && $this->_objPartyOne->hasStatusEffect($strStatusEffectName)) || ($this->_objPartyTwo != null && $this->_objPartyTwo->hasStatusEffect($strStatusEffectName))){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		
 		public function gainExperience($intAmount){
 			$this->_objPlayer->gainExperience($intAmount);
 			if($this->_objPartyOne != null){

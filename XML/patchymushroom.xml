@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<type>Forced Event</type>
+	<end>1</end>
+	<end>2</end>
+	<dialog id='0'>
+		<eventText>As you continue traversing deeper and deeper into the swamp you notice a distinctive looking tree husk, most of it covered by a violet overgrowth. Having piqued your interest you decide to give the husk a closer look, and notice that it's actually been covered by a special kind of mushroom that seems to grow in patches. 
+
+					Looking down at the shrooms, it's clear the tower has another surprise for you.  The peculiar shrooms are all growing together in a small area, almost as if they were afraid to split apart, thus taking every single inch available to them. The sight intrigues you, and the mushrooms even seem to sway together in unison with the breeze. You wonder if anything so delicate could be harmful and even consider picking some of the brilliant violet shrooms with you as a souvenir.</eventText>
+		<option action="decreaseHeight~" id='1'>Touch One</option>
+		<option id='2'>Ignore Them</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>Shrugging, you pluck some of the mushrooms to put in your inventory. But the fungi you pick release a puff of spores at you before shriveling away into nothingness. Suddenly you feel a dizzy spell come over you, and you close your eyes to try and rid yourself of the head ache. You hear your body creak and groan, so you snap your eyes open in response. Something seems off about your surroundings. Why does everything look... taller? Looking down at your body and finding the ground much closer than before, you realize that you've grown shorter! Oh dear... and it would appear that you haven't lost any mass either, making you considerably fatter now that you are at a shorter height.</eventText>
+	</dialog>
+	<dialog id='2'>
+		<eventText>Perhaps it's best not to touch strange mushrooms. They could be poisonous, after all.</eventText>
+	</dialog>
+</event>

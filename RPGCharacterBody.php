@@ -78,7 +78,7 @@ class RPGCharacterBody{
 	public function save(){
 		$objDB = new Database();
 		$strSQL = "UPDATE tblcharacterbody
-					SET intBreasts = " . $objDB->quote($this->_intBreasts) . ", intBelly = " . $objDB->quote($this->_intBelly) . ", intLegs = " . $objDB->quote($this->_intLegs) . ", intButt = " . $objDB->quote($this->_intButt) . ", intArms = " . $objDB->quote($this->_intArms) . ", intFace = " . $objDB->quote($this->_intFace) . ", intBellyRipLevel = " . $objDB->quote($this->_intBellyRipLevel) . ", intButtRipLevel = " . $objDB->quote($this->_intButtRipLevel) . ", intBreastsRipLevel = " . $objDB->quote($this->_intBreastsRipLevel) . ", intArmsRipLevel = " . $objDB->quote($this->_intArmsRipLevel) . ", intLegsRipLevel = " . $objDB->quote($this->_intLegsRipLevel) . ")
+					SET intBreasts = " . $objDB->quote($this->_intBreasts) . ", intBelly = " . $objDB->quote($this->_intBelly) . ", intLegs = " . $objDB->quote($this->_intLegs) . ", intButt = " . $objDB->quote($this->_intButt) . ", intArms = " . $objDB->quote($this->_intArms) . ", intFace = " . $objDB->quote($this->_intFace) . ", intBellyRipLevel = " . $objDB->quote($this->_intBellyRipLevel) . ", intButtRipLevel = " . $objDB->quote($this->_intButtRipLevel) . ", intBreastsRipLevel = " . $objDB->quote($this->_intBreastsRipLevel) . ", intArmsRipLevel = " . $objDB->quote($this->_intArmsRipLevel) . ", intLegsRipLevel = " . $objDB->quote($this->_intLegsRipLevel) . "
 						WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID);
 		$objDB->query($strSQL);
 	}

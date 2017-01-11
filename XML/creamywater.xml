@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<type>Forced Event</type>
+	<end>1</end>
+	<end>2</end>
+	<end>3</end>
+	<dialog id='0'>
+		<eventText>Wading through the dense swamplands, you encounter an odd pool of water. It appears to be creamy, white. A vague urge calls for you to sit down and drink from it.</eventText>
+		<option precondition="{5050Roll}" action="growBreasts~1" id='1'>Drink</option>
+		<option precondition="{LastRollFailed}" action="shrinkBreasts~1" id='2'>Drink</option>
+		<option id='3'>Refuse</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>The urge overwhelms you. You scoop your hands into the pool, bringing the creamy substance to your mouth to drink. You let out a slight moan before repeating the process over and over, finding the liquid to be irresistibly good. With every gulp you feel a slight tingling in your breasts and pressure begins to build up. Your bra tightens, but you find yourself unable to care. Eventually the trance subsides, and you blink at your surroundings. Looking down, you can tell that your breasts extend much further than before, and they push your bra to its limits. The creamy water must have been responsible for this change.
+
+					Sighing, you get back on your feet with a bit more difficulty than expected, your breasts jiggling profusely from the movement.</eventText>
+	</dialog>
+	<dialog id='2'>
+		<eventText>The urge overwhelms you. You scoop your hands into the pool, bringing the creamy substance to your mouth to drink. You let out a slight moan before repeating the process over and over, finding the liquid to be irresistibly good. With every gulp you feel a slight tingling in your breasts. Minutes pass by, and the trance fades from you, causing you to blink at your surroundings. You can't help but notice that your breasts seems to occupy much less space than before. Your bra is also much looser. Strange, perhaps the creamy water is responsible?
+
+					You get back on your feet, a task notably easier with less to carry around your chest.</eventText>
+	</dialog>
+	<dialog id='3'>
+		<eventText>Why on Earth should you drink from a random puddle on the ground? It's likely contaminated with something. Snorting, you turn and walk, feeling the strange tug on your mind fading away with each step, until it's completely gone.</eventText>
+	</dialog>
+</event>

@@ -88,7 +88,7 @@ class RPGClass{
 	}
 	
 	public function gainExperience($intExpGain){
-		if($this->getClassLevel() != 5){
+		if($this->getClassLevel() != 15){
 			$this->_intClassExperience += $intExpGain;
 			$this->saveClass();
 		}

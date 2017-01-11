@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<type>Forced Event</type>
+	<end>1</end>
+	<end>2</end>
+	<dialog id='0'>
+		<eventText>As you make your way through the thick bushes and muddy water a particular kind of plant catches your eye. Unlike most of the vegetation around you this one appears to have a distinctive smell and colour. You decide to walk closer to inspect it. 
+
+					What you find is an extraordinary flower, adorned with thick crimson petals and blooming from a vine of matching colour. In the middle of the flower is a heavy pistil that appears to be oozing orange goo. The goo itselfs slowly drips, having a density similar to honey. Looking closer you notice that much of the goo has accumulated into a puddle encircling the flower. Its sweet fragrance pulls you in closer. Oddly, you even consider tasting some of the goo for yourself.
+		</eventText>
+		<option action="gainRandomWeight~30~60" id='1'>Yes</option>
+		<option id='2'>No</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>Giving in to your primal instincts you decide to give the goo a taste. You cup a handful of it towards your mouth and begin to slowly sip on the thick, creamy liquid. Though you have a hard time have swallowing it, you find that the liquid quickly flows down your throat and into your stomach. You can feel it quickly settling and weighing you down tremendously, as if the liquid's instinct were to occupy as much space as possible within you. This sensation is coupled with a newfound warmth that begins to overtake your body. Before your very eyes your figure begins to swell outward. A new layer of pudge emerges across your body.
+		
+		</eventText>
+		<eventText precondition='LikesFatSelf=0'>Great. This is just what you needed; another layer of lard slowing you down. You grab your newfound belly rolls and let them fall, jiggling profusely. It seems this place is fixated on ruining your figure. In a puddle, you catch your own reflexion. Bloated doesn't even begin to describe you. You turn around and suck in your belly to see if you can catch a glimpse of your former glory. Your belly concaves inward for a moment; but this moment is as short as your breathing. In a long exhale your gut pops back into the picture, much to your dismay.</eventText>
+		<eventText precondition='LikesFatSelf=1'>Ha! Isn't this perfect? Now you can really show the slimes on this floor who's boss! You explore the added padding with great pleasure as your fingers slowly make their way through the still warm layer of pudginess that now resides in your middle. Your new vast figure is being displayed by a nearby puddle.</eventText>
+		<eventText precondition='LikesFatSelf=1&amp;Personality=Shy'>You catch your reflexion in the puddle and blush. You pose, excited to present your new, fattened body to the world. It's so unlike you to make such a show of yourself but you can't help it.</eventText>
+		<eventText precondition='LikesFatSelf=1&amp;Personality=Outgoing'>You proudly pose, jiggling your new girth. Laughing at your silly show you decide it's been enough and continue on your quest.</eventText>
+		<eventText>
+					Looking back at the vine, you notice that the flower has closed itself back up, as if knowing what had just transpired. It seems as though that this flower was made for a very specific purpose, fattening up naive people like you.</eventText>
+	</dialog>
+	<dialog id='2'>
+		<eventText>Past experiences have taught you better than to trust anything in this tower. You slowly walk away from the mysterious plant turning back to get a last whiff of the delicious smell.</eventText>
+	</dialog>
+</event>

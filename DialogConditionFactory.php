@@ -34,6 +34,21 @@ class DialogConditionFactory {
 					$blnReturn = false;
 				}
 			}
+			else if($matches[1][0] == "5050Roll"){
+				
+				// if roll for this stat already exists in current dialog node
+				if($_SESSION['objRPGCharacter']->getEvent()->getRolls("FiftyFifty") != 0){
+					$intStatRoll = $_SESSION['objRPGCharacter']->getEvent()->getRolls("FiftyFifty");
+				}
+				else{
+					$intStatRoll = mt_rand(0, 1);
+					$_SESSION['objRPGCharacter']->getEvent()->setRolls("FiftyFifty", $intStatRoll);
+				}
+
+				$_SESSION[$strSession]->setLastRoll($intStatRoll);
+				$blnReturn = $intStatRoll;
+				
+			}
 			else{
 				foreach($matches[1] as $key => $value){
 					$strSplit = explode("~", $value);

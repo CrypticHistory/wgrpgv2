@@ -51,16 +51,22 @@ class DisplayCombatCommandsWindow{
 						$("#attackForm").submit();
 					});
 					
-					$("#skillRadio").change(function(){
-						if($(this).next().val() == "3"){
+					$(".skillRadio").change(function(){
+						if($(this).attr("targets") == "3"){
 							$(".allEnemyTargets").removeClass("hidden");
 							$(".individualTargets").addClass("hidden");
-							$("#allEnemyRadio").attr("checked", true);
+							$("#leaderRadio").prop("checked", false);
+							$("#enemyOneRadio").prop("checked", false);
+							$("#enemyTwoRadio").prop("checked", false);
+							$("#allEnemyRadio").prop("checked", true);
 						}
 						else{
 							$(".allEnemyTargets").addClass("hidden");
 							$(".individualTargets").removeClass("hidden");
-							$("#leaderRadio").attr("checked", true);
+							$("#enemyOneRadio").prop("checked", false);
+							$("#enemyTwoRadio").prop("checked", false);
+							$("#allEnemyRadio").prop("checked", false);
+							$("#leaderRadio").prop("checked", true);
 						}
 					});
 					
@@ -112,7 +118,7 @@ class DisplayCombatCommandsWindow{
 									else{
 										$arrSkillCooldowns[] = false;
 									}
-									echo "<td><input class='skillRadio' type='radio' name='intSkillID' value='" . $intSkillID . "'" . $strChecked . $strDisabled . ">" . $objSkill->getSkillName() . " (" . $objSkill->getCurrentCooldown() . ")</td>";
+									echo "<td><input class='skillRadio' targets='" . $objSkill->getTargetCount() . "' type='radio' name='intSkillID' value='" . $intSkillID . "'" . $strChecked . $strDisabled . ">" . $objSkill->getSkillName() . " (" . $objSkill->getCurrentCooldown() . ")</td>";
 									$intCounter++;
 								}
 
@@ -135,12 +141,12 @@ class DisplayCombatCommandsWindow{
 							<td class='individualTargets'><input id='leaderRadio' type='radio' name='target' value='Leader' checked="checked"/> Leader</td>
 							<?php }
 							if(isset($_SESSION['objCombat']->getWaitTimes()["EnemyOne"])){ ?>
-							<td class='individualTargets'><input type='radio' name='target' value='EnemyOne' <?=(!isset($_SESSION['objCombat']->getWaitTimes()["Leader"]) ? "checked='checked'" : "")?>/> Enemy One</td>
+							<td class='individualTargets'><input id='enemyOneRadio' type='radio' name='target' value='EnemyOne' <?=(!isset($_SESSION['objCombat']->getWaitTimes()["Leader"]) ? "checked='checked'" : "")?>/> Enemy One</td>
 							<?php }
 							if(isset($_SESSION['objCombat']->getWaitTimes()["EnemyTwo"])){ ?>
-							<td class='individualTargets'><input type='radio' name='target' value='EnemyTwo' <?=((!isset($_SESSION['objCombat']->getWaitTimes()["Leader"]) && !isset($_SESSION['objCombat']->getWaitTimes()["EnemyOne"])) ? "checked='checked'" : "")?>/> Enemy Two</td>
+							<td class='individualTargets'><input id='enemyTwoRadio' type='radio' name='target' value='EnemyTwo' <?=((!isset($_SESSION['objCombat']->getWaitTimes()["Leader"]) && !isset($_SESSION['objCombat']->getWaitTimes()["EnemyOne"])) ? "checked='checked'" : "")?>/> Enemy Two</td>
 							<?php } ?>
-							<td class='hidden allEnemyTargets'><input id='allEnemyRadio' type='radio' name='target' value='AllEnemy'/></td>
+							<td class='allEnemyTargets hidden'><input id='allEnemyRadio' type='radio' name='target' value='AllEnemy'/> All Enemies</td>
 						</tr>
 						<tr>
 							<td id='confirmButtonCol'>

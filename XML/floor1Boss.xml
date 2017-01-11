@@ -25,7 +25,7 @@
 	</dialog>
 	<dialog id="4">
 		<eventText>You collapse to the ground in injury, defeated.</eventText>
-		<option id="5" action="reviveCharacter~10">Continue</option>
+		<option id="5" action="reviveCharacter~">Continue</option>
 	</dialog>
 	<dialog id="5">
 		<eventText>You revived miraculously. Go forth and conquer.</eventText>

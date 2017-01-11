@@ -31,7 +31,7 @@ class SkillRend{
 					$intBlockDmgModifier = 1.0;
 				}
 				
-				$intDamage = max(0, round((((($objPlayer->getModifiedDamage() * $this->getSkillBaseModifier() + $objRPGCombatHelper->calculateAdditionalDmg($objPlayer)) * $intCritDmgModifier) - $objNPC->getModifiedDefence()) * $intBlockDmgModifier)));
+				$intDamage = max(0, round((((($objPlayer->getModifiedDamage() + $objRPGCombatHelper->calculateAdditionalDmg($objPlayer)) * $this->getSkillBaseModifier()) * $intCritDmgModifier) - $objNPC->getModifiedDefence()) * $intBlockDmgModifier));
 				$objNPC->takeDamage($intDamage);
 				$strReturnText = "You swing your " . $objPlayer->getEquippedWeapon()->getItemName() . " rapidly over top your head, swapping between hands before finally landing the blade on " . $objNPC->getNPCName() . "'s skull with a crushing blow. You rend " . $objNPC->getNPCName() . ", inflicting " . $intDamage . " damage.";
 			}
@@ -47,11 +47,17 @@ class SkillRend{
 		
 		$objRPGCombatHelper = new RPGCombatHelper();
 		
-		$intDamage = max(0, $objRPGCombatHelper->calculateDamage($objNPC, $objPlayer, $this->getSkillBaseModifier()));
+		if($objRPGCombatHelper->calculateEvadeRoll($objNPC, $objPlayer)){
+			$strReturnText = $objNPC->getNPCName() . " swings its " . $objNPC->getEquippedWeapon()->getItemName() . " rapidly over top its head, swapping between hands before taking a swing at " . $objPlayer->getNPCName() . "'s head. The attack is dodged, inflicting 0 damage.";
+		}
+		else{
+			$intDamage = max(0, $objRPGCombatHelper->calculateDamage($objNPC, $objPlayer, $this->getSkillBaseModifier()));
+			
+			$objPlayer->takeDamage($intDamage);
+			
+			$strReturnText = $objNPC->getNPCName() . " swings its " . $objNPC->getEquippedWeapon()->getItemName() . " rapidly over top its head, swapping between hands before finally landing the blade on " . $objPlayer->getNPCName() . "'s skull with a crushing blow. " . $objNPC->getNPCName() . " rends " . $objPlayer->getNPCName() . ", inflicting " . $intDamage . " damage.";
+		}
 		
-		$objPlayer->takeDamage($intDamage);
-		
-		$strReturnText = $objNPC->getNPCName() . " swings its " . $objNPC->getEquippedWeapon()->getItemName() . " rapidly over top its head, swapping between hands before finally landing the blade on " . $objPlayer->getNPCName() . "'s skull with a crushing blow. " . $objNPC->getNPCName() . " rends " . $objPlayer->getNPCName() . ", inflicting " . $intDamage . " damage.";
 		return $strReturnText;
 	}
 	

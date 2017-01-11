@@ -151,10 +151,10 @@ class RPGCombatHelper{
 			}
 			
 			if($objAttacker->getEquippedWeapon()->getStatDamage() === null || $objAttacker->getEquippedWeapon()->getStatDamage() == 'Strength'){
-				$intDamage = round((((($objAttacker->getModifiedDamage() * $dblSkillModifier) + $intAttackerAdditionalDamageRoll) * $intAttackerCritDamageModifier) - $objDefender->getModifiedDefence()) * $intDefenderBlockedDamageModifier);
+				$intDamage = round((((($objAttacker->getModifiedDamage() + $intAttackerAdditionalDamageRoll) * $dblSkillModifier) * $intAttackerCritDamageModifier) - $objDefender->getModifiedDefence()) * $intDefenderBlockedDamageModifier);
 			}
 			else if($objAttacker->getEquippedWeapon()->getStatDamage() == 'Intelligence'){
-				$intDamage = round((((($objAttacker->getModifiedMagicDamage() * $dblSkillModifier) + $intAttackerAdditionalDamageRoll) * $intAttackerCritDamageModifier) - $objDefender->getModifiedMagicDefence()) * $intDefenderBlockedDamageModifier);	
+				$intDamage = round((((($objAttacker->getModifiedMagicDamage() + $intAttackerAdditionalDamageRoll) * $dblSkillModifier) * $intAttackerCritDamageModifier) - $objDefender->getModifiedMagicDefence()) * $intDefenderBlockedDamageModifier);	
 			}
 		}
 		return $intDamage;

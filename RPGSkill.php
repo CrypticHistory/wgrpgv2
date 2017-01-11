@@ -16,6 +16,7 @@ class RPGSkill{
 	private $_intCooldown;
 	private $_intCurrentCooldown;
 	private $_intPreCooldown;
+	private $_intStatusEffectID;
 	
 	public function RPGSkill($intSkillID = null){
 		if($intSkillID != null){
@@ -35,6 +36,7 @@ class RPGSkill{
 		$this->setWeaponType($arrSkillInfo['strWeaponType']);
 		$this->setCooldown($arrSkillInfo['intCooldown']);
 		$this->setPreCooldown($arrSkillInfo['intPreCooldown']);
+		$this->setStatusEffectID($arrSkillInfo['intStatusEffectID']);
 	}
 	
 	private function loadSkillInfo($intSkillID){
@@ -56,6 +58,7 @@ class RPGSkill{
 				$arrSkillInfo['strWeaponType'] = $arrRow['strWeaponType'];
 				$arrSkillInfo['intCooldown'] = $arrRow['intCooldown'];
 				$arrSkillInfo['intPreCooldown'] = $arrRow['intPreCooldown'];
+				$arrSkillInfo['intStatusEffectID'] = $arrRow['intStatusEffectID'];
 			}
 		$this->populateVarFromRow($arrSkillInfo);
 	}
@@ -146,6 +149,14 @@ class RPGSkill{
 	
 	public function setPreCooldown($intPreCooldown){
 		$this->_intPreCooldown = $intPreCooldown;
+	}
+	
+	public function getStatusEffectID(){
+		return $this->_intStatusEffectID;
+	}
+	
+	public function setStatusEffectID($intStatusEffectID){
+		$this->_intStatusEffectID = $intStatusEffectID;
 	}
 	
 	public function getCurrentCooldown(){

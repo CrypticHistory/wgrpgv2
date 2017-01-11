@@ -85,6 +85,7 @@ class RPGEvent{
 		$this->_arrRolls["Agility"] = 0;
 		$this->_arrRolls["Dexterity"] = 0;
 		$this->_arrRolls["Willpower"] = 0;
+		$this->_arrRolls["FiftyFifty"] = 0;
 	}
 	
 	public function getLinkName($intLocationID){

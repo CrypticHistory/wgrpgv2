@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>0</end>
+	<precondition>CurrentFloorID=3</precondition>
+	<dialog id='0'>
+		<eventText precondition="BMI&gt;0&amp;BMI&lt;30">You press forward, each careful </eventText>
+		<eventText precondition="BMI&gt;29&amp;BMI&lt;40">You lumber forward, each heavy </eventText>
+		<eventText precondition="BMI&gt;39">You waddle forward, each breathless </eventText>
+		<eventText>step sinking through mud in this swamp-like environment. Occasionally vines hang in the way of your path, forcing you to push them aside to continue.
+
+		</eventText>
+		<eventText precondition="BMI&gt;19&amp;BMI&lt;30">You're a bit tired, but you know you cannot rest.
+		
+		</eventText>
+		<eventText precondition="BMI&gt;29&amp;BMI&lt;40">Your weight is putting a great amount of strain on your lower body, but you know you cannot rest.
+		
+		</eventText>
+		<eventText precondition="BMI&gt;39&amp;BMI&lt;50">Your girth is putting an immense amount of strain on your lower body, but you know you cannot rest.
+		
+		</eventText>
+		<eventText precondition="BMI&gt;49&amp;BMI&lt;60">Hefting around your jiggling rolls is beginning to put immense strain on your lower body. You are absolutely exausted, but you know you cannot rest.
+		
+		</eventText>
+		<eventText precondition="BMI&gt;59">Your body has become utterly massive as of late, and each step you take sends ripples jolting across your jiggling rolls of fat. You're surprised you can even continue waddling forward, even at such a slow pace. You are absolutely exausted, but you know you cannot rest.
+		
+		</eventText>
+		<eventText>Your feet are damp from the terrain, but the fresh air is a nice change from the claustrophobic confines of the dungeon you were traversing on the floor previous.</eventText>
+	</dialog>
+</event>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<type>Forced Event</type>
+	<end>1</end>
+	<end>2</end>
+	<end>3</end>
+	<dialog id='0'>
+		<eventText>Wading through the dense swamplands, you encounter an odd pool of water. It appears to be tainted, opaque. A vague urge calls for you to sit down and drink from it.</eventText>
+		<option precondition="{5050Roll}" action="growBelly~1" id='1'>Drink</option>
+		<option precondition="{LastRollFailed}" action="shrinkBelly~1" id='2'>Drink</option>
+		<option id='3'>Refuse</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>The urge overwhelms you. You scoop your hands into the pool, bringing the foggy substance to your mouth to drink. You let out a slight moan before repeating the process over and over, finding the liquid to be irresistibly good. With every gulp you feel a slight tingling in your belly and pressure begins to build up. You let out a belch, and the trance fades from you, causing you to blink at your surroundings. You can't help but notice that your belly seems to be occupying much more space than before, squishing against your knees while you sit. The water must have grown your belly in size!
+
+					Sighing, you get back on your feet with a bit more difficulty than expected, weighed down by your full belly.</eventText>
+	</dialog>
+	<dialog id='2'>
+		<eventText>The urge overwhelms you. You scoop your hands into the pool, bringing the foggy substance to your mouth to drink. You let out a slight moan before repeating the process over and over, finding the liquid to be irresistibly good. With every gulp you feel a slight tingling in your midsection. Minutes pass by, and the trance fades from you, causing you to blink at your surroundings. You can't help but notice that your belly seems to occupy much less space than before. Looking at your midsection, you can tell it has shrunk in size a fair bit. The water must have thinned it.
+
+					You get back on your feet, a task notably easier with less to carry around your waist.</eventText>
+	</dialog>
+	<dialog id='3'>
+		<eventText>Why on Earth should you drink from a random puddle on the ground? It's likely contaminated with something. Snorting, you turn and walk, feeling the strange tug on your mind fading away with each step, until it's completely gone.</eventText>
+	</dialog>
+</event>

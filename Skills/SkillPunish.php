@@ -29,10 +29,10 @@ class SkillPunish{
 	
 	public function playerParry($objPlayer, $objNPC){
 		if($objNPC->getEquippedWeapon()->getStatDamage() === null || $objNPC->getEquippedWeapon()->getStatDamage() == 'Strength'){
-			$intDamage = round((($objNPC->getModifiedDamage() * ($this->getSkillCounterModifier() + $this->getSkillBaseModifier())) + $objNPC->getAdditionalDamage()) - $objNPC->getModifiedDefence());
+			$intDamage = round((($objNPC->getModifiedDamage() + $objNPC->getAdditionalDamage()) * ($this->getSkillCounterModifier() + $this->getSkillBaseModifier())) - $objNPC->getModifiedDefence());
 		}
 		else if($objNPC->getEquippedWeapon()->getStatDamage() == 'Intelligence'){
-			$intDamage = round((($objNPC->getModifiedMagicDamage() * ($this->getSkillCounterModifier() + $this->getSkillBaseModifier())) + $objNPC->getAdditionalDamage()) - $objNPC->getModifiedMagicDefence());
+			$intDamage = round(((($objNPC->getModifiedMagicDamage() + $objNPC->getAdditionalDamage()) * ($this->getSkillCounterModifier() + $this->getSkillBaseModifier())) - $objNPC->getModifiedMagicDefence());
 		}
 		
 		$objNPC->takeDamage($intDamage);
@@ -49,10 +49,10 @@ class SkillPunish{
 	public function playerParrySkill($objPlayer, $objNPC, $objSkill){
 		if($objSkill->getSkillSubType() == "Strong Melee" || $objSkill->getSkillSubType() == "Weak Melee"){
 			if($objNPC->getEquippedWeapon()->getStatDamage() === null || $objNPC->getEquippedWeapon()->getStatDamage() == 'Strength'){
-				$intDamage = round((($objNPC->getModifiedDamage() * ($objSkill->getSkillBaseModifier() + $this->getSkillBaseModifier())) + $objNPC->getAdditionalDamage()) - $objNPC->getModifiedDefence());
+				$intDamage = round((($objNPC->getModifiedDamage() + $objNPC->getAdditionalDamage()) * ($objSkill->getSkillBaseModifier() + $this->getSkillBaseModifier())) - $objNPC->getModifiedDefence());
 			}
 			else if($objNPC->getEquippedWeapon()->getStatDamage() == 'Intelligence'){
-				$intDamage = round((($objNPC->getModifiedMagicDamage() * ($objSkill->getSkillBaseModifier() + $this->getSkillBaseModifier())) + $objNPC->getAdditionalDamage()) - $objNPC->getModifiedMagicDefence());
+				$intDamage = round((($objNPC->getModifiedMagicDamage() + $objNPC->getAdditionalDamage()) * ($objSkill->getSkillBaseModifier() + $this->getSkillBaseModifier())) - $objNPC->getModifiedMagicDefence());
 			}
 			
 			$objNPC->takeDamage($intDamage);

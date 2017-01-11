@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<type>Forced Event</type>
+	<end>1</end>
+	<end>2</end>
+	<end>3</end>
+	<end>4</end>
+	<end>5</end>
+	<dialog id='0'>
+		<eventText>Your halt your step; a foul stench is present nearby. Looking around, you are unable to discern what the cause is amongst the foliage. That is, until you feel a drop of oily liquid graze your shoulder. Although the drop was initially condensed, the mysterious substance quickly spreads, forming a sticky patch of purple around your shoulder. After a quick sniff it's obvious this is the source of the smell, and the liquid clearly dripped from above you.
+
+Looking up, you glimpse a rotund mushroom adorned with a lilac cap. It grows from the tree to your left with an arched trunk. Purple liquid appears to be sweating from its cap. You take a step back to avoid being hit with another drop. There's no telling what this substance will do to you. But you feel a sharp pain in your shoulder and realize you might soon find out what this liquid is capable of, the hard way...
+
+Worry begins to set in. The liquid begins to bubble and sizzle on your shoulder. What should you do? Looking around, you think of maybe using a leaf to scrape the liquid off to avoid getting it on your hands too. To your right there is a bush with short green leaves, maybe that will do. However, before you can act, the bubbling subsides. Your shoulder appears to be unscathed, and the sticky patch gone too, evaporated perhaps. Although you were in pain seconds ago, your body now feels... lighter, strangely. Could it be that the liquid was beneficial to your health? Another drop of purple goops hits the ground with a splash, and you watch as it slowly starts to bubble and sizzle, just as it did on your shoulder. Should you let more of this liquid on your body, to see if your hypothesis holds true?</eventText>
+		<option precondition="BMI&gt;34&amp;LikesFatSelf=0" action="loseRandomWeight~30~60" id='1'>Stay</option>
+		<option precondition="BMI&gt;34&amp;LikesFatSelf=1" action="loseRandomWeight~30~60" id='2'>Stay</option>
+		<option precondition="BMI&lt;35&amp;LikesFatSelf=1" action="loseRandomWeight~30~60" id='3'>Stay</option>
+		<option precondition="BMI&lt;35&amp;LikesFatSelf=0" action="loseRandomWeight~30~60" id='4'>Stay</option>
+		<option id='2'>Move Away</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>Against conventional logic, you decide to move back under the mushroom, bracing yourself. This time a bigger drop lands on your chest. You quickly regret your decision as a strong sensation of pain courses through your veins. You collapse to the ground, the burning overtaking your body, and even more liquid falls on you in your prone state. Get up! You plead to yourself to take action, to fight against the overwhelming pain. Clenching every muscle in your body, you manage to crawl a few paces forward, such that the liquid can no longer touch you.
+
+					As you expected, and much to your relief, the bubbling eventually subsides, leaving you feeling lighter than before. But this time is different. You stand, and brush yourself off, noticing there's... considerably less of you to brush off.
+					
+					What a relief! Your figure has lost a few layers of fat and you feel agile on your feet once more. It seems the pain was worth it. You had almost forgotten what your feet looked like from how swollen your belly had become. Your slim and strong legs are no longer weighed down by fat, so you should find it much easier to travel now.</eventText>
+	</dialog>
+	<dialog id='2'>
+		<eventText>Against conventional logic, you decide to move back under the mushroom, bracing yourself. This time a bigger drop lands on your chest. You quickly regret your decision as a strong sensation of pain courses through your veins. You collapse to the ground, the burning overtaking your body, and even more liquid falls on you in your prone state. Get up! You plead to yourself to take action, to fight against the overwhelming pain. Clenching every muscle in your body, you manage to crawl a few paces forward, such that the liquid can no longer touch you.
+
+					As you expected, and much to your relief, the bubbling eventually subsides, leaving you feeling lighter than before. But this time is different. You stand, and brush yourself off, noticing there's... considerably less of you to brush off.
+					
+					Your body has seemingly deflated and now you have been reduced to a mere shadow of the once mighty force you were. Turning around it's quite undeniable that the vile mushroom has taken away some of your girth. You're rather disappointed as you've taken quite a liking to your previously rotund form.</eventText>
+	</dialog>
+	<dialog id='3'>
+		<eventText>Against conventional logic, you decide to move back under the mushroom, bracing yourself. This time a bigger drop lands on your chest. You quickly regret your decision as a strong sensation of pain courses through your veins. You collapse to the ground, the burning overtaking your body, and even more liquid falls on you in your prone state. Get up! You plead to yourself to take action, to fight against the overwhelming pain. Clenching every muscle in your body, you manage to crawl a few paces forward, such that the liquid can no longer touch you.
+
+					As you expected, and much to your relief, the bubbling eventually subsides, leaving you feeling lighter than before. But this time is different. You stand, and brush yourself off, noticing there's... considerably less of you to brush off.
+					
+					Your body has seemingly deflated and now you have been reduced to a mere shadow of the once mighty force you were. Turning around it's quite undeniable that the vile mushroom has taken away some of your girth. You were already unhappy with how small you were to begin with, and this mushroom has not helped at all in that regard! Cursing the mushroom under your breath, you continue on your journey.</eventText>
+	</dialog>
+	<dialog id='4'>
+		<eventText>Against conventional logic, you decide to move back under the mushroom, bracing yourself. This time a bigger drop lands on your chest. You quickly regret your decision as a strong sensation of pain courses through your veins. You collapse to the ground, the burning overtaking your body, and even more liquid falls on you in your prone state. Get up! You plead to yourself to take action, to fight against the overwhelming pain. Clenching every muscle in your body, you manage to crawl a few paces forward, such that the liquid can no longer touch you.
+
+					As you expected, and much to your relief, the bubbling eventually subsides, leaving you feeling lighter than before. But this time is different. You stand, and brush yourself off, noticing there's... considerably less of you to brush off.
+					
+					What a relief! Your figure has lost a few layers of fat and you feel agile on your feet once more. It seems the pain was worth it.</eventText>
+	</dialog>
+	<dialog id='5'>
+		<eventText>Nah, conventional logic would tell you not to brush against an unknown liquid, especially in a setting as dangerous as this. You should avoid taking unnecessary risks in this place.</eventText>
+	</dialog>
+</event>

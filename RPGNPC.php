@@ -193,6 +193,13 @@ class RPGNPC{
 		}
 	}
 	
+	public function tickStatusEffect($strStatusEffectName){
+		$this->_arrStatusEffectList[$strStatusEffectName]->tickStatusEffect();
+		if($this->_arrStatusEffectList[$strStatusEffectName]->getTimeRemaining() <= 0){
+			$this->removeFromStatusEffects($strStatusEffectName);
+		}
+	}
+	
 	public function takeDamage($intDamage){
 		$intDamage = max(0, $intDamage);
 		$this->setCurrentHP($this->getCurrentHP() - $intDamage);

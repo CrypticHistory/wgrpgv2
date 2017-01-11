@@ -53,7 +53,7 @@
 		<option id="10">Ask about her.</option>
 		<option id="11">Ask about her queen.</option>
 		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
-		<option id="7">Proceed to the next floor.</option>
+		<option id="7" action="ascendFloor~">Proceed to the next floor.</option>
 	</dialog>
 	<dialog id="4">
 		<eventText>You collapse to the ground in injury, defeated.
@@ -63,7 +63,7 @@
 					"Shame, you were so cute too..."
 					
 					Her hair tickles your neck; the last sensation you feel before everything fades.</eventText>
-		<option id="5" action="reviveCharacter~40~31">Continue</option>
+		<option id="5" action="reviveCharacter~20~31">Continue</option>
 	</dialog>
 	<dialog id="5">
 		<eventText>You revived miraculously. Go forth and conquer.</eventText>
@@ -173,7 +173,7 @@
 		<option id="10">Ask about her.</option>
 		<option id="11">Ask about her queen.</option>
 		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
-		<option id="13">Proceed to the next floor.</option>
+		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
 	</dialog>
 	<dialog id="10">
 		<eventText>"What are you?" you ask.
@@ -187,7 +187,7 @@
 		<option id="9">Ask if the stories about the tower are true.</option>
 		<option id="11">Ask about her queen.</option>
 		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
-		<option id="13">Proceed to the next floor.</option>
+		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
 	</dialog>
 	<dialog id="11">
 		<eventText>"Who is your queen?" you ask.
@@ -197,7 +197,7 @@
 		<option id="9">Ask if the stories about the tower are true.</option>
 		<option id="10">Ask about her.</option>
 		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
-		<option id="13">Proceed to the next floor.</option>
+		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
 	</dialog>
 	<dialog id="12">
 		<eventText>"The citizens of Turici are becoming noticeably more... plump, as of late. Is this the witch's doing?"
@@ -213,7 +213,7 @@
 		<option id="9">Ask if the stories about the tower are true.</option>
 		<option id="10">Ask about her.</option>
 		<option id="11">Ask about her queen.</option>
-		<option id="13">Proceed to the next floor.</option>
+		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
 	</dialog>
 	<dialog id="13">
 		<eventText>"Are you satisfied with your answers?" the succubus asks.
@@ -237,7 +237,7 @@
 		<option id="9">Ask if the stories about the tower are true.</option>
 		<option id="11">Ask about her queen.</option>
 		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
-		<option id="13">Proceed to the next floor.</option>
+		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
 	</dialog>
 	<dialog id="15">
 		<eventText>You jolt your arm forward and grab at her neck. She chokes, sputters, but her eyes do not change.
@@ -249,7 +249,7 @@
 		<option id="9">Ask if the stories about the tower are true.</option>
 		<option id="10">Ask about her.</option>
 		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
-		<option id="13">Proceed to the next floor.</option>		
+		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>		
 	</dialog>
 	<dialog id="16">
 		<eventText>"How strong is your queen?" you ask.
@@ -269,7 +269,7 @@
 		<option id="9">Ask if the stories about the tower are true.</option>
 		<option id="10">Ask about her.</option>
 		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
-		<option id="13">Proceed to the next floor.</option>
+		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
 	</dialog>
 	<dialog id="17">
 		<eventText>You jolt your arm forward and grab at her neck. She chokes, sputters, but her eyes do not change.
@@ -280,7 +280,7 @@
 		<option id="9">Ask if the stories about the tower are true.</option>
 		<option id="10">Ask about her.</option>
 		<option id="11">Ask about her queen.</option>
-		<option id="13">Proceed to the next floor.</option>
+		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
 	</dialog>
 	<dialog id="18">
 		<eventText>"The skeletons on this floor. They are controlled by your queen's magic?" you ask.
@@ -289,6 +289,6 @@
 		<option id="9">Ask if the stories about the tower are true.</option>
 		<option id="10">Ask about her.</option>
 		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
-		<option id="13">Proceed to the next floor.</option>
+		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
 	</dialog>
 </event>

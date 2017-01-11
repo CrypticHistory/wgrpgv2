@@ -74,6 +74,7 @@ class RPGCharacter{
 	private $_arrCheckpoints;
 	private $_objQuestList;
 	private $_objParty;
+	private $_arrKillBuffs;
 	private $_blnLastRoll;
 	private $_dtmCreatedOn;
 	private $_strCreatedBy;
@@ -169,6 +170,7 @@ class RPGCharacter{
 		$this->populateVarFromRow($arrCharacterInfo);
 		$this->_objClassList = new RPGPlayerClasses($this->_intRPGCharacterID);
 		$this->_arrCheckpoints = array();
+		$this->_arrKillBuffs = array();
 		$this->loadCheckpoints();
 		$this->_arrRelationships = array();
 		$this->loadRelationships();
@@ -467,8 +469,11 @@ class RPGCharacter{
 			else if($objStatusEffect->getStatusEffectName() == "Stuffed"){
 				$this->_objStats->activateStuffed();
 			}
+			else if($objStatusEffect->getStatusEffectName() == "Starving"){
+				$this->_objStats->activateStarving();
+			}
 			
-			if($objStatusEffect->getStatName() != NULL && !$objStatusEffect->getIncremental()){
+			if($objStatusEffect->getStatName() != NULL && !$objStatusEffect->getIncremental() && !$objStatusEffect->getKillBuff()){
 				$this->getStats()->addToStats("Status Effect", $objStatusEffect->getStatName(), $objStatusEffect->getStatChangeMax());
 			}
 			
@@ -482,10 +487,33 @@ class RPGCharacter{
 		}
 	}
 	
+	public function incrementKillBuffs(){
+		foreach($this->getStatusEffectList() as $strStatusEffectName => $objStatusEffect){
+			if($objStatusEffect->getKillBuff()){
+				if($this->_arrKillBuffs[$objStatusEffect->getStatusEffectName()] != $objStatusEffect->getStatChangeMax()){
+					$this->_arrKillBuffs[$objStatusEffect->getStatusEffectName()] = $this->_arrKillBuffs[$objStatusEffect->getStatusEffectName()] + $objStatusEffect->getStatChangeMin();
+					$this->_objStats->setStatusEffectStats($objStatusEffect->getStatName(), $this->_arrKillBuffs[$objStatusEffect->getStatusEffectName()], $objStatusEffect->getStatusEffectName(), true);
+				}
+			}
+		}
+	}
+	
+	public function removeKillBuffs(){
+		foreach($this->getStatusEffectList() as $strStatusEffectName => $objStatusEffect){
+			if($objStatusEffect->getKillBuff()){
+				$this->removeFromStatusEffects($objStatusEffect->getStatusEffectName());
+			}
+		}
+	}
+	
 	public function addToStatusEffects($strStatusEffectName){
 		$objStatusEffect = new RPGStatusEffect($strStatusEffectName);
-		if($objStatusEffect->getStatName() != NULL && !$objStatusEffect->getIncremental()){
+		if($objStatusEffect->getStatName() != NULL && !$objStatusEffect->getIncremental() && !$objStatusEffect->getKillBuff()){
 			$this->_objStats->setStatusEffectStats($objStatusEffect->getStatName(), $objStatusEffect->getStatChangeMax(), $objStatusEffect->getStatusEffectName());
+		}
+		else if($objStatusEffect->getStatName() != NULL && !$objStatusEffect->getIncremental() && $objStatusEffect->getKillBuff()){
+			$this->_objStats->setStatusEffectStats($objStatusEffect->getStatName(), $objStatusEffect->getStatChangeMin(), $objStatusEffect->getStatusEffectName(), true);
+			$this->_arrKillBuffs[$strStatusEffectName] = 1;
 		}
 		$this->_arrStatusEffectList[$strStatusEffectName] = $objStatusEffect;
 		$this->_arrStatusEffectList[$strStatusEffectName]->create($this->_intRPGCharacterID, $objStatusEffect->getItemInstanceID());
@@ -495,8 +523,12 @@ class RPGCharacter{
 	}
 	
 	public function removeFromStatusEffects($strStatusEffectName){
-		if($this->_arrStatusEffectList[$strStatusEffectName]->getStatName() != NULL && !$this->_arrStatusEffectList[$strStatusEffectName]->getIncremental()){
+		if($this->_arrStatusEffectList[$strStatusEffectName]->getStatName() != NULL && !$this->_arrStatusEffectList[$strStatusEffectName]->getIncremental() && !$this->_arrStatusEffectList[$strStatusEffectName]->getKillBuff()){
 			$this->_objStats->setStatusEffectStats($this->_arrStatusEffectList[$strStatusEffectName]->getStatName(), 0, $this->_arrStatusEffectList[$strStatusEffectName]->getStatusEffectName());
+		}
+		else if($this->_arrStatusEffectList[$strStatusEffectName]->getStatName() != NULL && !$this->_arrStatusEffectList[$strStatusEffectName]->getIncremental() && $this->_arrStatusEffectList[$strStatusEffectName]->getKillBuff()){
+			unset($this->_arrKillBuffs[$strStatusEffectName]);
+			$this->_objStats->setStatusEffectStats($this->_arrStatusEffectList[$strStatusEffectName]->getStatName(), 0, $this->_arrStatusEffectList[$strStatusEffectName]->getStatusEffectName(), true);
 		}
 		if($this->_arrStatusEffectList[$strStatusEffectName]->getOverrideID() != NULL){
 			$this->removeOverride($this->_arrStatusEffectList[$strStatusEffectName]->getOverrideID());
@@ -620,6 +652,13 @@ class RPGCharacter{
 					}
 				}
 			}		
+		}
+	}
+	
+	public function tickStatusEffect($strStatusEffectName){
+		$this->_arrStatusEffectList[$strStatusEffectName]->tickStatusEffect();
+		if($this->_arrStatusEffectList[$strStatusEffectName]->getTimeRemaining() <= 0){
+			$this->removeFromStatusEffects($strStatusEffectName);
 		}
 	}
 	
@@ -1003,6 +1042,7 @@ class RPGCharacter{
 				
 				if($intPrevArmourRipLevel != $node[0]->responseBMI){
 					$this->getBody()->$strSetFunction(intval($node[0]->responseBMI));
+					$this->getBody()->save();
 					$blnChange = true;
 				}
 				
@@ -1207,13 +1247,13 @@ class RPGCharacter{
 		return intval($this->getCurrentHP()) <= 0 ? 1 : 0;
 	}
 	
-	public function reviveCharacter($intWeightGain, $intEventID = NULL){
+	public function reviveCharacter($intWeightGain = 0, $intEventID = NULL){
 		global $arrStateValues;
 		$this->setCurrentHP($this->getModifiedMaxHP());
 		$this->setWeight($this->getWeight() + $intWeightGain);
+		$this->setCurrentHunger($this->getStats()->getBaseStats()['intMaxHunger']);
 		if($intWeightGain > 0){
 			$this->setReviveText("You awake in your bed feeling heavier than before...");
-			$this->setCurrentHunger($this->getStats()->getBaseStats()['intMaxHunger']);
 		}
 		$this->setTownID(1);
 		// home location ID
@@ -1233,6 +1273,17 @@ class RPGCharacter{
 		$this->setCurrentHunger(min(($this->getStats()->getCombinedStatsSecondary('intMaxHunger') * 2), $this->getCurrentHunger() + $intFullness));
 		$this->setWeight($this->getWeight() + $intWeight);
 		$this->healHP($intHPHeal);
+	}
+	
+	public function stuffCharacterDeadly($intFullness, $intWeight){
+		if(($this->getCurrentHunger() + $intFullness) >= ($this->getStats()->getCombinedStatsSecondary('intMaxHunger') * 2)){
+			$this->setCurrentHP(0);
+			$this->setCurrentHunger(min(($this->getStats()->getCombinedStatsSecondary('intMaxHunger') * 2), $this->getCurrentHunger() + $intFullness));
+		}
+		else{
+			$this->setCurrentHunger($this->getCurrentHunger() + $intFullness);
+		}
+		$this->setWeight($this->getWeight() + $intWeight);
 	}
 	
 	public function getRPGCharacterID(){
@@ -1489,19 +1540,19 @@ class RPGCharacter{
 		else if($blnNPCInstance && $intLeaderID > 0){
 			$this->_arrCombat["EnemyTeam"]->setLeader($_SESSION['objRelationship']);
 			if($intEnemyOne != null){
-				$this->_arrCombat["EnemyTeam"]->setEnemyOne($intEnemyOne);
+				$this->_arrCombat["EnemyTeam"]->setEnemyOne(new RPGNPC($intEnemyOne));
 			}
 			if($intEnemyTwo != null){
-				$this->_arrCombat["EnemyTeam"]->setEnemyTwo($intEnemyTwo);
+				$this->_arrCombat["EnemyTeam"]->setEnemyTwo(new RPGNPC($intEnemyTwo));
 			}
 		}
 		else if(!$blnNPCInstance && $intLeaderID > 0){
 			$this->_arrCombat["EnemyTeam"]->setLeader(new RPGNPC($intLeaderID));
 			if($intEnemyOne != null){
-				$this->_arrCombat["EnemyTeam"]->setEnemyOne($intEnemyOne);
+				$this->_arrCombat["EnemyTeam"]->setEnemyOne(new RPGNPC($intEnemyOne));
 			}
 			if($intEnemyTwo != null){
-				$this->_arrCombat["EnemyTeam"]->setEnemyTwo($intEnemyTwo);
+				$this->_arrCombat["EnemyTeam"]->setEnemyTwo(new RPGNPC($intEnemyTwo));
 			}
 		}
 		
@@ -1514,6 +1565,10 @@ class RPGCharacter{
 	public function clearCombat(){
 		$this->_arrCombat["EnemyTeam"] = null;
 		$this->_arrCombat["FirstTurn"] = null;
+		// remove poison debuff after battle ends
+		if($this->hasStatusEffect('Poisoned')){
+			$this->removeFromStatusEffects('Poisoned');
+		}
 	}
 	
 	public function getEnemyStartText(){
@@ -1541,7 +1596,7 @@ class RPGCharacter{
 	}
 	
 	public function gainExperience($intExpGain){
-		if($this->getLevel() != 10){
+		if($this->getLevel() != 20){
 			$this->_intExperience += $intExpGain;
 		}
 		if($this->_intExperience >= $this->_intRequiredExperience){
@@ -1745,6 +1800,7 @@ class RPGCharacter{
 	public function exitFloor($intLocationID){
 		global $arrStateValues;
 		unset($this->_objParty);
+		$this->removeKillBuffs();
 		$this->setTownID(1);
 		$this->setLocationID($intLocationID);
 		$this->setCurrentFloor(NULL);
@@ -1752,7 +1808,7 @@ class RPGCharacter{
 	}
 	
 	public function ascendFloor(){
-		if($this->getCurrentFloor()->getFloorID() != 2){
+		if($this->getCurrentFloor()->getFloorID() != 3){
 			global $arrStateValues;
 			unset($_SESSION['objEnemy']);
 			unset($_SESSION['objRelationship']);
@@ -1850,6 +1906,84 @@ class RPGCharacter{
 		return $this->_objBody->getButt() + $this->getBMI();
 	}
 	
+	public function growButt($intAmount){
+		$this->_objBody->setButt($this->_objBody->getButt() + $intAmount);
+		$this->_objBody->save();
+	}
+	
+	public function growBelly($intAmount){
+		$this->_objBody->setBelly($this->_objBody->getBelly() + $intAmount);
+		$this->_objBody->save();
+	}
+	
+	public function growLegs($intAmount){
+		$this->_objBody->setLegs($this->_objBody->getLegs() + $intAmount);
+		$this->_objBody->save();
+	}
+	
+	public function growArms($intAmount){
+		$this->_objBody->setArms($this->_objBody->getArms() + $intAmount);
+		$this->_objBody->save();
+	}
+	
+	public function growBreasts($intAmount){
+		$this->_objBody->setBreasts($this->_objBody->getBreasts() + $intAmount);
+		$this->_objBody->save();
+	}
+	
+	public function growFace($intAmount){
+		$this->_objBody->setFace($this->_objBody->getFace() + $intAmount);
+		$this->_objBody->save();
+	}
+	
+	public function shrinkButt($intAmount){
+		$this->_objBody->setButt(max(0, ($this->_objBody->getButt() - $intAmount)));
+		$this->_objBody->save();
+	}
+	
+	public function shrinkBelly($intAmount){
+		$this->_objBody->setBelly(max(0, ($this->_objBody->getBelly() - $intAmount)));
+		$this->_objBody->save();
+	}
+	
+	public function shrinkLegs($intAmount){
+		$this->_objBody->setLegs(max(0, ($this->_objBody->getLegs() - $intAmount)));
+		$this->_objBody->save();
+	}
+	
+	public function shrinkArms($intAmount){
+		$this->_objBody->setArms(max(0, ($this->_objBody->getArms() - $intAmount)));
+		$this->_objBody->save();
+	}
+	
+	public function shrinkBreasts($intAmount){
+		$this->_objBody->setBreasts(max(0, ($this->_objBody->getBreasts() - $intAmount)));
+		$this->_objBody->save();
+	}
+	
+	public function shrinkFace($intAmount){
+		$this->_objBody->setFace(max(0, ($this->_objBody->getFace() - $intAmount)));
+		$this->_objBody->save();
+	}
+	
+	public function decreaseHeight(){
+		$this->_intHeight = $this->_intHeight - 3;
+	}
+	
+	public function increaseHeight(){
+		$this->_intHeight = $this->_intHeight + 3;
+	}
+	
+	public function gainRandomWeight($intMin, $intMax){
+		$intRand = mt_rand($intMin, $intMax);
+		$this->setWeight($this->getWeight() + $intRand);
+	}
+	
+	public function loseRandomWeight($intMin, $intMax){
+		$intRand = mt_rand($intMin, $intMax);
+		$this->setWeight($this->getWeight() - $intRand);
+	}
+	
 	public function getErrorText(){
 		return $this->_strErrorText;
 	}
@@ -1918,6 +2052,10 @@ class RPGCharacter{
 	
 	public function setLastRoll($blnRoll){
 		$this->_blnLastRoll = $blnRoll;
+	}
+	
+	public function getKillBuffs(){
+		return $this->_arrKillBuffs;
 	}
 	
 	public function viewCheckpoint($intCheckpointID){

@@ -3,36 +3,28 @@
 class DPS{
 	
 	private $_objNPC;
-	private $_objPlayer;
-	private $_objLeader;
-	private $_objEnemy1;
-	private $_objEnemy2;
-	private $_objParty1;
-	private $_objParty2;
+	private $_objEnemyTeam;
+	private $_objPlayerTeam;
 	private $_objTarget;
 	
-	public function DPS($objNPC, $objPlayer, $objLeader, $objEnemy1 = null, $objEnemy2 = null, $objParty1 = null, $objParty2 = null){
+	public function DPS($objNPC, $objEnemyTeam, $objPlayerTeam){
 		$this->_objNPC = $objNPC;
-		$this->_objPlayer = $objPlayer;
-		$this->_objLeader = $objLeader;
-		$this->_objEnemy1 = $objEnemy1;
-		$this->_objEnemy2 = $objEnemy2;
-		$this->_objParty1 = $objParty1;
-		$this->_objParty2 = $objParty2;
+		$this->_objEnemyTeam = $objEnemyTeam;
+		$this->_objPlayerTeam = $objPlayerTeam;
 	}
 	
 	public function determineActionEnemy(){
 		$udfCurrentAction = "Attack";
 		$blnPickedSkill = false;
 		
-		if(!$this->_objPlayer->isDead()){
-			$this->_objTarget = $this->_objPlayer;
+		if(!$this->_objPlayerTeam->getPlayer()->isDead()){
+			$this->_objTarget = $this->_objPlayerTeam->getPlayer();
 		}
-		else if(!$this->_objParty1->isDead()){
-			$this->_objTarget = $this->_objParty1;
+		else if(!$this->_objPlayerTeam->getPartyOne()->isDead()){
+			$this->_objTarget = $this->_objPlayerTeam->getPartyOne();
 		}
 		else{
-			$this->_objTarget = $this->_objParty2;
+			$this->_objTarget = $this->_objPlayerTeam->getPartyTwo();
 		}
 		
 		foreach($this->_objNPC->getActiveSkillList('Damage') as $key => $objSkill){
@@ -40,6 +32,9 @@ class DPS{
 				$udfCurrentAction = "Skill" . $objSkill->getClassName();
 				$this->_objNPC->getActiveSkillList('Damage')[$key]->resetCooldown();
 				$blnPickedSkill = true;
+				if($objSkill->getTargetCount() == '3'){
+					$this->_objTarget = $this->_objPlayerTeam;
+				}
 			}
 			else{
 				$this->_objNPC->getActiveSkillList('Damage')[$key]->decrementCooldown();
@@ -53,14 +48,14 @@ class DPS{
 		$udfCurrentAction = "Attack";
 		$blnPickedSkill = false;
 		
-		if(!$this->_objLeader->isDead()){
-			$this->_objTarget = $this->_objLeader;
+		if(!$this->_objEnemyTeam->getLeader()->isDead()){
+			$this->_objTarget = $this->_objEnemyTeam->getLeader();
 		}
-		else if(!$this->_objEnemy1->isDead()){
-			$this->_objTarget = $this->_objEnemy1;
+		else if(!$this->_objEnemyTeam->getEnemyOne()->isDead()){
+			$this->_objTarget = $this->_objEnemyTeam->getEnemyOne();
 		}
 		else{
-			$this->_objTarget = $this->_objEnemy2;
+			$this->_objTarget = $this->_objEnemyTeam->getEnemyTwo();
 		}
 		
 		foreach($this->_objNPC->getActiveSkillList('Damage') as $key => $objSkill){
@@ -68,6 +63,9 @@ class DPS{
 				$udfCurrentAction = "Skill" . $objSkill->getClassName();
 				$this->_objNPC->getActiveSkillList('Damage')[$key]->resetCooldown();
 				$blnPickedSkill = true;
+				if($objSkill->getTargetCount() == '3'){
+					$this->_objTarget = $this->_objEnemyTeam;
+				}
 			}
 			else{
 				$this->_objNPC->getActiveSkillList('Damage')[$key]->decrementCooldown();

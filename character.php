@@ -16,6 +16,7 @@
 			//load UI Settings
 			$_SESSION['objUISettings'] = new UISettings($_POST['strCharacterName']);
 			$_SESSION['objRPGCharacter'] = new RPGCharacter($_POST['strCharacterName']);
+			$_SESSION['objRPGCharacter']->removeKillBuffs();
 			
 			// Turici
 			$_SESSION['objRPGCharacter']->setTownID(1);

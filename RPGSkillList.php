@@ -30,6 +30,10 @@ class RPGSkillList{
 		return $this->_arrSkills;
 	}
 	
+	public function getSkill($intSkillID){
+		return $this->_arrSkills[$intSkillID];
+	}
+	
 	public function getActiveSkillList(){
 		$arrReturn = array();
 		foreach($this->_arrSkills as $intSkillID => $objSkill){

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<type>Forced Event</type>
+	<end>1</end>
+	<end>2</end>
+	<end>3</end>
+	<dialog id='0'>
+		<eventText>Wading through the dense swamplands, you encounter an odd pool of water. It is murky, tainted with thin strands of red. A vague urge calls for you to sit down and drink from it.</eventText>
+		<option precondition="{5050Roll}" action="growArms~1" id='1'>Drink</option>
+		<option precondition="{LastRollFailed}" action="shrinkArms~1" id='2'>Drink</option>
+		<option id='3'>Refuse</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>The urge overwhelms you. You scoop your hands into the pool, bringing the murky red substance to your mouth to drink. You let out a slight moan before repeating the process over and over, finding the liquid to be irresistibly good. With every gulp you feel a slight tingling in your arms and pressure begins to build up. But you find yourself unable to care. Eventually the trance subsides, and you blink at your surroundings. Everything seems the same, except for the fact that your arms feel strangely heavier.</eventText>
+	</dialog>
+	<dialog id='2'>
+		<eventText>The urge overwhelms you. You scoop your hands into the pool, bringing the murky red substance to your mouth to drink. You let out a slight moan before repeating the process over and over, finding the liquid to be irresistibly good. With every gulp you feel a slight tingling in your arms. Minutes pass by, and the trance fades from you, causing you to blink at your surroundings. You can't help but notice that your arms seem strangely thinner than before. Perhaps the red water is responsible?</eventText>
+	</dialog>
+	<dialog id='3'>
+		<eventText>Why on Earth should you drink from a random puddle on the ground? It's likely contaminated with something. Snorting, you turn and walk, feeling the strange tug on your mind fading away with each step, until it's completely gone.</eventText>
+	</dialog>
+</event>

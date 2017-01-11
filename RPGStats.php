@@ -184,8 +184,15 @@
 			$this->_arrAbilityStats[$strIndex] = $intValue;
 		}
 		
-		public function setStatusEffectStats($strIndex, $intValue, $strStatusEffectName){
-			$this->_arrStatusEffectStats[$strIndex][$strStatusEffectName] = $intValue;
+		public function setStatusEffectStats($strIndex, $intValue, $strStatusEffectName, $blnKillBuff = false){
+			if($blnKillBuff){
+				$intNewStatValue = ceil($this->getCombinedStatsNoSE($strIndex) * (1 + ($intValue / 100)));
+				$intAdditionalStatValue = $intNewStatValue - $this->getCombinedStatsNoSE($strIndex);
+				$this->setStatusEffectStats($strIndex, $intAdditionalStatValue, $strStatusEffectName);
+			}
+			else{
+				$this->_arrStatusEffectStats[$strIndex][$strStatusEffectName] = $intValue;
+			}
 		}
 		
 		public function getStatusEffectStats($strIndex, $strStatusEffectName){

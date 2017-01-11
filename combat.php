@@ -36,7 +36,7 @@
 					$strTarget = $_POST['target'];
 					if(isset($_POST['intSkillID'])){
 						if($_POST['intSkillID'] != null && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getSkills()->hasSkill($_POST['intSkillID']) && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getSkills()->isOffCooldown($_POST['intSkillID'])){
-							if($strTarget == "AllEnemy" && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getSkills()[$_POST['intSkillID']]->getTargetCount() != '3'){
+							if($strTarget == "AllEnemy" && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getSkills()->getSkill($_POST['intSkillID'])->getTargetCount() != '3'){
 								$_SESSION['objCombat']->playerWait();
 							}
 							else{

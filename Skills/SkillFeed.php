@@ -39,6 +39,10 @@ class SkillFeed{
 		$this->_objFood = $objFood;
 	}
 	
+	public function getSkillSubType(){
+		return "Debuff Melee";
+	}
+	
 	public function getWaitTime(){
 		return 0;
 	}

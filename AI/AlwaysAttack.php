@@ -3,46 +3,38 @@
 class AlwaysAttack{
 	
 	private $_objNPC;
-	private $_objPlayer;
-	private $_objLeader;
-	private $_objEnemy1;
-	private $_objEnemy2;
-	private $_objParty1;
-	private $_objParty2;
+	private $_objEnemyTeam;
+	private $_objPlayerTeam;
 	private $_objTarget;
 	
-	public function AlwaysAttack($objNPC, $objPlayer, $objLeader, $objEnemy1 = null, $objEnemy2 = null, $objParty1 = null, $objParty2 = null){
+	public function AlwaysAttack($objNPC, $objEnemyTeam, $objPlayerTeam){
 		$this->_objNPC = $objNPC;
-		$this->_objPlayer = $objPlayer;
-		$this->_objLeader = $objLeader;
-		$this->_objEnemy1 = $objEnemy1;
-		$this->_objEnemy2 = $objEnemy2;
-		$this->_objParty1 = $objParty1;
-		$this->_objParty2 = $objParty2;
+		$this->_objEnemyTeam = $objEnemyTeam;
+		$this->_objPlayerTeam = $objPlayerTeam;
 	}
 	
 	public function determineActionEnemy(){
-		if(!$this->_objPlayer->isDead()){
-			$this->_objTarget = $this->_objPlayer;
+		if(!$this->_objPlayerTeam->getPlayer()->isDead()){
+			$this->_objTarget = $this->_objPlayerTeam->getPlayer();
 		}
-		else if(!$this->_objParty1->isDead()){
-			$this->_objTarget = $this->_objParty1;
+		else if(!$this->_objPlayerTeam->getPartyOne()->isDead()){
+			$this->_objTarget = $this->_objPlayerTeam->getPartyOne();
 		}
 		else{
-			$this->_objTarget = $this->_objParty2;
+			$this->_objTarget = $this->_objPlayerTeam->getPartyTwo();
 		}
 		return "Attack";
 	}
 	
 	public function determineActionParty(){
-		if(!$this->_objLeader->isDead()){
-			$this->_objTarget = $this->_objLeader;
+		if(!$this->_objEnemyTeam->getLeader()->isDead()){
+			$this->_objTarget = $this->_objEnemyTeam->getLeader();
 		}
-		else if(!$this->_objEnemy1->isDead()){
-			$this->_objTarget = $this->_objEnemy1;
+		else if(!$this->_objEnemyTeam->getEnemyOne()->isDead()){
+			$this->_objTarget = $this->_objEnemyTeam->getEnemyOne();
 		}
 		else{
-			$this->_objTarget = $this->_objEnemy2;
+			$this->_objTarget = $this->_objEnemyTeam->getEnemyTwo();
 		}
 		return "Attack";
 	}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<type>Forced Event</type>
+	<end>1</end>
+	<end>2</end>
+	<dialog id='0'>
+		<eventText>As you make your way through the swamp you come across a strange patch of mushrooms. The fungi were growing on a random patch of dirt, with long, thin stalks with puffy blue caps with white polkadots all over. You can't help but notice the oddity of such growths, you can't tell why they would be growing in such a random location, or why they would grow to be so tall. It almost feels like they were planted there for a purpose, but you're not sure what, they do look rather pretty though...</eventText>
+		<option action="increaseHeight~" id='1'>Touch One</option>
+		<option id='2'>Ignore Them</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>Curiosity getting the better of you, you reach out to touch one. You gently poke one of the fungal caps, causing the entire shroom to sway. Suddenly they all begin to convulse, and in unison blast you with spores before slipping under the ground ominously. You try to wave the spores out of your face, which starts to scrunch up as you prepare to sneeze. The loud 'Achoo!' almost drowns out the creaking sound from your ears. You look around, unsure as to what happened, before sneezing again with the same creaking from before. After a few more sneezes the creaking noise finally stops. You feel a bit dizzy, and your view of the world seems to be significantly... higher up. Have you somehow grown in height from the mushrooms?
+
+					Looking down at your feet, you notice how much smaller they look now that you're taller, you also notice that you look a fair bit thinner, for better or for worse as the excess fat appears to have been turned into extra mass for your body proper. Well, this wasn't what you were expecting to have happen by touching the mushrooms, but in hindsight, at least they weren't poisonous.</eventText>
+	</dialog>
+	<dialog id='2'>
+		<eventText>Perhaps it's best not to touch strange mushrooms. They could be poisonous, after all.</eventText>
+	</dialog>
+</event>
