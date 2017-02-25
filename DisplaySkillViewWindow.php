@@ -50,11 +50,17 @@ class DisplaySkillViewWindow{
 								foreach($objClass->getSkills()->getSkillList() as $intSkillID => $objSkill){
 									
 									$strDisabledText = (($objSkill->getUsableOutsideBattle() && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getClassID() == $objClass->getClassID()) ? "" : " disabled");
-									if($objSkill->getUsableOutsideBattle() && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getClassID() == $objClass->getClassID()){
-										$strButtonTitle = "Use Skill";
-									}
-									else if(!$objSkill->getUsableOutsideBattle() && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getClassID() == $objClass->getClassID()){
-										$strButtonTitle = "This skill is not usable outside of battle.";
+									
+									if($_SESSION['objRPGCharacter']->getClasses()->getCurrentClass() != false){
+										if($objSkill->getUsableOutsideBattle() && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getClassID() == $objClass->getClassID()){
+											$strButtonTitle = "Use Skill";
+										}
+										else if(!$objSkill->getUsableOutsideBattle() && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getClassID() == $objClass->getClassID()){
+											$strButtonTitle = "This skill is not usable outside of battle.";
+										}
+										else{
+											$strButtonTitle = "This skill cannot be used because the class it belongs to is currently disabled.";
+										}
 									}
 									else{
 										$strButtonTitle = "This skill cannot be used because the class it belongs to is currently disabled.";

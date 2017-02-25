@@ -32,7 +32,7 @@ class SkillPunish{
 			$intDamage = round((($objNPC->getModifiedDamage() + $objNPC->getAdditionalDamage()) * ($this->getSkillCounterModifier() + $this->getSkillBaseModifier())) - $objNPC->getModifiedDefence());
 		}
 		else if($objNPC->getEquippedWeapon()->getStatDamage() == 'Intelligence'){
-			$intDamage = round(((($objNPC->getModifiedMagicDamage() + $objNPC->getAdditionalDamage()) * ($this->getSkillCounterModifier() + $this->getSkillBaseModifier())) - $objNPC->getModifiedMagicDefence());
+			$intDamage = round((($objNPC->getModifiedMagicDamage() + $objNPC->getAdditionalDamage()) * ($this->getSkillCounterModifier() + $this->getSkillBaseModifier())) - $objNPC->getModifiedMagicDefence());
 		}
 		
 		$objNPC->takeDamage($intDamage);

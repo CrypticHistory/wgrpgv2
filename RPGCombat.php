@@ -133,6 +133,7 @@
 			
 			// check if anyone died
 			if($this->_objPlayerTeam->getPlayer()->isDead() && isset($this->_arrWaitTimes["Player"])){
+				$this->_intTurn++;
 				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Enemy"] = "";
 				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] .= "You collapse to the ground in injury, defeated. ";
 				unset($this->_arrWaitTimes["Player"]);

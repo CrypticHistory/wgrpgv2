@@ -4,7 +4,8 @@
 	require_once "Database.php";
 	require_once 'users.php';
 	require_once 'RPGUser.php';
-	
+	//error_reporting(E_ALL);
+	//ini_set('display_errors', 1);
 	$blnPageFlag = false;
 	$blnGameDown = false;
 	
@@ -29,7 +30,7 @@
 		<link rel="stylesheet" type="text/css" href="JS/DataTables/css/dataTables.css">
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
 		<?php header('Content-Type: text/html; charset=ISO-8859-15');
-		if(!$blnGameDown){
+		if(!$blnGameDown || $_SESSION['objUser']->getAdmin()){
 			if($blnPageFlag){
 				$objPage = new $_GET['page']();
 				$objPage->toJavascript();
@@ -39,7 +40,7 @@
 	</head>
 	<body>
 		<?php
-		if(!$blnGameDown){
+		if(!$blnGameDown || $_SESSION['objUser']->getAdmin()){
 			if($blnPageFlag){
 				$objPage->toHTML();
 			}

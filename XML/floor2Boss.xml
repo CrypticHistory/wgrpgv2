@@ -6,6 +6,7 @@
 	<end>6</end>
 	<end>7</end>
 	<end>13</end>
+	<end>19</end>
 	<precondition>CurrentFloorID=2</precondition>
 	<dialog id='0'>
 		<eventText precondition="LikesFatOthers=1">A faint melodic humming can be heard in the distance. The tone is feminine and creamy; decadent. It draws you in closer against your will. As you approach the humming, the silhouette of an elegant bed reveals itself before you. On the bed, the outline of a figure which resembles that of a lady resides; but it's clear that this lady is on the heavier side of the spectrum. Entranced, you wish only to pursue her and nothing else. Your steps quicken and your excitement grows as each step etches more detail into the lady's resting portrait.
@@ -54,6 +55,7 @@
 		<option id="11">Ask about her queen.</option>
 		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
 		<option id="7" action="ascendFloor~">Proceed to the next floor.</option>
+		<option id="19">Continue exploring the current floor.</option>
 	</dialog>
 	<dialog id="4">
 		<eventText>You collapse to the ground in injury, defeated.
@@ -74,7 +76,7 @@
 	<dialog id="7">
 		<eventText>"Tell me how to get to the next floor," you command.
 
-					"Right. I am a woman of my word.
+					"Right. I am a woman of my word."
 
 					The ground below you begins to shake and the room blurs. You reach forward at the succubus, but move right through her. Soon, the scenery has completely changed.
 
@@ -174,6 +176,7 @@
 		<option id="11">Ask about her queen.</option>
 		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
 		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
+		<option id="19">Continue exploring the current floor.</option>
 	</dialog>
 	<dialog id="10">
 		<eventText>"What are you?" you ask.
@@ -188,6 +191,7 @@
 		<option id="11">Ask about her queen.</option>
 		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
 		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
+		<option id="19">Continue exploring the current floor.</option>
 	</dialog>
 	<dialog id="11">
 		<eventText>"Who is your queen?" you ask.
@@ -198,6 +202,7 @@
 		<option id="10">Ask about her.</option>
 		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
 		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
+		<option id="19">Continue exploring the current floor.</option>
 	</dialog>
 	<dialog id="12">
 		<eventText>"The citizens of Turici are becoming noticeably more... plump, as of late. Is this the witch's doing?"
@@ -214,6 +219,7 @@
 		<option id="10">Ask about her.</option>
 		<option id="11">Ask about her queen.</option>
 		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
+		<option id="19">Continue exploring the current floor.</option>
 	</dialog>
 	<dialog id="13">
 		<eventText>"Are you satisfied with your answers?" the succubus asks.
@@ -238,6 +244,7 @@
 		<option id="11">Ask about her queen.</option>
 		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
 		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
+		<option id="19">Continue exploring the current floor.</option>
 	</dialog>
 	<dialog id="15">
 		<eventText>You jolt your arm forward and grab at her neck. She chokes, sputters, but her eyes do not change.
@@ -249,7 +256,8 @@
 		<option id="9">Ask if the stories about the tower are true.</option>
 		<option id="10">Ask about her.</option>
 		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
-		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>		
+		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
+		<option id="19">Continue exploring the current floor.</option>		
 	</dialog>
 	<dialog id="16">
 		<eventText>"How strong is your queen?" you ask.
@@ -270,6 +278,7 @@
 		<option id="10">Ask about her.</option>
 		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
 		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
+		<option id="19">Continue exploring the current floor.</option>
 	</dialog>
 	<dialog id="17">
 		<eventText>You jolt your arm forward and grab at her neck. She chokes, sputters, but her eyes do not change.
@@ -281,6 +290,7 @@
 		<option id="10">Ask about her.</option>
 		<option id="11">Ask about her queen.</option>
 		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
+		<option id="19">Continue exploring the current floor.</option>
 	</dialog>
 	<dialog id="18">
 		<eventText>"The skeletons on this floor. They are controlled by your queen's magic?" you ask.
@@ -290,5 +300,15 @@
 		<option id="10">Ask about her.</option>
 		<option id="12">Ask about the climbing weights of the citizens of Turici.</option>
 		<option id="13" action="ascendFloor~">Proceed to the next floor.</option>
+		<option id="19">Continue exploring the current floor.</option>
+	</dialog>
+	<dialog id="19">
+		<eventText>"I have some unfinished business on this floor. I shall return," you tell the Succubus.
+		
+					"I won't be here when you return," the Succubus replies.
+					
+					"That makes things easier, then."
+					
+					You turn your heel, away from the injured demon and back toward the dungeon corridor whence you came.</eventText>
 	</dialog>
 </event>

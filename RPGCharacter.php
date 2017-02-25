@@ -1814,7 +1814,7 @@ class RPGCharacter{
 			unset($_SESSION['objRelationship']);
 			$intPreviousFloor = $this->getCurrentFloor()->getFloorID();
 			$intNextFloor = $intPreviousFloor + 1;
-			$this->_intFloorID = $intNextFloor;
+			$this->_intFloorID = max($this->_intFloorID, $intNextFloor);
 			$this->setCurrentFloor($intNextFloor);
 			$objStartEvent = $this->getCurrentFloor()->getStartEvent($this->_intRPGCharacterID);
 			$objStandStillEvent = $this->getCurrentFloor()->getStandstill($this->_intRPGCharacterID);
@@ -1967,11 +1967,11 @@ class RPGCharacter{
 	}
 	
 	public function decreaseHeight(){
-		$this->_intHeight = $this->_intHeight - 3;
+		$this->_intHeight = max(121, $this->_intHeight - 3);
 	}
 	
 	public function increaseHeight(){
-		$this->_intHeight = $this->_intHeight + 3;
+		$this->_intHeight = min(214, $this->_intHeight + 3);
 	}
 	
 	public function gainRandomWeight($intMin, $intMax){

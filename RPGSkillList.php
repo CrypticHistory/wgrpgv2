@@ -15,7 +15,8 @@ class RPGSkillList{
 		$objDB = new Database();
 		$strSQL = "SELECT * FROM tblclassskillxr
 					WHERE intClassID = " . $objDB->quote($intClassID) . "
-						AND intRequiredClassLevel <= " . $objDB->quote($intClassLevel);
+						AND intRequiredClassLevel <= " . $objDB->quote($intClassLevel) . "
+					ORDER BY intRequiredClassLevel ASC";
 		$rsResult = $objDB->query($strSQL);
 		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
 			$this->_arrSkills[$arrRow['intSkillID']] = new RPGSkill($arrRow['intSkillID']);
