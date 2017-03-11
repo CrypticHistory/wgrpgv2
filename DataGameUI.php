@@ -18,7 +18,7 @@ class DataGameUI{
 	public function handleEvents(){
 		global $arrStateNames;
 		global $arrStateValues;
-
+		
 		// town events are accessed using the URL ($_GET)
 		$this->handleTownEvents();
 		$objEvent = $_SESSION['objRPGCharacter']->getEvent();

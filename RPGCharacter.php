@@ -474,7 +474,7 @@ class RPGCharacter{
 			}
 			
 			if($objStatusEffect->getStatName() != NULL && !$objStatusEffect->getIncremental() && !$objStatusEffect->getKillBuff()){
-				$this->getStats()->addToStats("Status Effect", $objStatusEffect->getStatName(), $objStatusEffect->getStatChangeMax());
+				$this->getStats()->addToStats("Status Effect", $objStatusEffect->getStatName(), $objStatusEffect->getStatChangeMax(), $arrRow['strStatusEffectName']);
 			}
 			
 			$objStatusEffect->setTimeRemaining($arrRow['intTimeRemaining']);
