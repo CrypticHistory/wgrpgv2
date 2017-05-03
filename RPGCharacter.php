@@ -1628,6 +1628,10 @@ class RPGCharacter{
 		$this->_intCurrentHP = $intCurrentHP;
 	}
 	
+	public function getModifiedAgilityDamage(){
+		return round(($this->_objStats->getCombinedStats('intAgility') / 2) + $this->getEquippedWeapon()->getDamage());
+	}
+	
 	public function getModifiedMaxHP(){
 		return round($this->_objStats->getBaseStats()['intMaxHP'] + $this->getLevel() + ($this->_objStats->getCombinedStats('intVitality') / 2));
 	}

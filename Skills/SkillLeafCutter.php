@@ -28,14 +28,14 @@ class SkillLeafCutter{
 				$objPlayer = $objPlayerTeam->$strTargetObject();
 				
 				if($objRPGCombatHelper->calculateEvadeRoll($objNPC, $objPlayer)){
-					$strReturnText .= $objPlayer->getNPCName() . " jumps away from the razor sharp leaf in time and emerges unscathed.";
+					$strReturnText .= " " . $objPlayer->getNPCName() . " jumps away from the razor sharp leaf in time and emerges unscathed.";
 				}
 				else{
 
 					$intDamage = max(0, $objRPGCombatHelper->calculateDamage($objNPC, $objPlayer, 2.0));
 					$objPlayer->takeDamage($intDamage);
 					
-					$strReturnText .= "  " . $objPlayer->getNPCName() . " is hit by a razor sharp leaf and takes " . $intDamage . " damage.";
+					$strReturnText .= " " . $objPlayer->getNPCName() . " is hit by a razor sharp leaf and takes " . $intDamage . " damage.";
 					
 				}
 			}

@@ -28,14 +28,14 @@ class SkillGroundPound{
 				$objPlayer = $objPlayerTeam->$strTargetObject();
 				
 				if($objRPGCombatHelper->calculateEvadeRoll($objNPC, $objPlayer)){
-					$strReturnText .= $objPlayer->getNPCName() . " maintains their footing and emerges from the attack unscathed.";
+					$strReturnText .= " " . $objPlayer->getNPCName() . " maintains their footing and emerges from the attack unscathed.";
 				}
 				else{
 
 					$intDamage = max(0, $objRPGCombatHelper->calculateDamage($objNPC, $objPlayer, 1.5));
 					$objPlayer->takeDamage($intDamage);
 					
-					$strReturnText .= "  " . $objPlayer->getNPCName() . " is hit by the impact for " . $intDamage . " damage.";
+					$strReturnText .= " " . $objPlayer->getNPCName() . " is hit by the impact for " . $intDamage . " damage.";
 					
 					$intKDRoll = mt_rand(0, 100);
 		

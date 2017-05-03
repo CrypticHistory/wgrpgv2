@@ -28,14 +28,14 @@ class SkillGoopCannon{
 				$objPlayer = $objPlayerTeam->$strTargetObject();
 				
 				if($objRPGCombatHelper->calculateEvadeRoll($objNPC, $objPlayer)){
-					$strReturnText .= $objPlayer->getNPCName() . " jumps away from the blob on time and emerges unscathed.";
+					$strReturnText .= " " . $objPlayer->getNPCName() . " jumps away from the blob on time and emerges unscathed.";
 				}
 				else{
 
 					$intDamage = max(0, $objRPGCombatHelper->calculateDamage($objNPC, $objPlayer, 0.8));
 					$objPlayer->takeDamage($intDamage);
 					
-					$strReturnText .= "  " . $objPlayer->getNPCName() . " is hit by the blob and takes " . $intDamage . " damage.";
+					$strReturnText .= " " . $objPlayer->getNPCName() . " is hit by the blob and takes " . $intDamage . " damage.";
 					
 					$intStuckRoll = mt_rand(0, 100);
 		

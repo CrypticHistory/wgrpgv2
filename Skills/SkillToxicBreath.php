@@ -1,6 +1,8 @@
 <?php
 
 include_once "RPGCombatHelper.php";
+include_once "CombatSE/SEPoisoned.php";
+include_once "RPGCombatStatusEffect.php";
 	
 class SkillToxicBreath{
 	
@@ -28,20 +30,21 @@ class SkillToxicBreath{
 				$objPlayer = $objPlayerTeam->$strTargetObject();
 				
 				if($objRPGCombatHelper->calculateEvadeRoll($objNPC, $objPlayer)){
-					$strReturnText .= $objPlayer->getNPCName() . " dodges the chemicals and emerges unscathed.";
+					$strReturnText .= " " . $objPlayer->getNPCName() . " dodges the chemicals and emerges unscathed.";
 				}
 				else{
 
 					$intDamage = max(0, $objRPGCombatHelper->calculateDamage($objNPC, $objPlayer, 1.2));
 					$objPlayer->takeDamage($intDamage);
 					
-					$strReturnText .= "  " . $objPlayer->getNPCName() . " is hit by the toxic breath and suffers from " . $intDamage . " damage.";
+					$strReturnText .= " " . $objPlayer->getNPCName() . " is hit by the toxic breath and suffers from " . $intDamage . " damage.";
 					
 					$intPoisonRoll = mt_rand(0, 100);
 		
 					if($intPoisonRoll >= round($objPlayer->getStatusEffectResistance() - $objNPC->getStatusEffectSuccessRate())){
 						$strReturnText .= " " . $objPlayer->getNPCName() . " is poisoned by the attack!";
-						$objPlayer->addToStatusEffects("Poisoned");
+						$objStatusEffect = new SEPoisoned($objNPC, $objPlayer, 3, $strTarget);
+						$_SESSION['objCombat']->addToCombatStatusEffects($objStatusEffect);
 					}
 					
 				}

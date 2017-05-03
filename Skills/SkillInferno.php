@@ -1,6 +1,8 @@
 <?php
 
 include_once "RPGCombatHelper.php";
+include_once "CombatSE/SEBurned.php";
+include_once "RPGCombatStatusEffect.php";
 	
 class SkillInferno{
 	
@@ -54,7 +56,8 @@ class SkillInferno{
 		
 						if($intBurnRoll >= round($objNPC->getStatusEffectResistance() - $objPlayer->getStatusEffectSuccessRate())){
 							$strReturnText .= " " . $objNPC->getNPCName() . " is burned severely following the attack.";
-							$objNPC->addToStatusEffects("Burned");
+							$objStatusEffect = new SEBurned($objPlayer, $objNPC, 3, $strTarget);
+							$_SESSION['objCombat']->addToCombatStatusEffects($objStatusEffect);
 						}
 					}
 				}

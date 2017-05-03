@@ -76,24 +76,14 @@ class DisplayCombatWindow{
 							<div class="combatLogHeader">Combat Log</div>
 							<?php
 							
-							for($i=1;$i<=$_SESSION['objCombat']->getTurnCount();$i++){
+							foreach($_SESSION['objCombat']->getCombatMessage("Entity") as $intIndex => $strEntity){
 								
-								if($_SESSION['objCombat']->getCombatMessage("Combat")[$i]["Player"] == ""){
-									$strPlayerTurn = "";
+								if($strEntity == "Player" || $strEntity == "PartyOne" || $strEntity == "PartyTwo"){
+									echo "<div class='combatTurn player'>" . $_SESSION['objCombat']->getCombatMessage("Action")[$intIndex] . "</div>";
 								}
 								else{
-									$strPlayerTurn = "<div class='combatTurn player'>" . $_SESSION['objCombat']->getCombatMessage("Combat")[$i]["Player"] . "</div>";
+									echo "<div class='combatTurn enemy'>" . $_SESSION['objCombat']->getCombatMessage("Action")[$intIndex]  . "</div>";
 								}
-								
-								if($_SESSION['objCombat']->getCombatMessage("Combat")[$i]["Enemy"] == ""){
-									$strEnemyTurn = "";
-								}
-								else{
-									$strEnemyTurn = "<div class='combatTurn enemy'>" . $_SESSION['objCombat']->getCombatMessage("Combat")[$i]["Enemy"] . "</div>";
-								}
-								
-								echo $strPlayerTurn;
-								echo $strEnemyTurn;
 								
 							}
 							
