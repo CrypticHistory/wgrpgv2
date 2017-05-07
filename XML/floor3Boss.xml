@@ -21,7 +21,7 @@
 		<option id="6">Continue</option>
 	</dialog>
 	<dialog id="3">
-		<eventText>The monster roars one last before imploding, collapsing into itself and shrinking in size rapidly. Finally, it settles, becoming one with the swamp from which it was born.
+		<eventText>The monster roars once more before imploding, collapsing into itself and shrinking in size rapidly. Finally, it settles, becoming one with the swamp from which it was born.
 		
 					Stepping stones bubble up and float on the water, guiding your path across the swamp to the vine staircase. Should you continue to the next floor?</eventText>
 		<option id="7" action='ascendFloor~'>Ascend</option>

@@ -16,7 +16,7 @@ Worry begins to set in. The liquid begins to bubble and sizzle on your shoulder.
 		<option precondition="BMI&gt;34&amp;LikesFatSelf=1" action="loseRandomWeight~30~60" id='2'>Stay</option>
 		<option precondition="BMI&lt;35&amp;LikesFatSelf=1" action="loseRandomWeight~30~60" id='3'>Stay</option>
 		<option precondition="BMI&lt;35&amp;LikesFatSelf=0" action="loseRandomWeight~30~60" id='4'>Stay</option>
-		<option id='2'>Move Away</option>
+		<option id='5'>Move Away</option>
 	</dialog>
 	<dialog id='1'>
 		<eventText>Against conventional logic, you decide to move back under the mushroom, bracing yourself. This time a bigger drop lands on your chest. You quickly regret your decision as a strong sensation of pain courses through your veins. You collapse to the ground, the burning overtaking your body, and even more liquid falls on you in your prone state. Get up! You plead to yourself to take action, to fight against the overwhelming pain. Clenching every muscle in your body, you manage to crawl a few paces forward, such that the liquid can no longer touch you.

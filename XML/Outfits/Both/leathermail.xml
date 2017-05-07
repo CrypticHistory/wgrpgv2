@@ -203,7 +203,7 @@
 			<maxBMI>999</maxBMI>
 			<responseBMI>9</responseBMI>
 			<breasts>
-				<text>You pull the mail down, and manage to fit it around your arms and head, but you are immediately halted by your breasts. It will be impossible to into this armour unless you lose some weight.</text>
+				<text>You pull the mail down, and manage to fit it around your arms and head, but you are immediately halted by your breasts. It will be impossible to fit into this armour unless you lose some weight.</text>
 				<wearable>false</wearable>
 			</breasts>
 		</equip>
