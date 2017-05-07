@@ -1834,6 +1834,16 @@ class RPGCharacter{
 		}
 	}
 	
+	public function increaseFloor(){
+		if($this->getCurrentFloor()->getFloorID() != 3){
+			unset($_SESSION['objEnemy']);
+			unset($_SESSION['objRelationship']);
+			$intPreviousFloor = $this->getCurrentFloor()->getFloorID();
+			$intNextFloor = $intPreviousFloor + 1;
+			$this->_intFloorID = max($this->_intFloorID, $intNextFloor);
+		}
+	}
+	
 	public function descendFloor(){
 		global $arrStateValues;
 		unset($_SESSION['objEnemy']);
