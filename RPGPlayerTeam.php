@@ -76,9 +76,11 @@
 			$this->_objPlayer->gainExperience($intAmount);
 			if($this->_objPartyOne != null){
 				$this->_objPartyOne->gainExperience($intAmount);
+				$this->_objPartyOne->save();
 			}
 			if($this->_objPartyTwo != null){
 				$this->_objPartyTwo->gainExperience($intAmount);
+				$this->_objPartyTwo->save();
 			}
 		}
 		

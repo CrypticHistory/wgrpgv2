@@ -17,6 +17,7 @@ class RPGSkill{
 	private $_intCurrentCooldown;
 	private $_intPreCooldown;
 	private $_intStatusEffectID;
+	private $_intRequiredLevel;
 	
 	public function RPGSkill($intSkillID = null){
 		if($intSkillID != null){
@@ -192,6 +193,14 @@ class RPGSkill{
 		else{
 			return false;
 		}
+	}
+	
+	public function getRequiredLevel(){
+		return $this->_intRequiredLevel;
+	}
+	
+	public function setRequiredLevel($intRequiredLevel){
+		$this->_intRequiredLevel = $intRequiredLevel;
 	}
 }
 ?>

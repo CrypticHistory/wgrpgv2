@@ -17,10 +17,24 @@ class Succubus{
 		$udfCurrentAction = "Attack";
 		$blnPickedSkill = false;
 		
-		if(!$this->_objPlayerTeam->getPlayer()->isDead()){
+		$arrRandom = array(0, 1, 2);
+		
+		if($this->_objPlayerTeam->getPlayer()->isDead()){
+			unset($arrRandom[0]);
+		}
+		if($this->_objPlayerTeam->getPartyOne() == null || $this->_objPlayerTeam->getPartyOne()->isDead()){
+			unset($arrRandom[1]);
+		}
+		if($this->_objPlayerTeam->getPartyTwo() == null || $this->_objPlayerTeam->getPartyTwo()->isDead()){
+			unset($arrRandom[2]);
+		}
+		
+		$intRandTarget = array_rand($arrRandom);
+		
+		if($intRandTarget == 0){
 			$this->_objTarget = $this->_objPlayerTeam->getPlayer();
 		}
-		else if(!$this->_objPlayerTeam->getPartyOne()->isDead()){
+		else if($intRandTarget == 1){
 			$this->_objTarget = $this->_objPlayerTeam->getPartyOne();
 		}
 		else{

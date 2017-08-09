@@ -79,6 +79,7 @@
 				
 				// update session
 				$_SESSION['objRPGCharacter'] = $_SESSION['objCombat']->getPlayerTeam()->getPlayer();
+				$_SESSION['objParty'] = $_SESSION['objCombat']->getPlayerTeam();
 				$_SESSION['objRPGCharacter']->save();
 			}
 		}	

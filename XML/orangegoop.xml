@@ -20,6 +20,7 @@
 		<eventText precondition='LikesFatSelf=1&amp;Personality=Shy'>You catch your reflexion in the puddle and blush. You pose, excited to present your new, fattened body to the world. It's so unlike you to make such a show of yourself but you can't help it.</eventText>
 		<eventText precondition='LikesFatSelf=1&amp;Personality=Outgoing'>You proudly pose, jiggling your new girth. Laughing at your silly show you decide it's been enough and continue on your quest.</eventText>
 		<eventText>
+		
 					Looking back at the vine, you notice that the flower has closed itself back up, as if knowing what had just transpired. It seems as though that this flower was made for a very specific purpose, fattening up naive people like you.</eventText>
 	</dialog>
 	<dialog id='2'>

@@ -118,6 +118,7 @@
 				$this->_arrCombatMessage["Entity"][] = "PartyOne";
 				$this->_arrCombatMessage["Action"][] = $this->_objPlayerTeam->getPartyOne()->getNPCName() . " collapses to the ground in injury, defeated. ";
 				unset($this->_arrWaitTimes["PartyOne"]);
+				
 			}
 			if(isset($this->_arrWaitTimes["PartyTwo"]) && $this->_objPlayerTeam->getPartyTwo()->isDead()){
 				$this->_arrCombatMessage["Entity"][] = "PartyTwo";
@@ -150,6 +151,13 @@
 			if($this->_objEnemyTeam->allDead()){
 				$this->_strCombatState = 'Victory';
 				
+				if($this->_objPlayerTeam->getPartyOne() != null && $this->_objPlayerTeam->getPartyOne()->isDead()){
+					$this->_objPlayerTeam->setPartyOne(null);
+				}
+				if($this->_objPlayerTeam->getPartyTwo() != null && $this->_objPlayerTeam->getPartyTwo()->isDead()){
+					$this->_objPlayerTeam->setPartyTwo(null);
+				}
+				
 				// victory message
 				$this->_arrCombatMessage["System"][] = "You have emerged victorious!";
 				
@@ -174,7 +182,7 @@
 				}
 				
 			}
-			else if($this->_objPlayerTeam->allDead()){
+			else if($this->_objPlayerTeam->getPlayer()->isDead()){
 				$this->_strCombatState = 'Defeat';
 				$this->_arrCombatMessage["System"][] = 'You have lost the battle.';
 			}
@@ -443,7 +451,7 @@
 				$intWaitTime = $objSkill->getWaitTime();
 				$this->_strPrevTurn = "Party";
 				$this->_arrWaitTimes[$this->_strTurnTaker] += $this->_objTurnTaker->getWaitTime($intWaitTime);
-				$this->_arrCombatMessage["Action"][] = $objSkill->castedByNPC($this->_objTarget, $this->_objTurnTaker);
+				$this->_arrCombatMessage["Action"][] = $objSkill->castedByNPC($objTarget, $this->_objTurnTaker);
 			}
 			else{
 				$this->partyWait();

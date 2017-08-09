@@ -3,15 +3,19 @@
 require_once "Database.php";
 require_once "RPGNPCStats.php";
 require_once "RPGSkill.php";
+require_once "RPGItem.php";
+require_once "RPGNPCGrowth.php";
 include_once "constants.php";
 include_once "common.php";
 
 class RPGNPC{
 
-	private $_intNPCID;
+	private $_intNPCInstanceID;
+	private $_intRPGCharacterID;
 	private $_strNPCName;
 	private $_intCurrentHP;
 	private $_objStats;
+	private $_objGrowth;
 	private $_intWeight;
 	private $_intHeight;
 	private $_intExperienceGiven;
@@ -40,10 +44,23 @@ class RPGNPC{
 	private $_strCreatedBy;
 	private $_dtmModifiedOn;
 	private $_strModifiedBy;
+	private $_intLevel;
+	private $_intExperience;
+	private $_intRelationshipLevel;
+	private $_intRelationshipEXP;
+	private $_intConversationLevel;
+	private $_intCurrentHunger;
+	private $_intHungerRate;
+	private $_intDigestionRate;
+	private $_intRequiredExperience;
 	
-	public function RPGNPC($intNPCID = null){
+	public function RPGNPC($intNPCID = null, $intRPGCharacterID = null){
 		if($intNPCID != null){
 			$this->loadNPCInfo($intNPCID);
+		}
+		if($intRPGCharacterID != null){
+			$this->_intRPGCharacterID = $intRPGCharacterID;
+			$this->loadNPCInstanceInfo($intRPGCharacterID);
 		}
 	}
 	
@@ -69,6 +86,19 @@ class RPGNPC{
 		$this->setCreatedBy($arrNPCInfo['strCreatedBy']);
 		$this->setModifiedOn($arrNPCInfo['dtmModifiedOn']);
 		$this->setModifiedBy($arrNPCInfo['strModifiedBy']);
+	}
+	
+	private function populateInstanceVarFromRow($arrNPCInfo){
+		$this->setLevel($arrNPCInfo['intLevel']);
+		$this->setExperience($arrNPCInfo['intExperience']);
+		$this->setRelationshipLevel($arrNPCInfo['intRelationshipLevel']);
+		$this->setRelationshipEXP($arrNPCInfo['intRelationshipEXP']);
+		$this->setConversationLevel($arrNPCInfo['intConversationLevel']);
+		$this->setWeight($arrNPCInfo['dblWeight']);
+		$this->setCurrentHunger($arrNPCInfo['intCurrentHunger']);
+		$this->setHungerRate($arrNPCInfo['intHungerRate']);
+		$this->setCurrentHP($arrNPCInfo['intCurrentHP']);
+		$this->setDigestionRate($arrNPCInfo['intDigestionRate']);
 	}
 	
 	private function loadNPCInfo($intNPCID){
@@ -116,17 +146,65 @@ class RPGNPC{
 		$this->_arrStatusEffectList = array();
 	}
 	
+	private function loadNPCInstanceInfo($intRPGCharacterID){
+		$objDB = new Database();
+		$arrNPCInfo = array();
+			$strSQL = "SELECT *
+						FROM tblnpcinstance
+							WHERE intNPCID = " . $objDB->quote($this->_intNPCID) . "
+								AND intRPGCharacterID = " . $objDB->quote($intRPGCharacterID);
+			$rsResult = $objDB->query($strSQL);
+			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+				$arrNPCInfo['intLevel'] = $arrRow['intLevel'];
+				$arrNPCInfo['intExperience'] = $arrRow['intExperience'];
+				$arrNPCInfo['intRelationshipLevel'] = $arrRow['intRelationshipLevel'];
+				$arrNPCInfo['intRelationshipEXP'] = $arrRow['intRelationshipEXP'];
+				$arrNPCInfo['intConversationLevel'] = $arrRow['intConversationLevel'];
+				$arrNPCInfo['dblWeight'] = $arrRow['dblWeight'];
+				$arrNPCInfo['intCurrentHunger'] = $arrRow['intCurrentHunger'];
+				$arrNPCInfo['intHungerRate'] = $arrRow['intHungerRate'];
+				$arrNPCInfo['intCurrentHP'] = $arrRow['intCurrentHP'];
+				$arrNPCInfo['intDigestionRate'] = $arrRow['intDigestionRate'];
+			}
+		$this->populateInstanceVarFromRow($arrNPCInfo);	
+		$this->_objStats->setRPGCharacterID($intRPGCharacterID);
+		$this->_objStats->loadBaseInstanceStats();
+		$this->setCurrentHP($this->getModifiedMaxHP());
+		$this->_objGrowth = new RPGNPCGrowth($this->_intNPCID);
+		$this->_intRequiredExperience = $this->loadRequiredExperience();
+	}
+	
+	public function save(){
+		$objDB = new Database();
+		$strSQL = "UPDATE tblnpcinstance
+					SET dblWeight = " . $objDB->quote($this->_intWeight) . ",
+						intExperience = " . $objDB->quote($this->_intExperience) . ",
+						intLevel = " . $objDB->quote($this->_intLevel) . ",
+						intConversationLevel = " . $objDB->quote($this->_intConversationLevel) . ",
+						intRelationshipLevel = " . $objDB->quote($this->_intRelationshipLevel) . ",
+						intRelationshipEXP = " . $objDB->quote($this->_intRelationshipEXP) . ",
+						intCurrentHunger = " . $objDB->quote($this->_intCurrentHunger) . ",
+						intHungerRate = " . $objDB->quote($this->_intHungerRate) . ",
+						intDigestionRate = " . $objDB->quote($this->_intDigestionRate) . "
+						WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID) . "
+							AND intNPCID = " . $objDB->quote($this->_intNPCID);
+		$objDB->query($strSQL);
+		$this->_objStats->save();
+	}
+	
 	public function loadSkills(){
 		$objDB = new Database();
 		$this->_arrSkillList = array();
-		$strSQL = "SELECT intSkillID, strSkillType
+		$strSQL = "SELECT intSkillID, strSkillType, intReqLevel
 					FROM tblnpcskillxr
 						INNER JOIN tblskill
 							USING (intSkillID)
 						WHERE intNPCID = " . $objDB->quote($this->getNPCID());
 		$rsResult = $objDB->query($strSQL);
 		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
-			$this->_arrSkillList[$arrRow['strSkillType']][] = new RPGSkill($arrRow['intSkillID']);
+			$objRPGSkill = new RPGSkill($arrRow['intSkillID']);
+			$objRPGSkill->setRequiredLevel($arrRow['intReqLevel']);
+			$this->_arrSkillList[$arrRow['strSkillType']][] = $objRPGSkill;
 		}
 	}
 	
@@ -671,6 +749,134 @@ class RPGNPC{
 	
 	public function setLastRoll($blnRoll){
 		$this->_blnLastRoll = $blnRoll;
+	}
+	
+	public function getLevel(){
+		return $this->_intLevel;
+	}
+	
+	public function setLevel($intLevel){
+		$this->_intLevel = $intLevel;
+	}
+	
+	public function getExperience(){
+		return $this->_intExperience;
+	}
+	
+	public function setExperience($intExperience){
+		$this->_intExperience = $intExperience;
+	}
+	
+	public function getRelationshipLevel(){
+		return $this->_intRelationshipLevel;
+	}
+	
+	public function setRelationshipLevel($intRelationshipLevel){
+		$this->_intRelationshipLevel = $intRelationshipLevel;
+	}
+	
+	public function getRelationshipEXP(){
+		return $this->_intRelationshipEXP;
+	}
+	
+	public function setRelationshipEXP($intRelationshipEXP){
+		$this->_intRelationshipEXP = $intRelationshipEXP;
+	}
+	
+	public function getConversationLevel(){
+		return $this->_intConversationLevel;
+	}
+	
+	public function setConversationLevel($intConversationLevel){
+		$this->_intConversationLevel = $intConversationLevel;
+	}
+	
+	public function getCurrentHunger(){
+		return $this->_intCurrentHunger;
+	}
+	
+	public function setCurrentHunger($intCurrentHunger){
+		$this->_intCurrentHunger = $intCurrentHunger;
+	}
+	
+	public function getHungerRate(){
+		return $this->_intHungerRate;
+	}
+	
+	public function setHungerRate($intHungerRate){
+		$this->_intHungerRate = $intHungerRate;
+	}
+	
+	public function getDigestionRate(){
+		return $this->_intDigestionRate;
+	}
+	
+	public function setDigestionRate($intDigestionRate){
+		$this->_intDigestionRate = $intDigestionRate;
+	}
+	
+	public function getMaxHunger(){
+		return $this->_intMaxHunger;
+	}
+	
+	public function setMaxHunger($intMaxHunger){
+		$this->_intMaxHunger = $intMaxHunger;
+	}
+	
+	public function gainExperience($intExpGain){
+		if($this->getLevel() != 20){
+			$this->_intExperience += $intExpGain;
+		}
+		if($this->_intExperience >= $this->_intRequiredExperience){
+			$this->levelUp();
+		}
+	}
+	
+	public function levelUp(){
+		$intExpDiff = $this->_intExperience - $this->loadRequiredExperience(); 
+		$this->_intLevel++;
+		$this->setExperience(0);
+		$this->_intRequiredExperience = $this->loadRequiredExperience();
+		$this->setCurrentHP($this->getModifiedMaxHP());
+		$this->_objStats->applyGrowth($this->_objGrowth);
+		$this->save();
+		$this->gainExperience($intExpDiff);
+	}
+	
+	public function loadRequiredExperience(){
+		return pow(($this->_intLevel + 1) * 2, 2) * 100;
+	}
+	
+	public function forceEatItem($intItemID){
+		$objItem = new RPGItem($intItemID);
+		$this->healHP($objItem->getHPHeal());
+		$this->_intCurrentHunger = min(($this->getStats()->getCombinedStatsSecondary('intMaxHunger') * 2), ($this->_intCurrentHunger + $objItem->getFullness()));
+		$this->_intWeight += round($objItem->getCalories() / 3500);
+	}
+	
+	public function forceEatItemMulti($intItemID, $intAmount){
+		for($i=0;$i<$intAmount;$i++){
+			$objItem = new RPGItem($intItemID);
+			$this->healHP($objItem->getHPHeal());
+			$this->_intCurrentHunger = min(($this->getStats()->getCombinedStatsSecondary('intMaxHunger') * 2), ($this->_intCurrentHunger + $objItem->getFullness()));
+			$this->_intWeight += round($objItem->getCalories() / 3500);
+		}
+	}
+	
+	public function healHP($intHPHeal){
+		$this->setCurrentHP(min($this->getModifiedMaxHP(), ($this->getCurrentHP() + $intHPHeal)));
+	}
+	
+	public function stuffCharacter($intFullness, $intWeight, $intHPHeal){
+		$this->setCurrentHunger(min(($this->getStats()->getCombinedStatsSecondary('intMaxHunger') * 2), $this->getCurrentHunger() + $intFullness));
+		$this->setWeight($this->getWeight() + $intWeight);
+		$this->healHP($intHPHeal);
+	}
+	
+	public function stuffCharacterDeadly($intFullness, $intWeight){
+		$this->setCurrentHunger(min(($this->getStats()->getCombinedStatsSecondary('intMaxHunger') * 2), $this->getCurrentHunger() + $intFullness));
+		$this->setWeight($this->getWeight() + $intWeight);
+		$this->healHP($intHPHeal);
 	}
 }
 

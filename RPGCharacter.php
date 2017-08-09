@@ -1784,7 +1784,8 @@ class RPGCharacter{
 		global $arrStateValues;
 		unset($_SESSION['objEnemy']);
 		unset($_SESSION['objRelationship']);
-		$this->_objParty = new RPGPlayerTeam($this);
+		$objPartyOne = new RPGNPC(2, $this->_intRPGCharacterID);
+		$this->_objParty = new RPGPlayerTeam($this, $objPartyOne);
 		$this->setTownID(0);
 		$this->setLocationID(NULL);
 		$this->setCurrentFloor($intFloorID);

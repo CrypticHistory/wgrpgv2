@@ -29,6 +29,7 @@
 			$this->_arrStatusEffectStats['intVitality']['Hungry'] = 0;
 			$this->_arrStatusEffectStats['intWillpower']['Hungry'] = 0;
 			$this->_arrStatusEffectStats['intDexterity']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intMaxHunger']['Hungry'] = 0;
 		}
 		
 		public function loadBaseStats(){
@@ -53,6 +54,7 @@
 				$this->_arrBaseStats['intBlockRate'] = $arrRow['intBlockRate'];
 				$this->_arrBaseStats['intBlockReduction'] = $arrRow['intBlockReduction'];
 				$this->_arrBaseStats['intFleeResistance'] = $arrRow['intFleeResistance'];
+				$this->_arrBaseStats['intMaxHunger'] = 100;
 			}
 		}
 		
@@ -83,6 +85,44 @@
 				$this->_arrBaseStats['intFleeResistance'] = $arrRow['intFleeResistance'];
 				$this->_arrBaseStats['intMaxHunger'] = $arrRow['intMaxHunger'];
 			}
+		}
+		
+		public function save(){
+			$objDB = new Database();
+			$strSQL = "UPDATE tblnpcinstancestats
+						SET intMaxHP = " . $objDB->quote($this->_arrBaseStats['intMaxHP']) . ",
+							intStrength = " . $objDB->quote($this->_arrBaseStats['intStrength']) . ",
+							intIntelligence = " . $objDB->quote($this->_arrBaseStats['intIntelligence']) . ",
+							intAgility = " . $objDB->quote($this->_arrBaseStats['intAgility']) . ",
+							intVitality = " . $objDB->quote($this->_arrBaseStats['intVitality']) . ",
+							intWillpower = " . $objDB->quote($this->_arrBaseStats['intWillpower']) . ",
+							intDexterity = " . $objDB->quote($this->_arrBaseStats['intDexterity']) . ",
+							intEvasion = " . $objDB->quote($this->_arrBaseStats['intEvasion']) . ",
+							intAccuracy = " . $objDB->quote($this->_arrBaseStats['intAccuracy']) . ",
+							intCritDamage = " . $objDB->quote($this->_arrBaseStats['intCritDamage']) . ",
+							intPierce = " . $objDB->quote($this->_arrBaseStats['intPierce']) . ",
+							intBlockRate = " . $objDB->quote($this->_arrBaseStats['intBlockRate']) . ",
+							intBlockReduction = " . $objDB->quote($this->_arrBaseStats['intBlockReduction']) . "
+							WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID) . "
+								AND intNPCID = " . $objDB->quote($this->_intNPCID);
+								file_put_contents('filename.txt', print_r($strSQL, true));
+			$objDB->query($strSQL);
+		}
+		
+		public function applyGrowth($objGrowth){
+			$this->_arrBaseStats['intMaxHP'] += $objGrowth->getGrowthRate('intMaxHP');
+			$this->_arrBaseStats['intStrength'] += $objGrowth->getGrowthRate('intStrength');
+			$this->_arrBaseStats['intIntelligence'] += $objGrowth->getGrowthRate('intIntelligence');
+			$this->_arrBaseStats['intAgility'] += $objGrowth->getGrowthRate('intAgility');
+			$this->_arrBaseStats['intVitality'] += $objGrowth->getGrowthRate('intVitality');
+			$this->_arrBaseStats['intWillpower'] += $objGrowth->getGrowthRate('intWillpower');
+			$this->_arrBaseStats['intDexterity'] += $objGrowth->getGrowthRate('intDexterity');
+			$this->_arrBaseStats['intAccuracy'] += $objGrowth->getGrowthRate('intAccuracy');
+			$this->_arrBaseStats['intEvasion'] += $objGrowth->getGrowthRate('intEvasion');
+			$this->_arrBaseStats['intCritDamage'] += $objGrowth->getGrowthRate('intCritDamage');
+			$this->_arrBaseStats['intPierce'] += $objGrowth->getGrowthRate('intPierce');
+			$this->_arrBaseStats['intBlockRate'] += $objGrowth->getGrowthRate('intBlockRate');
+			$this->_arrBaseStats['intBlockReduction'] += $objGrowth->getGrowthRate('intBlockReduction');
 		}
 		
 		public function addToStats($strStatArrayName, $strStatName, $intStatAmount, $strStatusEffectName = NULL){
@@ -135,6 +175,10 @@
 		
 		public function getCombinedStatsSecondary($strIndex){
 			return $this->_arrBaseStats[$strIndex];
+		}
+		
+		public function setRPGCharacterID($intRPGCharacterID){
+			$this->_intRPGCharacterID = $intRPGCharacterID;
 		}
 	}
 

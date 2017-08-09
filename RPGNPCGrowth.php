@@ -9,6 +9,7 @@
 
 		public function RPGNPCGrowth($intNPCID){
 			$this->_intNPCID = $intNPCID;
+			$this->loadGrowthRates();
 		}
 		
 		public function loadGrowthRates(){
