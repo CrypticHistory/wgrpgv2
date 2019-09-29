@@ -4,7 +4,7 @@ require_once "Database.php";
 	
 class SkillHypnosis{
 	
-	public function SkillHypnosis(){
+	public function __construct(){
 		
 	}
 

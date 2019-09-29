@@ -4,7 +4,7 @@ include_once "RPGLocation.php";
 
 class DisplayTownWindow{
 
-	public function DisplayTownWindow(){
+	public function __construct(){
 		
 	}
 	

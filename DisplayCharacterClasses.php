@@ -2,7 +2,7 @@
 
 class DisplayCharacterClasses{
 
-	public function DisplayCharacterClasses(){
+	public function __construct(){
 		
 	}
 	

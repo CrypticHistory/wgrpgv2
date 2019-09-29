@@ -4,7 +4,7 @@ require_once "Database.php";
 	
 class SkillFatteningTouch{
 	
-	public function SkillFatteningTouch(){
+	public function __construct(){
 		
 	}
 

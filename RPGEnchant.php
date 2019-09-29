@@ -15,7 +15,7 @@ class RPGEnchant{
 	private $_dtmModifiedOn;
 	private $_strModifiedBy;
 	
-	public function RPGEnchant($intEnchantID = null){
+	public function __construct($intEnchantID = null){
 		if($intEnchantID != null){
 			$this->loadEnchantInfo($intEnchantID);
 		}

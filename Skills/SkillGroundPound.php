@@ -4,7 +4,7 @@ include_once "RPGCombatHelper.php";
 	
 class SkillGroundPound{
 	
-	public function SkillGroundPound(){
+	public function __construct(){
 		
 	}
 

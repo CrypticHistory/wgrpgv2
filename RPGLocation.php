@@ -11,7 +11,7 @@
 		private $_intTownID;
 		private $_txtDescription;
 		
-		public function RPGLocation ($intLocationID = null){
+		public function __construct($intLocationID = null){
 			if($intLocationID != null){
 				$this->loadLocationInfo($intLocationID);
 			}

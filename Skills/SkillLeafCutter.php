@@ -4,7 +4,7 @@ include_once "RPGCombatHelper.php";
 	
 class SkillLeafCutter{
 	
-	public function SkillLeafCutter(){
+	public function __construct(){
 		
 	}
 

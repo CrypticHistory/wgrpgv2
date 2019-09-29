@@ -6,7 +6,7 @@ include_once "RPGCombatStatusEffect.php";
 	
 class SkillToxicBreath{
 	
-	public function SkillToxicBreath(){
+	public function __construct(){
 		
 	}
 

@@ -2,7 +2,7 @@
 
 class DisplayEventCommandsWindow{
 
-	public function DisplayEventCommandsWindow(){
+	public function __construct(){
 		
 	}
 	

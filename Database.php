@@ -1,5 +1,5 @@
 <?php
-	require_once "../dbconfig.php";
+	//require_once "../dbconfig.php";
 
 	class Database{
 	

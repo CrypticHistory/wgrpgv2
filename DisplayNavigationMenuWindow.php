@@ -5,7 +5,7 @@ include_once "RPGLocation.php";
 
 class DisplayNavigationMenuWindow{
 
-	public function DisplayNavigationMenuWindow(){
+	public function __construct(){
 		
 	}
 	

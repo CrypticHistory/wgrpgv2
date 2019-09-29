@@ -5,7 +5,7 @@ class Lottery {
 	private $_entries;
 	private $_lotsTotal;
 	
-	public function Lottery(){
+	public function __construct(){
 		$this->_entries = array();
 		$this->_lotsTotal = 0;
 	}

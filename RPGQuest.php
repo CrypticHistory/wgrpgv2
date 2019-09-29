@@ -18,7 +18,7 @@ class RPGQuest{
 	private $_blnActive;
 	private $_arrRequirements;
 	
-	public function RPGQuest($intQuestID = null, $intRPGCharacterID = null, $blnExistingQuest = true){
+	public function __construct($intQuestID = null, $intRPGCharacterID = null, $blnExistingQuest = true){
 		$this->_arrRequirements = array();
 		if($intRPGCharacterID != null){
 			$this->_intRPGCharacterID = $intRPGCharacterID;

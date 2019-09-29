@@ -4,7 +4,7 @@ class RPGOutfitReader {
 
 	private $_objXML;
 	
-	public function RPGOutfitReader($strXMLFileName){
+	public function __construct($strXMLFileName){
 		$this->_objXML = simplexml_load_file('XML/Outfits/' . $strXMLFileName);
 	}
 	

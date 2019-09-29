@@ -4,7 +4,7 @@ include_once "RPGCombatHelper.php";
 	
 class SkillMagicBolt{
 	
-	public function SkillMagicBolt(){
+	public function __construct(){
 		
 	}
 

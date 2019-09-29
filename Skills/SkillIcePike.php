@@ -4,7 +4,7 @@ include_once "RPGCombatHelper.php";
 	
 class SkillIcePike{
 	
-	public function SkillIcePike(){
+	public function __construct(){
 		
 	}
 

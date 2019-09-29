@@ -4,7 +4,7 @@ require_once "Database.php";
 	
 class SkillSlimeSacrifice{
 	
-	public function SkillSlimeSacrifice(){
+	public function __construct(){
 		
 	}
 

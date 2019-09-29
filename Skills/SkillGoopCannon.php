@@ -4,7 +4,7 @@ include_once "RPGCombatHelper.php";
 	
 class SkillGoopCannon{
 	
-	public function SkillGoopCannon(){
+	public function __construct(){
 		
 	}
 

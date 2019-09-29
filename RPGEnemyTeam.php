@@ -4,7 +4,7 @@
 
 	class RPGEnemyTeam extends RPGPlayerTeam{
 	
-		public function RPGEnemyTeam($objLeader = null, $objEnemyOne = null, $objEnemyTwo = null){
+		public function __construct($objLeader = null, $objEnemyOne = null, $objEnemyTwo = null){
 			parent::__construct($objLeader, $objEnemyOne, $objEnemyTwo);
 		}
 		

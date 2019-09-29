@@ -2,7 +2,7 @@
 
 class DisplayEquipInventory{
 
-	public function DisplayEquipInventory(){
+	public function __construct(){
 		
 	}
 	

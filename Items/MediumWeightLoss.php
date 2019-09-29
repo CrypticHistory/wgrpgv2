@@ -2,7 +2,7 @@
 	
 class MediumWeightLoss{
 	
-	public function MediumWeightLoss(){
+	public function __construct(){
 		
 	}
 

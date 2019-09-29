@@ -35,7 +35,7 @@ class RPGItem{
 	private $_dtmModifiedOn;
 	private $_strModifiedBy;
 	
-	public function RPGItem($intItemID = null, $intItemInstanceID = null){
+	public function __construct($intItemID = null, $intItemInstanceID = null){
 		if($intItemInstanceID != null){
 			$this->_intItemInstanceID = $intItemInstanceID;
 		}

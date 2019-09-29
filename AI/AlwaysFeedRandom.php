@@ -7,7 +7,7 @@ class AlwaysFeedRandom{
 	private $_objPlayerTeam;
 	private $_objTarget;
 	
-	public function AlwaysFeedRandom($objNPC, $objEnemyTeam, $objPlayerTeam){
+	public function __construct($objNPC, $objEnemyTeam, $objPlayerTeam){
 		$this->_objNPC = $objNPC;
 		$this->_objEnemyTeam = $objEnemyTeam;
 		$this->_objPlayerTeam = $objPlayerTeam;
@@ -36,10 +36,10 @@ class AlwaysFeedRandom{
 			unset($arrRandom[5]);
 		}
 		
-		if($this->_objNPC->getNPCName() == $this->_objEnemyTeam->getEnemyOne()->getNPCName()){
+		if($this->_objEnemyTeam->getEnemyOne() != null && ($this->_objNPC->getNPCName() == $this->_objEnemyTeam->getEnemyOne()->getNPCName())){
 			unset($arrRandom[4]);
 		}
-		else if($this->_objNPC->getNPCName() == $this->_objEnemyTeam->getEnemyTwo()->getNPCName()){
+		else if($this->_objEnemyTeam->getEnemyTwo() != null && ($this->_objNPC->getNPCName() == $this->_objEnemyTeam->getEnemyTwo()->getNPCName())){
 			unset($arrRandom[5]);
 		}
 		

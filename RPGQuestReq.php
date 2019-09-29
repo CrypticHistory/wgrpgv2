@@ -8,7 +8,7 @@ class RPGQuestReq{
 	private $_dtmStarted;
 	private $_dtmCompleted;
 	
-	public function RPGQuestReq(){
+	public function __construct(){
 		
 	}
 	

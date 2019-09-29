@@ -4,7 +4,7 @@ include_once "RPGCombatStatusEffect.php";
 
 class SEPoisoned extends RPGCombatStatusEffect{
 	
-	public function SEPoisoned($objGiver, $objReceiver, $intRemainingTurns, $strEntityName){
+	public function __construct($objGiver, $objReceiver, $intRemainingTurns, $strEntityName){
 		parent::__construct($objGiver, $objReceiver, $intRemainingTurns, $strEntityName);
 	}
 	

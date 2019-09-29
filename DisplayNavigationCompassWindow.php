@@ -5,7 +5,7 @@ include_once "RPGCharacter.php";
 
 class DisplayNavigationCompassWindow{
 
-	public function DisplayNavigationCompassWindow(){
+	public function __construct(){
 		
 	}
 	

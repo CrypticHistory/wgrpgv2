@@ -4,7 +4,7 @@ include_once "RPGCombatHelper.php";
 	
 class SkillPunish{
 	
-	public function SkillPunish(){
+	public function __construct(){
 		
 	}
 

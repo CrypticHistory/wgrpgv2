@@ -4,7 +4,7 @@ include_once "RPGCombatHelper.php";
 	
 class SkillChew{
 	
-	public function SkillChew(){
+	public function __construct(){
 		
 	}
 

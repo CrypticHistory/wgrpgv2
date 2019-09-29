@@ -8,7 +8,7 @@ class RPGPlayerQuests{
 	private $_intRPGCharacterID;
 	private $_arrQuests;
 	
-	public function RPGPlayerQuests($intRPGCharacterID){
+	public function __construct($intRPGCharacterID){
 		$this->_intRPGCharacterID = $intRPGCharacterID;
 		$this->_arrQuests = array();
 		if($this->_intRPGCharacterID != null){

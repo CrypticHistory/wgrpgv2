@@ -12,7 +12,7 @@
 		if(isset($_GET['intSkillID'])){
 			$intSkillID = $_GET['intSkillID'];
 			
-			if($_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getSkills()->hasSkill($intSkillID) && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getSkills()->getSkill($intSkillID)->getUsableOutsideBattle()){
+			if($_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getSkills()->hasSkill($intSkillID) && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getSkills()->getSkill($intSkillID)->getUsableOutsideBattle() && $_SESSION['objRPGCharacter']->getTownID() < 1){
 				
 				$objSkill = $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getSkills()->getSkill($intSkillID);
 				

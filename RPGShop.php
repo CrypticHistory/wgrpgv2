@@ -11,7 +11,7 @@ class RPGShop{
 	private $_strShopType;
 	private $_arrShopInv;
 	
-	public function RPGShop($intShopID = null){
+	public function __construct($intShopID = null){
 		if($intShopID != null){
 			$this->loadShopInfo($intShopID);
 		}

@@ -2,7 +2,7 @@
 
 class DisplayUseInventory{
 
-	public function DisplayUseInventory(){
+	public function __construct(){
 		
 	}
 	

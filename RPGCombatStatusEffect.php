@@ -7,7 +7,7 @@ class RPGCombatStatusEffect{
 	private $_intRemainingTurns;
 	private $_strEntityName;
 	
-	public function RPGCombatStatusEffect($objGiver, $objReceiver, $intRemainingTurns, $strEntityName){
+	public function __construct($objGiver, $objReceiver, $intRemainingTurns, $strEntityName){
 		$this->_objGiver = $objGiver;
 		$this->_objReceiver = $objReceiver;
 		$this->_intRemainingTurns = $intRemainingTurns;

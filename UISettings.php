@@ -18,7 +18,7 @@ class UISettings{
 	private $_intQuestTab;
 	private $_intClassTab;
 	
-	public function UISettings($intRPGCharacterID){
+	public function __construct($intRPGCharacterID){
 		//defaults
 		$this->_intRPGCharacterID = $intRPGCharacterID;
 		$this->_strInventoryFrame = "Equipment";

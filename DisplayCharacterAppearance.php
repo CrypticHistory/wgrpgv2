@@ -4,7 +4,7 @@ include_once 'fatAdjs.php';
 
 class DisplayCharacterAppearance{
 
-	public function DisplayCharacterAppearance(){
+	public function __construct(){
 		
 	}
 	

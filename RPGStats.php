@@ -10,7 +10,7 @@
 		private $_arrAbilityStats;
 		private $_intRPGCharacterID;
 
-		public function RPGStats($intRPGCharacterID){
+		public function __construct($intRPGCharacterID){
 			$this->_intRPGCharacterID = $intRPGCharacterID;
 		}
 		
@@ -138,6 +138,10 @@
 			$objDB->query($strSQL);
 		}
 		
+		public function removeStatusEffect($strStatName, $strStatusEffectName){
+			$this->_arrStatusEffectStats[$strStatName][$strStatusEffectName] = 0;
+		}
+		
 		public function addToStats($strStatArrayName, $strStatName, $intStatAmount, $strStatusEffectName = NULL){
 			if($strStatArrayName == 'Base'){
 				$this->_arrBaseStats[$strStatName] += $intStatAmount;
@@ -186,9 +190,7 @@
 		
 		public function setStatusEffectStats($strIndex, $intValue, $strStatusEffectName, $blnKillBuff = false){
 			if($blnKillBuff){
-				$intNewStatValue = ceil($this->getCombinedStatsNoSE($strIndex) * (1 + ($intValue / 100)));
-				$intAdditionalStatValue = $intNewStatValue - $this->getCombinedStatsNoSE($strIndex);
-				$this->setStatusEffectStats($strIndex, $intAdditionalStatValue, $strStatusEffectName);
+				$this->_arrStatusEffectStats[$strIndex][$strStatusEffectName] += $intValue;
 			}
 			else{
 				$this->_arrStatusEffectStats[$strIndex][$strStatusEffectName] = $intValue;
@@ -196,7 +198,18 @@
 		}
 		
 		public function getStatusEffectStats($strIndex, $strStatusEffectName){
-			$this->_arrStatusEffectStats[$strIndex][$strStatusEffectName];
+			return $this->_arrStatusEffectStats[$strIndex][$strStatusEffectName];
+		}
+		
+		public function getStatusEffectStatsAll($strIndex){
+			
+			$intStatTotal = 0;
+			foreach($this->_arrStatusEffectStats[$strIndex] as $key => $intStatVal){
+				$intStatTotal += $intStatVal;
+			}
+			
+			return $intStatTotal;
+			
 		}
 		
 		public function getCombinedStats($strIndex){

@@ -7,7 +7,7 @@ include_once "common.php";
 
 class DisplayShopWindow{
 
-	public function DisplayShopWindow(){
+	public function __construct(){
 		
 	}
 	

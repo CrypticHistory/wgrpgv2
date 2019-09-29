@@ -25,7 +25,7 @@ class RPGRelationship extends RPGNPC {
 	private $_objStats;
 	private $_objGrowth;
 	
-	public function RPGRelationship ($intNPCID = null, $intRPGCharacterID = null, $blnNewRelationship = false){
+	public function __construct($intNPCID = null, $intRPGCharacterID = null, $blnNewRelationship = false){
 		if($intNPCID != null && $intRPGCharacterID != null && $blnNewRelationship == false){
 			parent::__construct($intNPCID);
 			$this->loadRelationshipInfo($intNPCID, $intRPGCharacterID);

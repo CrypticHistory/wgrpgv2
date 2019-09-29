@@ -2,7 +2,7 @@
 	
 class LargeWeightLoss{
 	
-	public function LargeWeightLoss(){
+	public function __construct(){
 		
 	}
 

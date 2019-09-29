@@ -2,7 +2,7 @@
 
 class DisplayCharacterSocial{
 
-	public function DisplayCharacterSocial(){
+	public function __construct(){
 		
 	}
 	

@@ -7,7 +7,7 @@ class SkillFeed{
 
 	private $_objFood;
 	
-	public function SkillFeed(){
+	public function __construct(){
 		
 	}
 

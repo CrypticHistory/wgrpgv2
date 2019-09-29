@@ -2,7 +2,7 @@
 
 class DisplayMiscInventory{
 
-	public function DisplayMiscInventory(){
+	public function __construct(){
 		
 	}
 	

@@ -15,7 +15,7 @@ class RPGClass{
 	private $_objSkillList;
 	private $_intRequiredExperience;
 	
-	public function RPGClass($intClassID = null, $intRPGCharacterID = null, $blnExistingClass = true){
+	public function __construct($intClassID = null, $intRPGCharacterID = null, $blnExistingClass = true){
 		if($intRPGCharacterID != null){
 			$this->_intRPGCharacterID = $intRPGCharacterID;
 		}

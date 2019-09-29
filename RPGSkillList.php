@@ -7,7 +7,7 @@ class RPGSkillList{
 
 	private $_arrSkills;
 	
-	public function RPGSkillList(){
+	public function __construct(){
 		
 	}
 	

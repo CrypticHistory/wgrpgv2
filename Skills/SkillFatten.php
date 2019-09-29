@@ -4,7 +4,7 @@ require_once "Database.php";
 	
 class SkillFatten{
 	
-	public function SkillFatten(){
+	public function __construct(){
 		
 	}
 

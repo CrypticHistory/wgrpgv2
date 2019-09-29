@@ -50,7 +50,7 @@ class DisplayGameUI extends DataGameUI{
 	protected $_objNavigationCompassWindow;
 	protected $_objNavigationMenuWindow;
 
-	public function DisplayGameUI(){
+	public function __construct(){
 		$this->_objCharacterInfo = new DisplayCharacterInfo();
 		$this->_objCharacterAppearance = new DisplayCharacterAppearance();
 		$this->_objCharacterClasses = new DisplayCharacterClasses();
@@ -71,7 +71,7 @@ class DisplayGameUI extends DataGameUI{
 		$this->_objTownCommandsWindow = new DisplayTownCommandsWindow();
 		$this->_objNavigationCompassWindow = new DisplayNavigationCompassWindow();
 		$this->_objNavigationMenuWindow = new DisplayNavigationMenuWindow();
-		$this->DataGameUI();
+		parent::__construct();
 	}
 	
 	public function toJavascript(){

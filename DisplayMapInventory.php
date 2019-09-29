@@ -2,7 +2,7 @@
 
 class DisplayMapInventory{
 
-	public function DisplayMapInventory(){
+	public function __construct(){
 		
 	}
 	

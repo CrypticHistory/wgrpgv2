@@ -2,7 +2,7 @@
 
 class DisplayReturnCommandsWindow{
 
-	public function DisplayReturnCommandsWindow(){
+	public function __construct(){
 		
 	}
 	

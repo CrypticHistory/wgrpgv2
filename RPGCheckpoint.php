@@ -11,7 +11,7 @@ class RPGCheckpoint{
 	private $_dtmLastViewed;
 	private $_intTimesViewed;
 	
-	public function RPGCheckpoint($intCheckpointID = null, $intRPGCharacterID = null, $blnExistingCheckpoint = true){
+	public function __construct($intCheckpointID = null, $intRPGCharacterID = null, $blnExistingCheckpoint = true){
 		if($intRPGCharacterID != null){
 			$this->_intRPGCharacterID = $intRPGCharacterID;
 			

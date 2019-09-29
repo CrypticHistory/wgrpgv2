@@ -9,7 +9,7 @@
 		private $_intNPCID;
 		private $_intRPGCharacterID;
 
-		public function RPGNPCStats($intNPCID, $intRPGCharacterID = null){
+		public function __construct($intNPCID, $intRPGCharacterID = null){
 			$this->_intNPCID = $intNPCID;
 			if($intRPGCharacterID != null){
 				$this->_intRPGCharacterID = $intRPGCharacterID;

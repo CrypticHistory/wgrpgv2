@@ -21,7 +21,7 @@ class RPGFloor{
 	private $_arrApplicableEvents;
 	private $_arrApplicableEnemies;
 	
-	public function RPGFloor($intFloorID = null){
+	public function __construct($intFloorID = null){
 		if($intFloorID != 0 && $intFloorID != null){
 			$this->loadFloorInfo($intFloorID);
 		}
@@ -112,13 +112,13 @@ class RPGFloor{
 		$intWinner = $objLottery->getWinner();
 		$objEnemyTeam = new RPGEnemyTeam();
 		$objEnemyTeam->setLeader(new RPGNPC($this->_arrApplicableEnemies[$intWinner]['intNPCID']));
-		if(isset($this->_arrApplicableEnemies[$intWinner]['intNPCID2'])){
+		if(isset($this->_arrApplicableEnemies[$intWinner]['intNPCID2']) && $this->_arrApplicableEnemies[$intWinner]['intNPCID2'] != 0){
 			$objEnemyTeam->setEnemyOne(new RPGNPC($this->_arrApplicableEnemies[$intWinner]['intNPCID2']));
 		}
 		else{
 			$objEnemyTeam->setEnemyOne(null);
 		}
-		if(isset($this->_arrApplicableEnemies[$intWinner]['intNPCID3'])){
+		if(isset($this->_arrApplicableEnemies[$intWinner]['intNPCID3']) && $this->_arrApplicableEnemies[$intWinner]['intNPCID3'] != 0){
 			$objEnemyTeam->setEnemyTwo(new RPGNPC($this->_arrApplicableEnemies[$intWinner]['intNPCID3']));
 		}
 		else{

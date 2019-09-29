@@ -4,7 +4,7 @@ include_once "RPGCombatHelper.php";
 	
 class SkillChainLightning{
 	
-	public function SkillChainLightning(){
+	public function __construct(){
 		
 	}
 

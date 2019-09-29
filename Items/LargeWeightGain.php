@@ -2,7 +2,7 @@
 	
 class LargeWeightGain{
 	
-	public function LargeWeightGain(){
+	public function __construct(){
 		
 	}
 

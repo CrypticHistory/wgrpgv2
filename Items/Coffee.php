@@ -2,7 +2,7 @@
 	
 class Coffee{
 	
-	public function Coffee(){
+	public function __construct(){
 		
 	}
 

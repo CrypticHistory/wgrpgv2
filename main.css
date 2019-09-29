@@ -783,3 +783,27 @@ span.close {padding-left: 5px; color: red;cursor: pointer;}
 	font-weight:bold;
 	border-bottom:1px solid grey;
 }
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  cursor:pointer;
+}
+
+.tooltip .tooltipText {
+  visibility: hidden;
+  width: 120px;
+  background-color: #ccc8c0;
+  color: rgb(79, 63, 50);
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  border:1px solid grey;
+}
+
+.tooltip:hover .tooltipText {
+  visibility: visible;
+}

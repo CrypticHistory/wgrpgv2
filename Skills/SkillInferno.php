@@ -6,7 +6,7 @@ include_once "RPGCombatStatusEffect.php";
 	
 class SkillInferno{
 	
-	public function SkillInferno(){
+	public function __construct(){
 		
 	}
 

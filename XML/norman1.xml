@@ -16,8 +16,8 @@
 At the end of the aisle is a robed man with his face hidden behind a book. His beard, however, is too large for cover, and rivals his chestnut brown hair in length. He wears a beige wizard hat that matches his robe.</eventText>
 		<option id='1' precondition="RelationshipLevel=0&amp;RelationshipEXP&lt;50">Approach Him</option>
 		<option id='22' precondition="RelationshipLevel=0&amp;RelationshipEXP=50">Approach Him</option>
-		<option id='23' precondition="RelationshipLevel=1&amp;hasViewedCheckpoint~4=0" action="setEventWithinEvent~30~0">Approach Him</option>
-		<option id='23' precondition="RelationshipLevel=1&amp;hasViewedCheckpoint~4=1" action="setEventWithinEvent~30~1">Approach Him</option>
+		<option id='23' precondition="RelationshipLevel=1&amp;hasViewedCheckpoint~4=0" action="setEventWithinEvent~41~0">Approach Him</option>
+		<option id='23' precondition="RelationshipLevel=1&amp;hasViewedCheckpoint~4=1" action="setEventWithinEvent~41~1">Approach Him</option>
 		<option id='2'>Turn Back</option>
 	</dialog>
 	<dialog id='1'>

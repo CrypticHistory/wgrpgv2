@@ -21,7 +21,7 @@
 		private $_strPrevTurn; // team that attacked last
 		private $_arrCombatStatusEffects; // all status effects in play
 	
-		public function RPGCombat($objPlayerTeam, $objEnemyTeam, $strFirstTurn){
+		public function __construct($objPlayerTeam, $objEnemyTeam, $strFirstTurn){
 			$this->_intTurn = 1;
 			$this->_objPlayerTeam = $objPlayerTeam;
 			$this->_objEnemyTeam = $objEnemyTeam;

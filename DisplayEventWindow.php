@@ -2,7 +2,7 @@
 
 class DisplayEventWindow{
 
-	public function DisplayEventWindow(){
+	public function __construct(){
 		
 	}
 	

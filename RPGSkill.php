@@ -19,7 +19,7 @@ class RPGSkill{
 	private $_intStatusEffectID;
 	private $_intRequiredLevel;
 	
-	public function RPGSkill($intSkillID = null){
+	public function __construct($intSkillID = null){
 		if($intSkillID != null){
 			$this->loadSkillInfo($intSkillID);
 		}

@@ -12,7 +12,7 @@ class RPGStatChange{
 	private $_intStatChangeMax;
 	private $_objStatusEffect;
 	
-	public function RPGStatChange($intStatChangeID = null){
+	public function __construct($intStatChangeID = null){
 		if($intStatChangeID != null){
 			$this->loadStatChangeInfo($intStatChangeID);
 		}

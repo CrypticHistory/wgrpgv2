@@ -22,7 +22,7 @@ class RPGStatusEffect{
 	private $_dtmModifiedOn;
 	private $_strModifiedBy;
 	
-	public function RPGStatusEffect($strStatusEffectName = null, $intStatusEffectID = null){
+	public function __construct($strStatusEffectName = null, $intStatusEffectID = null){
 		if($strStatusEffectName != null){
 			$this->loadStatusEffectInfo($strStatusEffectName);
 		}

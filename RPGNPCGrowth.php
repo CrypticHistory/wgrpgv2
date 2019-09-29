@@ -7,7 +7,7 @@
 		private $_arrGrowthRates;
 		private $_intNPCID;
 
-		public function RPGNPCGrowth($intNPCID){
+		public function __construct($intNPCID){
 			$this->_intNPCID = $intNPCID;
 			$this->loadGrowthRates();
 		}

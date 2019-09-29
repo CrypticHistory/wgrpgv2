@@ -7,7 +7,7 @@ class Succubus{
 	private $_objPlayerTeam;
 	private $_objTarget;
 	
-	public function Succubus($objNPC, $objEnemyTeam, $objPlayerTeam){
+	public function __construct($objNPC, $objEnemyTeam, $objPlayerTeam){
 		$this->_objNPC = $objNPC;
 		$this->_objEnemyTeam = $objEnemyTeam;
 		$this->_objPlayerTeam = $objPlayerTeam;

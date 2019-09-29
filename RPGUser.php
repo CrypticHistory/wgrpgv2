@@ -12,7 +12,7 @@ class RPGUser{
 	private $_dtmModifiedOn;
 	private $_strModifiedBy;
 	
-	public function RPGUser($strUserID = null){
+	public function __construct($strUserID = null){
 		$objDB = new Database();
 		if($strUserID != null){
 			$arrUserInfo = array();

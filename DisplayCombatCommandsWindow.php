@@ -2,7 +2,7 @@
 
 class DisplayCombatCommandsWindow{
 
-	public function DisplayCombatCommandsWindow(){
+	public function __construct(){
 		
 	}
 	

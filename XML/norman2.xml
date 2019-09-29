@@ -7,7 +7,7 @@
 	<precondition>RelLevelFromID=1</precondition>
 	<dialog id='0'>
 		<eventText>Norman turn in quest.</eventText>
-		<option id='1' action='turnInQuest~1~4~4'>Accept</option>
+		<option id='1' action='turnInQuest~2~4~5'>Accept</option>
 		<option id='2'>Refuse</option>
 	</dialog>
 	<dialog id='1'>

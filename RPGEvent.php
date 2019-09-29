@@ -23,7 +23,7 @@ class RPGEvent{
 	private $_intRPGCharacterID;
 	private $_blnHasViewedEvent;
 	
-	public function RPGEvent($intEventID = null, $intRPGCharacterID = null){
+	public function __construct($intEventID = null, $intRPGCharacterID = null){
 		if($intEventID != null){
 			$this->loadEventInfo($intEventID);
 		}

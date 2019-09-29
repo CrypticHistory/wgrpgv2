@@ -6,7 +6,7 @@
 		private $_objPartyOne;
 		private $_objPartyTwo;
 		
-		public function RPGPlayerTeam($objPlayer = null, $objPartyOne = null, $objPartyTwo = null){
+		public function __construct($objPlayer = null, $objPartyOne = null, $objPartyTwo = null){
 			$this->_objPlayer = $objPlayer;
 			$this->_objPartyOne = $objPartyOne;
 			$this->_objPartyTwo = $objPartyTwo;

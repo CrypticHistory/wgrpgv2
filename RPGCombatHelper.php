@@ -6,7 +6,7 @@ class RPGCombatHelper{
 	private $_blnCrit;
 	private $_blnBlocked;
 	
-	public function RPGCombatHelper(){
+	public function __construct(){
 	
 	}
 	

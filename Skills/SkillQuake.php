@@ -4,7 +4,7 @@ include_once "RPGCombatHelper.php";
 	
 class SkillQuake{
 	
-	public function SkillQuake(){
+	public function __construct(){
 		
 	}
 

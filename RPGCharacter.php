@@ -81,7 +81,7 @@ class RPGCharacter{
 	private $_dtmModifiedOn;
 	private $_strModifiedBy;
 	
-	public function RPGCharacter($intRPGCharacterID = null){
+	public function __construct($intRPGCharacterID = null){
 		if($intRPGCharacterID != null){
 			$this->loadRPGCharacterInfo($intRPGCharacterID);
 		}
@@ -492,7 +492,7 @@ class RPGCharacter{
 			if($objStatusEffect->getKillBuff()){
 				if($this->_arrKillBuffs[$objStatusEffect->getStatusEffectName()] != $objStatusEffect->getStatChangeMax()){
 					$this->_arrKillBuffs[$objStatusEffect->getStatusEffectName()] = $this->_arrKillBuffs[$objStatusEffect->getStatusEffectName()] + $objStatusEffect->getStatChangeMin();
-					$this->_objStats->setStatusEffectStats($objStatusEffect->getStatName(), $this->_arrKillBuffs[$objStatusEffect->getStatusEffectName()], $objStatusEffect->getStatusEffectName(), true);
+					$this->_objStats->setStatusEffectStats($objStatusEffect->getStatName(), $objStatusEffect->getStatChangeMin(), $objStatusEffect->getStatusEffectName(), true);
 				}
 			}
 		}
@@ -501,7 +501,9 @@ class RPGCharacter{
 	public function removeKillBuffs(){
 		foreach($this->getStatusEffectList() as $strStatusEffectName => $objStatusEffect){
 			if($objStatusEffect->getKillBuff()){
+				unset($this->_arrKillBuffs[$strStatusEffectName]);
 				$this->removeFromStatusEffects($objStatusEffect->getStatusEffectName());
+				$this->_objStats->removeStatusEffect($objStatusEffect->getStatName(), $objStatusEffect->getStatusEffectName());
 			}
 		}
 	}
@@ -524,11 +526,11 @@ class RPGCharacter{
 	
 	public function removeFromStatusEffects($strStatusEffectName){
 		if($this->_arrStatusEffectList[$strStatusEffectName]->getStatName() != NULL && !$this->_arrStatusEffectList[$strStatusEffectName]->getIncremental() && !$this->_arrStatusEffectList[$strStatusEffectName]->getKillBuff()){
-			$this->_objStats->setStatusEffectStats($this->_arrStatusEffectList[$strStatusEffectName]->getStatName(), 0, $this->_arrStatusEffectList[$strStatusEffectName]->getStatusEffectName());
+			$this->_objStats->removeStatusEffect($this->_arrStatusEffectList[$strStatusEffectName]->getStatName(), $this->_arrStatusEffectList[$strStatusEffectName]->getStatusEffectName());
 		}
 		else if($this->_arrStatusEffectList[$strStatusEffectName]->getStatName() != NULL && !$this->_arrStatusEffectList[$strStatusEffectName]->getIncremental() && $this->_arrStatusEffectList[$strStatusEffectName]->getKillBuff()){
 			unset($this->_arrKillBuffs[$strStatusEffectName]);
-			$this->_objStats->setStatusEffectStats($this->_arrStatusEffectList[$strStatusEffectName]->getStatName(), 0, $this->_arrStatusEffectList[$strStatusEffectName]->getStatusEffectName(), true);
+			$this->_objStats->removeStatusEffect($this->_arrStatusEffectList[$strStatusEffectName]->getStatName(), $this->_arrStatusEffectList[$strStatusEffectName]->getStatusEffectName());
 		}
 		if($this->_arrStatusEffectList[$strStatusEffectName]->getOverrideID() != NULL){
 			$this->removeOverride($this->_arrStatusEffectList[$strStatusEffectName]->getOverrideID());
@@ -1255,6 +1257,7 @@ class RPGCharacter{
 		if($intWeightGain > 0){
 			$this->setReviveText("You awake in your bed feeling heavier than before...");
 		}
+		$this->removeKillBuffs();
 		$this->setTownID(1);
 		// home location ID
 		$this->setLocationID(6);
@@ -1729,19 +1732,31 @@ class RPGCharacter{
 	}
 	
 	public function getModifiedWillpower(){
-		return $this->_objStats->getCombinedStats('intWillpower') + $this->getEquippedSecondary()->getEnchantStats('Willpower');
+		return $this->_objStats->getCombinedStats('intWillpower') + $this->getEquippedArmour()->getEnchantStats('Willpower') + $this->getEquippedWeapon()->getEnchantStats('Willpower') + $this->getEquippedSecondary()->getEnchantStats('Willpower');
 	}
 	
 	public function getModifiedStrength(){
-		return $this->_objStats->getCombinedStats('intStrength') + $this->getEquippedSecondary()->getEnchantStats('Strength');
+		return $this->_objStats->getCombinedStats('intStrength') + $this->getEquippedArmour()->getEnchantStats('Strength') + $this->getEquippedWeapon()->getEnchantStats('Strength') + $this->getEquippedSecondary()->getEnchantStats('Strength');
 	}
 	
 	public function getModifiedIntelligence(){
-		return $this->_objStats->getCombinedStats('intIntelligence') + $this->getEquippedSecondary()->getEnchantStats('Intelligence');
+		return $this->_objStats->getCombinedStats('intIntelligence') + $this->getEquippedArmour()->getEnchantStats('Intelligence') + $this->getEquippedWeapon()->getEnchantStats('Intelligence')+ $this->getEquippedSecondary()->getEnchantStats('Intelligence');
 	}
 	
 	public function getModifiedAgility(){
-		return $this->_objStats->getCombinedStats('intAgility') + $this->getEquippedSecondary()->getEnchantStats('Agility');
+		return $this->_objStats->getCombinedStats('intAgility') + $this->getEquippedArmour()->getEnchantStats('Agility') + $this->getEquippedWeapon()->getEnchantStats('Agility') + $this->getEquippedSecondary()->getEnchantStats('Agility');
+	}
+	
+	public function getModifiedVitality(){
+		return $this->_objStats->getCombinedStats('intVitality') + $this->getEquippedArmour()->getEnchantStats('Vitality') + $this->getEquippedWeapon()->getEnchantStats('Vitality') + $this->getEquippedSecondary()->getEnchantStats('Vitality');
+	}
+	
+	public function getModifiedDexterity(){
+		return $this->_objStats->getCombinedStats('intDexterity') + $this->getEquippedArmour()->getEnchantStats('Dexterity') + $this->getEquippedWeapon()->getEnchantStats('Dexterity') + $this->getEquippedSecondary()->getEnchantStats('Dexterity');
+	}
+	
+	public function getEquipmentStats($strStatName){
+		return $this->getEquippedArmour()->getEnchantStats($strStatName) + $this->getEquippedWeapon()->getEnchantStats($strStatName) + $this->getEquippedSecondary()->getEnchantStats($strStatName);
 	}
 	
 	public function receiveGold($intGold){

@@ -6,7 +6,7 @@ class RPGQuestKillReq extends RPGQuestReq {
 	private $_intKillReq;
 	private $_intCurrentKillCount;
 	
-	public function RPGQuestKillReq(){
+	public function __construct(){
 		
 	}
 	

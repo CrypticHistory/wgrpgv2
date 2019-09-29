@@ -2,7 +2,7 @@
 	
 class MediumWeightGain{
 	
-	public function MediumWeightGain(){
+	public function __construct(){
 		
 	}
 

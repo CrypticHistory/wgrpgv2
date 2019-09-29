@@ -54,7 +54,7 @@ class RPGNPC{
 	private $_intDigestionRate;
 	private $_intRequiredExperience;
 	
-	public function RPGNPC($intNPCID = null, $intRPGCharacterID = null){
+	public function __construct($intNPCID = null, $intRPGCharacterID = null){
 		if($intNPCID != null){
 			$this->loadNPCInfo($intNPCID);
 		}
@@ -876,7 +876,6 @@ class RPGNPC{
 	public function stuffCharacterDeadly($intFullness, $intWeight){
 		$this->setCurrentHunger(min(($this->getStats()->getCombinedStatsSecondary('intMaxHunger') * 2), $this->getCurrentHunger() + $intFullness));
 		$this->setWeight($this->getWeight() + $intWeight);
-		$this->healHP($intHPHeal);
 	}
 }
 

@@ -135,7 +135,7 @@ class DialogConditionFactory {
 	}
 	
 	public static function evaluateAction($strAction){
-		
+		var_dump($strAction);
 		// determine which entity to evaluate the action on
 		if(strpos($strAction, 'Enemy') !== false){
 			$strSession = 'objEnemy';
@@ -176,11 +176,12 @@ class DialogConditionFactory {
 			}
 			else if(strpos($strAction, '~')){
 				$function = explode('~', $strAction);
+				$function1 = $function[0];
 				if(!isset($function[1])){
 					$_SESSION[$strSession]->$function[0]();
 				}
 				else{
-					$_SESSION[$strSession]->$function[0]($function[1], (isset($function[2]) ? $function[2] : null), (isset($function[3]) ? $function[3] : null), (isset($function[4]) ? $function[4] : null), (isset($function[5]) ? $function[5] : null));
+					$_SESSION[$strSession]->$function1($function[1], (isset($function[2]) ? $function[2] : null), (isset($function[3]) ? $function[3] : null), (isset($function[4]) ? $function[4] : null), (isset($function[5]) ? $function[5] : null));
 				}
 			}
 		}

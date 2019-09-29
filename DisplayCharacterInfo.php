@@ -2,7 +2,7 @@
 
 class DisplayCharacterInfo{
 
-	public function DisplayCharacterInfo(){
+	public function __construct(){
 	
 	}
 	
@@ -71,33 +71,39 @@ class DisplayCharacterInfo{
 						<td>Current HP:</td><td id='charMaxHP'><?=max(0, $_SESSION['objRPGCharacter']->getCurrentHP())?> / <?=$_SESSION['objRPGCharacter']->getModifiedMaxHP()?></td>
 					</tr>
 					<tr>
-						<td>Strength:</td><td id='charStrength'>
-							<?=$_SESSION['objRPGCharacter']->getStats()->getCombinedStats("intStrength")?>
+						<td>Strength:</td><td id='charStrength' class='tooltip'>
+							<?=$_SESSION['objRPGCharacter']->getModifiedStrength()?>
+							<span class='tooltipText'>Base: <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()["intStrength"]?><br/>Abilities: <?=$_SESSION['objRPGCharacter']->getStats()->getAbilityStats()["intStrength"]?><br/>Status Effects: <?=$_SESSION['objRPGCharacter']->getStats()->getStatusEffectStatsAll("intStrength")?><br/>Equipment: <?=$_SESSION['objRPGCharacter']->getEquipmentStats("Strength")?></span>
 						</td>
 					</tr>
 					<tr>
-						<td>Intelligence:</td><td id='charIntelligence'>
-							<?=$_SESSION['objRPGCharacter']->getStats()->getCombinedStats("intIntelligence")?>
+						<td>Intelligence:</td><td id='charIntelligence' class='tooltip'>
+							<?=$_SESSION['objRPGCharacter']->getModifiedIntelligence()?>
+							<span class='tooltipText'>Base: <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()["intIntelligence"]?><br/>Abilities: <?=$_SESSION['objRPGCharacter']->getStats()->getAbilityStats()["intIntelligence"]?><br/>Status Effects: <?=$_SESSION['objRPGCharacter']->getStats()->getStatusEffectStatsAll("intIntelligence")?><br/>Equipment: <?=$_SESSION['objRPGCharacter']->getEquipmentStats("Intelligence")?></span>
 						</td>
 					</tr>
 					<tr>
-						<td>Agility:</td><td id='charAgility'>
-							<?=$_SESSION['objRPGCharacter']->getStats()->getCombinedStats("intAgility")?>
+						<td>Agility:</td><td id='charAgility' class='tooltip'>
+							<?=$_SESSION['objRPGCharacter']->getModifiedAgility()?>
+							<span class='tooltipText'>Base: <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()["intAgility"]?><br/>Abilities: <?=$_SESSION['objRPGCharacter']->getStats()->getAbilityStats()["intAgility"]?><br/>Status Effects: <?=$_SESSION['objRPGCharacter']->getStats()->getStatusEffectStatsAll("intAgility")?><br/>Equipment: <?=$_SESSION['objRPGCharacter']->getEquipmentStats("Agility")?></span>
 						</td>
 					</tr>
 					<tr>
-						<td>Vitality:</td><td id='charVitality'>
-							<?=$_SESSION['objRPGCharacter']->getStats()->getCombinedStats("intVitality")?>
+						<td>Vitality:</td><td id='charVitality' class='tooltip'>
+							<?=$_SESSION['objRPGCharacter']->getModifiedVitality()?>
+							<span class='tooltipText'>Base: <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()["intVitality"]?><br/>Abilities: <?=$_SESSION['objRPGCharacter']->getStats()->getAbilityStats()["intVitality"]?><br/>Status Effects: <?=$_SESSION['objRPGCharacter']->getStats()->getStatusEffectStatsAll("intVitality")?><br/>Equipment: <?=$_SESSION['objRPGCharacter']->getEquipmentStats("Vitality")?></span>
 						</td>
 					</tr>
 					<tr>
-						<td>Willpower:</td><td id='charWillpower'>
+						<td>Willpower:</td><td id='charWillpower' class='tooltip'>
 							<?=$_SESSION['objRPGCharacter']->getModifiedWillpower()?>
+							<span class='tooltipText'>Base: <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()["intWillpower"]?><br/>Abilities: <?=$_SESSION['objRPGCharacter']->getStats()->getAbilityStats()["intWillpower"]?><br/>Status Effects: <?=$_SESSION['objRPGCharacter']->getStats()->getStatusEffectStatsAll("intWillpower")?><br/>Equipment: <?=$_SESSION['objRPGCharacter']->getEquipmentStats("Willpower")?></span>
 						</td>
 					</tr>
 					<tr>
-						<td>Dexterity:</td><td id='charDexterity'>
-							<?=$_SESSION['objRPGCharacter']->getStats()->getCombinedStats("intDexterity")?>
+						<td>Dexterity:</td><td id='charDexterity' class='tooltip'>
+							<?=$_SESSION['objRPGCharacter']->getModifiedDexterity()?>
+							<span class='tooltipText'>Base: <?=$_SESSION['objRPGCharacter']->getStats()->getBaseStats()["intDexterity"]?><br/>Abilities: <?=$_SESSION['objRPGCharacter']->getStats()->getAbilityStats()["intDexterity"]?><br/>Status Effects: <?=$_SESSION['objRPGCharacter']->getStats()->getStatusEffectStatsAll("intDexterity")?><br/>Equipment: <?=$_SESSION['objRPGCharacter']->getEquipmentStats("Dexterity")?></span>
 						</td>
 					</tr>
 					<tr>

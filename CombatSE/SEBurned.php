@@ -4,7 +4,7 @@ include_once "RPGCombatStatusEffect.php";
 
 class SEBurned extends RPGCombatStatusEffect{
 	
-	public function SEBurned($objGiver, $objReceiver, $intRemainingTurns, $strEntityName){
+	public function __construct($objGiver, $objReceiver, $intRemainingTurns, $strEntityName){
 		parent::__construct($objGiver, $objReceiver, $intRemainingTurns, $strEntityName);
 	}
 	

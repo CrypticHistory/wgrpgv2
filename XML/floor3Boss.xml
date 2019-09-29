@@ -11,7 +11,7 @@
 		<eventText>Clearing aside vines on your path, you come to a clearing. Murky green swamp water separates you from an adjacent patch of land containing a vine stairwell that presumably leads to the next floor. You notice a stone firepit to your side, and a tree stump that may have been used as a seat. Upon further inspection, a blood-stained tunic is revealed to be sprawled across the stump. Somebody was here before you. What dangers lurk within these waters?
 		
 					Before you can act further, a gurgling from the swamp interupts. The putrid water bubbles, and something foul surfaces! A mass which scarcely resembles that of a giant, obese humanoid, though clearly not one of your kin as the creature is made of smog, mud, and everything vile. The monster rears its hide at you and gazes with empty black eyes. It roars, and goop flies from its mouth in all directions, hitting the swamp water every time with a splash. It begins to tredge through the water, towering over you as it comes ever closer. You must fight this monstrosity should you wish to progress to the next floor of the tower!</eventText>
-		<option id='2' action='setCombat~16~12~12~Player'>Prepare yourself!</option>
+		<option id='2' action='setCombat~14~11~11~Player'>Prepare yourself!</option>
 	</dialog>
 	<dialog id="1">
 		<eventText>You flee from the battle.</eventText>

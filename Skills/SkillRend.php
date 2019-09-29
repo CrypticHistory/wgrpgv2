@@ -4,7 +4,7 @@ include_once "RPGCombatHelper.php";
 	
 class SkillRend{
 	
-	public function SkillRend(){
+	public function __construct(){
 		
 	}
 

@@ -65,7 +65,7 @@
 					"Shame, you were so cute too..."
 					
 					Her hair tickles your neck; the last sensation you feel before everything fades.</eventText>
-		<option id="5" action="reviveCharacter~20~31">Continue</option>
+		<option id="5" action="reviveCharacter~20~42">Continue</option>
 	</dialog>
 	<dialog id="5">
 		<eventText>You revived miraculously. Go forth and conquer.</eventText>

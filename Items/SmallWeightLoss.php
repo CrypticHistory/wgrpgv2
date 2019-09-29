@@ -2,7 +2,7 @@
 	
 class SmallWeightLoss{
 	
-	public function SmallWeightLoss(){
+	public function __construct(){
 		
 	}
 

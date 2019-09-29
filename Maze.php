@@ -19,7 +19,7 @@ class Maze{
 	// for fog of war
 	private $_arrExplored = array();
 	
-	public function Maze($intDim, $arrEventIDs, $objStartEvent = null, $objEndEvent = null){
+	public function __construct($intDim, $arrEventIDs, $objStartEvent = null, $objEndEvent = null){
 		$this->_intDim = $intDim;
 		$this->_intCurrentX = 1;
 		$this->_intCurrentY = 1;

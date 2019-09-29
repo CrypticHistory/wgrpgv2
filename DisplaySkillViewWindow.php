@@ -6,7 +6,7 @@
 
 class DisplaySkillViewWindow{
 
-	public function DisplaySkillViewWindow(){
+	public function __construct(){
 		
 	}
 	
@@ -49,7 +49,7 @@ class DisplaySkillViewWindow{
 								
 								foreach($objClass->getSkills()->getSkillList() as $intSkillID => $objSkill){
 									
-									$strDisabledText = (($objSkill->getUsableOutsideBattle() && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getClassID() == $objClass->getClassID()) ? "" : " disabled");
+									$strDisabledText = (($objSkill->getUsableOutsideBattle() && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getClassID() == $objClass->getClassID() && $_SESSION['objRPGCharacter']->getTownID() < 1) ? "" : " disabled");
 									
 									if($_SESSION['objRPGCharacter']->getClasses()->getCurrentClass() != false){
 										if($objSkill->getUsableOutsideBattle() && $_SESSION['objRPGCharacter']->getClasses()->getCurrentClass()->getClassID() == $objClass->getClassID()){

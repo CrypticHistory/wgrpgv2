@@ -2,7 +2,7 @@
 
 class DisplayStatGainWindow{
 
-	public function DisplayStatGainWindow(){
+	public function __construct(){
 		
 	}
 	
