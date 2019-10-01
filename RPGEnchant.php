@@ -7,7 +7,7 @@ class RPGEnchant{
 
 	private $_intEnchantID;
 	private $_strEnchantName;
-	private $_strEnchantType;
+	private $_strAllowedOn;
 	private $_arrStatChanges;
 	private $_arrFixedStatChanges;
 	private $_dtmCreatedOn;
@@ -24,7 +24,7 @@ class RPGEnchant{
 	private function populateVarFromRow($arrEnchantInfo){
 		$this->setEnchantID($arrEnchantInfo['intEnchantID']);
 		$this->setEnchantName($arrEnchantInfo['strEnchantName']);
-		$this->setEnchantType($arrEnchantInfo['strEnchantType']);
+		$this->setAllowedOn($arrEnchantInfo['strAllowedOn']);
 		$this->setCreatedOn($arrEnchantInfo['dtmCreatedOn']);
 		$this->setCreatedBy($arrEnchantInfo['strCreatedBy']);
 		$this->setModifiedOn($arrEnchantInfo['dtmModifiedOn']);
@@ -42,7 +42,7 @@ class RPGEnchant{
 			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
 				$arrEnchantInfo['intEnchantID'] = $arrRow['intEnchantID'];
 				$arrEnchantInfo['strEnchantName'] = $arrRow['strEnchantName'];
-				$arrEnchantInfo['strEnchantType'] = $arrRow['strEnchantType'];
+				$arrEnchantInfo['strAllowedOn'] = $arrRow['strAllowedOn'];
 				$arrEnchantInfo['dtmCreatedOn'] = $arrRow['dtmCreatedOn'];
 				$arrEnchantInfo['strCreatedBy'] = $arrRow['strCreatedBy'];
 				$arrEnchantInfo['dtmModifiedOn'] = $arrRow['dtmModifiedOn'];
@@ -110,12 +110,53 @@ class RPGEnchant{
 		$this->_strEnchantName = $strEnchantName;
 	}
 	
-	public function getEnchantType(){
-		return $this->_strEnchantType;
+	public function getAllowedOn(){
+		return $this->_strAllowedOn;
 	}
 	
-	public function setEnchantType($strEnchantType){
-		$this->_strEnchantType = $strEnchantType;
+	public function setAllowedOn($strAllowedOn){
+		$this->_strAllowedOn = $strAllowedOn;
+	}
+	
+	public function allowedOnArrays($strAllowedOn){
+		
+		$arrAllowedOn = [];
+		
+		if($strAllowedOn == "All"){
+			$arrAllowedOn[] = "Primary";
+			$arrAllowedOn[] = "Secondary";
+			$arrAllowedOn[] = "Top";
+			$arrAllowedOn[] = "Bottom";
+			$arrAllowedOn[] = "Armour";
+			$arrAllowedOn[] = "Accessory";
+		}
+		else if($strAllowedOn == "Body"){
+			$arrAllowedOn[] = "Top";
+			$arrAllowedOn[] = "Bottom";
+			$arrAllowedOn[] = "Armour";
+		}
+		else if($strAllowedOn == "Armour"){
+			$arrAllowedOn[] = "Armour";
+		}
+		else if($strAllowedOn == "Primary"){
+			$arrAllowedOn[] = "Primary";
+		}
+		else if($strAllowedOn == "Secondary"){
+			$arrAllowedOn[] = "Secondary";
+		}
+		else if($strAllowedOn == "Accessory"){
+			$arrAllowedOn[] = "Accessory";
+		}
+		else if($strAllowedOn == "Defence"){
+			$arrAllowedOn[] = "Secondary";
+			$arrAllowedOn[] = "Top";
+			$arrAllowedOn[] = "Bottom";
+			$arrAllowedOn[] = "Armour";
+			$arrAllowedOn[] = "Accessory";
+		}
+		
+		return $arrAllowedOn;
+		
 	}
 	
 	public function getCreatedOn(){

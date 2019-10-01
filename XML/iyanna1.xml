@@ -46,7 +46,7 @@
 	</dialog>
 	<dialog id='2'>
 		<eventText>"You have a few broken ribs after falling to the enemies of the second floor. And you should recover fast, given that Savannah, our resident healer has had a look at you. You will be on your feet in no time."</eventText>
-		<option id='3'>No further questions.</option>
+		<option id='3' action='viewCheckpoint~5'>No further questions.</option>
 	</dialog>
 	<dialog id='3'>
 		<eventText>"Well then, {getRPGCharacterName}, I hope to see you around." You follow Iyanna with your eyes as she strides toward the door, entranced by the aura of physical and mental fortitude she exudes. You really should take her up on her offer, if only to learn more about combat from her...</eventText>

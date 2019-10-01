@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>10</end>
+	<end>4</end>
+	<type>Forced Event</type>
+	<precondition>TownID=1</precondition>
+	<dialog id='0'>
+		<eventText>"Ahh, I see. Then I take it you're a potential recruit?" he pauses, sizing you up.</eventText>
+		<eventText precondition='BMI&lt;40'> "You do look the part. We could use someone strong like you. Give me one moment, please."
+		
+		
+		"Since you're here, you already have an interest in joining the resistance, I take it. How much has Iyanna told you about us?"
+		</eventText>
+		<eventText precondition='BMI&gt;=40'> "Interesting. I trust Iyanna's judgement. Give me one moment, please."</eventText>
+		<eventText>
+		
+		The man leaves the bar for a short time, and when he returns, a barkeep is following closely behind. He motions for you to follow him, and he leads you through a door behind the bar.
+
+		"I'm on a shift, so I can't be too long. I just got someone to fill in while I'm with you," he talks to you over his shoulder, leading you down a hallway. You pass by the kitchen; chatter and clanking of pots and pans can be heard, and a whaff of fried foods can be briefly smelled. "I'm Owen, by the way," the man raises his voice over the kitchen noise. "As you can probably guess, I run this pub."
+		</eventText>
+		<eventText precondition='BMI&lt;80'>
+		
+		At the end of the hall, you find yourself in a lounge-like room with a fireplace, providing a warm atmosphere away from the hustle and bustle of the kitchen and bar. Owen motions for you to have a seat.
+		
+		"Since you're here, you already have an interest in joining the resistance, I take it. How much has Iyanna told you about us?"
+		</eventText>
+		<eventText precondition='BMI&gt;=80&amp;LikesFatSelf=1'>
+		You arrive at a door at the end of the hall, however, you find that you cannot fit your oversized body through the frame! Turning sideways, you attempt to suck your swollen gut in and squeeze yourself through. Out of breath from exertion, you make it to the other side, secretly turned on by the debacle.
+
+		Owen doesn't share in your excitement, however, looking back at you with disgust. He motions you to have a seat impatiently.</eventText>
+		<eventText precondition='BMI&gt;=80&amp;LikesFatSelf=0'>
+		You arrive at a door at the end of the hall, however, you find that you cannot fit your oversized body through the frame, much to your embarrassment. Turning sideways, you attempt to suck your swollen gut in and squeeze yourself through. Out of breath from exertion, you make it to the other side, horrified by the debacle.
+
+		You manage to sputter out an apology, still flustered. Owen seems annoyed at the display. He motions you to have a seat impatiently.</eventText>
+		<eventText precondition='BMI&gt;=80'>
+		
+		Examining the armchair, you know that it will not be able to support your weight. Should you attempt to sit in it anyways?
+		</eventText>
+		<option id='8' precondition='BMI&gt;=80' action='RelationshipLoseRelationshipEXP~50&amp;takeDamageNoDeath~2&amp;viewCheckpoint~3'>Yes</option>
+		<option id='5' precondition='BMI&gt;=80&amp;Personality=Confident' action='RelationshipLoseRelationshipEXP~25'>No</option>
+		<option id='7' precondition='BMI&gt;=80&amp;Personality=Stoic'>No</option>
+		<option id='6' precondition='BMI&gt;=80&amp;Personality=Shy'>No</option>
+		<option id='1' precondition='BMI&lt;80'>Not much</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>"Right, well, we have to be covert about things, since we are classified as a rebel group by the government."
+		</eventText>
+		<option id='2'>You're a member of the Resistance?</option>
+	</dialog>
+	<dialog id='2'>
+		<eventText>"Yep, I'm a member of the Turician Knights. For... 5 years now I believe? How time flies... Anyways, I'll be blunt. The local government here is corrupt as all hell. They're oppressive Desmiyan pigs. There are no riches in the tower, there's only death and despair. People enter the tower starry eyed and never return, and the government covers this shit up. And if they do manage to return, as I'm sure you can attest to, they return with an impossible amount of weight added to their frame."
+
+		His voice grows more passionate.
+
+		"We have proof of Desmiya's corruption. We once captured one of the Succubi guarding the higher floors of the tower and got her to talk with truth serum. She told us her job was to fatten up anyone who enters the tower and to prevent them from reaching the top floor. That's all she could tell us before she passed, presumably from a spell she placed upon herself."
+
+		"We need people like you who can make it to the top of the tower. Not for gold or trinkets, but for knowledge. The people of Turici and our neighboring countries deserve to know what Desmiya is plotting."
+
+		Owen rises from his seat, checking his watch.
+
+		"I need to return to the bar now. {getRPGCharacterName}, you are a fine warrior, and the Turician Knights request your aid. Do you accept?"
+		</eventText>
+		<option id='3' action='turnInQuest~1~6~4&amp;RelationshipGainRelationshipEXP~100'>I do</option>
+	</dialog>
+	<dialog id='3'>
+		<eventText>"Wonderful. You will meet the rest of our forces in time. Check the bookshelves in this room if you wish, there is valuable knowledge here. I trust you because our leader Iyanna trusts you. Please excuse me."</eventText>
+		<eventText precondition='hasViewedCheckpoint~3=1&amp;Personality=Confident'>
+		
+		Owen stops at the doorway. "Oh, and please make an effort to lose some weight. It is unbecoming of a warrior to be so out of shape." Before you can make a rebuttal, he is gone.</eventText>
+		<eventText>
+		
+		Owen leaves you alone with a lot to think about.
+		</eventText>
+		<option id='4'>Read a book</option>
+		<option id='10'>Return</option>
+	</dialog>
+	<dialog id='4'>
+		<eventText>You pick a book from the shelf at random. It is titled "The Great Dryad War". Flipping over the cover, you begin to read...
+
+		.
+		..
+		...
+		..
+		.
+
+		To summarize, this land used to be inhabited by a magical species called Dryads 250 years ago. Dryads were a species that shared DNA of both plants and humans. Due to their plant-like properties, Dryads had the benefit of being able to absorb passive mana in the air to expel as magical energy. This made them a force to be reckoned with in battle.
+
+		Desmiya, looking to gain a foothold in the western continent, prepared to establish a military base in what is now known as the Turician Fjord. The Fjord is surrounded by mountains and forest, granting it natural defense from aggressors.
+
+		However, in establishing their military base, a large amount of sea, forest, and mountain Dryads in the Fjord area were forcefully displaced. There was a struggle between the Desmiyan soldiers and the Dryads that lasted 11 years which culminated in a genocide of the Turician Dryads. Despite the Dryad's magical superiority, the technological advancements of the Desmiyans granted them powerful weapons such as trebuchets, which they could use to set ablaze the Dryads from afar.
+
+		The Desmiyans did capture some Dryads to experiment on, as their plant/human hybrid peaked curiosity among the scientific community. Little is known about the results of these experiments. Because Dryads were plantlike, they required a specific ecosystem to thrive, meaning the Dryad prisoners would quickly die in solitary confinement unless accomodations were made. The Desmiyans crafted "the tower", or alternatively, "Turris Puesco" as confinement for the Dryads, with each floor mimicking a specific ecosystem to allow different types of Dryads to survive.
+
+		It is said that the Dryads were able to communicate telepathically, and as such were able to organize an escape from Turris Puesco without alerting any of the Desmiyan soldiers on watch. One particular Dryad, known as Raghnailt was held in solitary confinement at the very top of the tower, and it is said this Dryad was the most powerful of his species to have ever lived. Raghnailt was likely instrumental in the escape, though there is little documented evidence to show how it was accomplished.
+		
+		.
+		..
+		...
+		..
+		.
+		
+		That's enough reading for now.
+		</eventText>
+	</dialog>
+	<dialog id='5'>
+		<eventText>"That flimsy chair will break under my weight!" you boast.
+		
+		"Forgive me, as I don't normally need to accommodate guests with such... wide stature," he frowns. "I will try to be brief so you won't need to stand for long."
+		
+		"Since you're here, you already have an interest in joining the resistance, I take it. How much has Iyanna told you about us?"
+		</eventText>
+		<option id='1'>Not much</option>
+	</dialog>
+	<dialog id='6'>
+		<eventText>"Forgive me, but I think I'm... too big for your chair," you stutter, cheeks red with embarassment.
+		
+		"Oh..." he frowns, "my apologies. I will try to make this brief."
+
+		"Since you're here, you already have an interest in joining the resistance, I take it. How much has Iyanna told you about us?"
+		</eventText>
+		<option id='1'>Not much</option>
+	</dialog>
+	<dialog id='7'>
+		<eventText>"Your chair will not be able to support my weight," you explain.
+		"Oh..." he frowns, "my apologies, I will try to make this brief."
+
+		"Since you're here, you already have an interest in joining the resistance, I take it. How much has Iyanna told you about us?"
+		</eventText>
+		<option id='1'>Not much</option>
+	</dialog>
+	<dialog id='8'>
+		<eventText>Immediately upon taking a seat, the armchair's bottom sags in an alarming way. After a brief struggle, the wood breaks and gives out, sending you slamming to the floor. 
+
+		<![CDATA[<i>]]>You take 2 damage from the fall.<![CDATA[</i>]]>
+
+		Owen is taken aback by the display and rushes to your aid.
+
+		"Are you hurt?" he inquires worriedly, assisting you to your feet. His strength is notable, as you acknowledge mentally that not many could lift your rotund body with such ease.
+		</eventText>
+		<option precondition='Personality=Shy' id='9'>I'm alright, thank you. Sorry about your chair.</option>
+		<option precondition='Personality=Stoic' id='9'>I'm alright, thank you. Sorry about your chair.</option>
+		<option precondition='Personality=Confident' id='11'>I'm alright. You should really invest in sturdier chairs, though.</option>
+	</dialog>
+	<dialog id='9'>
+		<eventText>"Don't worry about it," he says, almost out of obligation, as his voice indicates he is slightly perturbed by the destruction of his furniture.
+		
+		"Since you're here, you already have an interest in joining the resistance, I take it. How much has Iyanna told you about us?"
+		</eventText>
+		<option id='1'>Not much</option>
+	</dialog>
+	<dialog id='10'>
+		<eventText>You exit the lounge through the hallway you came.</eventText>
+	</dialog>
+	<dialog id='11'>
+		<eventText>"Forgive me, as I don't normally need to accommodate guests with such... wide stature," he frowns. "I will try to be brief so you won't need to stand for long."
+		
+		"Since you're here, you already have an interest in joining the resistance, I take it. How much has Iyanna told you about us?"
+		</eventText>
+		<option id='1'>Not much</option>
+	</dialog>
+</event>

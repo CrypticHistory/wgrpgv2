@@ -383,6 +383,10 @@ class RPGRelationship extends RPGNPC {
 		}
 	}
 	
+	public function RelationshipLoseRelationshipEXP($intAmount){
+		$this->setRelationshipEXP($this->getRelationshipEXP() - $intAmount);
+	}
+	
 	public function getSkillList($strSkillType){
 		return $this->_arrSkillList[$strSkillType];
 	}

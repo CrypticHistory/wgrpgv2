@@ -334,6 +334,10 @@ class RPGCharacter{
 		$this->_objQuestList->startNewQuest($intQuestID);
 	}
 	
+	public function isQuestCompleted($intQuestID){
+		return $this->_objQuestList->isQuestCompleted($intQuestID);
+	}
+	
 	public function loadEquippedArmour(){
 		$objDB = new Database();
 		$strSQL = "SELECT intItemID, intItemInstanceID
@@ -1512,6 +1516,12 @@ class RPGCharacter{
 	public function setEventWithinEvent($intEventID, $intNodeID = 0){
 		$this->_objEvent = new RPGEvent($intEventID, $this->_intRPGCharacterID);
 		$this->_objEvent->setEventNodeID($intNodeID);
+		unset($_SESSION['objRelationship']);
+	}
+	
+	public function hasViewedEvent($intEventID){
+		$objEvent = new RPGEvent($intEventID, $this->_intRPGCharacterID);
+		return $objEvent->hasViewedEvent();
 	}
 	
 	public function getParty(){
@@ -1732,27 +1742,27 @@ class RPGCharacter{
 	}
 	
 	public function getModifiedWillpower(){
-		return $this->_objStats->getCombinedStats('intWillpower') + $this->getEquippedArmour()->getEnchantStats('Willpower') + $this->getEquippedWeapon()->getEnchantStats('Willpower') + $this->getEquippedSecondary()->getEnchantStats('Willpower');
+		return $this->_objStats->getCombinedStats('intWillpower') + $this->getEquippedArmour()->getEnchantStats('Willpower') + $this->getEquippedWeapon()->getEnchantStats('Willpower') + $this->getEquippedSecondary()->getEnchantStats('Willpower') + $this->_objEquippedBottom->getEnchantStats('Willpower') + $this->_objEquippedTop->getEnchantStats('Willpower');
 	}
 	
 	public function getModifiedStrength(){
-		return $this->_objStats->getCombinedStats('intStrength') + $this->getEquippedArmour()->getEnchantStats('Strength') + $this->getEquippedWeapon()->getEnchantStats('Strength') + $this->getEquippedSecondary()->getEnchantStats('Strength');
+		return $this->_objStats->getCombinedStats('intStrength') + $this->getEquippedArmour()->getEnchantStats('Strength') + $this->getEquippedWeapon()->getEnchantStats('Strength') + $this->getEquippedSecondary()->getEnchantStats('Strength') + $this->_objEquippedBottom->getEnchantStats('Strength') + $this->_objEquippedTop->getEnchantStats('Strength');
 	}
 	
 	public function getModifiedIntelligence(){
-		return $this->_objStats->getCombinedStats('intIntelligence') + $this->getEquippedArmour()->getEnchantStats('Intelligence') + $this->getEquippedWeapon()->getEnchantStats('Intelligence')+ $this->getEquippedSecondary()->getEnchantStats('Intelligence');
+		return $this->_objStats->getCombinedStats('intIntelligence') + $this->getEquippedArmour()->getEnchantStats('Intelligence') + $this->getEquippedWeapon()->getEnchantStats('Intelligence')+ $this->getEquippedSecondary()->getEnchantStats('Intelligence') + $this->_objEquippedBottom->getEnchantStats('Intelligence') + $this->_objEquippedTop->getEnchantStats('Intelligence');
 	}
 	
 	public function getModifiedAgility(){
-		return $this->_objStats->getCombinedStats('intAgility') + $this->getEquippedArmour()->getEnchantStats('Agility') + $this->getEquippedWeapon()->getEnchantStats('Agility') + $this->getEquippedSecondary()->getEnchantStats('Agility');
+		return $this->_objStats->getCombinedStats('intAgility') + $this->getEquippedArmour()->getEnchantStats('Agility') + $this->getEquippedWeapon()->getEnchantStats('Agility') + $this->getEquippedSecondary()->getEnchantStats('Agility') + $this->_objEquippedBottom->getEnchantStats('Agility') + $this->_objEquippedTop->getEnchantStats('Agility');
 	}
 	
 	public function getModifiedVitality(){
-		return $this->_objStats->getCombinedStats('intVitality') + $this->getEquippedArmour()->getEnchantStats('Vitality') + $this->getEquippedWeapon()->getEnchantStats('Vitality') + $this->getEquippedSecondary()->getEnchantStats('Vitality');
+		return $this->_objStats->getCombinedStats('intVitality') + $this->getEquippedArmour()->getEnchantStats('Vitality') + $this->getEquippedWeapon()->getEnchantStats('Vitality') + $this->getEquippedSecondary()->getEnchantStats('Vitality') + $this->_objEquippedBottom->getEnchantStats('Vitality') + $this->_objEquippedTop->getEnchantStats('Vitality');
 	}
 	
 	public function getModifiedDexterity(){
-		return $this->_objStats->getCombinedStats('intDexterity') + $this->getEquippedArmour()->getEnchantStats('Dexterity') + $this->getEquippedWeapon()->getEnchantStats('Dexterity') + $this->getEquippedSecondary()->getEnchantStats('Dexterity');
+		return $this->_objStats->getCombinedStats('intDexterity') + $this->getEquippedArmour()->getEnchantStats('Dexterity') + $this->getEquippedWeapon()->getEnchantStats('Dexterity') + $this->getEquippedSecondary()->getEnchantStats('Dexterity') + $this->_objEquippedBottom->getEnchantStats('Dexterity') + $this->_objEquippedTop->getEnchantStats('Dexterity');
 	}
 	
 	public function getEquipmentStats($strStatName){

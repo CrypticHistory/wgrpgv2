@@ -4,16 +4,19 @@
 	<end>2</end>
 	<type>Forced Event</type>
 	<precondition>TownID=1</precondition>
-	<precondition>RelLevelFromID=1</precondition>
 	<dialog id='0'>
-		<eventText>Iyanna turn in quest.</eventText>
-		<option id='1' action='turnInQuest~1~6~4'>Accept</option>
-		<option id='2'>Refuse</option>
+		<eventText>There is a busy man behind the bar, cleaning out mugs with a cloth. He is handsome, with coiffed jet-black hair and chiselled features, contrasting with his beer-stained apron. As you take an available seat, he offers his service.
+
+		"What can I get you, </eventText>
+		<eventText precondition="Gender=Male">sir?"</eventText>
+		<eventText precondition="Gender=Female">madam?"</eventText>?"
+		<option id='1' precondition='hasViewedCheckpoint~6=0&amp;hasViewedCheckpoint~5=1' action='setEventWithinEvent~44~0'>Iyanna sent me</option>
+		<option id='2'>Nevermind</option>
 	</dialog>
 	<dialog id='1'>
 		<eventText>Turned in.</eventText>
 	</dialog>
 	<dialog id='2'>
-		<eventText>Not turn in.</eventText>
+		<eventText>You walk away from the bartender.</eventText>
 	</dialog>
 </event>

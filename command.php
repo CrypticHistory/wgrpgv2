@@ -97,19 +97,9 @@
 	
 	if(isset($_POST['exitField'])){
 		// todo: security to check if the "exit flag" for the floor is true to allow them to exit whenever they want
-		// if character has viewed the exit first floor event once before
-		$objLongLeaveTowerEvent = new RPGEvent(11, $_SESSION['objRPGCharacter']->getRPGCharacterID());
-		$_SESSION['objRPGCharacter']->setEvent($objLongLeaveTowerEvent);
-		if($_SESSION['objRPGCharacter']->getEvent()->hasViewedEvent()){
-			// give them the short leave tower event
-			$objShortLeaveTowerEvent = new RPGEvent(12, $_SESSION['objRPGCharacter']->getRPGCharacterID());
-			$_SESSION['objRPGCharacter']->setEvent($objShortLeaveTowerEvent);
-			
-		}
-		else{
-			// give them the long leave tower event
-			$_SESSION['objRPGCharacter']->getEvent()->addToCharacterEventLog();
-		}
+		// give them the short leave tower event
+		$objShortLeaveTowerEvent = new RPGEvent(12, $_SESSION['objRPGCharacter']->getRPGCharacterID());
+		$_SESSION['objRPGCharacter']->setEvent($objShortLeaveTowerEvent);
 		$_SESSION['objRPGCharacter']->setStateID($arrStateValues['Event']);
 	}
 	

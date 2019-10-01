@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 29, 2019 at 01:59 AM
+-- Generation Time: Oct 01, 2019 at 02:09 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -40,7 +40,16 @@ CREATE TABLE IF NOT EXISTS `tblcharacterabilitystats` (
   `intDexterity` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`intCharacterAbilityStatID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`)
-) ENGINE=InnoDB AUTO_INCREMENT=194 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblcharacterabilitystats`
+--
+
+INSERT INTO `tblcharacterabilitystats` (`intCharacterAbilityStatID`, `intRPGCharacterID`, `intStrength`, `intIntelligence`, `intAgility`, `intVitality`, `intWillpower`, `intDexterity`) VALUES
+(194, 197, 0, 0, 0, 0, 0, 0);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `tblcharacterbody`
@@ -63,7 +72,16 @@ CREATE TABLE IF NOT EXISTS `tblcharacterbody` (
   `intLegsRipLevel` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`intCharacterBodyID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`)
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblcharacterbody`
+--
+
+INSERT INTO `tblcharacterbody` (`intCharacterBodyID`, `intRPGCharacterID`, `intBreasts`, `intBelly`, `intLegs`, `intButt`, `intArms`, `intFace`, `intBellyRipLevel`, `intButtRipLevel`, `intBreastsRipLevel`, `intArmsRipLevel`, `intLegsRipLevel`) VALUES
+(120, 197, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `tblcharactercheckpointxr`
@@ -76,8 +94,12 @@ CREATE TABLE IF NOT EXISTS `tblcharactercheckpointxr` (
   `intCheckpointID` int(11) NOT NULL,
   `dtmLastViewed` datetime NOT NULL,
   `intTimesViewed` int(11) NOT NULL,
-  PRIMARY KEY (`intCharacterCheckpointXRID`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`intCharacterCheckpointXRID`),
+  KEY `intRPGCharacterID` (`intRPGCharacterID`),
+  KEY `intCheckpointID` (`intCheckpointID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `tblcharacterclassxr`
@@ -96,6 +118,8 @@ CREATE TABLE IF NOT EXISTS `tblcharacterclassxr` (
   KEY `intClassID` (`intClassID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `tblcharactereventxr`
 --
@@ -108,7 +132,17 @@ CREATE TABLE IF NOT EXISTS `tblcharactereventxr` (
   `dtmDateAdded` datetime NOT NULL,
   PRIMARY KEY (`intCharacterEventXRID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`,`intEventID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5209 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5217 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblcharactereventxr`
+--
+
+INSERT INTO `tblcharactereventxr` (`intCharacterEventXRID`, `intRPGCharacterID`, `intEventID`, `dtmDateAdded`) VALUES
+(5215, 197, 2, '2019-09-29 21:51:04'),
+(5216, 197, 2, '2019-09-29 21:51:04');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `tblcharacteritemxr`
@@ -128,7 +162,19 @@ CREATE TABLE IF NOT EXISTS `tblcharacteritemxr` (
   PRIMARY KEY (`intItemInstanceID`),
   KEY `intCharacterID` (`intRPGCharacterID`,`intItemID`),
   KEY `intItemID` (`intItemID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2046 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2055 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblcharacteritemxr`
+--
+
+INSERT INTO `tblcharacteritemxr` (`intItemInstanceID`, `intRPGCharacterID`, `intItemID`, `intCaloriesRemaining`, `blnDigesting`, `blnEquipped`, `strSize`, `blnRipped`, `dtmDateAdded`) VALUES
+(2046, 197, 10, 0, 0, 0, 'M', 0, '2019-09-29 21:50:53'),
+(2047, 197, 5, 100, 0, 0, 'M', 0, '2019-09-29 21:50:55'),
+(2048, 197, 6, 0, 0, 0, 'M', 0, '2019-09-29 21:50:56'),
+(2054, 197, 9, 600, 0, 0, 'M', 0, '2019-09-29 21:50:59');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `tblcharacteroverridexr`
@@ -143,7 +189,9 @@ CREATE TABLE IF NOT EXISTS `tblcharacteroverridexr` (
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intRPGCharacterID_2` (`intRPGCharacterID`),
   KEY `intOverrideID` (`intOverrideID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1074 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1099 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `tblcharacterquestkillreqxr`
@@ -164,6 +212,8 @@ CREATE TABLE IF NOT EXISTS `tblcharacterquestkillreqxr` (
   KEY `intRPGCharacterID` (`intRPGCharacterID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `tblcharacterquestxr`
 --
@@ -180,6 +230,8 @@ CREATE TABLE IF NOT EXISTS `tblcharacterquestxr` (
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intQuestID` (`intQuestID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `tblcharacterstats`
@@ -205,7 +257,16 @@ CREATE TABLE IF NOT EXISTS `tblcharacterstats` (
   `intMaxHunger` int(11) NOT NULL DEFAULT '100',
   PRIMARY KEY (`intCharacterStatsID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`)
-) ENGINE=InnoDB AUTO_INCREMENT=194 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblcharacterstats`
+--
+
+INSERT INTO `tblcharacterstats` (`intCharacterStatsID`, `intRPGCharacterID`, `intMaxHP`, `intStrength`, `intIntelligence`, `intAgility`, `intVitality`, `intWillpower`, `intDexterity`, `intAccuracy`, `intEvasion`, `intCritDamage`, `intPierce`, `intBlockRate`, `intBlockReduction`, `intMaxHunger`) VALUES
+(194, 197, 10, 5, 5, 5, 5, 5, 5, 0, 0, 150, 0, 0, 10, 1000);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `tblcharacterstatuseffectxr`
@@ -222,7 +283,16 @@ CREATE TABLE IF NOT EXISTS `tblcharacterstatuseffectxr` (
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intStatusEffectID` (`intStatusEffectID`),
   KEY `intItemInstanceID` (`intItemInstanceID`)
-) ENGINE=InnoDB AUTO_INCREMENT=792 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=796 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblcharacterstatuseffectxr`
+--
+
+INSERT INTO `tblcharacterstatuseffectxr` (`intCharacterStatusEffectXRID`, `intRPGCharacterID`, `intStatusEffectID`, `intItemInstanceID`, `intTimeRemaining`) VALUES
+(795, 197, 7, NULL, 9999);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `tblcheckpoint`
@@ -243,9 +313,9 @@ CREATE TABLE IF NOT EXISTS `tblcheckpoint` (
 INSERT INTO `tblcheckpoint` (`intCheckpointID`, `strCheckpointName`, `txtCheckpointDesc`) VALUES
 (1, 'Unknown', ''),
 (2, 'Unknown', ''),
-(3, 'Unknown', ''),
+(3, 'Broke Owen\'s Chair', 'Your first meeting with Owen, you sat in his lounge chair and it could not withstand your weight.'),
 (4, 'Approached Norman', 'Approached Norman at the Library in University of Arcane.'),
-(5, 'Unknown', ''),
+(5, 'Talked to Iyanna', 'After dying to Succubus on floor 2, approached by Iyanna about joining the Turician Knights.'),
 (6, 'Turn In Warrior Quest', 'Turned in Warrior Quest.');
 
 -- --------------------------------------------------------
@@ -342,7 +412,7 @@ DROP TABLE IF EXISTS `tblenchant`;
 CREATE TABLE IF NOT EXISTS `tblenchant` (
   `intEnchantID` int(11) NOT NULL AUTO_INCREMENT,
   `strEnchantName` varchar(45) NOT NULL,
-  `strEnchantType` enum('Prefix','Suffix') NOT NULL,
+  `strAllowedOn` varchar(100) NOT NULL,
   `dtmCreatedOn` datetime NOT NULL,
   `strCreatedBy` varchar(45) NOT NULL,
   `dtmModifiedOn` datetime DEFAULT NULL,
@@ -354,10 +424,10 @@ CREATE TABLE IF NOT EXISTS `tblenchant` (
 -- Dumping data for table `tblenchant`
 --
 
-INSERT INTO `tblenchant` (`intEnchantID`, `strEnchantName`, `strEnchantType`, `dtmCreatedOn`, `strCreatedBy`, `dtmModifiedOn`, `strModifiedBy`) VALUES
-(1, 'Fattening', 'Prefix', '2014-11-04 21:26:02', 'akereliuk', NULL, NULL),
-(2, 'Eternally Binding', 'Suffix', '2014-11-04 21:26:02', 'akereliuk', NULL, NULL),
-(3, 'Resilient', 'Prefix', '2016-09-11 00:00:00', 'admin', NULL, NULL);
+INSERT INTO `tblenchant` (`intEnchantID`, `strEnchantName`, `strAllowedOn`, `dtmCreatedOn`, `strCreatedBy`, `dtmModifiedOn`, `strModifiedBy`) VALUES
+(1, 'Fattening', 'Armour', '2014-11-04 21:26:02', 'akereliuk', NULL, NULL),
+(2, 'Eternally Binding', 'Armour', '2014-11-04 21:26:02', 'akereliuk', NULL, NULL),
+(3, 'Resilient', 'All', '2016-09-11 00:00:00', 'admin', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -407,7 +477,7 @@ CREATE TABLE IF NOT EXISTS `tblevent` (
   `dtmModifiedOn` datetime DEFAULT NULL,
   `strModifiedBy` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`intEventID`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblevent`
@@ -450,7 +520,8 @@ INSERT INTO `tblevent` (`intEventID`, `strEventName`, `txtEventDesc`, `strXML`, 
 (40, 'Norman Event 1', NULL, 'norman1.xml', 'Event', 1, '2019-09-26 00:00:00', 'admin', NULL, NULL),
 (41, 'Norman Event 2', NULL, 'norman2.xml', 'Event', 1, '2019-09-26 00:00:00', 'admin', NULL, NULL),
 (42, 'Iyanna Event 1', NULL, 'iyanna1.xml', 'Event', 1, '2019-09-26 00:00:00', 'admin', NULL, NULL),
-(43, 'Iyanna Event 2', NULL, 'iyanna2.xml', 'Event', 1, '2019-09-26 00:00:00', 'admin', NULL, NULL);
+(43, 'Iyanna Event 2', NULL, 'iyanna2.xml', 'Event', 1, '2019-09-26 00:00:00', 'admin', NULL, NULL),
+(44, 'Owen Event 1', 'Talking to Owen in the Bar to complete the Warrior class quest.', 'owen1.xml', 'Event', 1, '2019-09-29 00:00:00', 'admin', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -467,7 +538,7 @@ CREATE TABLE IF NOT EXISTS `tbleventconversation` (
   PRIMARY KEY (`intEventConversationID`),
   KEY `intEventID` (`intEventID`),
   KEY `intNPCID` (`intNPCID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbleventconversation`
@@ -479,7 +550,8 @@ INSERT INTO `tbleventconversation` (`intEventConversationID`, `intEventID`, `int
 (3, 40, 15, 0),
 (4, 41, 15, 1),
 (5, 42, 16, 0),
-(6, 43, 16, 1);
+(6, 43, 16, 1),
+(7, 44, 17, 0);
 
 -- --------------------------------------------------------
 
@@ -747,31 +819,6 @@ INSERT INTO `tblitem` (`intItemID`, `strItemName`, `txtItemDesc`, `strItemType`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblitemenchantxr`
---
-
-DROP TABLE IF EXISTS `tblitemenchantxr`;
-CREATE TABLE IF NOT EXISTS `tblitemenchantxr` (
-  `intItemEnchantXRID` int(11) NOT NULL AUTO_INCREMENT,
-  `intItemID` int(11) NOT NULL,
-  `intEnchantID` int(11) NOT NULL,
-  `intOccurrence` int(11) NOT NULL,
-  PRIMARY KEY (`intItemEnchantXRID`),
-  KEY `intItemID` (`intItemID`),
-  KEY `intEnchantID` (`intEnchantID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tblitemenchantxr`
---
-
-INSERT INTO `tblitemenchantxr` (`intItemEnchantXRID`, `intItemID`, `intEnchantID`, `intOccurrence`) VALUES
-(5, 6, 1, 0),
-(6, 6, 2, 0);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tbliteminstanceenchant`
 --
 
@@ -785,7 +832,16 @@ CREATE TABLE IF NOT EXISTS `tbliteminstanceenchant` (
   KEY `intItemInstanceID` (`intItemInstanceID`),
   KEY `intSuffixEnchantID` (`intSuffixEnchantID`),
   KEY `intPrefixEnchantID` (`intPrefixEnchantID`)
-) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbliteminstanceenchant`
+--
+
+INSERT INTO `tbliteminstanceenchant` (`intItemInstanceEnchantID`, `intItemInstanceID`, `intSuffixEnchantID`, `intPrefixEnchantID`) VALUES
+(98, 2048, 2, 1);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `tbllocation`
@@ -809,8 +865,8 @@ CREATE TABLE IF NOT EXISTS `tbllocation` (
 INSERT INTO `tbllocation` (`intLocationID`, `strLocationName`, `strLocationType`, `intTownID`, `txtDescription`) VALUES
 (1, 'Tower Entrance', 'Hub', 1, NULL),
 (2, 'Residential District', 'Hub', 1, 'The residential district is where you and most other citizens live. The most obvious exception are the merchants, guildsmen, and freemen, who live in the Commercial, Development, and Red Light districts respectively. The buildings here are the most numerous in the entire city, and range from the most decrepit shacks to the opulent mansions of the elder families. The streets are made of a flat, grey cobblestone that runs beside and behind every home, creating a great lattice of streets and alleyways for the populace to traverse. '),
-(3, 'Commercial District', 'Hub', 1, 'The commercial district is one of the most diverse districts in the city. A myriad of scents and sounds assail your senses as you enter the main throughway containing the district. Merchants hawk their wares at you as you pass, and children scamper between the legs of the larger adults in laughter and play. Even so, you’ve been around the block more than once, and keep an eye on your money and yourself - the commercial district has more than its own fair share of thieves and muggers.\r\n<br/><br/>\r\nThough the children play and the streets are filled, you can’t shake the feeling that the district is… empty. Every other shop seems to be boarded up, and even those that are open for business don’t seem to be supplied very well. It makes sense, Turici was founded during the first wave of adventuring into the Tower. With it just being reopened, the city’s still recovering. Maybe with the tower’s reopening, the prospects will improve?'),
-(4, 'Development District', 'Hub', 1, NULL),
+(3, 'Commercial District', 'Hub', 1, 'The commercial district is one of the most diverse districts in the city. A myriad of scents and sounds assail your senses as you enter the main throughway containing the district. Merchants hawk their wares at you as you pass, and children scamper between the legs of the larger adults in laughter and play. Even so, you’ve been around the block more than once, and keep an eye on your money and yourself - the commercial district has more than its own fair share of thieves and muggers.'),
+(4, 'Development District', 'Hub', 1, 'This district features locations where one can improve themselves, both mentally and physically. The University of the Arcane is a place to study and improve one\'s magical prowess, and the Gym offers self-improvement for an affordable price.\r\n<br/><br/>\r\nThe Development District is perhaps the newest district to open in Turici. Self-improvement was previously seen as a luxury, but now the economy is stable enough where Turici\'s citizens can afford such things.'),
 (5, 'Red Light District', 'Hub', 1, NULL),
 (6, 'Home', 'Building', 1, 'This is your home.'),
 (7, 'Tailor', 'Building', 1, 'The store you stand in is finely organized and smells faintly of pine. Around you stand dozens of different pieces of clothing, ranging from simple blouses to gilded noble’s outfits, fit only for dances and dinner, not for the rigors of combat. Still, they look good. Other than the clothing you can see a rather elaborate seamstress’s station behind the counter. Seems that you can buy clothes here and have them tailored to fit you too!'),
@@ -819,7 +875,7 @@ INSERT INTO `tbllocation` (`intLocationID`, `strLocationName`, `strLocationType`
 (10, 'Grocer', 'Building', 1, NULL),
 (11, 'University of the Arcane', 'Building', 1, NULL),
 (12, 'Armourer', 'Building', 1, ''),
-(13, 'The Dragon\'s Barrel', 'Building', 1, 'A pub and quest hub.');
+(13, 'The Dragon\'s Barrel', 'Building', 1, 'You step into the dimly lit, but boisterous pub known as the Dragon\'s Barrel. Merry singing and the clinking of glasses can be heard immediately. Locals and outsiders alike congregate here to take the edge off of their daily grind, with good company, and the help of alcohol, of course.');
 
 -- --------------------------------------------------------
 
@@ -847,7 +903,7 @@ INSERT INTO `tbllocationeventlink` (`intLocationEventLinkID`, `intLocationID`, `
 (2, 6, 14, 'View Mirror'),
 (3, 11, 15, 'Reset Stats'),
 (4, 11, 40, 'Library'),
-(5, 13, 43, 'Talk to Iyanna');
+(5, 13, 43, 'Approach Bartender');
 
 -- --------------------------------------------------------
 
@@ -973,7 +1029,7 @@ CREATE TABLE IF NOT EXISTS `tblnpc` (
   `dtmModifiedOn` datetime DEFAULT NULL,
   `strModifiedBy` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`intNPCID`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblnpc`
@@ -995,7 +1051,8 @@ INSERT INTO `tblnpc` (`intNPCID`, `strNPCName`, `intWeight`, `intHeight`, `intEx
 (13, 'Sarracenia', 50, 200, 4200, 5, 15, 0, 0, 'DPS', 0, '2019-09-26 00:00:00', 'admin', NULL, NULL),
 (14, 'Hedorah', 500, 400, 12600, 10, 25, 1, 1, 'Hedorah', 8, '2019-09-26 00:00:00', 'admin', NULL, NULL),
 (15, 'Norman Foelsch', 134, 172, 0, 0, 0, 0, 0, 'DPS', 0, '2019-09-26 00:00:00', 'admin', NULL, NULL),
-(16, 'Iyanna Rue', 166, 178, 0, 0, 0, 0, 0, 'DPS', 0, '2019-09-26 00:00:00', 'admin', NULL, NULL);
+(16, 'Iyanna Rue', 166, 178, 0, 0, 0, 0, 0, 'DPS', 0, '2019-09-26 00:00:00', 'admin', NULL, NULL),
+(17, 'Owen Elsby', 223, 188, 0, 0, 0, 0, 0, 'DPS', 0, '2019-09-29 00:00:00', 'admin', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1091,7 +1148,16 @@ CREATE TABLE IF NOT EXISTS `tblnpcinstance` (
   PRIMARY KEY (`intNPCInstanceID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intNPCID` (`intNPCID`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblnpcinstance`
+--
+
+INSERT INTO `tblnpcinstance` (`intNPCInstanceID`, `intRPGCharacterID`, `intNPCID`, `intLevel`, `intExperience`, `intRelationshipLevel`, `intRelationshipEXP`, `intConversationLevel`, `dblWeight`, `intCurrentHunger`, `intHungerRate`, `intCurrentHP`, `intDigestionRate`) VALUES
+(64, 197, 2, 1, 0, 0, 0, 0, 52, 500, 1, 0, 250);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `tblnpcinstancestats`
@@ -1119,7 +1185,16 @@ CREATE TABLE IF NOT EXISTS `tblnpcinstancestats` (
   PRIMARY KEY (`intNPCInstanceStatID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intNPCID` (`intNPCID`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblnpcinstancestats`
+--
+
+INSERT INTO `tblnpcinstancestats` (`intNPCInstanceStatID`, `intRPGCharacterID`, `intNPCID`, `intMaxHP`, `intStrength`, `intIntelligence`, `intAgility`, `intVitality`, `intWillpower`, `intDexterity`, `intAccuracy`, `intEvasion`, `intCritDamage`, `intPierce`, `intBlockRate`, `intBlockReduction`, `intMaxHunger`) VALUES
+(50, 197, 2, 20, 2, 2, 2, 2, 2, 2, 0, 0, 150, 0, 0, 10, 100);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `tblnpcitemxr`
@@ -1238,7 +1313,7 @@ CREATE TABLE IF NOT EXISTS `tblnpcstats` (
   `intFleeResistance` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`intNPCStatsID`),
   KEY `intNPCID` (`intNPCID`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblnpcstats`
@@ -1260,7 +1335,8 @@ INSERT INTO `tblnpcstats` (`intNPCStatsID`, `intNPCID`, `intMaxHP`, `intStrength
 (13, 13, 72, 10, 10, 10, 10, 10, 10, 5, 5, 5, 5, 5, 5, 0),
 (14, 14, 120, 20, 5, 5, 10, 5, 5, 5, 5, 5, 5, 5, 5, 100),
 (15, 15, 300, 10, 100, 10, 10, 70, 20, 100, 0, 100, 100, 5, 50, 100),
-(16, 16, 300, 80, 50, 40, 80, 80, 40, 50, 10, 50, 20, 60, 100, 100);
+(16, 16, 300, 80, 50, 40, 80, 80, 40, 50, 10, 50, 20, 60, 100, 100),
+(17, 17, 280, 75, 65, 40, 45, 40, 65, 50, 25, 50, 50, 25, 50, 25);
 
 -- --------------------------------------------------------
 
@@ -1333,7 +1409,7 @@ CREATE TABLE IF NOT EXISTS `tblquest` (
 --
 
 INSERT INTO `tblquest` (`intQuestID`, `strQuestName`, `strQuestType`, `txtQuestDesc`, `intExpReward`, `intGoldReward`) VALUES
-(1, 'Warrior Class Quest', 'Class', 'Iyanna wants you kill 5 Skeleton Warriors on the second floor of the tower and report back. She promises to teach you the ways of the Warrior.', 0, 0),
+(1, 'Warrior Class Quest', 'Class', 'Iyanna wants you kill 5 Skeleton Warriors on the second floor of the tower then report to the bartender at the Dragon\'s Barrel. You will learn the ways of the Warrior.', 0, 0),
 (2, 'Caster Class Quest', 'Class', 'Norman wants you kill 5 Skeleton Mages on the second floor of the tower and report back. He promises to teach you the ways of the Caster.', 0, 0);
 
 -- --------------------------------------------------------
@@ -1388,7 +1464,7 @@ CREATE TABLE IF NOT EXISTS `tblrpgcharacter` (
   `strTime` varchar(5) NOT NULL DEFAULT '00:00',
   `strGender` enum('Female','Male') NOT NULL DEFAULT 'Female',
   `strOrientation` enum('Heterosexual','Homosexual','Bisexual') NOT NULL DEFAULT 'Heterosexual',
-  `strPersonality` enum('Shy','Outgoing','Stoic') NOT NULL DEFAULT 'Shy',
+  `strPersonality` enum('Shy','Confident','Stoic') NOT NULL DEFAULT 'Shy',
   `blnLikesFatSelf` tinyint(1) NOT NULL DEFAULT '1',
   `blnLikesFatOthers` tinyint(1) NOT NULL DEFAULT '1',
   `strEyeColour` enum('Brown','Blue','Green','Black','Red','White') NOT NULL DEFAULT 'Brown',
@@ -1408,7 +1484,16 @@ CREATE TABLE IF NOT EXISTS `tblrpgcharacter` (
   PRIMARY KEY (`intRPGCharacterID`),
   KEY `intUserID` (`strUserID`),
   KEY `intFloorID` (`intFloorID`)
-) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblrpgcharacter`
+--
+
+INSERT INTO `tblrpgcharacter` (`intRPGCharacterID`, `strUserID`, `strRPGCharacterName`, `intHeight`, `dblWeight`, `intDigestionRate`, `intCurrentHunger`, `intHungerRate`, `intTicksStuffed`, `intFloorID`, `intCurrentFloorID`, `intStateID`, `intTownID`, `intLocationID`, `intDay`, `strTime`, `strGender`, `strOrientation`, `strPersonality`, `blnLikesFatSelf`, `blnLikesFatOthers`, `strEyeColour`, `strHairColour`, `strHairLength`, `strEthnicity`, `intLevel`, `intExperience`, `intCurrentHP`, `intStatPoints`, `intGold`, `blnActivated`, `dtmCreatedOn`, `strCreatedBy`, `dtmModifiedOn`, `strModifiedBy`) VALUES
+(197, 'testing', 'test3', 152, 109.5, 250, 1316, 1, 0, 1, 0, 4, 1, 1, 1, '5:45', 'Female', 'Heterosexual', 'Shy', 1, 1, 'Brown', 'Brown', 'Short', 'White', 2, 0, 15, 5, 0, 1, '2019-09-29 21:50:45', 'system', NULL, NULL);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `tblshop`
@@ -1689,7 +1774,16 @@ CREATE TABLE IF NOT EXISTS `tbluniqueeventgifts` (
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intEventID` (`intEventID`),
   KEY `intItemID` (`intItemID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbluniqueeventgifts`
+--
+
+INSERT INTO `tbluniqueeventgifts` (`intUniqueEventGiftID`, `intRPGCharacterID`, `intEventID`, `intItemID`, `dtmDateObtained`) VALUES
+(8, 197, 2, 6, '2019-09-29 21:50:56');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `tbluser`
@@ -1711,6 +1805,13 @@ CREATE TABLE IF NOT EXISTS `tbluser` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
+-- Dumping data for table `tbluser`
+--
+
+INSERT INTO `tbluser` (`intUserID`, `strUserID`, `strPassword`, `blnAdmin`, `dtmCreatedOn`, `strCreatedBy`, `dtmModifiedOn`, `strModifiedBy`) VALUES
+(1, 'testing', 'ae2b1fca515949e5d54fb22b8ed95575', 0, '2015-04-14 02:22:54', 'system', NULL, NULL);
+
+--
 -- Constraints for dumped tables
 --
 
@@ -1725,6 +1826,13 @@ ALTER TABLE `tblcharacterabilitystats`
 --
 ALTER TABLE `tblcharacterbody`
   ADD CONSTRAINT `fk_tblcharacterbody_intRPGCharacterID` FOREIGN KEY (`intRPGCharacterID`) REFERENCES `tblrpgcharacter` (`intRPGCharacterID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tblcharactercheckpointxr`
+--
+ALTER TABLE `tblcharactercheckpointxr`
+  ADD CONSTRAINT `fk_charcheckpoint_CheckpointID` FOREIGN KEY (`intCheckpointID`) REFERENCES `tblcheckpoint` (`intCheckpointID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_charcheckpoint_RPGCharacterID` FOREIGN KEY (`intRPGCharacterID`) REFERENCES `tblrpgcharacter` (`intRPGCharacterID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tblcharacterclassxr`
@@ -1829,13 +1937,6 @@ ALTER TABLE `tblflooreventxr`
 ALTER TABLE `tblfloornpcxr`
   ADD CONSTRAINT `fk_tblfloornpcxr_intfloorid` FOREIGN KEY (`intFloorID`) REFERENCES `tblfloor` (`intFloorID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_tblfloornpcxr_intnpcid` FOREIGN KEY (`intNPCID`) REFERENCES `tblnpc` (`intNPCID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `tblitemenchantxr`
---
-ALTER TABLE `tblitemenchantxr`
-  ADD CONSTRAINT `tblitemenchantxr_ibfk_1` FOREIGN KEY (`intItemID`) REFERENCES `tblitem` (`intItemID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tblitemenchantxr_ibfk_2` FOREIGN KEY (`intEnchantID`) REFERENCES `tblenchant` (`intEnchantID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbliteminstanceenchant`
