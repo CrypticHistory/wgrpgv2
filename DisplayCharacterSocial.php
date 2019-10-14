@@ -11,15 +11,21 @@ class DisplayCharacterSocial{
 		
 			<div class='characterDiv hidden' id='characterDivSocial'>
 				<table class='charTable' align='center'>
-					<th class='tableHeader borderBottom statHeader'>Relationships</th>
+					<th class='tableHeader borderBottom statHeader'>Active Party</th>
 					<?php
-						if(!empty($_SESSION['objRPGCharacter']->getRelationships())){
-							foreach($_SESSION['objRPGCharacter']->getRelationships() as $intNPCID => $objRelationship){
-								echo "<tr><td>" . $objRelationship->getNPCName() . " - Lvl " . $objRelationship->getRelationshipLevel() . "</td></tr>";
+						if(!empty($_SESSION['objRPGCharacter']->getPartyMembers())){
+							if(!empty($_SESSION['objRPGCharacter']->getPartyMembers()->getActivePartyMembers())){
+								foreach($_SESSION['objRPGCharacter']->getPartyMembers()->getActivePartyMembers() as $strPartyObj => $objNPC){
+									echo "<tr><td>" . $objNPC->getNPCName() . " - Lvl " . $objNPC->getLevel() . "</td></tr>";
+								}
+								echo $_SESSION['objUISettings']->getDisableParty() ? "" : "<tr><td class='textCenter'><a href='changeEventWindow.php?changeTo=PartyView'>[ Modify Party ]</a></td></tr>";
+							}
+							else{
+								echo "<tr><td class='textCenter'>No Active Party</td></tr>" . $_SESSION['objUISettings']->getDisableParty() ? "" : "<tr><td class='textCenter'><a href='changeEventWindow.php?changeTo=PartyView'>[ Modify Party ]</a></td></tr>";
 							}
 						}
 						else{
-							echo "<tr><td>You do not have any relationships yet.</td></tr>";
+							echo "<tr><td>You do not have any NPCs eligible to be party members.</td></tr>";
 						}
 					?>
 					<tr>
@@ -59,6 +65,22 @@ class DisplayCharacterSocial{
 							<td class='borderTop' colspan='2'>&nbsp;</td>
 						</tr>
 					</tbody>
+				</table>
+				<table class='charTable' align='center'>
+					<th class='tableHeader borderBottom statHeader'>Relationships</th>
+					<?php
+						if(!empty($_SESSION['objRPGCharacter']->getRelationships())){
+							foreach($_SESSION['objRPGCharacter']->getRelationships() as $intNPCID => $objRelationship){
+								echo "<tr><td>" . $objRelationship->getNPCName() . " - Lvl " . $objRelationship->getRelationshipLevel() . "</td></tr>";
+							}
+						}
+						else{
+							echo "<tr><td>You do not have any relationships yet.</td></tr>";
+						}
+					?>
+					<tr>
+						<td class='borderTop' colspan='2'>&nbsp;</td>
+					</tr>
 				</table>
 			</div>
 		

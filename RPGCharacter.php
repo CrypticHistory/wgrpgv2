@@ -17,6 +17,7 @@ include_once "RPGEvent.php";
 include_once "RPGStatusEffect.php";
 include_once "RPGXMLReader.php";
 include_once "RPGOutfitReader.php";
+include_once "RPGPartyMembers.php";
 include_once "constants.php";
 include_once "common.php";
 
@@ -74,6 +75,7 @@ class RPGCharacter{
 	private $_arrCheckpoints;
 	private $_objQuestList;
 	private $_objParty;
+	private $_objPartyMembers;
 	private $_arrKillBuffs;
 	private $_blnLastRoll;
 	private $_dtmCreatedOn;
@@ -193,6 +195,7 @@ class RPGCharacter{
 		$this->_objStats->loadAbilityStats();
 		$this->_objStats->loadStatusEffectStats();
 		$this->loadStatusEffects();
+		$this->loadPartyMembers();
 		$this->_intRequiredExperience = $this->loadRequiredExperience();
 		if($this->_objCurrentFloor->getFloorID() != 0 && $this->_objCurrentFloor->getFloorID() != NULL){
 			$this->_objCurrentFloor->loadMaze($this->_objCurrentFloor->getDimension(), $this->_intRPGCharacterID);
@@ -489,6 +492,34 @@ class RPGCharacter{
 				$this->addOverride($arrRow['intOverrideID']);
 			}
 		}
+	}
+	
+	public function loadPartyMembers(){
+		$objDB = new Database();
+		$this->_arrStatusEffectList = array();
+		$strSQL = "SELECT strPartyObj, intNPCInstanceID, blnIsActive, intNPCID, strNPCName, intPartyMemberID
+					FROM tblpartymember
+						INNER JOIN tblnpcinstance
+							USING (intNPCInstanceID)
+						INNER JOIN tblnpc
+							USING (intNPCID)
+						WHERE intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID());
+		$rsResult = $objDB->query($strSQL);
+		$arrActivePartyMembers = [];
+		$arrReservePartyMembers = [];
+		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
+			if($arrRow['blnIsActive']){
+				$objPartyMember = new RPGNPC($arrRow['intNPCID'], $this->getRPGCharacterID());
+				$objPartyMember->setPartyMemberID($arrRow['intPartyMemberID']);
+				$arrActivePartyMembers[$arrRow['strPartyObj']] = $objPartyMember;
+			}
+			else{
+				$objPartyMember = new RPGNPC($arrRow['intNPCID'], $this->getRPGCharacterID());
+				$objPartyMember->setPartyMemberID($arrRow['intPartyMemberID']);
+				$arrReservePartyMembers[$arrRow['intNPCInstanceID']] = $objPartyMember;
+			}
+		}
+		$this->setPartyMembers(new RPGPartyMembers($arrActivePartyMembers, $arrReservePartyMembers));
 	}
 	
 	public function incrementKillBuffs(){
@@ -1532,6 +1563,14 @@ class RPGCharacter{
 		$this->_objParty = $objParty;
 	}
 	
+	public function getPartyMembers(){
+		return $this->_objPartyMembers;
+	}
+	
+	public function setPartyMembers($objPartyMembers){
+		$this->_objPartyMembers = $objPartyMembers;
+	}
+	
 	public function setCombat($intLeaderID, $intEnemyOne = null, $intEnemyTwo = null, $strFirstTurn = "Calculate", $blnNPCInstance = false){
 		if($intEnemyOne == "NULL"){
 			$intEnemyOne = null;
@@ -1809,8 +1848,24 @@ class RPGCharacter{
 		global $arrStateValues;
 		unset($_SESSION['objEnemy']);
 		unset($_SESSION['objRelationship']);
-		$objPartyOne = new RPGNPC(2, $this->_intRPGCharacterID);
-		$this->_objParty = new RPGPlayerTeam($this, $objPartyOne);
+		
+		if(isset($this->getPartyMembers()->getActivePartyMembers()["PartyOne"])){
+			$objNPC1 = $this->getPartyMembers()->getActivePartyMembers()["PartyOne"];
+			$objPartyOne = new RPGNPC($objNPC1->getNPCID(), $this->_intRPGCharacterID);
+		}
+		else{
+			$objPartyOne = null;
+		}
+		
+		if(isset($this->getPartyMembers()->getActivePartyMembers()["PartyTwo"])){
+			$objNPC2 = $this->getPartyMembers()->getActivePartyMembers()["PartyTwo"];
+			$objPartyTwo = new RPGNPC($objNPC2->getNPCID(), $this->_intRPGCharacterID);
+		}
+		else{
+			$objPartyTwo = null;
+		}
+		
+		$this->_objParty = new RPGPlayerTeam($this, $objPartyOne, $objPartyTwo);
 		$this->setTownID(0);
 		$this->setLocationID(NULL);
 		$this->setCurrentFloor($intFloorID);

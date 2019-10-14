@@ -29,7 +29,7 @@
 		<eventText precondition="BMI&gt;29"> At least, you used to be, but that hardly holds true now, given how you've let yourself go.</eventText>
 		<eventText>
 		
-			"I don't have much time, so I'll keep this short," the woman explains. "My name is Iyanna Rue. I lead an organization named Deo Regnos which aims to overthrow the corrupt Desmiyan military that currently occupies Turici. You may or may not have heard of us already. It makes no difference.
+			"I don't have much time, so I'll keep this short," the woman explains. "My name is Iyanna Rue. I lead a group called the Turician Knights. Our aim is to overthrow the corrupt Desmiyan military that currently occupies Turici. You may or may not have heard of us already. It makes no difference.
 
 			What you need to understand is that the Tower is a hoax. There are riches, but they ultimately end up in the hands of the government. There is a chance for livelihood for adventurers like yourself, but it is at the mercy of the government. If you find that disconcerting, as you should, then please seek us out."
 
@@ -38,7 +38,7 @@
 			"I've been watching the way you fight in the tower, and you have great potential. Should you decide to join the resistance, I will be happy to teach you the ways of the Warrior.
 
 			Now, any questions?" she asks.</eventText>
-		<option id='1' action='startNewQuest~2&amp;RelationshipGainRelationshipEXP~100'>"How can I join the resistance?"</option>
+		<option id='1' action='startNewQuest~1&amp;RelationshipGainRelationshipEXP~100'>"How can I join the resistance?"</option>
 	</dialog>
 	<dialog id='1'>
 		<eventText>"On the second floor of the tower, defeat 5 Armoured Skeletons to further prove your strength. Once you've done that, visit The Dragon's Barrel, in the red light district. Tell the bartender I sent you. He'll guide you from there."</eventText>

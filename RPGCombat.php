@@ -336,7 +336,7 @@
 			$this->_strPrevTurn = "Player";
 			$this->_arrWaitTimes["Player"] += $this->_objPlayerTeam->getPlayer()->getWaitTime('Standard');
 			
-			$this->_arrCombatMessage["Action"][] = "You are incapacitated and cannot attack. ";
+			$this->_arrCombatMessage["Action"][] = "You are glued to the ground by a sticky substance and cannot attack. ";
 		}
 		
 		public function playerKnockedDown(){
@@ -347,7 +347,7 @@
 			$this->_strPrevTurn = "Player";
 			$this->_arrWaitTimes["Player"] += $this->_objPlayerTeam->getPlayer()->getWaitTime('Standard');
 			
-			$this->_arrCombatMessage["Action"][] = "You are glued to the ground by a sticky substance and cannot attack. ";
+			$this->_arrCombatMessage["Action"][] = "You are incapacitated and cannot attack. ";
 		}
 		
 		public function enemyTurn(){

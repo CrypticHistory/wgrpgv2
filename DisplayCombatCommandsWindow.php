@@ -67,6 +67,12 @@ class DisplayCombatCommandsWindow{
 							$("#enemyTwoRadio").prop("checked", false);
 							$("#allEnemyRadio").prop("checked", false);
 							$("#leaderRadio").prop("checked", true);
+							if(!$("#leaderRadio").length && !$("#enemyOneRadio").length){
+								$("#enemyTwoRadio").prop("checked", true);
+							}
+							else if(!$("#leaderRadio").length){
+								$("#enemyOneRadio").prop("checked", true);
+							}
 						}
 					});
 					

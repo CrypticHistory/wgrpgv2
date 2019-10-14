@@ -159,7 +159,7 @@ Norman swipes his open palm to the side of the Monster Manual and it flips open,
 		<eventText>He senses your presence, lowering his book to greet you with a smile. His round glasses rest on the lower portion of his long nose. Slight wrinkles decorate his forehead and smile.
 		
 		"Ah, hello again, {getRPGCharacterName}! Are you ready to take on your first assignment that we discussed earlier?" he asks.</eventText>
-		<option id='20' action='startNewQuest~1&amp;RelationshipGainRelationshipEXP~50'>"Yes. I'm ready."</option>
+		<option id='20' action='startNewQuest~2&amp;RelationshipGainRelationshipEXP~50'>"Yes. I'm ready."</option>
 		<option id='21'>"No. I'm not ready yet."</option>
 		<option id='24'>"What was the assignment again?"</option>
 	</dialog>

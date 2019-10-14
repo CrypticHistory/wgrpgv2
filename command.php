@@ -144,6 +144,68 @@
 		}
 	}
 	
+	if(isset($_REQUEST['toggleParty'])){
+		$intNPCID = intval($_REQUEST['toggleParty']);
+		
+		if(isset($_SESSION['objRPGCharacter']->getPartyMembers()->getActivePartyMembers()["PartyOne"])){
+			$objPartyOne = $_SESSION['objRPGCharacter']->getPartyMembers()->getActivePartyMembers()["PartyOne"];
+		}
+		else{
+			$objPartyOne = NULL;
+		}
+		
+		if(isset($_SESSION['objRPGCharacter']->getPartyMembers()->getActivePartyMembers()["PartyTwo"])){
+			$objPartyTwo = $_SESSION['objRPGCharacter']->getPartyMembers()->getActivePartyMembers()["PartyTwo"];
+		}
+		else{
+			$objPartyTwo = NULL;
+		}
+		
+		$arrReserve = $_SESSION['objRPGCharacter']->getPartyMembers()->getReservePartyMembers();
+		
+		if($objPartyOne != NULL){
+			$intPartyOne = $objPartyOne->getNPCInstanceID();
+		}
+		else{
+			$intPartyOne = 0;
+		}
+		
+		if($objPartyTwo != NULL){
+			$intPartyTwo = $objPartyTwo->getNPCInstanceID();
+		}
+		else{
+			$intPartyTwo = 0;
+		}
+		
+		if($intPartyOne != $intNPCID && $intPartyTwo != $intNPCID && !array_key_exists($intNPCID, $arrReserve)){
+			// error, NPC isn't eligible to be in party
+		}
+		else if($intPartyOne != $intNPCID && $intPartyTwo != $intNPCID && array_key_exists($intNPCID, $arrReserve)){
+			// NPC is not in either slot of active party, but exists in reserves, so add to active party
+			$objNPC = new RPGNPC($arrReserve[$intNPCID]->getNPCID(), $_SESSION['objRPGCharacter']->getRPGCharacterID());
+			// decide if adding to first or second slot
+			if(!$intPartyOne){
+				$_SESSION['objRPGCharacter']->getPartyMembers()->addPartyOne($objNPC);
+			}
+			else if(!$intPartyTwo){
+				$_SESSION['objRPGCharacter']->getPartyMembers()->addPartyTwo($objNPC);
+			}
+			else{
+				$_SESSION['objRPGCharacter']->getPartyMembers()->addPartyOne($objNPC);
+			}
+		}
+		else if($intPartyOne == $intNPCID){
+			// NPC is in first slot of active party, so remove them
+			$_SESSION['objRPGCharacter']->getPartyMembers()->removePartyOne();
+		}
+		else if($intPartyTwo == $intNPCID){
+			// NPC is in second slot of active party, so remove them
+			$_SESSION['objRPGCharacter']->getPartyMembers()->removePartyTwo();
+		}
+		
+		$_SESSION['objRPGCharacter']->getPartyMembers()->save();
+	}
+	
 	header('Location: main.php?page=DisplayGameUI');
 	exit;
 	

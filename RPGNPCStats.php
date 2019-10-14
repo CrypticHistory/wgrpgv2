@@ -105,7 +105,6 @@
 							intBlockReduction = " . $objDB->quote($this->_arrBaseStats['intBlockReduction']) . "
 							WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID) . "
 								AND intNPCID = " . $objDB->quote($this->_intNPCID);
-								file_put_contents('filename.txt', print_r($strSQL, true));
 			$objDB->query($strSQL);
 		}
 		

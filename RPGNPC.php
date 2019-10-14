@@ -53,6 +53,7 @@ class RPGNPC{
 	private $_intHungerRate;
 	private $_intDigestionRate;
 	private $_intRequiredExperience;
+	private $_intPartyMemberID;
 	
 	public function __construct($intNPCID = null, $intRPGCharacterID = null){
 		if($intNPCID != null){
@@ -89,6 +90,7 @@ class RPGNPC{
 	}
 	
 	private function populateInstanceVarFromRow($arrNPCInfo){
+		$this->setNPCInstanceID($arrNPCInfo['intNPCInstanceID']);
 		$this->setLevel($arrNPCInfo['intLevel']);
 		$this->setExperience($arrNPCInfo['intExperience']);
 		$this->setRelationshipLevel($arrNPCInfo['intRelationshipLevel']);
@@ -165,6 +167,7 @@ class RPGNPC{
 				$arrNPCInfo['intHungerRate'] = $arrRow['intHungerRate'];
 				$arrNPCInfo['intCurrentHP'] = $arrRow['intCurrentHP'];
 				$arrNPCInfo['intDigestionRate'] = $arrRow['intDigestionRate'];
+				$arrNPCInfo['intNPCInstanceID'] = $arrRow['intNPCInstanceID'];
 			}
 		$this->populateInstanceVarFromRow($arrNPCInfo);	
 		$this->_objStats->setRPGCharacterID($intRPGCharacterID);
@@ -216,7 +219,7 @@ class RPGNPC{
 		$this->_arrActiveSkillList = $this->_arrSkillList;
 		foreach($this->_arrActiveSkillList as $strSkillType => $arrSkillList){
 			foreach($arrSkillList as $key => $objSkill){
-				$this->_arrActiveSkillList[$strSkillType][$key]->setCurrentCooldown(0);
+				$this->_arrActiveSkillList[$strSkillType][$key]->setCurrentCooldown($this->_arrActiveSkillList[$strSkillType][$key]->getPreCooldown());
 			}
 		}
 	}
@@ -529,6 +532,14 @@ class RPGNPC{
 	
 	public function setNPCID($intNPCID){
 		$this->_intNPCID = $intNPCID;
+	}
+	
+	public function getNPCInstanceID(){
+		return $this->_intNPCInstanceID;
+	}
+	
+	public function setNPCInstanceID($intNPCInstanceID){
+		$this->_intNPCInstanceID = $intNPCInstanceID;
 	}
 	
 	public function getNPCName(){
@@ -876,6 +887,14 @@ class RPGNPC{
 	public function stuffCharacterDeadly($intFullness, $intWeight){
 		$this->setCurrentHunger(min(($this->getStats()->getCombinedStatsSecondary('intMaxHunger') * 2), $this->getCurrentHunger() + $intFullness));
 		$this->setWeight($this->getWeight() + $intWeight);
+	}
+	
+	public function getPartyMemberID(){
+		return $this->_intPartyMemberID;
+	}
+	
+	public function setPartyMemberID($intPartyMemberID){
+		$this->_intPartyMemberID = $intPartyMemberID;
 	}
 }
 

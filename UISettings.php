@@ -14,6 +14,7 @@ class UISettings{
 	private $_blnDisableInv;
 	private $_blnDisableStats;
 	private $_blnDisableSkills;
+	private $_blnDisableParty;
 	private $_intRPGCharacterID;
 	private $_intQuestTab;
 	private $_intClassTab;
@@ -32,6 +33,7 @@ class UISettings{
 		$this->_blnDisableInv = true;
 		$this->_blnDisableStats = false;
 		$this->_blnDisableSkills = false;
+		$this->_blnDisableParty = false;
 		$this->_intQuestTab = 0;
 		$this->_intClassTab = 0;
 	}
@@ -132,6 +134,14 @@ class UISettings{
 	
 	public function setDisableSkills($blnDisableSkills){
 		$this->_blnDisableSkills = $blnDisableSkills;
+	}
+	
+	public function getDisableParty(){
+		return $this->_blnDisableParty;
+	}
+	
+	public function setDisableParty($blnDisableParty){
+		$this->_blnDisableParty = $blnDisableParty;
 	}
 	
 	public function getNavigationFrame(){

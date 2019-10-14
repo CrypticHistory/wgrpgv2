@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 01, 2019 at 02:09 AM
+-- Generation Time: Oct 14, 2019 at 02:11 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacterabilitystats` (
 --
 
 INSERT INTO `tblcharacterabilitystats` (`intCharacterAbilityStatID`, `intRPGCharacterID`, `intStrength`, `intIntelligence`, `intAgility`, `intVitality`, `intWillpower`, `intDexterity`) VALUES
-(194, 197, 0, 0, 0, 0, 0, 0);
+(194, 197, 0, 45, 0, 15, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacterbody` (
 --
 
 INSERT INTO `tblcharacterbody` (`intCharacterBodyID`, `intRPGCharacterID`, `intBreasts`, `intBelly`, `intLegs`, `intButt`, `intArms`, `intFace`, `intBellyRipLevel`, `intButtRipLevel`, `intBreastsRipLevel`, `intArmsRipLevel`, `intLegsRipLevel`) VALUES
-(120, 197, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+(120, 197, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -99,6 +99,16 @@ CREATE TABLE IF NOT EXISTS `tblcharactercheckpointxr` (
   KEY `intCheckpointID` (`intCheckpointID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tblcharactercheckpointxr`
+--
+
+INSERT INTO `tblcharactercheckpointxr` (`intCharacterCheckpointXRID`, `intRPGCharacterID`, `intCheckpointID`, `dtmLastViewed`, `intTimesViewed`) VALUES
+(1, 197, 5, '2019-10-04 23:24:10', 1),
+(2, 197, 4, '2019-10-04 23:50:46', 1),
+(3, 197, 3, '2019-10-05 01:46:01', 1),
+(4, 197, 6, '2019-10-05 01:47:35', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -116,7 +126,15 @@ CREATE TABLE IF NOT EXISTS `tblcharacterclassxr` (
   PRIMARY KEY (`intCharacterClassXRID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intClassID` (`intClassID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblcharacterclassxr`
+--
+
+INSERT INTO `tblcharacterclassxr` (`intCharacterClassXRID`, `intRPGCharacterID`, `intClassID`, `intClassLevel`, `intClassExperience`, `blnCurrentClass`) VALUES
+(1, 197, 5, 8, 124340, 1),
+(2, 197, 4, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -132,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `tblcharactereventxr` (
   `dtmDateAdded` datetime NOT NULL,
   PRIMARY KEY (`intCharacterEventXRID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`,`intEventID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5217 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5317 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharactereventxr`
@@ -140,7 +158,107 @@ CREATE TABLE IF NOT EXISTS `tblcharactereventxr` (
 
 INSERT INTO `tblcharactereventxr` (`intCharacterEventXRID`, `intRPGCharacterID`, `intEventID`, `dtmDateAdded`) VALUES
 (5215, 197, 2, '2019-09-29 21:51:04'),
-(5216, 197, 2, '2019-09-29 21:51:04');
+(5216, 197, 2, '2019-09-29 21:51:04'),
+(5217, 197, 1, '2019-10-04 19:14:06'),
+(5218, 197, 1, '2019-10-04 19:14:25'),
+(5219, 197, 1, '2019-10-04 19:14:35'),
+(5220, 197, 1, '2019-10-04 19:14:36'),
+(5221, 197, 1, '2019-10-04 19:14:46'),
+(5222, 197, 1, '2019-10-04 19:14:50'),
+(5223, 197, 1, '2019-10-04 19:14:51'),
+(5224, 197, 3, '2019-10-04 19:14:59'),
+(5225, 197, 3, '2019-10-04 19:14:59'),
+(5226, 197, 18, '2019-10-04 19:15:04'),
+(5227, 197, 18, '2019-10-04 19:15:04'),
+(5228, 197, 24, '2019-10-04 19:15:10'),
+(5229, 197, 24, '2019-10-04 19:15:10'),
+(5230, 197, 4, '2019-10-04 19:15:43'),
+(5231, 197, 4, '2019-10-04 19:15:43'),
+(5232, 197, 19, '2019-10-04 19:15:47'),
+(5233, 197, 19, '2019-10-04 19:15:54'),
+(5234, 197, 19, '2019-10-04 19:15:55'),
+(5235, 197, 19, '2019-10-04 19:15:57'),
+(5236, 197, 19, '2019-10-04 19:16:00'),
+(5237, 197, 19, '2019-10-04 19:16:05'),
+(5238, 197, 19, '2019-10-04 19:16:08'),
+(5239, 197, 19, '2019-10-04 19:16:17'),
+(5240, 197, 19, '2019-10-04 19:16:33'),
+(5241, 197, 19, '2019-10-04 19:16:35'),
+(5242, 197, 25, '2019-10-04 19:17:14'),
+(5243, 197, 25, '2019-10-04 19:17:14'),
+(5244, 197, 25, '2019-10-04 19:17:17'),
+(5245, 197, 25, '2019-10-04 19:17:17'),
+(5246, 197, 26, '2019-10-04 19:18:11'),
+(5247, 197, 26, '2019-10-04 19:18:11'),
+(5248, 197, 26, '2019-10-04 19:18:14'),
+(5249, 197, 26, '2019-10-04 19:18:14'),
+(5250, 197, 23, '2019-10-04 19:18:57'),
+(5251, 197, 23, '2019-10-04 19:18:58'),
+(5252, 197, 42, '2019-10-04 19:24:10'),
+(5253, 197, 42, '2019-10-04 19:24:10'),
+(5254, 197, 42, '2019-10-04 19:24:17'),
+(5255, 197, 42, '2019-10-04 19:25:47'),
+(5256, 197, 27, '2019-10-04 19:27:18'),
+(5257, 197, 27, '2019-10-04 19:27:18'),
+(5258, 197, 27, '2019-10-04 19:27:31'),
+(5259, 197, 27, '2019-10-04 19:27:31'),
+(5260, 197, 39, '2019-10-04 19:34:14'),
+(5261, 197, 39, '2019-10-04 19:34:14'),
+(5262, 197, 14, '2019-10-04 19:35:25'),
+(5263, 197, 14, '2019-10-04 19:35:25'),
+(5264, 197, 14, '2019-10-04 19:35:27'),
+(5265, 197, 14, '2019-10-04 19:35:36'),
+(5266, 197, 14, '2019-10-04 19:35:39'),
+(5267, 197, 14, '2019-10-04 19:35:41'),
+(5268, 197, 14, '2019-10-04 19:35:43'),
+(5269, 197, 14, '2019-10-04 19:35:50'),
+(5270, 197, 14, '2019-10-04 19:35:53'),
+(5271, 197, 14, '2019-10-04 19:35:55'),
+(5272, 197, 14, '2019-10-04 19:36:04'),
+(5273, 197, 14, '2019-10-04 19:36:07'),
+(5274, 197, 35, '2019-10-04 19:36:23'),
+(5275, 197, 35, '2019-10-04 19:36:23'),
+(5276, 197, 30, '2019-10-04 19:36:36'),
+(5277, 197, 30, '2019-10-04 19:36:36'),
+(5278, 197, 36, '2019-10-04 19:36:49'),
+(5279, 197, 36, '2019-10-04 19:36:49'),
+(5280, 197, 38, '2019-10-04 19:37:17'),
+(5281, 197, 38, '2019-10-04 19:39:07'),
+(5282, 197, 22, '2019-10-04 19:44:55'),
+(5283, 197, 22, '2019-10-04 19:44:56'),
+(5284, 197, 40, '2019-10-04 19:50:41'),
+(5285, 197, 40, '2019-10-04 19:50:42'),
+(5286, 197, 40, '2019-10-04 19:50:42'),
+(5287, 197, 41, '2019-10-04 19:50:46'),
+(5288, 197, 41, '2019-10-04 19:50:47'),
+(5289, 197, 41, '2019-10-04 19:50:48'),
+(5290, 197, 41, '2019-10-04 19:51:33'),
+(5291, 197, 41, '2019-10-04 19:51:36'),
+(5292, 197, 41, '2019-10-04 19:51:38'),
+(5293, 197, 41, '2019-10-04 19:51:40'),
+(5294, 197, 33, '2019-10-04 20:10:49'),
+(5295, 197, 33, '2019-10-04 20:10:49'),
+(5296, 197, 37, '2019-10-04 20:51:19'),
+(5297, 197, 37, '2019-10-04 20:51:19'),
+(5298, 197, 13, '2019-10-04 20:52:18'),
+(5299, 197, 13, '2019-10-04 20:52:18'),
+(5300, 197, 13, '2019-10-04 20:52:19'),
+(5301, 197, 29, '2019-10-04 20:53:06'),
+(5302, 197, 29, '2019-10-04 20:53:06'),
+(5303, 197, 32, '2019-10-04 21:04:59'),
+(5304, 197, 32, '2019-10-04 21:05:00'),
+(5305, 197, 44, '2019-10-04 21:47:56'),
+(5306, 197, 44, '2019-10-04 21:47:56'),
+(5307, 197, 44, '2019-10-04 21:49:23'),
+(5308, 197, 43, '2019-10-04 21:49:48'),
+(5309, 197, 43, '2019-10-04 21:49:48'),
+(5310, 197, 43, '2019-10-04 21:49:50'),
+(5311, 197, 43, '2019-10-04 21:50:56'),
+(5312, 197, 43, '2019-10-04 21:51:03'),
+(5313, 197, 43, '2019-10-04 21:51:10'),
+(5314, 197, 43, '2019-10-04 21:51:15'),
+(5315, 197, 31, '2019-10-13 21:17:17'),
+(5316, 197, 31, '2019-10-13 21:17:18');
 
 -- --------------------------------------------------------
 
@@ -162,17 +280,36 @@ CREATE TABLE IF NOT EXISTS `tblcharacteritemxr` (
   PRIMARY KEY (`intItemInstanceID`),
   KEY `intCharacterID` (`intRPGCharacterID`,`intItemID`),
   KEY `intItemID` (`intItemID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2055 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2087 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharacteritemxr`
 --
 
 INSERT INTO `tblcharacteritemxr` (`intItemInstanceID`, `intRPGCharacterID`, `intItemID`, `intCaloriesRemaining`, `blnDigesting`, `blnEquipped`, `strSize`, `blnRipped`, `dtmDateAdded`) VALUES
-(2046, 197, 10, 0, 0, 0, 'M', 0, '2019-09-29 21:50:53'),
 (2047, 197, 5, 100, 0, 0, 'M', 0, '2019-09-29 21:50:55'),
-(2048, 197, 6, 0, 0, 0, 'M', 0, '2019-09-29 21:50:56'),
-(2054, 197, 9, 600, 0, 0, 'M', 0, '2019-09-29 21:50:59');
+(2048, 197, 6, 0, 0, 1, 'M', 0, '2019-09-29 21:50:56'),
+(2054, 197, 9, 600, 0, 0, 'M', 0, '2019-09-29 21:50:59'),
+(2067, 197, 9, 600, 0, 0, NULL, 0, '2019-10-04 19:27:12'),
+(2068, 197, 9, 600, 0, 0, NULL, 0, '2019-10-04 19:27:12'),
+(2069, 197, 9, 600, 0, 0, NULL, 0, '2019-10-04 19:27:12'),
+(2070, 197, 9, 600, 0, 0, NULL, 0, '2019-10-04 19:27:12'),
+(2071, 197, 9, 600, 0, 0, NULL, 0, '2019-10-04 19:27:12'),
+(2072, 197, 9, 600, 0, 0, NULL, 0, '2019-10-04 19:27:12'),
+(2073, 197, 15, 0, 0, 0, '', 0, '2019-10-04 19:27:18'),
+(2074, 197, 21, 0, 0, 1, 'M', 0, '2019-10-04 19:35:53'),
+(2075, 197, 14, 0, 0, 0, 'L', 0, '2019-10-04 19:39:37'),
+(2076, 197, 15, 0, 0, 0, 'L', 0, '2019-10-04 19:45:43'),
+(2077, 197, 47, 2000, 0, 0, 'XXXL', 0, '2019-10-04 20:57:30'),
+(2078, 197, 47, 2000, 0, 0, 'XXXXL', 0, '2019-10-04 21:15:05'),
+(2079, 197, 34, 0, 0, 0, 'XXXXL', 0, '2019-10-04 21:15:52'),
+(2080, 197, 47, 2000, 0, 0, 'XXXXL', 0, '2019-10-04 21:16:32'),
+(2081, 197, 23, 0, 0, 0, 'XXXXL', 0, '2019-10-04 21:41:28'),
+(2082, 197, 15, 0, 0, 0, 'XXXXL', 0, '2019-10-04 21:42:56'),
+(2083, 197, 15, 0, 0, 0, 'XXXXL', 0, '2019-10-04 21:43:12'),
+(2084, 197, 18, 0, 0, 0, 'XXXXL', 0, '2019-10-13 21:18:07'),
+(2085, 197, 34, 0, 0, 0, 'XXXXL', 0, '2019-10-13 21:49:27'),
+(2086, 197, 34, 0, 0, 0, 'XXXXL', 0, '2019-10-13 22:09:31');
 
 -- --------------------------------------------------------
 
@@ -189,7 +326,88 @@ CREATE TABLE IF NOT EXISTS `tblcharacteroverridexr` (
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intRPGCharacterID_2` (`intRPGCharacterID`),
   KEY `intOverrideID` (`intOverrideID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1099 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblcharacteroverridexr`
+--
+
+INSERT INTO `tblcharacteroverridexr` (`intCharacterOverrideXRID`, `intRPGCharacterID`, `intOverrideID`) VALUES
+(1, 197, 1),
+(2, 197, 2),
+(6, 197, 4),
+(7, 197, 1),
+(8, 197, 2),
+(9, 197, 4),
+(10, 197, 1),
+(11, 197, 2),
+(12, 197, 4),
+(13, 197, 1),
+(14, 197, 2),
+(15, 197, 4),
+(16, 197, 1),
+(17, 197, 2),
+(18, 197, 4),
+(19, 197, 1),
+(20, 197, 2),
+(21, 197, 4),
+(22, 197, 1),
+(23, 197, 2),
+(24, 197, 4),
+(25, 197, 1),
+(26, 197, 2),
+(27, 197, 4),
+(28, 197, 1),
+(29, 197, 2),
+(30, 197, 4),
+(31, 197, 1),
+(32, 197, 2),
+(33, 197, 4),
+(34, 197, 1),
+(35, 197, 2),
+(36, 197, 4),
+(37, 197, 1),
+(38, 197, 2),
+(39, 197, 4),
+(40, 197, 1),
+(41, 197, 2),
+(42, 197, 4),
+(43, 197, 1),
+(44, 197, 2),
+(45, 197, 4),
+(46, 197, 1),
+(47, 197, 2),
+(48, 197, 4),
+(49, 197, 1),
+(50, 197, 2),
+(51, 197, 4),
+(52, 197, 1),
+(53, 197, 2),
+(54, 197, 4),
+(55, 197, 1),
+(56, 197, 2),
+(57, 197, 4),
+(58, 197, 1),
+(59, 197, 2),
+(60, 197, 4),
+(61, 197, 1),
+(62, 197, 2),
+(63, 197, 4),
+(64, 197, 1),
+(65, 197, 2),
+(66, 197, 4),
+(67, 197, 1),
+(68, 197, 2),
+(69, 197, 4),
+(70, 197, 1),
+(71, 197, 2),
+(72, 197, 4),
+(73, 197, 1),
+(74, 197, 2),
+(75, 197, 4),
+(76, 197, 1),
+(77, 197, 2),
+(78, 197, 4);
 
 -- --------------------------------------------------------
 
@@ -210,7 +428,15 @@ CREATE TABLE IF NOT EXISTS `tblcharacterquestkillreqxr` (
   KEY `intQuestID` (`intQuestID`),
   KEY `intKillReqID` (`intKillReqID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblcharacterquestkillreqxr`
+--
+
+INSERT INTO `tblcharacterquestkillreqxr` (`intCharacterQuestKillReqXRID`, `intQuestID`, `intKillReqID`, `intRPGCharacterID`, `dtmStarted`, `dtmCompleted`, `intCurrentCount`) VALUES
+(1, 2, 2, 197, '2019-10-04 19:23:52', '2019-10-04 23:50:21', 5),
+(2, 1, 1, 197, '2019-10-04 19:50:41', '2019-10-05 01:42:56', 5);
 
 -- --------------------------------------------------------
 
@@ -229,7 +455,15 @@ CREATE TABLE IF NOT EXISTS `tblcharacterquestxr` (
   PRIMARY KEY (`intCharacterQuestXRID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intQuestID` (`intQuestID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblcharacterquestxr`
+--
+
+INSERT INTO `tblcharacterquestxr` (`intCharacterQuestXRID`, `intRPGCharacterID`, `intQuestID`, `dtmStarted`, `dtmCompleted`, `blnActive`) VALUES
+(1, 197, 2, '2019-10-04 19:23:52', '2019-10-04 23:50:21', 0),
+(2, 197, 1, '2019-10-04 19:50:41', '2019-10-05 01:42:56', 0);
 
 -- --------------------------------------------------------
 
@@ -264,7 +498,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacterstats` (
 --
 
 INSERT INTO `tblcharacterstats` (`intCharacterStatsID`, `intRPGCharacterID`, `intMaxHP`, `intStrength`, `intIntelligence`, `intAgility`, `intVitality`, `intWillpower`, `intDexterity`, `intAccuracy`, `intEvasion`, `intCritDamage`, `intPierce`, `intBlockRate`, `intBlockReduction`, `intMaxHunger`) VALUES
-(194, 197, 10, 5, 5, 5, 5, 5, 5, 0, 0, 150, 0, 0, 10, 1000);
+(194, 197, 10, 5, 5, 5, 5, 5, 5, 0, 0, 150, 0, 0, 10, 1090);
 
 -- --------------------------------------------------------
 
@@ -283,14 +517,16 @@ CREATE TABLE IF NOT EXISTS `tblcharacterstatuseffectxr` (
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intStatusEffectID` (`intStatusEffectID`),
   KEY `intItemInstanceID` (`intItemInstanceID`)
-) ENGINE=InnoDB AUTO_INCREMENT=796 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=905 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharacterstatuseffectxr`
 --
 
 INSERT INTO `tblcharacterstatuseffectxr` (`intCharacterStatusEffectXRID`, `intRPGCharacterID`, `intStatusEffectID`, `intItemInstanceID`, `intTimeRemaining`) VALUES
-(795, 197, 7, NULL, 9999);
+(797, 197, 2, NULL, 9999),
+(798, 197, 3, NULL, 9999),
+(807, 197, 4, NULL, 9999);
 
 -- --------------------------------------------------------
 
@@ -832,14 +1068,15 @@ CREATE TABLE IF NOT EXISTS `tbliteminstanceenchant` (
   KEY `intItemInstanceID` (`intItemInstanceID`),
   KEY `intSuffixEnchantID` (`intSuffixEnchantID`),
   KEY `intPrefixEnchantID` (`intPrefixEnchantID`)
-) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbliteminstanceenchant`
 --
 
 INSERT INTO `tbliteminstanceenchant` (`intItemInstanceEnchantID`, `intItemInstanceID`, `intSuffixEnchantID`, `intPrefixEnchantID`) VALUES
-(98, 2048, 2, 1);
+(98, 2048, 2, NULL),
+(99, 2073, NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -1044,12 +1281,12 @@ INSERT INTO `tblnpc` (`intNPCID`, `strNPCName`, `intWeight`, `intHeight`, `intEx
 (6, 'Armoured Skeleton', 120, 130, 4500, 5, 15, 0, 0, 'DPS', 0, '2016-07-19 00:00:00', 'admin', NULL, NULL),
 (7, 'Skeleton Mage', 130, 120, 4500, 5, 15, 0, 0, 'DPS', 0, '2016-07-21 00:00:00', 'admin', NULL, NULL),
 (8, 'Black Succubus', 120, 158, 9600, 20, 50, 1, 1, 'Succubus', 20, '2016-07-21 00:00:00', 'admin', NULL, NULL),
-(9, 'Small Slime', 20, 100, 2500, 5, 10, 0, 0, 'AlwaysFeed', 2, '2019-09-26 00:00:00', 'admin', NULL, NULL),
-(10, 'Medium Slime', 40, 150, 3000, 6, 12, 0, 0, 'AlwaysFeed', 4, '2019-09-26 00:00:00', 'admin', NULL, NULL),
-(11, 'Large Slime', 60, 200, 3500, 8, 16, 0, 0, 'AlwaysFeed', 6, '2019-09-26 00:00:00', 'admin', NULL, NULL),
-(12, 'Venus Flytrap', 50, 200, 4000, 5, 15, 0, 0, 'DPS', 0, '2019-09-26 00:00:00', 'admin', NULL, NULL),
+(9, 'Small Slime', 20, 20, 2500, 5, 10, 0, 0, 'AlwaysFeed', 2, '2019-09-26 00:00:00', 'admin', NULL, NULL),
+(10, 'Medium Slime', 40, 30, 3000, 6, 12, 0, 0, 'AlwaysFeed', 4, '2019-09-26 00:00:00', 'admin', NULL, NULL),
+(11, 'Large Slime', 60, 40, 3500, 8, 16, 0, 0, 'AlwaysFeed', 6, '2019-09-26 00:00:00', 'admin', NULL, NULL),
+(12, 'Venus Flytrap', 100, 200, 4000, 5, 15, 0, 0, 'DPS', 0, '2019-09-26 00:00:00', 'admin', NULL, NULL),
 (13, 'Sarracenia', 50, 200, 4200, 5, 15, 0, 0, 'DPS', 0, '2019-09-26 00:00:00', 'admin', NULL, NULL),
-(14, 'Hedorah', 500, 400, 12600, 10, 25, 1, 1, 'Hedorah', 8, '2019-09-26 00:00:00', 'admin', NULL, NULL),
+(14, 'Hedorah', 700, 400, 12600, 10, 25, 1, 1, 'Hedorah', 8, '2019-09-26 00:00:00', 'admin', NULL, NULL),
 (15, 'Norman Foelsch', 134, 172, 0, 0, 0, 0, 0, 'DPS', 0, '2019-09-26 00:00:00', 'admin', NULL, NULL),
 (16, 'Iyanna Rue', 166, 178, 0, 0, 0, 0, 0, 'DPS', 0, '2019-09-26 00:00:00', 'admin', NULL, NULL),
 (17, 'Owen Elsby', 223, 188, 0, 0, 0, 0, 0, 'DPS', 0, '2019-09-29 00:00:00', 'admin', NULL, NULL);
@@ -1148,14 +1385,17 @@ CREATE TABLE IF NOT EXISTS `tblnpcinstance` (
   PRIMARY KEY (`intNPCInstanceID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intNPCID` (`intNPCID`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblnpcinstance`
 --
 
 INSERT INTO `tblnpcinstance` (`intNPCInstanceID`, `intRPGCharacterID`, `intNPCID`, `intLevel`, `intExperience`, `intRelationshipLevel`, `intRelationshipEXP`, `intConversationLevel`, `dblWeight`, `intCurrentHunger`, `intHungerRate`, `intCurrentHP`, `intDigestionRate`) VALUES
-(64, 197, 2, 1, 0, 0, 0, 0, 52, 500, 1, 0, 250);
+(64, 197, 2, 12, 22580, 0, 0, 0, 143, 200, 1, 0, 250),
+(65, 197, 16, 5, 1920, 1, 0, 1, 166, 500, 1, 340, 250),
+(66, 197, 15, 1, 0, 1, 0, 1, 134, 500, 1, 305, 250),
+(67, 197, 17, 1, 0, 0, 50, 0, 223, 500, 1, 303, 250);
 
 -- --------------------------------------------------------
 
@@ -1185,14 +1425,17 @@ CREATE TABLE IF NOT EXISTS `tblnpcinstancestats` (
   PRIMARY KEY (`intNPCInstanceStatID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intNPCID` (`intNPCID`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblnpcinstancestats`
 --
 
 INSERT INTO `tblnpcinstancestats` (`intNPCInstanceStatID`, `intRPGCharacterID`, `intNPCID`, `intMaxHP`, `intStrength`, `intIntelligence`, `intAgility`, `intVitality`, `intWillpower`, `intDexterity`, `intAccuracy`, `intEvasion`, `intCritDamage`, `intPierce`, `intBlockRate`, `intBlockReduction`, `intMaxHunger`) VALUES
-(50, 197, 2, 20, 2, 2, 2, 2, 2, 2, 0, 0, 150, 0, 0, 10, 100);
+(50, 197, 2, 31, 2, 24, 35, 2, 13, 24, 0, 11, 161, 11, 0, 10, 100),
+(51, 197, 16, 300, 80, 50, 40, 80, 80, 40, 50, 10, 50, 20, 60, 100, 100),
+(52, 197, 15, 300, 10, 100, 10, 10, 70, 20, 100, 0, 100, 100, 5, 50, 100),
+(53, 197, 17, 280, 75, 65, 40, 45, 40, 65, 50, 25, 50, 50, 25, 50, 100);
 
 -- --------------------------------------------------------
 
@@ -1370,6 +1613,34 @@ INSERT INTO `tbloverride` (`intOverrideID`, `strOverrideName`, `strOverrideDesc`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tblpartymember`
+--
+
+DROP TABLE IF EXISTS `tblpartymember`;
+CREATE TABLE IF NOT EXISTS `tblpartymember` (
+  `intPartyMemberID` int(11) NOT NULL AUTO_INCREMENT,
+  `intNPCInstanceID` int(11) NOT NULL,
+  `strPartyObj` varchar(45) NOT NULL,
+  `blnIsActive` tinyint(1) NOT NULL,
+  PRIMARY KEY (`intPartyMemberID`),
+  UNIQUE KEY `intPartyMemberID` (`intPartyMemberID`),
+  UNIQUE KEY `intNPCInstanceID_2` (`intNPCInstanceID`),
+  KEY `intNPCInstanceID` (`intNPCInstanceID`)
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblpartymember`
+--
+
+INSERT INTO `tblpartymember` (`intPartyMemberID`, `intNPCInstanceID`, `strPartyObj`, `blnIsActive`) VALUES
+(99, 64, 'PartyOne', 1),
+(100, 65, 'PartyTwo', 1),
+(101, 67, '', 0),
+(102, 66, '', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tblpost`
 --
 
@@ -1491,7 +1762,7 @@ CREATE TABLE IF NOT EXISTS `tblrpgcharacter` (
 --
 
 INSERT INTO `tblrpgcharacter` (`intRPGCharacterID`, `strUserID`, `strRPGCharacterName`, `intHeight`, `dblWeight`, `intDigestionRate`, `intCurrentHunger`, `intHungerRate`, `intTicksStuffed`, `intFloorID`, `intCurrentFloorID`, `intStateID`, `intTownID`, `intLocationID`, `intDay`, `strTime`, `strGender`, `strOrientation`, `strPersonality`, `blnLikesFatSelf`, `blnLikesFatOthers`, `strEyeColour`, `strHairColour`, `strHairLength`, `strEthnicity`, `intLevel`, `intExperience`, `intCurrentHP`, `intStatPoints`, `intGold`, `blnActivated`, `dtmCreatedOn`, `strCreatedBy`, `dtmModifiedOn`, `strModifiedBy`) VALUES
-(197, 'testing', 'test3', 152, 109.5, 250, 1316, 1, 0, 1, 0, 4, 1, 1, 1, '5:45', 'Female', 'Heterosexual', 'Shy', 1, 1, 'Brown', 'Brown', 'Short', 'White', 2, 0, 15, 5, 0, 1, '2019-09-29 21:50:45', 'system', NULL, NULL);
+(197, 'testing', 'test3', 152, 539.43587066918, 250, 334, 1, 0, 3, 0, 11, 1, 1, 16, '14:15', 'Female', 'Heterosexual', 'Shy', 1, 1, 'Brown', 'Brown', 'Short', 'White', 15, 80, 35, 10, 1057, 1, '2019-09-29 21:50:45', 'system', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1622,9 +1893,9 @@ INSERT INTO `tblskill` (`intSkillID`, `strName`, `strClassName`, `txtDescription
 (13, 'Slime Sacrifice', 'SlimeSacrifice', '', 'Feed', 1, 1, 0, 'None', 0, NULL, 0),
 (14, 'Chew', 'Chew', '', 'Damage', 3, 1, 0, 'None', 3, NULL, 0),
 (15, 'Leaf Cutter', 'LeafCutter', '', 'Damage', 1, 3, 0, 'None', 4, NULL, 2),
-(16, 'Goop Cannon', 'GoopCannon', '', 'Debuff', 1, 3, 0, 'None', 5, 12, 2),
-(17, 'Ground Pound', 'GroundPound', '', 'Debuff', 1, 3, 0, 'None', 2, 13, 0),
-(18, 'Toxic Breath', 'ToxicBreath', '', 'Debuff', 1, 3, 0, 'None', 3, NULL, 1);
+(16, 'Goop Cannon', 'GoopCannon', '', 'Debuff', 1, 3, 0, 'None', 3, 12, 3),
+(17, 'Ground Pound', 'GroundPound', '', 'Debuff', 1, 3, 0, 'None', 5, 13, 5),
+(18, 'Toxic Breath', 'ToxicBreath', '', 'Debuff', 1, 3, 0, 'None', 8, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1638,7 +1909,7 @@ CREATE TABLE IF NOT EXISTS `tblstates` (
   `strStateName` varchar(45) NOT NULL,
   `txtDescription` text,
   PRIMARY KEY (`intStateID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblstates`
@@ -1653,7 +1924,9 @@ INSERT INTO `tblstates` (`intStateID`, `strStateName`, `txtDescription`) VALUES
 (6, 'Shop', 'User is currently inside a shop window.'),
 (7, 'Dead', 'User is currently dead and needs to be revived.'),
 (8, 'Tutorial', 'User is currently in tutorial.'),
-(9, 'Stats', 'Stat gain window');
+(9, 'Stats', 'Stat gain window'),
+(10, 'Skills', 'Skill view window'),
+(11, 'Party', 'Party view window');
 
 -- --------------------------------------------------------
 
@@ -1774,14 +2047,16 @@ CREATE TABLE IF NOT EXISTS `tbluniqueeventgifts` (
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intEventID` (`intEventID`),
   KEY `intItemID` (`intItemID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbluniqueeventgifts`
 --
 
 INSERT INTO `tbluniqueeventgifts` (`intUniqueEventGiftID`, `intRPGCharacterID`, `intEventID`, `intItemID`, `dtmDateObtained`) VALUES
-(8, 197, 2, 6, '2019-09-29 21:50:56');
+(8, 197, 2, 6, '2019-09-29 21:50:56'),
+(9, 197, 27, 9, '2019-10-04 19:27:12'),
+(10, 197, 27, 15, '2019-10-04 19:27:18');
 
 -- --------------------------------------------------------
 
@@ -1802,7 +2077,7 @@ CREATE TABLE IF NOT EXISTS `tbluser` (
   PRIMARY KEY (`intUserID`),
   UNIQUE KEY `strUserID` (`strUserID`),
   UNIQUE KEY `intUserID` (`intUserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbluser`
@@ -2031,6 +2306,12 @@ ALTER TABLE `tblnpcskillxr`
 --
 ALTER TABLE `tblnpcstats`
   ADD CONSTRAINT `tblnpcstats_ibfk_1` FOREIGN KEY (`intNPCID`) REFERENCES `tblnpc` (`intNPCID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tblpartymember`
+--
+ALTER TABLE `tblpartymember`
+  ADD CONSTRAINT `fk_partymembers_NPCInstance` FOREIGN KEY (`intNPCInstanceID`) REFERENCES `tblnpcinstance` (`intNPCInstanceID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tblquestkillreq`

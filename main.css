@@ -536,6 +536,10 @@ fieldset {
 	border-bottom:1px solid #CFCFCF;
 }
 
+.charTable{
+	width:100%;
+}
+
 .charTable tr:nth-child(even){
 	background-color:#F5F5F5;
 }

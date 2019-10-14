@@ -13,7 +13,7 @@ $arrArmourBodyParts = array("Arms", "Breasts", "Belly", "Butt", "Legs");
 $arrTopBodyParts = array("Arms", "Breasts", "Belly");
 $arrBottomBodyParts = array("Legs", "Butt", "Belly");
 
-$arrStateNames = array(1 => "Event", 2 => "Combat", 3 => "Field", 4 => "Town", 5 => "Dungeon", 6 => "Shop", 7 => "Dead", 8 => "Tutorial", 9 => "Stats", 10 => "Skills");
-$arrStateValues = array("Event" => 1, "Combat" => 2, "Field" => 3, "Town" => 4, "Dungeon" => 5, "Shop" => 6, "Dead" => 7, "Tutorial" => 8, "Stats" => 9, "Skills" => 10);
+$arrStateNames = array(1 => "Event", 2 => "Combat", 3 => "Field", 4 => "Town", 5 => "Dungeon", 6 => "Shop", 7 => "Dead", 8 => "Tutorial", 9 => "Stats", 10 => "Skills", 11 => "Party");
+$arrStateValues = array("Event" => 1, "Combat" => 2, "Field" => 3, "Town" => 4, "Dungeon" => 5, "Shop" => 6, "Dead" => 7, "Tutorial" => 8, "Stats" => 9, "Skills" => 10, "Party" => 11);
 
 ?>
