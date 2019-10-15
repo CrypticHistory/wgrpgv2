@@ -17,7 +17,12 @@
 		}
 		else if($strChangeTo == "PartyView"){
 			$_SESSION['objRPGCharacter']->setStateID(11);
-			header('Location: main.php?page=DisplayGameUI');
+			if(isset($_REQUEST['intNPCID'])){
+				header('Location: main.php?page=DisplayGameUI&intNPCID=' . $_REQUEST['intNPCID']);
+			}
+			else{
+				header('Location: main.php?page=DisplayGameUI');
+			}
 		}
 		else{
 			header('Location: main.php?page=DisplayGameUI');

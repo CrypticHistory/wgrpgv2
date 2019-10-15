@@ -532,8 +532,26 @@ fieldset {
 	text-align:center;
 }
 
+.textRight{
+	text-align:right;
+}
+
+.textLeft{
+	text-align:left;
+}
+
 .borderBottom{
 	border-bottom:1px solid #CFCFCF;
+}
+
+.charTable td{
+	padding-left:3px;
+	padding-right:3px;
+}
+
+.charTable th{
+	padding-left:3px;
+	padding-right:3px;
 }
 
 .charTable{

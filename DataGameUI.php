@@ -260,6 +260,10 @@ class DataGameUI{
 			$_SESSION['objRPGCharacter']->removeFromStatusEffects('Burdened by Weight');		
 		}
 		$_SESSION['objRPGCharacter']->save();
+		
+		foreach($_SESSION['objRPGCharacter']->getPartyMembers()->getActivePartyMembers() as $strPartyObj => $objNPC){
+			$objNPC->save();
+		}
 	}	
 }
 

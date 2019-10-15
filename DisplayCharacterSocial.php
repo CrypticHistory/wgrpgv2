@@ -9,28 +9,56 @@ class DisplayCharacterSocial{
 	public static function toHTML(){
 		ob_start(); ?>
 		
+			<script type='text/javascript'>
+
+				$(document).ready(function(){
+					
+					$('.viewStats').click(function(){
+						NPCID = $(this).attr("NPCID");
+						window.location.replace("changeEventWindow.php?changeTo=PartyView&intNPCID=" + NPCID);
+					});
+					
+				});
+
+			</script>
+		
 			<div class='characterDiv hidden' id='characterDivSocial'>
 				<table class='charTable' align='center'>
-					<th class='tableHeader borderBottom statHeader'>Active Party</th>
-					<?php
-						if(!empty($_SESSION['objRPGCharacter']->getPartyMembers())){
-							if(!empty($_SESSION['objRPGCharacter']->getPartyMembers()->getActivePartyMembers())){
-								foreach($_SESSION['objRPGCharacter']->getPartyMembers()->getActivePartyMembers() as $strPartyObj => $objNPC){
-									echo "<tr><td>" . $objNPC->getNPCName() . " - Lvl " . $objNPC->getLevel() . "</td></tr>";
+					<thead>
+						<tr>
+							<th class='tableHeader statHeader'>Active Party</th>
+						</tr>
+						<tr>
+							<th class='greyBG textLeft' style="width:30%;">Name</th>
+							<th class='greyBG textRight' style="width:10%;">Lvl</th>
+							<th class='greyBG textRight' style="width:15%;">Exp</th>
+							<th class='greyBG textRight' style="width:15%;">HP</th>
+							<th class='greyBG' style="width:25%;">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+							if(!empty($_SESSION['objRPGCharacter']->getPartyMembers())){
+								if(!empty($_SESSION['objRPGCharacter']->getPartyMembers()->getActivePartyMembers())){
+									$arrSortedParty = $_SESSION['objRPGCharacter']->getPartyMembers()->getActivePartyMembers();
+									ksort($arrSortedParty);
+									foreach($arrSortedParty as $strPartyObj => $objNPC){
+										echo "<tr><td>" . $objNPC->getShortName() . "</td><td class='textRight'>" . $objNPC->getLevel() . "</td><td class='textRight'>" . round(($objNPC->getExperience() / $objNPC->loadRequiredExperience() * 100), 2) . "%</td><td class='textRight'>" . round((max(0, $objNPC->getCurrentHP()) / $objNPC->getModifiedMaxHP() * 100), 2) . "%</td></td><td class='textCenter'>" . ($_SESSION['objUISettings']->getDisableStats() && $_SESSION['objUISettings']->getEventFrame() != "PartyView" ? "" : "<button class='viewStats' NPCID='" . $objNPC->getNPCID() . "' type='button'>Stats</button>") . "</tr>";
+									}
+									echo $_SESSION['objUISettings']->getDisableParty() || !$_SESSION['objRPGCharacter']->getTownID() ? "" : "<tr><td colspan='5' class='textCenter'><a href='changeEventWindow.php?changeTo=PartyView'>[ Modify Party ]</a></td></tr>";
 								}
-								echo $_SESSION['objUISettings']->getDisableParty() ? "" : "<tr><td class='textCenter'><a href='changeEventWindow.php?changeTo=PartyView'>[ Modify Party ]</a></td></tr>";
+								else{
+									echo "<tr><td colspan='5' class='textCenter'>No Active Party</td></tr>" . $_SESSION['objUISettings']->getDisableParty() ? "" : "<tr><td class='textCenter'><a href='changeEventWindow.php?changeTo=PartyView'>[ Modify Party ]</a></td></tr>";
+								}
 							}
 							else{
-								echo "<tr><td class='textCenter'>No Active Party</td></tr>" . $_SESSION['objUISettings']->getDisableParty() ? "" : "<tr><td class='textCenter'><a href='changeEventWindow.php?changeTo=PartyView'>[ Modify Party ]</a></td></tr>";
+								echo "<tr><td>You do not have any NPCs eligible to be party members.</td></tr>";
 							}
-						}
-						else{
-							echo "<tr><td>You do not have any NPCs eligible to be party members.</td></tr>";
-						}
-					?>
-					<tr>
-						<td class='borderTop' colspan='2'>&nbsp;</td>
-					</tr>
+						?>
+						<tr>
+							<td class='borderTop' colspan='5'>&nbsp;</td>
+						</tr>
+					</tbody>
 				</table>
 				<table class='invTable' align='center'>
 					<thead>

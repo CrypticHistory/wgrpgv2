@@ -503,7 +503,8 @@ class RPGCharacter{
 							USING (intNPCInstanceID)
 						INNER JOIN tblnpc
 							USING (intNPCID)
-						WHERE intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID());
+						WHERE intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID()) . "
+						ORDER BY strPartyObj ASC";
 		$rsResult = $objDB->query($strSQL);
 		$arrActivePartyMembers = [];
 		$arrReservePartyMembers = [];
@@ -1850,16 +1851,20 @@ class RPGCharacter{
 		unset($_SESSION['objRelationship']);
 		
 		if(isset($this->getPartyMembers()->getActivePartyMembers()["PartyOne"])){
+			$this->getPartyMembers()->getActivePartyMembers()["PartyOne"]->setCurrentHP($this->getPartyMembers()->getActivePartyMembers()["PartyOne"]->getModifiedMaxHP());
 			$objNPC1 = $this->getPartyMembers()->getActivePartyMembers()["PartyOne"];
 			$objPartyOne = new RPGNPC($objNPC1->getNPCID(), $this->_intRPGCharacterID);
+			$objPartyOne->setCurrentHP($objPartyOne->getModifiedMaxHP());
 		}
 		else{
 			$objPartyOne = null;
 		}
 		
 		if(isset($this->getPartyMembers()->getActivePartyMembers()["PartyTwo"])){
+			$this->getPartyMembers()->getActivePartyMembers()["PartyTwo"]->setCurrentHP($this->getPartyMembers()->getActivePartyMembers()["PartyTwo"]->getModifiedMaxHP());
 			$objNPC2 = $this->getPartyMembers()->getActivePartyMembers()["PartyTwo"];
 			$objPartyTwo = new RPGNPC($objNPC2->getNPCID(), $this->_intRPGCharacterID);
+			$objPartyTwo->setCurrentHP($objPartyOne->getModifiedMaxHP());
 		}
 		else{
 			$objPartyTwo = null;

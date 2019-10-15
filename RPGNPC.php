@@ -13,6 +13,7 @@ class RPGNPC{
 	private $_intNPCInstanceID;
 	private $_intRPGCharacterID;
 	private $_strNPCName;
+	private $_strShortName;
 	private $_intCurrentHP;
 	private $_objStats;
 	private $_objGrowth;
@@ -68,6 +69,7 @@ class RPGNPC{
 	private function populateVarFromRow($arrNPCInfo){
 		$this->setNPCID($arrNPCInfo['intNPCID']);
 		$this->setNPCName($arrNPCInfo['strNPCName']);
+		$this->setShortName($arrNPCInfo['strShortName']);
 		$this->setWeight($arrNPCInfo['intWeight']);
 		$this->setHeight($arrNPCInfo['intHeight']);
 		$this->setExperienceGiven($arrNPCInfo['intExperienceGiven']);
@@ -115,6 +117,7 @@ class RPGNPC{
 			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
 				$arrNPCInfo['intNPCID'] = $arrRow['intNPCID'];
 				$arrNPCInfo['strNPCName'] = $arrRow['strNPCName'];
+				$arrNPCInfo['strShortName'] = $arrRow['strShortName'];
 				$arrNPCInfo['intWeight'] = $arrRow['intWeight'];
 				$arrNPCInfo['intHeight'] = $arrRow['intHeight'];
 				$arrNPCInfo['intExperienceGiven'] = $arrRow['intExperienceGiven'];
@@ -151,11 +154,15 @@ class RPGNPC{
 	private function loadNPCInstanceInfo($intRPGCharacterID){
 		$objDB = new Database();
 		$arrNPCInfo = array();
-			$strSQL = "SELECT *
-						FROM tblnpcinstance
-							WHERE intNPCID = " . $objDB->quote($this->_intNPCID) . "
-								AND intRPGCharacterID = " . $objDB->quote($intRPGCharacterID);
-			$rsResult = $objDB->query($strSQL);
+		$strSQL = "SELECT *
+					FROM tblnpcinstance
+						WHERE intNPCID = " . $objDB->quote($this->_intNPCID) . "
+							AND intRPGCharacterID = " . $objDB->quote($intRPGCharacterID);
+		$rsResult = $objDB->query($strSQL);
+		if(!$rsResult){
+			$this->setNPCInstanceID(0);
+		}
+		else{	
 			while ($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
 				$arrNPCInfo['intLevel'] = $arrRow['intLevel'];
 				$arrNPCInfo['intExperience'] = $arrRow['intExperience'];
@@ -169,12 +176,12 @@ class RPGNPC{
 				$arrNPCInfo['intDigestionRate'] = $arrRow['intDigestionRate'];
 				$arrNPCInfo['intNPCInstanceID'] = $arrRow['intNPCInstanceID'];
 			}
-		$this->populateInstanceVarFromRow($arrNPCInfo);	
-		$this->_objStats->setRPGCharacterID($intRPGCharacterID);
-		$this->_objStats->loadBaseInstanceStats();
-		$this->setCurrentHP($this->getModifiedMaxHP());
-		$this->_objGrowth = new RPGNPCGrowth($this->_intNPCID);
-		$this->_intRequiredExperience = $this->loadRequiredExperience();
+			$this->populateInstanceVarFromRow($arrNPCInfo);	
+			$this->_objStats->setRPGCharacterID($intRPGCharacterID);
+			$this->_objStats->loadBaseInstanceStats();
+			$this->_objGrowth = new RPGNPCGrowth($this->_intNPCID);
+			$this->_intRequiredExperience = $this->loadRequiredExperience();
+		}
 	}
 	
 	public function save(){
@@ -188,7 +195,8 @@ class RPGNPC{
 						intRelationshipEXP = " . $objDB->quote($this->_intRelationshipEXP) . ",
 						intCurrentHunger = " . $objDB->quote($this->_intCurrentHunger) . ",
 						intHungerRate = " . $objDB->quote($this->_intHungerRate) . ",
-						intDigestionRate = " . $objDB->quote($this->_intDigestionRate) . "
+						intDigestionRate = " . $objDB->quote($this->_intDigestionRate) . ",
+						intCurrentHP = " . $objDB->quote($this->_intCurrentHP) . "
 						WHERE intRPGCharacterID = " . $objDB->quote($this->_intRPGCharacterID) . "
 							AND intNPCID = " . $objDB->quote($this->_intNPCID);
 		$objDB->query($strSQL);
@@ -442,6 +450,30 @@ class RPGNPC{
 		return round($this->_objStats->getBaseStats()['intMaxHP'] + ($this->_objStats->getCombinedStats('intVitality') / 2));
 	}
 	
+	public function getModifiedStrength(){
+		return $this->_objStats->getCombinedStats('intStrength');
+	}
+	
+	public function getModifiedIntelligence(){
+		return $this->_objStats->getCombinedStats('intIntelligence');
+	}
+	
+	public function getModifiedVitality(){
+		return $this->_objStats->getCombinedStats('intVitality');
+	}
+	
+	public function getModifiedAgility(){
+		return $this->_objStats->getCombinedStats('intAgility');
+	}
+	
+	public function getModifiedWillpower(){
+		return $this->_objStats->getCombinedStats('intWillpower');
+	}
+	
+	public function getModifiedDexterity(){
+		return $this->_objStats->getCombinedStats('intDexterity');
+	}
+	
 	public function getModifiedDamage(){
 		return round(($this->_objStats->getCombinedStats('intStrength') / 2) + $this->getEquippedWeapon()->getDamage());
 	}
@@ -548,6 +580,14 @@ class RPGNPC{
 	
 	public function setNPCName($strNPCName){
 		$this->_strNPCName = $strNPCName;
+	}
+	
+	public function getShortName(){
+		return $this->_strShortName;
+	}
+	
+	public function setShortName($strShortName){
+		$this->_strShortName = $strShortName;
 	}
 	
 	public function getWeight(){
