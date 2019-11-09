@@ -191,10 +191,10 @@ class RPGCharacter{
 		else{
 			$this->_objBody = new RPGCharacterBody($this->_intRPGCharacterID);
 		}
+		$this->loadStatusEffects();
 		$this->_objStats->loadBaseStats();
 		$this->_objStats->loadAbilityStats();
 		$this->_objStats->loadStatusEffectStats();
-		$this->loadStatusEffects();
 		$this->loadPartyMembers();
 		$this->_intRequiredExperience = $this->loadRequiredExperience();
 		if($this->_objCurrentFloor->getFloorID() != 0 && $this->_objCurrentFloor->getFloorID() != NULL){
@@ -465,7 +465,6 @@ class RPGCharacter{
 						WHERE intRPGCharacterID = " . $objDB->quote($this->getRPGCharacterID());
 		$rsResult = $objDB->query($strSQL);
 		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
-			
 			$objStatusEffect = new RPGStatusEffect($arrRow['strStatusEffectName']);
 			if($objStatusEffect->getStatusEffectName() == "Hungry"){
 				$this->_objStats->activateHunger();
@@ -496,7 +495,6 @@ class RPGCharacter{
 	
 	public function loadPartyMembers(){
 		$objDB = new Database();
-		$this->_arrStatusEffectList = array();
 		$strSQL = "SELECT strPartyObj, intNPCInstanceID, blnIsActive, intNPCID, strNPCName, intPartyMemberID
 					FROM tblpartymember
 						INNER JOIN tblnpcinstance

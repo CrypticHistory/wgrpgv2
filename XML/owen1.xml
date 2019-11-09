@@ -16,7 +16,7 @@
 		
 		The man leaves the bar for a short time, and when he returns, a barkeep is following closely behind. He motions for you to follow him, and he leads you through a door behind the bar.
 
-		"I'm on a shift, so I can't be too long. I just got someone to fill in while I'm with you," he talks to you over his shoulder, leading you down a hallway. You pass by the kitchen; chatter and clanking of pots and pans can be heard, and a whaff of fried foods can be briefly smelled. "I'm Owen, by the way," the man raises his voice over the kitchen noise. "As you can probably guess, I run this pub."
+		"We're swamped tonight, so I can't be too long. I just got someone to fill in while I'm with you," he talks to you over his shoulder, leading you down a hallway. You pass by the kitchen; chatter and clanking of pots and pans can be heard, and a whaff of fried foods can be briefly smelled. "I'm Owen, by the way," the man raises his voice over the kitchen noise. "As you can probably guess, I run this pub."
 		</eventText>
 		<eventText precondition='BMI&lt;80'>
 		
