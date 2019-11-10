@@ -130,7 +130,7 @@ To demonstrate, Norman holds out his staff and you watch as it glows a bright bl
 Norman lowers his staff and lets it rest against the coffee table. You blink, trying your best to understand everything the old mage is telling you. You're thankful for the quiet library, for without it you might have lost your concentration a number of times!
 
 "Now, I have the utmost faith in your abilities, so let's see if we can start you off on a more difficult assignment right off the bat. Return to me upon defeating 5 Skeleton Mages in a duel of magic, and I shall continue with our next lecture. You can find Skeleton Mages on the 2nd floor of the tower. Are you up for the task?"</eventText>
-		<option id='20' action='startNewQuest~1&amp;RelationshipGainRelationshipEXP~50'>"Yes. I'm ready."</option>
+		<option id='20' action='startNewQuest~2&amp;RelationshipGainRelationshipEXP~50'>"Yes. I'm ready."</option>
 		<option id='21'>"No. I'm not ready yet."</option>
 	</dialog>
 	<dialog id='19'>

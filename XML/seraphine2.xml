@@ -34,7 +34,7 @@
 					"It would make me soooo happy if you'd eat these cupcakes for me! I hope you can let bygones be bygones and take this first step toward our new friendship!"</eventText>
 		<option id='1' action='RelationshipGainRelationshipEXP~100'>Accept</option>
 		<option id='2'>Refuse</option>
-		<option id='3' action='RelationshipGainRelationshipEXP~50'>Ask her to eat the cupcakes instead</option>
+		<option id='3' action='RelationshipGainRelationshipEXP~50&amp;RelationshipGainWeight~10'>Ask her to eat the cupcakes instead</option>
 	</dialog>
 	<dialog id='1'>
 		<eventText>You smile and pick up the first of six cupcakes. The fairy perks up and leans toward you slightly, excitement in her eyes.

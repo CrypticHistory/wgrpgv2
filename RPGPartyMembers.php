@@ -23,7 +23,8 @@ class RPGPartyMembers{
 		}
 		
 		foreach($this->getReservePartyMembers() as $strNPCName => $objNPC){
-			$strSQL .= $strComma . "(" . $objDB->quote($objNPC->getPartyMemberID()) . ", " . $objDB->quote($objNPC->getNPCInstanceID()) . ", NULL, 0)";
+			$strSQL .= $strComma . "(" . $objDB->quote($objNPC->getPartyMemberID()) . ", " . $objDB->quote($objNPC->getNPCInstanceID()) . ", '', 0)";
+			$strComma = ", ";
 		}
 		$strSQL .= " ON DUPLICATE KEY UPDATE intPartyMemberID = VALUES(intPartyMemberID), intNPCInstanceID = VALUES(intNPCInstanceID), strPartyObj = VALUES(strPartyObj), blnIsActive = VALUES(blnIsActive)";
 		

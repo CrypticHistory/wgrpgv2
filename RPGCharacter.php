@@ -1960,6 +1960,12 @@ class RPGCharacter{
 		}
 	}
 	
+	public function addReservePartyMember($intNPCID){
+		$objNPC = new RPGNPC($intNPCID, $this->_intRPGCharacterID);
+		$this->getPartyMembers()->addReservePartyMember($objNPC);
+		$this->getPartyMembers()->save();
+	}
+	
 	public function getSleep($intHours){
 		$this->setTime(RPGTime::addHoursToTime($_SESSION['objRPGCharacter']->getTime(), $intHours));
 		$this->digestItems($intHours);

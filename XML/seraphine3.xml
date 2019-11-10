@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>2</end>
+	<end>3</end>
+	<end>5</end>
+	<end>6</end>
+	<type>Forced Event</type>
+	<precondition>CurrentFloorID=3</precondition>
+	<dialog id='0'>
+		<eventText>"Help!!! Help me!! Somebody please!!! He--mphhh"
+
+Alarmed by the sudden cries for help, you lift your weapon and approach with caution. The voice is familiar; you recognize it as Seraphine the fairy's, having already encountered her twice before.
+
+Wading your way through dense swamp waters, you can hear the cries less clear now, replaced with a sinister gargling. You clear aside vines to reveal</eventText><eventText precondition="LikesFatOthers=0"> a disturbing scene:</eventText><eventText precondition="LikesFatOthers=1"> an arousing scene:</eventText><eventText> Seraphine is spread eagle on the dirt, limbs held down by thick globs of blue slime. That same slime forms an arc, funnelling itself directly down Seraphine's throat, forcing her to consume. With every gulp of slime, Seraphine's</eventText>
+		<eventText precondition="RelationshipBMI&gt;39"> already sizeable stomach expands outward rapidly.</eventText>
+		<eventText precondition="RelationshipBMI&lt;=39"> stomach expands outward rapidly.</eventText>
+		<eventText> If this keeps up Seraphine will be immobile in no time!</eventText>
+		<option id="1" action="RelationshipGainRelationshipEXP~100&amp;RelationshipGainWeight~40">Help her</option>
+		<option id="2" action="RelationshipGainWeight~80">Leave her</option>
+		<option precondition="LikesFatOthers=1" action="RelationshipGainWeight~80" id="3">Watch it happen</option>
+	</dialog>
+	<dialog id="1">
+		<eventText>You can't just sit by idly when someone is in danger, you must help her! Hyping yourself up, you let out a battlecry and leap forward, bringing your weapon crashing down on the slime. It erupts like a volcano upon your strike, launching gelatinous substance out in all directions. Once the shower of slime finishes, you turn to Seraphine and assess her condition.
+
+"Thank heavens!! You saved me {getRPGCharacterName}!!" Seraphine rejoices. "If you had arrived any later, I'd be a goner!!"
+
+"I'm glad I made it in time, then," you reply.
+
+Seraphine lifts herself to her feet with noticeable difficulty due to her newly added padding. Her skirt and blouse have torn after wrestling to keep her growing belly contained. She pats down her thighs and arms, her fat jiggling wildly in the process.
+
+"I just got these clothes and they're already ruined!!" she complains. "I don't get paid enough for this!!"</eventText>
+		<option id="4">What happened here anyways?</option>
+	</dialog>
+	<dialog id="2">
+		<eventText>You really don't have time for this. Plus, Seraphine tried to force feed you on multiple occasions. She is no better than the slimes on this floor! Turning around, you step through vines onto a different path, away from the commotion. Who are you to interfere with karma?</eventText>
+	</dialog>
+	<dialog id="3">
+		<eventText>The thought of someone being fed til immobile turns you on, you can't lie to yourself. The moral thing to do would be to help Seraphine, but that isn't much fun, is it now?
+
+You crouch down in a clearing, pushing aside vines just enough to watch the scene unfurl. Seraphine's body is already undergoing some massive changes. Her belly, slathered in gooey blue slime, stands out the most. You've never seen a belly so big, not on a human at least, but Seraphine is not human. Perhaps fairies have bigger stomach capacities?
+
+"Mmmhmppph--" Seraphine's cries for help devolve into muffled gargles. The slime forcing itself inside her is slowly shrinking. Able to fight back against the weakened slime, Seraphine flails her arms and legs. She pounds the ground, up and down, in attempts to reach somebody, anybody for help. But you won't help her. You're enjoying this. Soon her arms and legs stop moving altogether, growing too flabby for her to even lift.
+
+It must be so difficult, Seraphine. You were so tiny, but now you're approaching immobility. Will your muscles even be able to hold your weight after this? How will you be able to fly? It'll be impossible. You're a whale now, and whales can't fly. But, this is what you deserve. This is karma. You tried to force-feed me, to turn me into the ball of lard you've now become. This is your divine punishment.
+
+You watch as the last of the slime slides down Seraphine's throat, and she lets it happen without struggling. Even after it's over, she remains still, lying on the ground covered in slime. Perhaps she is in a food coma. Perhaps it is better that way; she won't know that you could have helped, but you didn't.
+
+You step through the clearing to get a closer look at Seraphine's body. She's nearly tripled in size since you ran into her on the second floor, unrecognizable now in her grotesquely fattened form. Scraps of her skirt and blouse lay tattered around her. Nothing covers her exposed breasts; in fact you're not even sure there are bras big enough for their size now. Her enlarged thighs are sprawled out like fallen tree trunks. You wish so badly to feel them, feel their gelatinous form, much like the slime that was fed to her.
+
+How scandalous that she doesn't know you're ogling her. What she doesn't know won't hurt her. But, you'd better be on your way before she wakes up. That'd be a sticky situation you don't wish to deal with. You take one last lustful look at Seraphine the tutorial blob, and then head on your way.</eventText>
+	</dialog>
+	<dialog id="4">
+		<eventText>"Well, it's my job as a tutorial fairy to find struggling adventurers and show them the ropes, you know?? I was just flying around this swamp floor looking for new friends, then out of nowhere I got hit with slime, right on my wings!!" She reaches behind her and pulls a long strip of goo off her wings, shaking it off her hands vigorously. "It's so gross, right?? I can't fly with this slime on my wings!!"
+
+"So then I fell to the ground, which really hurt, by the way!! And that demon slime pinned me down!! I was stuck, I couldn't move at all, and then it started force feeding me itself!! That's when you came to rescue me!!"
+
+"Quite the sticky situation, huh {getRPGCharacterName}??" she cheekily exclaims. "The slime really did a number on my figure!! I doubt my wings can even carry my weight now!! You might have to roll me out of the tower!!" She slaps her hanging belly, driving the point home.
+
+"Hey..!! Do you think maybe I could tag along with you??" she asks. "At least until I work off these extra pounds??"</eventText>
+		<option id="5" action="addReservePartyMember~2">Sure!</option>
+		<option id="6">No thanks</option>
+	</dialog>
+	<dialog id="5">
+		<eventText>"Great!! Thank you, {getRPGCharacterName}!!" Seraphine pumps her fists to the sky in celebration, her arm rolls flapping like a second pair of wings in the process. "You're a real pal, you know that??"
+
+You nod. She may slow you down, but you can't just leave her alone with all these dangerous monsters.
+
+"Can you hold your own in battle?" you ask.
+
+"I sure can!!" She proudly places her hands on her hips. "I can bake real well!! I have enough cupcakes to feed a small army!! Which reminds me, are you hungry?? I have cupcakes if you are!!"
+
+"No, no, I'm fine... wait, how does that help in battle?"
+
+"I distract the enemies with my cupcakes and you do your thing!! Like how you defeated that slime monster!! We'll make a great team!!" Seraphine stomps up and down in joy, as much as gravity allows for in her now-rotund form.
+
+You don't really understand, but she did make it to floor 3 on her own, perhaps there is some merit to what she says?
+
+"Alright, let's go then," you instruct her.
+
+"Aye aye captain!!"
+
+<![CDATA[<i>]]>Seraphine has joined your party reserves! You may add her to your active party in the Social tab while in town.<![CDATA[</i>]]></eventText>
+	</dialog>
+	<dialog id="6">
+		<eventText>"Wow!! How rude!!" Seraphine pouts. "Hmph!! I guess I'll just walk my way out of here then!!"
+
+With that, she turns and waddles away, her chubby thighs slapping against each other with every step. You let out a sigh. Letting her tag along would be the right thing to do, but honestly you're just glad you don't have to put up with her anymore.</eventText>
+	</dialog>
+</event>

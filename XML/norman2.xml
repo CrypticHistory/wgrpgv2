@@ -1,19 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <event>
-	<end>1</end>
 	<end>2</end>
+	<end>8</end>
 	<type>Forced Event</type>
 	<precondition>TownID=1</precondition>
 	<precondition>RelLevelFromID=1</precondition>
 	<dialog id='0'>
-		<eventText>Norman turn in quest.</eventText>
-		<option id='1' action='turnInQuest~2~4~5'>Accept</option>
-		<option id='2'>Refuse</option>
+		<eventText>Norman peaks his head up from the book it was previously buried. His lips, barely visible underneath his thick beard, curl into a smile, and wrinkles form beneath his crescent moon eyes.
+
+"Ah, [name]!" he greets, "I've been eagerly awaiting your return!"
+
+The book claps shut and he places it back on the shelf.
+
+"You've been training hard, have you? Completed your task yet?"</eventText>
+		<option id='1' precondition="isQuestCompleted~2=1" action='turnInQuest~2~4~5&amp;RelationshipGainRelationshipEXP~100'>Yes, I defeated 5 Skeleton Mages as instructed</option>
+		<option precondition="isQuestCompleted~2=0" id='2'>Not yet</option>
 	</dialog>
 	<dialog id='1'>
-		<eventText>Turned in.</eventText>
+		<eventText>"Excellent! I knew it would be easy for someone of your skill level. Now, follow me to the back room for your next lesson!"</eventText>
+		<option id='3'>Follow him</option>
 	</dialog>
 	<dialog id='2'>
-		<eventText>Not turn in.</eventText>
+		<eventText>"No worries then. Take your time, complete the task, and you know where to find me."</eventText>
+	</dialog>
+	<dialog id='3'>
+		<eventText>After a long and tiring hour of Norman's lectures, you emerge with newfound knowledge of the arcane.
+
+<![CDATA[<i>]]>You have learned the ways of the Caster!<![CDATA[</i>]]>
+
+Norman and you sit at the back of the library, in the comfortable chairs he first taught you about magic and spellcasting.
+
+"You've come a long way, {getRPGCharacterName}," Norman encourages. "How does it feel?"</eventText>
+		<option id="4">Exhausting!</option>
+	</dialog>
+	<dialog id="4">
+		<eventText>Norman laughs heartily. "Yes, it can be a strain on both the mind and bond at first, but you will learn to pace yourself and manage your mana proper."
+
+"Though, I must say, you have learned faster than any other student I've had. I knew there was something special about you, from the way your mana radiated so strongly. It was impossible to ignore then, and it is even more apparent now."</eventText>
+		<option id="5">What do you mean by "radiated"?</option>
+	</dialog>
+	<dialog id="5">
+		<eventText>"Every living thing has an aura of mana around them; this is the passive mana that is constantly being expelled from their being to maintain equilibrium. Your aura happens to be particularly powerful."</eventText>
+		<option id="6">I see</option>
+	</dialog>
+	<dialog id="6">
+		<eventText>"It is a good thing, {getRPGCharacterName}. You have a lot of spirit!" he adds. "But remember, a big pool of mana can be dangerous if you can't control it. Take my ex-wife for example; brilliant aura, but unlike you, she had difficulties controlling her mana. She always was a loose cannon."
+
+Norman tugs at his beard idly. "But that's in the past. I left her and Desmiya behind to pursue my studies. The government here has paid me handsomely for my research over the years, so I can't complain."
+
+Norman crosses his hands in front of him, and nods at you. "How about you, {getRPGCharacterName}?" he inquires. "How are your adventures in the tower going so far?"</eventText>
+		<option id="7">They've been going well. I've made it pretty far!</option>
+	</dialog>
+	<dialog id="7">
+		<eventText>"Good, good, keep it up," he cheers. "If there is anyone who can reach the top, it will be you!"
+
+He rubs his moustache, his mood becoming more somber now.
+
+"Though... I assume you know of the tower's risks?" he asks.</eventText>
+		<option id="8">I know it's dangerous, but the rewards seem worthwhile</option>
+	</dialog>
+	<dialog id="8">
+		<eventText>"Dangerous is quite an understatement. You're an exceptional caster, but there are some monsters in that tower that I'm not even sure magic can defeat," he ruminates, perhaps recalling a past experience.
+		
+		"I cannot explore the tower myself, old age and all, but I have had students explore the higher floors of the tower, never to return. Some have entered fit for battle and returned morbidly obese, with shattered resolve. The riches of the tower carry a heavy burden, {getRPGCharacterName}."
+		
+		</eventText>
+		<eventText precondition="BMI&lt;40">"Thanks for your concern, but I will be alright," you reassure Norman.</eventText>
+		<eventText precondition="BMI&gt;=40&amp;LikesFatSelf=1&amp;Personality=Confident">"Believe me," you reply, slapping your plump midsection with both hands, "I'm well aware."</eventText>
+		<eventText precondition="BMI&gt;=40&amp;LikesFatSelf=1&amp;Personality=Stoic">"Thank you for your concern. However, it would seem I'm already carrying that burden," you reply, gesturing toward your expanded midsection. "Even still, I will be fine. A bit of extra weight won't hold me back from my goals."</eventText>
+		<eventText precondition="BMI&gt;=40&amp;LikesFatSelf=1&amp;Personality=Shy">"Thank you for your concern. I have put on a few pounds already," you gesture meekly towards your midsection, "but I won't let that stop me. At this rate, I'll just have to get used to carrying around this excess weight."</eventText>
+		<eventText precondition="BMI&gt;=40&amp;LikesFatSelf=0">"Unfortunately, I'm already carrying that burden," you reply, looking down at your expanded midsection with disgust. "I won't let the weight stop me from achieving my goals, though."</eventText>
+		<eventText>
+		
+		Norman smiles, but there is sadness in his eyes.
+
+"Just be careful, {getRPGCharacterName}. I don't wish to lose another friend to the monster that is Turris Puesco."</eventText>
 	</dialog>
 </event>

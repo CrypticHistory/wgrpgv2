@@ -48,7 +48,7 @@ class DisplayCharacterSocial{
 									echo $_SESSION['objUISettings']->getDisableParty() || !$_SESSION['objRPGCharacter']->getTownID() ? "" : "<tr><td colspan='5' class='textCenter'><a href='changeEventWindow.php?changeTo=PartyView'>[ Modify Party ]</a></td></tr>";
 								}
 								else{
-									echo "<tr><td colspan='5' class='textCenter'>No Active Party</td></tr>" . $_SESSION['objUISettings']->getDisableParty() ? "" : "<tr><td class='textCenter'><a href='changeEventWindow.php?changeTo=PartyView'>[ Modify Party ]</a></td></tr>";
+									echo "<tr><td colspan='5' class='textCenter'>No Active Party</td></tr>" . ($_SESSION['objUISettings']->getDisableParty() ? "" : "<tr><td colspan='5' class='textCenter'><a href='changeEventWindow.php?changeTo=PartyView'>[ Modify Party ]</a></td></tr>");
 								}
 							}
 							else{
