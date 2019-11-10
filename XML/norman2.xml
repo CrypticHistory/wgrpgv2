@@ -8,7 +8,7 @@
 	<dialog id='0'>
 		<eventText>Norman peaks his head up from the book it was previously buried. His lips, barely visible underneath his thick beard, curl into a smile, and wrinkles form beneath his crescent moon eyes.
 
-"Ah, [name]!" he greets, "I've been eagerly awaiting your return!"
+"Ah, {getRPGCharacterName}!" he greets, "I've been eagerly awaiting your return!"
 
 The book claps shut and he places it back on the shelf.
 
