@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>2</end>
+	<end>3</end>
+	<end>11</end>
+	<end>12</end>
+	<end>13</end>
+	<type>Forced Event</type>
+	<precondition>TownID=1</precondition>
+	<dialog id='0'>
+		<eventText>Entering the fine establishment, you find yourself in a well lit room filled with the low drone of chatter. A serving man greets you.
+
+"Good evening, </eventText><eventText precondition="Gender=Male">sir,</eventText><eventText precondition="Gender=Female">madam,</eventText><eventText> do you have a reservation?"</eventText>
+		<eventText precondition="Gold&lt;55">
+		
+		You don't have a reservation, nor do you have enough money to even afford a meal at this fancy place. You should apologize and leave.</eventText>
+		<option id="1" precondition="Gold&gt;=55">No reservation</option>
+		<option id="2" precondition="hasViewedCheckpoint~1~10&gt;=3&amp;hasViewedCheckpoint~7=1" action="setEventWithinEvent~48~0">Hand him your VIP voucher</option>
+		<option id="3">Return to Commercial District</option>
+	</dialog>
+	<dialog id="1">
+		<eventText>"That's alright. Is it a table for one?" the server asks.</eventText>
+		<eventText precondition="Personality=Shy">
+		
+		You hesitate, feeling a bit embarrassed about eating alone. But you came here to eat, so that's what you'll do.</eventText>
+		<eventText>"Yes, for one, please."
+
+"Alright, if you'll just wait one moment, I will go see what our availability is."
+
+While the server is gone, you take a moment to observe your surroundings. Looking about, you see dozens of people eating and making merry. The dishes are as varied as the people you see, as you find yourself looking at the city's elite eating near some of the working class families. You see various landscape paintings scattered across the walls along with those of the higher ups of Turici throughout the years.  The walls themselves are primarily a pleasant blue color, with brown oak paneling on the top and bottom.
+
+The server returns quickly, before leading you to your seat. Sitting down, you find yourself surrounded by the scents of a myriad of dishes. Your table is large, much larger than you'd expect to be given to one or even two people.</eventText>
+		<eventText precondition="LikesFatSelf=1"> Mouth watering, you glance over your options on what to eat...</eventText>
+		<eventText precondition="LikesFatSelf=0&amp;BMI&lt;30"> Mouth watering, you glance over your options on what to eat...</eventText>
+		<eventText precondition="LikesFatSelf=0&amp;BMI&gt;=30"> You glance at the couple seated across from you; a slender woman in a red dress and a bearded man in a suit as her counterpart.</eventText>
+		<eventText precondition="LikesFatSelf=0&amp;BMI&gt;=30&amp;BMI&lt;40"> Then you glance down at your belly spilling over your lap. Comparing your chubby self to the fit couple beside you makes you a bit self-conscious, but you try your best to shrug it off. Mouth watering, you glance over your options on what to eat...</eventText>
+		<eventText precondition="LikesFatSelf=0&amp;BMI&gt;=40&amp;BMI&lt;50"> Then you glance down at your belly, embarrassed as it presses against the dining table. Comparing your fat self to the fit couple beside you makes you self-conscious. Perhaps you should order a salad...</eventText>
+		<eventText precondition="LikesFatSelf=0&amp;BMI&gt;=50"> Then you glance down at your own belly, embarrassed as it spills onto the dining table, forcing you to push back your chair to sit. Even your thighs are too big to fit in the chair, and some fat hangs over the sides. Comparing your corpulent self to the fit couple beside you makes you self-conscious. Perhaps you should order a salad...</eventText>
+		<option id="4" action="Weight+1&amp;Gold-25">Order Veal Parmesan</option>
+		<option id="5" action="Weight+1&amp;Gold-25">Order Pizza</option>
+		<option id="6" action="Weight+1&amp;Gold-25">Order Lasagna</option>
+		<option id="7" action="Gold-30">Order Swordfish</option>
+		<option id="8" action="Weight+1&amp;Gold-25">Order Ravioli</option>
+		<option precondition="LikesFatSelf=0&amp;Gold-20" id="9">Order Salad</option>
+	</dialog>
+	<dialog id="2">
+	
+	</dialog>
+	<dialog id="3">
+	
+	</dialog>
+	<dialog id="4">
+		<eventText>You order veal parmesan, handing the menu back to your server while sipping on your drink. Before too long you see your server returning with your meal. A heavy platter weighed down with a pair of choice cuts of veal, the meat is slathered with a heavy red sauce that itself is garnish with grated parmesan cheese. The scent of cheese, breaded veal, and tomato overpowers your nose, causing your belly to ache even as you bring your eating utensils forward.
+
+The meat is soft and breaks easily as you bite into it, revealing the smooth taste of veal cut softly with the breaded crust and tomato sauce. The parmesan cheese is the final flavor to court your tongue, bringing it down after each bite with a nutty taste, making you ready for the flare of the next bite of veal. The two cuts of veal are quickly put away in your pleased belly as you wipe your mouth of their remains.
+
+<![CDATA[<i>]]>25 Gold spent<![CDATA[</i>]]></eventText>
+		<option id="10" action="viewCheckpoint~1&amp;Weight+1&amp;Gold-25">Order Seconds</option>
+		<option id="13">Finished Eating</option>
+	</dialog>
+	<dialog id="5">
+		<eventText>You order a pizza, handing the menu back to your server while sipping on your drink. Before too long you see your server returning with your meal. A large serving platter carrying a whole pizza atop it! The server awkwardly places the pizza before you, but the table is quite able to hold the entire thing! 
+
+The smell of oven baked cheese and sausage wafts into your nostrils, causing your mouth to water as you grip the first piece of the large meal. You fit the cheesy triangle into your mouth, letting the overwhelming taste of cheese to take over your mouth as you scarf the first piece down! Piece after piece of pizza is devoured in this manner, until finally you find yourself looking at a battlefield of a table. Nothing left, all disappeared into your belly.
+
+<![CDATA[<i>]]>25 Gold spent<![CDATA[</i>]]></eventText>
+		<option id="10" action="viewCheckpoint~1&amp;Weight+1&amp;Gold-25">Order Seconds</option>
+		<option id="13">Finished Eating</option>
+	</dialog>
+	<dialog id="6">
+		<eventText>You order lasagna, handing the menu back to your server while sipping on your drink. Before too long you're served your meal. A large brick of pasta layered with thick rivers of cheese, the dish looks almost as good as it smells! It isn't long before you're digging into the dish.
+
+The first bite explodes onto your tongue as you savor it. The cheese, pasta, and garlic fill your mouth. The soft texture easily yields as your teeth part the pasta, allowing the taste to fill your mouth to the fullest! The meal is easily devoured, the crumbs all that remains on the plate as you rub your satisfied belly.
+
+<![CDATA[<i>]]>25 Gold spent<![CDATA[</i>]]></eventText>
+		<option id="10" action="viewCheckpoint~1&amp;Weight+1&amp;Gold-25">Order Seconds</option>
+		<option id="13">Finished Eating</option>
+	</dialog>
+	<dialog id="7">
+		<eventText>You order a something a bit different and... more expensive. Handing the menu back to your server, you sip on your drink for a bit. It isn't long before you see your server returning with a heavy platter! Your meal atop it, a swordfish cooked to perfection! Cut into strips, it's garnished with a side of rosemary and ready to eat!
+
+You bring the first bite to your lips and feel the soft texture of the flesh peel away as you enjoy the savory flavor of the meat while also detecting a hint of lemon and dill. It's captivating, and you can hardly slow yourself down as each steak slides down your gullet into your rapidly filling belly! By the end, you exhale gently and lean back to the feeling of a good meal eaten.
+
+<![CDATA[<i>]]>30 Gold spent<![CDATA[</i>]]></eventText>
+		<option id="10" action="viewCheckpoint~1&amp;Weight+1&amp;Gold-25">Order Seconds</option>
+		<option id="13">Finished Eating</option>
+	</dialog>
+	<dialog id="8">
+		<eventText>You order Four Cheese Ravioli, handing the menu back to your server while sipping on your drink. Before too long you're served your meal. Off white pasta shells ensconced in a deep scarlet sauce and garnished lightly with basil! As its placed before you, the scent of tomato mixed with cheese wafts upwards, causing your mouth to water even as you grip your eating utensils. 
+
+You bring the first bite forward, your teeth sinking into the soft pasta shell before the flavor explodes into your mouth! A savory, cheesy delight, you quickly devour it before bringing the next to bear. Bite after bite are eaten in this manner, before the dish is demolished in rapid time.
+
+<![CDATA[<i>]]>25 Gold spent<![CDATA[</i>]]></eventText>
+		<option id="10" action="viewCheckpoint~1&amp;Weight+1&amp;Gold-25">Order Seconds</option>
+		<option id="13">Finished Eating</option>
+	</dialog>
+	<dialog id="9">
+		<option id="13">Finished Eating</option>
+	</dialog>
+	<dialog id="10">
+		<eventText>You know you shouldn't, but the food has a hypnotizing lure over you, commanding you to pursue a second helping. Almost against your will, your arm lifts and motions for the waiter.
+
+"Yes, I'll have seconds please," you explain to the waiter as he refills your cup with water. "Thank you."</eventText>
+		<eventText precondition="Personality=Shy">
+		
+		You catch the couple beside you staring you down with disgust, and you know full well the reason for this. You flinch and your eyes dart down at the tablecloth. You think of reneging your order, but it's too late; the waiter is already gone. Well, they've already started on your order, you might as well follow through. Everyone around you is staring at you, judging you, and every fit of laughter is directed at you. Or perhaps it's all in your head. Anxious, you play with your napkin, ripping off little shreds while you wait for your order to arrive.</eventText>
+		<eventText precondition="Personality=Confident">
+		
+		You catch the couple beside you staring you down with disgust, and you know full well the reason for this. But it doesn't phase you. You glare back at them until they continue picking at their food. <![CDATA[<i>]]>Mind your damn business.<![CDATA[</i>]]></eventText>
+		<eventText precondition="Personality=Stoic">
+		
+		You catch the couple beside you staring you down with disgust, and you know full well the reason for this. But it doesn't phase you. You were still hungry so you ordered a second helping. That's all there is to it.</eventText>
+		<eventText>
+		
+Before you know it, you're already devouring another plate of food...</eventText>
+		<option id="11" precondition="hasViewedCheckpoint~1~10&lt;3">Finished Eating</option>
+		<option id="11" precondition="hasViewedCheckpoint~7=1">Finished Eating</option>
+		<option id="12" precondition="hasViewedCheckpoint~1~10&gt;=3&amp;hasViewedCheckpoint~7=0" action="viewCheckpoint~7&amp;setEventWithinEvent~47~0">Finished Eating</option>
+	</dialog>
+	<dialog id="11">
+		<eventText>You lean back in your chair, patting your stuffed belly in satisfaction.</eventText>
+		<eventText precondition="Personality=Shy"> You softly belch, covering your mouth with your napkin.</eventText>
+		<eventText precondition="Personality=Confident"> You let out a loud belch, ignoring the heads you turn.</eventText>
+		<eventText precondition="Personality=Stoic"> You let out a loud belch, ignoring the heads you turn.</eventText>
+		<eventText> What a meal! This place has certainly earned its reputation, you think to yourself. The bill arrives and you sigh. Every good meal has its price, both in money and on your waistline. Lifting yourself out of your chair is quite the task, as your swollen belly hardly allows for it. It's going to be hard work walking this meal off.
+		
+		<![CDATA[<i>]]>25 Gold spent<![CDATA[</i>]]></eventText>
+	</dialog>
+	<dialog id="12">
+		
+	</dialog>
+	<dialog id="13">
+		<eventText>You lean back in your chair, patting your stuffed belly in satisfaction. What a meal! This place has certainly earned its reputation, you think to yourself. The bill arrives and you sigh. Every good meal has its price, both in money and on your waistline.</eventText>
+	</dialog>
+</event>

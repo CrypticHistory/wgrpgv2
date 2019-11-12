@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>11</end>
+	<type>Forced Event</type>
+	<precondition>hasViewedCheckpoint~7=1</precondition>
+	<dialog id='0'>
+		<eventText>You hand the waitstaff the VIP pass.
+
+"Ah! I believe Nora is busy right now, but if you will please have a seat, I will let you know when she's ready for you."
+
+Some time passes. People come and go, but nothing noteworthy happens, until...
+
+A procession of well-dressed men and women make their way through the restaurant from the back. What sets them apart from the rest of the customers is their sheer size; the leading man is by far the largest with a truly monumental belly that strains the vest beneath his overcoat. His moustache is well groomed and curls at the tips. The blonde-haired woman trailing closely behind him fills out her silver velvet dress with ease, perhaps a little too well as her breasts are practically spilling out. Another man and woman follow, both significantly smaller in size, but still well-fed.
+
+"Nora never fails to disappoint!" the leading man exclaims, patting his overstuffed belly.
+
+"I'll say! Soon you won't be able to fit through that door, hun!" the lady behind remarks, prompting hearty laughter from the group. As they waddle past, they pay no attention to their surroundings, ignoring you entirely.
+
+A minute or so after the party leaves, Nora arrives and greets you.
+
+"Sorry for the wait, dear. As you probably saw, I had to serve a party of nobles from Desmiya. But, now I have you all to myself!" she says with an exhausted smile. "Please, follow me to the VIP dining room."</eventText>
+		<option id="1">Follow Her</option>
+	</dialog>
+	<dialog id="1">
+		<eventText>The VIP Dining room of La Contessa contains a large table, which could seat about 10 people. It is covered with an embroidered red and gold tablecloth. Some chairs are so close to each other they are touching. A chandelier hangs from the ceiling, illuminating the rustic room with a warm glow.
+
+"Please, have a seat! Make yourself comfortable!" Nora gestures towards the closest seat. "I will prepare something special for you."
+
+</eventText>
+		<eventText precondition="hasViewedCheckpoint~3=1&amp;BMI&gt;80">You hesitate to sit, knowing that you've already broken one due to your weight. Nora notices and comments:
+
+		"Don't worry dear, I've had guests larger than you and the chairs are still in tact! Here, use two if you need."</eventText>
+		<eventText precondition="BMI&gt;80">You pull two chairs beside each other</eventText>
+		<eventText precondition="BMI&lt;=79"> You pull up a chair</eventText>
+		<eventText> and sit with your hands on your lap. Waitstaff comes and goes, bringing you bread and filling your cup with red wine.</eventText>
+		<eventText precondition="BMI&gt;80&amp;LikesFatSelf=0">Your cheeks are a bit flushed; one chair is certainly not enough to hold your weight now, and it makes sense given how much fatter you've gotten lately.</eventText>
+		<eventText precondition="BMI&gt;80&amp;LikesFatSelf=1">It's amazing that one chair is not enough to hold your weight now, but it makes sense given how much you've been pigging out lately!</eventText>
+		<eventText>
+		
+		You take a sip of red wine, feeling the warmth travel down your throat. Next, you grab a slice of bread and eat it. Delicious! You probably shouldn't fill up before the main course, but it's so good.</eventText>
+		<option id="2">Examine Surroundings</option>
+	</dialog>
+	<dialog id="2">
+		<eventText>There are pictures lining the wall of Nora and her guests. They all are dressed similar to the noblemen and women you saw previously, while Nora is in her food-splattered apron, exhausted but still beaming.
+
+Most guests of hers are quite large in the photos, however some are thin. Actually... on closer examination, the thin guests look familiar. You recognize the leading man by his characteristic attire and moustache, but he actually looks quite fit in the first photo. Progressively, in each photo you see him in, his belly grows larger and larger, until finally it looks comically large, practically bursting the seams of its containing vest. Once a handsome man, he embodies more of a caricature of what a rich glutton would look like now.
+
+His wife is beside him in every photo as well. In the first, she looks stunningly beautiful, wearing a royal red evening dress and curvy in all the right places. In the next, you notice she looks much thicker, her belly outline visible, and her exposed arms looking plush. The biggest difference between each photo are her breasts, seemingly growing a cup size each time she reappears. By the final photo, she is no longer curvy; a more apt descriptor would be "round". Her belly bulges, pressed tight against her silver velvet dress (the one you recognize from earlier).
+
+You don't know the time frame these photos were taken within, but every guest and Nora do not seem to have aged at all, leading you to believe they are all quite recent. What exactly goes on in this room for Nora's guests to gain this much weight this fast? Either the nobles eat here often, and stuff themselves silly every time, or there is something more to it...</eventText>
+		<eventText precondition="LikesFatSelf=0&amp;BMI&lt;25">
+		
+		You glance down at your svelte frame, feeling a bit uneasy at the prospect of your body turning into that of the nobles. If you pace yourself, and don't go overboard, it should be fine, right?</eventText>
+		<eventText precondition="LikesFatSelf=0&amp;BMI&gt;=25&amp;BMI&lt;40">
+		
+		You glance down at your already plump frame, feeling a bit uneasy at the prospect of your body growing any more than it already has. Maybe a diet will be in order after this meal.</eventText>
+		<eventText precondition="LikesFatSelf=0&amp;BMI&gt;=40&amp;BMI&lt;60">
+		
+		You glance down at your already corpulent frame, feeling a bit uneasy at the prospect of your body growing any more than it already has. It's situations like these that you should be trying to avoid, damnit! You can't allow yourself to get any fatter!</eventText>
+		<eventText precondition="LikesFatSelf=0&amp;BMI&gt;=60">
+		
+		You glance down at your massive frame, feeling your neck fat curve into rolls as you do so. You're already as big as the nobles that Nora just fed, and the thought makes you ashamed of yourself. Even still, you can't stop thinking of the food to come...</eventText>
+		<eventText precondition="LikesFatSelf=1&amp;BMI&lt;25">
+		
+		You glance down at your svelte frame, feeling a bit turned on at the prospect of transforming your body into that of the nobles. The food can't come any sooner!</eventText>
+		<eventText precondition="LikesFatSelf=1&amp;BMI&gt;=25&amp;BMI&lt;40">
+		
+		You glance down at your plump frame, feeling a bit turned on at the prospect of transforming your body into that of the nobles. The food can't come any sooner!</eventText>
+		<eventText precondition="LikesFatSelf=1&amp;BMI&gt;=40&amp;BMI&lt;60">
+		
+		You glance down at your corpulent frame, feeling a bit turned on at the prospect of transforming your body into that of the largest nobles. The food can't come any sooner!</eventText>
+		<eventText precondition="LikesFatSelf=1&amp;BMI&gt;=60">
+		
+		You glance down at your massive frame, feeling your neck fat curve into rolls as you do so. You're already as big as the nobles that Nora just fed, but the thought of being even bigger turns you on. Bring on the food!</eventText>
+		<eventText>
+		
+		Some time elapses, and you begin to smell the incoming meal. Roasted garlic, tomato sauce, parsley, oregano... the scents make you salivate. Nora is carting it out now!
+
+She informs you that she's prepared for you a five course meal: veal scaloppine, penne arabiata, crab-stuffed tilapia, roasted potatoes, and salad with raspberry vinaigrette.
+
+"Only the best for my most loyal customer!" she beams, unveiling a dish before you. It's the veal scaloppine, and Gods, does it look divine! You immediately dig in.
+
+In a trance-like state, you polish off the veal dish and she unveils the next. Penne arabiata. Not even showing signs of slowing down, you continue devouring her incredible cuisine with ease. It's not long before you're on to the next dish. Time seems to go by hyper-fast, as you shovel forkful after forkful of tilapia into your mouth. Oddly enough, as you look at the remains of the dish, you feel not even the slightest bit full. It's as if you have a bottomless stomach for Nora's cooking. The potatoes and salad go down next with ease; not even slowing you at all.
+
+"Well done!" Nora exclaims, eagerly watching you devour her cooking. "That was the fastest I've seen anyone eat a five course meal of mine. How was it?"</eventText>
+		<option id="3">It was amazing!</option>
+	</dialog>
+	<dialog id="3">
+		<eventText>"Why thank you, dear. I am so glad you enjoyed it. I hope you're ready for dessert!"
+
+Dessert? You just ate a five course meal, should you really be --
+
+"I'll be right back, don't go anywhere!" Nora winks. Oh dear. It looks like you don't have a choice in the matter.
+
+With Nora back in the kitchen, you feel more comfortable to lean back in your chair. You're finally starting to feel the effects of that five course meal, patting your belly gingerly. Knowing Nora is not around to hear, you let out a belch, relieving a bit of pressure. Gods, how did you eat so much in one sitting? Any thoughts of restraining yourself were immediately extinguished as soon as you took the first bite. It's as if Nora's cooking is magical...
+
+Nora returns with the dessert: a double chocolate cheesecake. It looks incredibly rich; you're unsure if you even have the room for it, but you feel obligated to finish everything Nora brings you. Bite after bite, you feel as if you're at your limit, but you keep going.
+
+Having finished the dessert, you are stuffed beyond your limits, and you can only lean back in your chair and burp in efforts to relieve some pressure. It's amazing that you can finish all of this food... come to think of it, this would be a very expensive meal. Is Nora expecting you to pay for it all? Perhaps you should ask...</eventText>
+		<option id="4">Ask Nora</option>
+	</dialog>
+	<dialog id="4">
+		<eventText>"Oh, don't worry dear, it's on me!" Nora reassures you. "Think of it as a gesture of appreciation, for your loyalty!"
+
+"Though, there is something you can do for me that doesn't involve money..." Nora leans in closer, speaking a bit quieter. "There is a growing anti-government sentiment in this city, which is... disconcerting to me, and to some of my most loyal customers. Have you heard of the group called the Turician Knights?"</eventText>
+		<option id="5" precondition="hasViewedCheckpoint~5=1">Yes</option>
+		<option id="6">No</option>
+	</dialog>
+	<dialog id="5">
+		<eventText>Nora perks up.
+
+"What do you know of them?"</eventText>
+		<option id="7">Tell the truth</option>
+		<option id="8">Lie</option>
+	</dialog>
+	<dialog id="6">
+		<eventText>"Ah... I will inform you then. They are a band of terrorists whose goal is to overthrow Desmiyan rule of Turici. Violent people, driven by a crazed ideology. They are led by a wild, fearless, and highly dangerous woman named Iyanna Rue. She is notoriously unmatched when it comes to armed combat."
+
+Nora pauses, her lips curling into a sinister looking smirk. "But I have an idea of how to bring Iyanna down. I will make her fat, just like I've made the Desmiyan nobles fat. Just like I plan on making YOU fat!" She cackles. "It is true that Iyanna won't be broken as easy as you weak-willed gluttons, but nothing is impossible for me. My cooking can make the most disciplined fighters give up their strict diets and descend into obesity."
+
+"You see, {getRPGCharacterName}, I take great pleasure in corrupting and fattening beautiful women and handsome men. People of status, wealth and power. The nobles are some of my best work, as you can see from their gains documented on my walls." She gestures to the photos you looked at prior. "But I am missing someone like Iyanna in my collection -- that woman has a will of steel. It will be so satisfying to watch her gorge herself and slowly destroy her frame, which she spent years perfecting!"
+
+Nora pauses, closing her eyes and forming an exhausted smile. When she opens her eyes, she stares straight into yours, piercingly.
+
+"Now, Iyanna would surely know I have ties to the Desmiyan nobles. I can't get close to her, but you can," she calmly informs. "I know the Knights are interested in strong adventurers such as yourself. If you keep climbing the tower, I am sure they will take notice and approach you to join their group. Once you're in, bring me back any intel you receive. As for fattening up that bitch Iyanna... well, I will have to teach you how to be a proper feeder, like myself."
+
+<![CDATA[<i>]]>You learn the ways of the Feeder!<![CDATA[</i>]]>
+
+"Now, I'm thinking we should start small -- 10 pounds. Return to me once Iyanna Rue is 10 pounds bigger! I will provide you with the food, and you can restock at my restaurant whenever you need."</eventText>
+		<option id="11" action="addToClasses~2">Understood</option>
+	</dialog>
+	<dialog id="7">
+		<eventText>"I was approached by the leader of the Knights," you explain. "She saw my progress in climbing the tower, and wanted to recruit me as a warrior among their ranks."
+
+"Ah, so Iyanna Rue, the brave leader of the Knights herself approached you?" Nora grins, almost sinisterly. "I can work with this information..."
+
+"Now, Iyanna would surely know I have ties to the Desmiyan nobles. I can't get close to her, but you can," she calmly informs, placing her hand on yours. "{getRPGCharacterName}, please help me gain intel on the Turician Knights. I want to know what they are scheming."</eventText>
+		<option id="9">I will help you</option>
+		<option id="10">I refuse</option>
+	</dialog>
+	<dialog id="8">
+		<eventText>"I've just heard of them through gossip and rumours. Something about a resistance movement? They want to overthrow the government? That's all I really heard."
+
+"Well, that's the gist of it. They are a band of terrorists whose goal is to overthrow Desmiyan rule of Turici. Violent people, driven by a crazed ideology. They are led by a wild, fearless, and highly dangerous woman named Iyanna Rue. She is notoriously unmatched when it comes to armed combat."
+
+Nora pauses, her lips curling into a sinister looking smirk. "But I have an idea of how to bring Iyanna down. I will make her fat, just like I've made the Desmiyan nobles fat. Just like I plan on making YOU fat!" She cackles. "It is true that Iyanna won't be broken as easy as you weak-willed gluttons, but nothing is impossible for me. My cooking can make the most disciplined fighters give up their strict diets and descend into obesity."
+
+"You see, {getRPGCharacterName}, I take great pleasure in corrupting and fattening beautiful women and handsome men. People of status, wealth and power. The nobles are some of my best work, as you can see from their gains documented on my walls." She gestures to the photos you looked at prior. "But I am missing someone like Iyanna in my collection -- that woman has a will of steel. It will be so satisfying to watch her gorge herself and slowly destroy her frame, which she spent years perfecting!"
+
+Nora pauses, closing her eyes and forming an exhausted smile. When she opens her eyes, she stares straight into yours, piercingly.
+
+"Now, Iyanna would surely know I have ties to the Desmiyan nobles. I can't get close to her, but you can," she calmly informs. "I know the Knights are interested in strong adventurers such as yourself. If you keep climbing the tower, I am sure they will take notice and approach you to join their group. Once you're in, bring me back any intel you receive. As for fattening up that bitch Iyanna... well, I will have to teach you how to be a proper feeder, like myself."
+
+<![CDATA[<i>]]>You learn the ways of the Feeder!<![CDATA[</i>]]>
+
+"Now, I'm thinking we should start small -- 10 pounds. Return to me once Iyanna Rue is 10 pounds bigger! I will provide you with the food, and you can restock at my restaurant whenever you need."</eventText>
+		<option id="11" action="addToClasses~2">Understood</option>
+	</dialog>
+	<dialog id="9">
+		<eventText>"Excellent, thank you {getRPGCharacterName}!"
+
+"Oh, and in addition to intel about the Knights, I want you to do one more thing for me."
+
+Nora pauses, her face taking on a sadistic glow beneath the candlelight.
+
+"I want you to make Iyanna Rue fat."
+
+What?? Is she out of her mind? Iyanna is the fittest person you know; there is no way she will allow herself to become fat.
+
+"And how do you propose I do that?" you inquire. "She is quite disciplined about maintaining her physique."
+
+"The same way I made the nobles fat. The same way I will make YOU fat! With my cooking, of course!" She cackles. "It is true that Iyanna won't be broken as easy as you weak-willed gluttons, but nothing is impossible for me. My cooking can make the most disciplined fighters give up their strict diets and descend into obesity."
+
+"You see, {getRPGCharacterName}, I take great pleasure in corrupting and fattening beautiful women and handsome men. People of status, wealth and power. The nobles are some of my best work, as you can see from their gains documented on my walls." She gestures to the photos you looked at prior. "But I am missing someone like Iyanna in my collection -- that woman has a will of steel. It will be so satisfying to watch her gorge herself and slowly destroy her frame, which she spent years perfecting!"
+
+"Therefore, {getRPGCharacterName}, I will teach you how to be a proper feeder, like me. I can't get close to Iyanna, but you can, so you will do the feeding for me. I will provide you with the food, and you can restock here whenever you need. I'm thinking we should start small -- 10 pounds. Return to me once Iyanna Rue is 10 pounds bigger!"
+
+<![CDATA[<i>]]>You learn the ways of the Feeder!<![CDATA[</i>]]></eventText>
+		<option id="11" action="addToClasses~2">Understood</option>
+	</dialog>
+	<dialog id="10">
+		<eventText>"Oh?" Nora retracts her hand, disappointed by your response. "But you are in no position to refuse me. You admitted you were associated with the Turician Knights. I could have you arrested on the spot for treason."
+
+Shit, she's right. Your honesty really put you in a bad spot. You don't really have a choice but to side with Nora and act as an informant, lest you end up in a Desmiyan prison. And the Desmiyans are notorious for their cold, authoritarian attitude. Prison is not an option for you.</eventText>
+		<option id="12">You've forced my hand, then. I will act as your informant.</option>
+	</dialog>
+	<dialog id="11">
+		<eventText>What an ordeal. Who knew Nora had that sadistic side to her? And, she did say she was going to make you fat.</eventText><eventText precondition="LikesFatSelf=1"> That very much excites you. Working together with her will be a boon for your growing waistline.</eventText><eventText precondition="LikesFatSelf=0"> That very much worries you, but you have no choice but to cooperate with her.</eventText><eventText>
+
+Nora escorts you out of her VIP room, though you have to practical waddle out with how stuffed you are. You need to gain intel about the Turician Knights' next moves, and do your best to make Iyanna Rue fat. Somehow.</eventText>
+	</dialog>
+	<dialog id="12">
+		<eventText>"Good! Thank you, {getRPGCharacterName}," she taunts, "I look forward to working with you!"
+
+"Oh, and in addition to intel about the Knights, I want you to do one more thing for me."
+
+Nora pauses, her face taking on a sadistic glow beneath the candlelight.
+
+"I want you to make Iyanna Rue fat."
+
+What?? Is she out of her mind? Iyanna is the fittest person you know; there is no way she will allow herself to become fat.
+
+"And how do you propose I do that?" you inquire. "She is quite disciplined about maintaining her physique."
+
+"The same way I made the nobles fat. The same way I will make YOU fat! With my cooking, of course!" She cackles. "It is true that Iyanna won't be broken as easy as you weak-willed gluttons, but nothing is impossible for me. My cooking can make the most disciplined fighters give up their strict diets and descend into obesity."
+
+"You see, {getRPGCharacterName}, I take great pleasure in corrupting and fattening beautiful women and handsome men. People of status, wealth and power. The nobles are some of my best work, as you can see from their gains documented on my walls." She gestures to the photos you looked at prior. "But I am missing someone like Iyanna in my collection -- that woman has a will of steel. It will be so satisfying to watch her gorge herself and slowly destroy her frame, which she spent years perfecting!"
+
+"Therefore, {getRPGCharacterName}, I will teach you how to be a proper feeder, like me. I can't get close to Iyanna, but you can, so you will do the feeding for me. I will provide you with the food, and you can restock here whenever you need. I'm thinking we should start small -- 10 pounds. Return to me once Iyanna Rue is 10 pounds bigger!"
+
+<![CDATA[<i>]]>You learn the ways of the Feeder!<![CDATA[</i>]]></eventText>
+		<option id="11" action="addToClasses~2">Understood</option>
+	</dialog>
+</event>

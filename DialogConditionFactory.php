@@ -96,13 +96,41 @@ class DialogConditionFactory {
 		else{
 			// this is a function that takes in an argument
 			if(strpos($strCondition, '~')){
-				$variable = explode('=', $strCondition);
-				$long_function = $variable[0];
-				$bool = $variable[1];
-				$args = explode("~", $long_function);
-				$function = $args[0];
-				$arg = $args[1];
-				return (intval($_SESSION[$strSession]->$function($arg)) == intval($bool));
+				if(strpos($strCondition, '>=')){
+					$variable = explode('>=', $strCondition);
+					$long_function = $variable[0];
+					$args = explode("~", $long_function);
+					$function = $args[0];
+					return (intval($_SESSION[$strSession]->$function($args[1], (isset($args[2]) ? $args[2] : null), (isset($args[3]) ? $args[3] : null), (isset($args[4]) ? $args[4] : null), (isset($args[5]) ? $args[5] : null), (isset($args[6]) ? $args[6] : null))) >= intval($variable[1]));
+				}
+				else if(strpos($strCondition, '<=')){
+					$variable = explode('<=', $strCondition);
+					$long_function = $variable[0];
+					$args = explode("~", $long_function);
+					$function = $args[0];
+					return (intval($_SESSION[$strSession]->$function($args[1], (isset($args[2]) ? $args[2] : null), (isset($args[3]) ? $args[3] : null), (isset($args[4]) ? $args[4] : null), (isset($args[5]) ? $args[5] : null), (isset($args[6]) ? $args[6] : null))) <= intval($variable[1]));
+				}
+				else if(strpos($strCondition, '>')){
+					$variable = explode('>', $strCondition);
+					$long_function = $variable[0];
+					$args = explode("~", $long_function);
+					$function = $args[0];
+					return (intval($_SESSION[$strSession]->$function($args[1], (isset($args[2]) ? $args[2] : null), (isset($args[3]) ? $args[3] : null), (isset($args[4]) ? $args[4] : null), (isset($args[5]) ? $args[5] : null), (isset($args[6]) ? $args[6] : null))) > intval($variable[1]));
+				}
+				else if(strpos($strCondition, '<')){
+					$variable = explode('<', $strCondition);
+					$long_function = $variable[0];
+					$args = explode("~", $long_function);
+					$function = $args[0];
+					return (intval($_SESSION[$strSession]->$function($args[1], (isset($args[2]) ? $args[2] : null), (isset($args[3]) ? $args[3] : null), (isset($args[4]) ? $args[4] : null), (isset($args[5]) ? $args[5] : null), (isset($args[6]) ? $args[6] : null))) < intval($variable[1]));
+				}
+				else if(strpos($strCondition, '=')){
+					$variable = explode('=', $strCondition);
+					$long_function = $variable[0];
+					$args = explode("~", $long_function);
+					$function = $args[0];
+					return (intval($_SESSION[$strSession]->$function($args[1], (isset($args[2]) ? $args[2] : null), (isset($args[3]) ? $args[3] : null), (isset($args[4]) ? $args[4] : null), (isset($args[5]) ? $args[5] : null), (isset($args[6]) ? $args[6] : null))) == intval($variable[1]));
+				}
 			}
 			else{
 				if(strpos($strCondition, '>=')){
@@ -135,7 +163,7 @@ class DialogConditionFactory {
 	}
 	
 	public static function evaluateAction($strAction){
-		var_dump($strAction);
+		
 		// determine which entity to evaluate the action on
 		if(strpos($strAction, 'Enemy') !== false){
 			$strSession = 'objEnemy';
@@ -164,7 +192,7 @@ class DialogConditionFactory {
 			}
 			else if(strpos($strAction, '-')){
 				$variable = explode('-', $strAction);
-				$setfunction = 'set' . $variable[0];
+				$setFunction = 'set' . $variable[0];
 				$getFunction = 'get' . $variable[0];
 				$_SESSION[$strSession]->$setFunction(intval($_SESSION[$strSession]->$getFunction()) - intval($variable[1]));
 			}

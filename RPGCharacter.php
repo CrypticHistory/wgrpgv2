@@ -2173,12 +2173,12 @@ class RPGCharacter{
 		}
 	}
 	
-	public function hasViewedCheckpoint($intCheckpointID){
+	public function hasViewedCheckpoint($intCheckpointID, $intTimes = 1){
 		if(isset($this->_arrCheckpoints[$intCheckpointID])){
-			return true;
+			return ($intTimes > 1 ? $this->_arrCheckpoints[$intCheckpointID]->getTimesViewed() : 1);
 		}
 		else{
-			return false;
+			return 0;
 		}
 	}
 	

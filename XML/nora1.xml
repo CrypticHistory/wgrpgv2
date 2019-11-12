@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<end>0</end>
+	<type>Forced Event</type>
+	<precondition>hasViewedCheckpoint~7=1</precondition>
+	<dialog id='0'>
+		<eventText>You lean back in your chair, patting your stuffed belly in satisfaction.</eventText>
+		<eventText precondition="Personality=Shy"> You softly belch, covering your mouth with your napkin.</eventText>
+		<eventText precondition="Personality=Confident"> You let out a loud belch, ignoring the heads you turn.</eventText>
+		<eventText precondition="Personality=Stoic"> You let out a loud belch, ignoring the heads you turn.</eventText>
+		<eventText> What a meal! This place has certainly earned its reputation, you think to yourself. The bill arrives and you sigh. Every good meal has its price, both in money and on your waistline. You reach into your coinpurse, but an arm stops you.
+		
+		"Ah, it's on me, dear."
+
+Your arm returns to the table and you glance up at the woman before you.
+
+Hazel eyes greet yours with an almost lazy amusement. A long strand of scarlet hair brushes her cheeks while the rest is combed back in an updo. Her rose lips curl gently upwards, completing her visage along with her soft nose. She's dressed in a blue apron that matches the decor of the restaurant. A few food stains are present on the apron, indicating that she hasn't been slacking off in the kitchen. The apron covers a form fitting tunic that falls at her shapely hips. Her garb is capped off with a set of brown trousers that hug her thighs and calves before ending in a pair of supple leather boots.
+
+"The food was alright?"  She asks. You nod in approval. "Excellent! Allow me to introduce myself. I'm the head chef of this restaurant, Nora." She extends her hand to shake yours and you give her your name.
+
+"Pleasure to meet you, {getRPGCharacterName}." It seems she upholds formalities. "I've seen you around here a lot and I'd just like to personally thank you for the opportunity to serve you." She places a voucher on the table next to your resting arm. "Please accept this voucher as a token of my gratitude. Present it to my staff at the door your next visit and you'll be taken to a VIP seating. I hope to see you there."
+
+"Ciao, </eventText><eventText precondition="Gender=Male">signore</eventText><eventText precondition="Gender=Female">signora</eventText><eventText>."
+
+You watch her as she makes her way back to the kitchen, a bit shocked at the interaction. Picking up the voucher, it reads, "La Contessona VIP". Curiosity piqued, you make a mental note to use the voucher next time you eat here.</eventText>
+	</dialog>
+</event>
