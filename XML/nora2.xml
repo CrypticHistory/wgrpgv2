@@ -83,7 +83,7 @@ She informs you that she's prepared for you a five course meal: veal scaloppine,
 In a trance-like state, you polish off the veal dish and she unveils the next. Penne arabiata. Not even showing signs of slowing down, you continue devouring her incredible cuisine with ease. It's not long before you're on to the next dish. Time seems to go by hyper-fast, as you shovel forkful after forkful of tilapia into your mouth. Oddly enough, as you look at the remains of the dish, you feel not even the slightest bit full. It's as if you have a bottomless stomach for Nora's cooking. The potatoes and salad go down next with ease; not even slowing you at all.
 
 "Well done!" Nora exclaims, eagerly watching you devour her cooking. "That was the fastest I've seen anyone eat a five course meal of mine. How was it?"</eventText>
-		<option id="3">It was amazing!</option>
+		<option id="3" action="stuffCharacter~2000~2~50">It was amazing!</option>
 	</dialog>
 	<dialog id="3">
 		<eventText>"Why thank you, dear. I am so glad you enjoyed it. I hope you're ready for dessert!"

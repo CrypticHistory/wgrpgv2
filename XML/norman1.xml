@@ -135,7 +135,7 @@ Norman lowers his staff and lets it rest against the coffee table. You blink, tr
 	</dialog>
 	<dialog id='19'>
 		<eventText>"Well then, that saves me some time. How about we start you off on a difficult assignment right off the bat, since you know so much already?"</eventText>
-		<option id='20' action='startNewQuest~1&amp;RelationshipGainRelationshipEXP~50'>"Yes. I'm ready."</option>
+		<option id='20' action='startNewQuest~2&amp;RelationshipGainRelationshipEXP~50'>"Yes. I'm ready."</option>
 		<option id='21'>"No. I'm not ready yet."</option>
 	</dialog>
 	<dialog id='20'>
