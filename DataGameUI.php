@@ -262,6 +262,7 @@ class DataGameUI{
 		$_SESSION['objRPGCharacter']->save();
 		
 		foreach($_SESSION['objRPGCharacter']->getPartyMembers()->getActivePartyMembers() as $strPartyObj => $objNPC){
+			$objNPC->tickHunger();
 			$objNPC->save();
 		}
 	}	

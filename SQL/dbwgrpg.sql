@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 12, 2019 at 05:17 AM
+-- Generation Time: Nov 13, 2019 at 02:48 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacterabilitystats` (
 
 INSERT INTO `tblcharacterabilitystats` (`intCharacterAbilityStatID`, `intRPGCharacterID`, `intStrength`, `intIntelligence`, `intAgility`, `intVitality`, `intWillpower`, `intDexterity`) VALUES
 (194, 197, 0, 65, 0, 20, 0, 0),
-(197, 200, 0, 40, 0, 10, 0, 0);
+(197, 200, 0, 45, 0, 10, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -111,7 +111,7 @@ INSERT INTO `tblcharactercheckpointxr` (`intCharacterCheckpointXRID`, `intRPGCha
 (3, 197, 3, '2019-10-05 01:46:01', 1),
 (4, 197, 6, '2019-10-05 01:47:35', 1),
 (8, 200, 4, '2019-11-10 17:35:15', 1),
-(9, 200, 1, '2019-11-12 01:23:20', 4),
+(9, 200, 1, '2019-11-13 01:35:29', 7),
 (10, 200, 7, '2019-11-12 01:23:22', 1),
 (11, 200, 5, '2019-11-12 02:17:23', 1);
 
@@ -141,8 +141,8 @@ CREATE TABLE IF NOT EXISTS `tblcharacterclassxr` (
 INSERT INTO `tblcharacterclassxr` (`intCharacterClassXRID`, `intRPGCharacterID`, `intClassID`, `intClassLevel`, `intClassExperience`, `blnCurrentClass`) VALUES
 (1, 197, 5, 11, 127920, 1),
 (2, 197, 4, 1, 0, 0),
-(4, 200, 5, 6, 48840, 0),
-(5, 200, 2, 1, 4200, 1);
+(4, 200, 5, 6, 52040, 0),
+(5, 200, 2, 3, 16940, 1);
 
 -- --------------------------------------------------------
 
@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `tblcharactereventxr` (
   PRIMARY KEY (`intCharacterEventXRID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`,`intEventID`),
   KEY `tblcharactereventxr_ibfk_2` (`intEventID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5534 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5538 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharactereventxr`
@@ -361,7 +361,11 @@ INSERT INTO `tblcharactereventxr` (`intCharacterEventXRID`, `intRPGCharacterID`,
 (5530, 200, 42, '2019-11-11 21:17:24'),
 (5531, 200, 42, '2019-11-11 21:17:39'),
 (5532, 200, 22, '2019-11-11 21:19:31'),
-(5533, 200, 22, '2019-11-11 21:27:12');
+(5533, 200, 22, '2019-11-11 21:27:12'),
+(5534, 200, 36, '2019-11-12 21:16:14'),
+(5535, 200, 36, '2019-11-12 21:16:14'),
+(5536, 200, 31, '2019-11-12 21:23:21'),
+(5537, 200, 31, '2019-11-12 21:23:21');
 
 -- --------------------------------------------------------
 
@@ -383,7 +387,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacteritemxr` (
   PRIMARY KEY (`intItemInstanceID`),
   KEY `intCharacterID` (`intRPGCharacterID`,`intItemID`),
   KEY `intItemID` (`intItemID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2177 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2179 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharacteritemxr`
@@ -424,7 +428,6 @@ INSERT INTO `tblcharacteritemxr` (`intItemInstanceID`, `intRPGCharacterID`, `int
 (2171, 200, 15, 0, 0, 1, '', 0, '2019-11-10 12:19:33'),
 (2172, 200, 18, 0, 0, 0, 'S', 0, '2019-11-10 12:21:46'),
 (2173, 200, 14, 0, 0, 0, 'S', 0, '2019-11-10 12:21:50'),
-(2174, 200, 47, 2000, 0, 0, 'XL', 0, '2019-11-10 19:21:26'),
 (2175, 200, 18, 0, 0, 0, 'XXL', 0, '2019-11-11 21:16:21'),
 (2176, 200, 15, 0, 0, 0, 'XXXXL', 0, '2019-11-11 21:27:37');
 
@@ -443,7 +446,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacteroverridexr` (
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intRPGCharacterID_2` (`intRPGCharacterID`),
   KEY `intOverrideID` (`intOverrideID`)
-) ENGINE=InnoDB AUTO_INCREMENT=194 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharacteroverridexr`
@@ -610,7 +613,16 @@ INSERT INTO `tblcharacteroverridexr` (`intCharacterOverrideXRID`, `intRPGCharact
 (178, 200, 4),
 (179, 200, 1),
 (180, 200, 2),
-(181, 200, 4);
+(181, 200, 4),
+(194, 200, 1),
+(195, 200, 2),
+(196, 200, 4),
+(197, 200, 1),
+(198, 200, 2),
+(199, 200, 4),
+(200, 200, 1),
+(201, 200, 2),
+(202, 200, 4);
 
 -- --------------------------------------------------------
 
@@ -706,7 +718,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacterstats` (
 
 INSERT INTO `tblcharacterstats` (`intCharacterStatsID`, `intRPGCharacterID`, `intMaxHP`, `intStrength`, `intIntelligence`, `intAgility`, `intVitality`, `intWillpower`, `intDexterity`, `intAccuracy`, `intEvasion`, `intCritDamage`, `intPierce`, `intBlockRate`, `intBlockReduction`, `intMaxHunger`) VALUES
 (194, 197, 10, 5, 5, 5, 5, 5, 5, 0, 0, 150, 0, 0, 10, 1090),
-(197, 200, 10, 5, 5, 5, 5, 5, 5, 0, 0, 150, 0, 0, 10, 1085);
+(197, 200, 10, 5, 5, 5, 5, 5, 5, 0, 0, 150, 0, 0, 10, 1110);
 
 -- --------------------------------------------------------
 
@@ -725,7 +737,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacterstatuseffectxr` (
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intStatusEffectID` (`intStatusEffectID`),
   KEY `intItemInstanceID` (`intItemInstanceID`)
-) ENGINE=InnoDB AUTO_INCREMENT=913 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=936 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharacterstatuseffectxr`
@@ -738,7 +750,7 @@ INSERT INTO `tblcharacterstatuseffectxr` (`intCharacterStatusEffectXRID`, `intRP
 (868, 200, 2, NULL, 9999),
 (869, 200, 3, NULL, 9999),
 (873, 200, 4, NULL, 9999),
-(912, 200, 6, NULL, 9999);
+(935, 200, 7, NULL, 9999);
 
 -- --------------------------------------------------------
 
@@ -1620,7 +1632,7 @@ INSERT INTO `tblnpcinstance` (`intNPCInstanceID`, `intRPGCharacterID`, `intNPCID
 (65, 197, 16, 5, 5920, 1, 0, 1, 166, 500, 1, 340, 250),
 (66, 197, 15, 1, 0, 1, 0, 1, 134, 500, 1, 305, 250),
 (67, 197, 17, 1, 0, 0, 50, 0, 223, 500, 1, 303, 250),
-(75, 200, 2, 7, 10720, 2, 0, 2, 146, 200, 1, -8, 250),
+(75, 200, 2, 8, 13220, 2, 0, 2, 234, 0, 1, -1, 250),
 (76, 200, 15, 1, 0, 2, 0, 1, 134, 500, 1, 305, 250),
 (77, 200, 16, 1, 0, 1, 0, 0, 166, 500, 1, 340, 250);
 
@@ -1659,13 +1671,13 @@ CREATE TABLE IF NOT EXISTS `tblnpcinstancestats` (
 --
 
 INSERT INTO `tblnpcinstancestats` (`intNPCInstanceStatID`, `intRPGCharacterID`, `intNPCID`, `intMaxHP`, `intStrength`, `intIntelligence`, `intAgility`, `intVitality`, `intWillpower`, `intDexterity`, `intAccuracy`, `intEvasion`, `intCritDamage`, `intPierce`, `intBlockRate`, `intBlockReduction`, `intMaxHunger`) VALUES
-(50, 197, 2, 35, 2, 32, 47, 2, 17, 32, 0, 15, 165, 15, 0, 10, 100),
-(51, 197, 16, 300, 80, 50, 40, 80, 80, 40, 50, 10, 50, 20, 60, 100, 100),
-(52, 197, 15, 300, 10, 100, 10, 10, 70, 20, 100, 0, 100, 100, 5, 50, 100),
-(53, 197, 17, 280, 75, 65, 40, 45, 40, 65, 50, 25, 50, 50, 25, 50, 100),
-(61, 200, 2, 26, 2, 14, 20, 2, 8, 14, 0, 6, 156, 6, 0, 10, 100),
-(62, 200, 15, 300, 10, 100, 10, 10, 70, 20, 100, 0, 100, 100, 5, 50, 100),
-(63, 200, 16, 300, 80, 50, 40, 80, 80, 40, 50, 10, 50, 20, 60, 100, 100);
+(50, 197, 2, 35, 2, 32, 47, 2, 17, 32, 0, 15, 165, 15, 0, 10, 1000),
+(51, 197, 16, 300, 80, 50, 40, 80, 80, 40, 50, 10, 50, 20, 60, 100, 1000),
+(52, 197, 15, 300, 10, 100, 10, 10, 70, 20, 100, 0, 100, 100, 5, 50, 1000),
+(53, 197, 17, 280, 75, 65, 40, 45, 40, 65, 50, 25, 50, 50, 25, 50, 1000),
+(61, 200, 2, 27, 2, 16, 23, 2, 9, 16, 0, 7, 157, 7, 0, 10, 1000),
+(62, 200, 15, 300, 10, 100, 10, 10, 70, 20, 100, 0, 100, 100, 5, 50, 1000),
+(63, 200, 16, 300, 80, 50, 40, 80, 80, 40, 50, 10, 50, 20, 60, 100, 1000);
 
 -- --------------------------------------------------------
 
@@ -1784,6 +1796,7 @@ CREATE TABLE IF NOT EXISTS `tblnpcstats` (
   `intBlockRate` int(11) NOT NULL,
   `intBlockReduction` int(11) NOT NULL,
   `intFleeResistance` int(11) NOT NULL DEFAULT '0',
+  `intMaxHunger` int(11) NOT NULL DEFAULT '1000',
   PRIMARY KEY (`intNPCStatsID`),
   KEY `intNPCID` (`intNPCID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
@@ -1792,24 +1805,24 @@ CREATE TABLE IF NOT EXISTS `tblnpcstats` (
 -- Dumping data for table `tblnpcstats`
 --
 
-INSERT INTO `tblnpcstats` (`intNPCStatsID`, `intNPCID`, `intMaxHP`, `intStrength`, `intIntelligence`, `intAgility`, `intVitality`, `intWillpower`, `intDexterity`, `intAccuracy`, `intEvasion`, `intCritDamage`, `intPierce`, `intBlockRate`, `intBlockReduction`, `intFleeResistance`) VALUES
-(1, 1, 14, 5, 5, 5, 5, 5, 5, 0, 0, 150, 0, 0, 10, 0),
-(2, 2, 20, 2, 2, 2, 2, 2, 2, 0, 0, 150, 0, 0, 10, 100),
-(3, 3, 8, 1, 1, 20, 1, 1, 1, 0, 0, 150, 0, 0, 10, 0),
-(4, 4, 22, 10, 1, 3, 15, 1, 5, 0, 1, 150, 0, 0, 10, 5),
-(5, 5, 16, 10, 5, 5, 5, 5, 30, 0, 10, 150, 10, 30, 50, 100),
-(6, 6, 22, 10, 1, 3, 15, 1, 5, 0, 1, 150, 0, 10, 20, 5),
-(7, 7, 18, 9, 2, 2, 1, 2, 2, 0, 1, 150, 0, 10, 20, 50),
-(8, 8, 25, 5, 100, 20, 5, 20, 20, 0, 60, 150, 0, 10, 20, 100),
-(9, 9, 50, 5, 5, 5, 5, 100, 5, 0, 0, 0, 0, 0, 0, 100),
-(10, 10, 70, 5, 5, 5, 5, 100, 5, 0, 0, 0, 0, 0, 0, 100),
-(11, 11, 90, 5, 5, 5, 5, 100, 5, 0, 0, 0, 0, 0, 0, 100),
-(12, 12, 65, 10, 10, 10, 10, 10, 10, 5, 5, 5, 5, 5, 5, 0),
-(13, 13, 72, 10, 10, 10, 10, 10, 10, 5, 5, 5, 5, 5, 5, 0),
-(14, 14, 120, 20, 5, 5, 10, 5, 5, 5, 5, 5, 5, 5, 5, 100),
-(15, 15, 300, 10, 100, 10, 10, 70, 20, 100, 0, 100, 100, 5, 50, 100),
-(16, 16, 300, 80, 50, 40, 80, 80, 40, 50, 10, 50, 20, 60, 100, 100),
-(17, 17, 280, 75, 65, 40, 45, 40, 65, 50, 25, 50, 50, 25, 50, 25);
+INSERT INTO `tblnpcstats` (`intNPCStatsID`, `intNPCID`, `intMaxHP`, `intStrength`, `intIntelligence`, `intAgility`, `intVitality`, `intWillpower`, `intDexterity`, `intAccuracy`, `intEvasion`, `intCritDamage`, `intPierce`, `intBlockRate`, `intBlockReduction`, `intFleeResistance`, `intMaxHunger`) VALUES
+(1, 1, 14, 5, 5, 5, 5, 5, 5, 0, 0, 150, 0, 0, 10, 0, 1000),
+(2, 2, 20, 2, 2, 2, 2, 2, 2, 0, 0, 150, 0, 0, 10, 100, 1000),
+(3, 3, 8, 1, 1, 20, 1, 1, 1, 0, 0, 150, 0, 0, 10, 0, 1000),
+(4, 4, 22, 10, 1, 3, 15, 1, 5, 0, 1, 150, 0, 0, 10, 5, 1000000),
+(5, 5, 16, 10, 5, 5, 5, 5, 30, 0, 10, 150, 10, 30, 50, 100, 1000),
+(6, 6, 22, 10, 1, 3, 15, 1, 5, 0, 1, 150, 0, 10, 20, 5, 1000000),
+(7, 7, 18, 9, 2, 2, 1, 2, 2, 0, 1, 150, 0, 10, 20, 50, 1000000),
+(8, 8, 25, 5, 100, 20, 5, 20, 20, 0, 60, 150, 0, 10, 20, 100, 1000),
+(9, 9, 50, 5, 5, 5, 5, 100, 5, 0, 0, 0, 0, 0, 0, 100, 1000000),
+(10, 10, 70, 5, 5, 5, 5, 100, 5, 0, 0, 0, 0, 0, 0, 100, 1000000),
+(11, 11, 90, 5, 5, 5, 5, 100, 5, 0, 0, 0, 0, 0, 0, 100, 1000000),
+(12, 12, 65, 10, 10, 10, 10, 10, 10, 5, 5, 5, 5, 5, 5, 0, 100000),
+(13, 13, 72, 10, 10, 10, 10, 10, 10, 5, 5, 5, 5, 5, 5, 0, 100000),
+(14, 14, 120, 20, 5, 5, 10, 5, 5, 5, 5, 5, 5, 5, 5, 100, 1000000),
+(15, 15, 300, 10, 100, 10, 10, 70, 20, 100, 0, 100, 100, 5, 50, 100, 1000),
+(16, 16, 300, 80, 50, 40, 80, 80, 40, 50, 10, 50, 20, 60, 100, 100, 1000),
+(17, 17, 280, 75, 65, 40, 45, 40, 65, 50, 25, 50, 50, 25, 50, 25, 1000);
 
 -- --------------------------------------------------------
 
@@ -1994,7 +2007,7 @@ CREATE TABLE IF NOT EXISTS `tblrpgcharacter` (
 
 INSERT INTO `tblrpgcharacter` (`intRPGCharacterID`, `strUserID`, `strRPGCharacterName`, `intHeight`, `dblWeight`, `intDigestionRate`, `intCurrentHunger`, `intHungerRate`, `intTicksStuffed`, `intFloorID`, `intCurrentFloorID`, `intStateID`, `intTownID`, `intLocationID`, `intDay`, `strTime`, `strGender`, `strOrientation`, `strPersonality`, `blnLikesFatSelf`, `blnLikesFatOthers`, `strEyeColour`, `strHairColour`, `strHairLength`, `strEthnicity`, `intLevel`, `intExperience`, `intCurrentHP`, `intStatPoints`, `intGold`, `blnActivated`, `dtmCreatedOn`, `strCreatedBy`, `dtmModifiedOn`, `strModifiedBy`) VALUES
 (197, 'testing', 'test3', 158, 156.59977840397, 250, 522, 1, 0, 3, 3, 1, 0, 0, 24, '17:15', 'Female', 'Heterosexual', 'Shy', 1, 1, 'Brown', 'Brown', 'Short', 'White', 18, 136960, 18, 0, 1015, 1, '2019-09-29 21:50:45', 'system', NULL, NULL),
-(200, 'testing', 'test4', 152, 527.0781678873, 250, 41, 1, 0, 3, 3, 1, 0, 0, 11, '8:30', 'Female', 'Heterosexual', 'Shy', 1, 1, 'Brown', 'Brown', 'Short', 'White', 11, 33640, 8, 0, 362, 1, '2019-11-10 12:13:46', 'system', NULL, NULL);
+(200, 'testing', 'test4', 152, 660.6445015219, 250, 1154, 1, 0, 3, 2, 3, 0, 0, 15, '10:15', 'Female', 'Heterosexual', 'Shy', 1, 1, 'Brown', 'Brown', 'Short', 'White', 12, 8640, 30, 0, 282, 1, '2019-11-10 12:13:46', 'system', NULL, NULL);
 
 -- --------------------------------------------------------
 

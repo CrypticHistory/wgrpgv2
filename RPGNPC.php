@@ -148,6 +148,7 @@ class RPGNPC{
 		$this->_objStats = new RPGNPCStats($intNPCID);
 		$this->_objStats->loadBaseStats();
 		$this->setCurrentHP($this->getModifiedMaxHP());
+		$this->setCurrentHunger(0);
 		$this->_arrStatusEffectList = array();
 	}
 	
@@ -898,6 +899,19 @@ class RPGNPC{
 		return pow(($this->_intLevel + 1) * 2, 2) * 100;
 	}
 	
+	public function forceEatItemDeadly($intItemID){
+		$objItem = new RPGItem($intItemID);
+		$this->healHP($objItem->getHPHeal());
+		$this->_intWeight += round($objItem->getCalories() / 3500);
+		if($this->_intCurrentHunger + $objItem->getFullness() >= $this->getStats()->getCombinedStatsSecondary('intMaxHunger') * 2){
+			$this->setCurrentHP(0);
+			$this->_intCurrentHunger = 0;
+		}
+		else{
+			$this->_intCurrentHunger = $this->_intCurrentHunger + $objItem->getFullness();
+		}
+	}
+	
 	public function forceEatItem($intItemID){
 		$objItem = new RPGItem($intItemID);
 		$this->healHP($objItem->getHPHeal());
@@ -925,7 +939,13 @@ class RPGNPC{
 	}
 	
 	public function stuffCharacterDeadly($intFullness, $intWeight){
-		$this->setCurrentHunger(min(($this->getStats()->getCombinedStatsSecondary('intMaxHunger') * 2), $this->getCurrentHunger() + $intFullness));
+		if($this->_intCurrentHunger + $intFullness >= $this->getStats()->getCombinedStatsSecondary('intMaxHunger') * 2){
+			$this->setCurrentHP(0);
+			$this->_intCurrentHunger = 0;
+		}
+		else{
+			$this->_intCurrentHunger = $this->_intCurrentHunger + $intFullness;
+		}
 		$this->setWeight($this->getWeight() + $intWeight);
 	}
 	
@@ -935,6 +955,10 @@ class RPGNPC{
 	
 	public function setPartyMemberID($intPartyMemberID){
 		$this->_intPartyMemberID = $intPartyMemberID;
+	}
+	
+	public function tickHunger(){
+		$this->_intCurrentHunger = max(0, $this->_intCurrentHunger - $this->_intHungerRate);
 	}
 }
 

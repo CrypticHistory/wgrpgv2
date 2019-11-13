@@ -14,7 +14,8 @@ class SkillFeed{
 	public function castedByPlayer($objPlayer, $objNPC){
 		$this->loadPlayerFood($objPlayer->getRPGCharacterID());
 		if($this->_objFood){
-			$objNPC->forceEatItem($this->_objFood->getItemID());
+			$objNPC->forceEatItemDeadly($this->_objFood->getItemID());
+			$_SESSION['objRPGCharacter']->dropItem($this->_objFood->getItemInstanceID());
 			$strReturnText = $objPlayer->getNPCName() . " charges at " . $objNPC->getNPCName() . ", stuffing their mouth with a " . $this->_objFood->getItemName() . ".";
 			return $strReturnText;
 		}
@@ -50,7 +51,7 @@ class SkillFeed{
 	
 	public function loadPlayerFood($intRPGCharacterID){
 		$objDB = new Database();
-		$strSQL = "SELECT intItemID
+		$strSQL = "SELECT intItemID, intItemInstanceID
 					FROM tblcharacteritemxr
 						INNER JOIN tblitem
 							USING (intItemID)
@@ -61,7 +62,7 @@ class SkillFeed{
 		$rsResult = $objDB->query($strSQL);
 		$arrRow = $rsResult->fetch(PDO::FETCH_ASSOC);
 		if(isset($arrRow['intItemID'])){
-			$objFood = new RPGItem($arrRow['intItemID']);
+			$objFood = new RPGItem($arrRow['intItemID'], $arrRow['intItemInstanceID']);
 			$this->_objFood = $objFood;
 		}
 		else{
