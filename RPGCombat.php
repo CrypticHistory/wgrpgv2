@@ -301,7 +301,7 @@
 			$intPlayerFleeRoll = mt_rand(1, $this->_objPlayerTeam->getPlayer()->getModifiedFleeRate());
 			
 			if($intPlayerFleeRoll >= $this->_objEnemyTeam->getLeader()->getModifiedFleeResistance()){
-				$this->_arrCombatMessage["Combat"][$this->_intTurn]["Player"] .= 'You fled from the battle.';
+				$this->_arrCombatMessage["Action"][] = 'You fled from the battle.';
 				$this->_strCombatState = 'Fled';	
 			}
 			else{
@@ -357,6 +357,12 @@
 				$this->_arrWaitTimes[$this->_strTurnTaker] += $this->_objTurnTaker->getWaitTime('Standard');
 				$this->_arrCombatMessage["Action"][] = $this->_objTurnTaker->getNPCName() . " is frozen and cannot attack!";
 				$this->_objTurnTaker->tickStatusEffect("Frozen");
+			}
+			else if($this->_objTurnTaker->hasStatusEffect("Knocked Down")){
+				$this->_strPrevTurn = "Opponent";
+				$this->_arrWaitTimes[$this->_strTurnTaker] += $this->_objTurnTaker->getWaitTime('Standard');
+				$this->_arrCombatMessage["Action"][] = $this->_objTurnTaker->getNPCName() . " is incapacitated and cannot attack!";
+				$this->_objTurnTaker->tickStatusEffect("Knocked Down");
 			}
 			else{
 				// load enemy AI

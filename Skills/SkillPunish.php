@@ -36,6 +36,7 @@ class SkillPunish{
 		}
 		
 		$objNPC->takeDamage($intDamage);
+		$objNPC->addToStatusEffects("Knocked Down");
 		
 		$strReturnText = $objNPC->getNPCName() . " attacks you, but you parry the attack! " . $objNPC->getNPCName() . " sustains " . $intDamage . " damage from the counterattack and is knocked onto the ground, unable to attack.";
 		
@@ -56,6 +57,7 @@ class SkillPunish{
 			}
 			
 			$objNPC->takeDamage($intDamage);
+			$objNPC->addToStatusEffects("Knocked Down");
 			
 			$strReturnText = $objNPC->getNPCName() . " attacks you, but you parry the attack! " . $objNPC->getNPCName() . " sustains " . $intDamage . " damage from the counterattack and is knocked onto the ground, unable to attack.";
 		}
