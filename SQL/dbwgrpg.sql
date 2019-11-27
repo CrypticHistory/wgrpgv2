@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 13, 2019 at 02:48 AM
+-- Generation Time: Nov 27, 2019 at 03:00 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacterabilitystats` (
   `intDexterity` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`intCharacterAbilityStatID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`)
-) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=200 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharacterabilitystats`
@@ -48,7 +48,9 @@ CREATE TABLE IF NOT EXISTS `tblcharacterabilitystats` (
 
 INSERT INTO `tblcharacterabilitystats` (`intCharacterAbilityStatID`, `intRPGCharacterID`, `intStrength`, `intIntelligence`, `intAgility`, `intVitality`, `intWillpower`, `intDexterity`) VALUES
 (194, 197, 0, 65, 0, 20, 0, 0),
-(197, 200, 0, 45, 0, 10, 0, 0);
+(197, 200, 0, 45, 0, 10, 0, 0),
+(198, 201, 30, 0, 0, 20, 0, 0),
+(199, 202, 0, 55, 0, 30, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -73,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacterbody` (
   `intLegsRipLevel` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`intCharacterBodyID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`)
-) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharacterbody`
@@ -81,7 +83,9 @@ CREATE TABLE IF NOT EXISTS `tblcharacterbody` (
 
 INSERT INTO `tblcharacterbody` (`intCharacterBodyID`, `intRPGCharacterID`, `intBreasts`, `intBelly`, `intLegs`, `intButt`, `intArms`, `intFace`, `intBellyRipLevel`, `intButtRipLevel`, `intBreastsRipLevel`, `intArmsRipLevel`, `intLegsRipLevel`) VALUES
 (120, 197, 0, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0),
-(123, 200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+(123, 200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(124, 201, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+(125, 202, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -99,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `tblcharactercheckpointxr` (
   PRIMARY KEY (`intCharacterCheckpointXRID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intCheckpointID` (`intCheckpointID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharactercheckpointxr`
@@ -113,7 +117,14 @@ INSERT INTO `tblcharactercheckpointxr` (`intCharacterCheckpointXRID`, `intRPGCha
 (8, 200, 4, '2019-11-10 17:35:15', 1),
 (9, 200, 1, '2019-11-13 01:35:29', 7),
 (10, 200, 7, '2019-11-12 01:23:22', 1),
-(11, 200, 5, '2019-11-12 02:17:23', 1);
+(11, 200, 5, '2019-11-12 02:17:23', 1),
+(12, 201, 5, '2019-11-13 03:09:11', 1),
+(13, 201, 6, '2019-11-13 03:19:36', 1),
+(14, 201, 1, '2019-11-25 02:52:43', 3),
+(15, 201, 7, '2019-11-25 02:52:44', 1),
+(16, 202, 5, '2019-11-25 04:00:51', 1),
+(17, 202, 4, '2019-11-25 04:13:36', 1),
+(18, 202, 6, '2019-11-26 04:13:31', 1);
 
 -- --------------------------------------------------------
 
@@ -132,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacterclassxr` (
   PRIMARY KEY (`intCharacterClassXRID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intClassID` (`intClassID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharacterclassxr`
@@ -142,7 +153,11 @@ INSERT INTO `tblcharacterclassxr` (`intCharacterClassXRID`, `intRPGCharacterID`,
 (1, 197, 5, 11, 127920, 1),
 (2, 197, 4, 1, 0, 0),
 (4, 200, 5, 6, 52040, 0),
-(5, 200, 2, 3, 16940, 1);
+(5, 200, 2, 3, 16940, 1),
+(6, 201, 4, 6, 38660, 1),
+(7, 201, 2, 1, 0, 0),
+(8, 202, 5, 10, 175904, 1),
+(9, 202, 4, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -159,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `tblcharactereventxr` (
   PRIMARY KEY (`intCharacterEventXRID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`,`intEventID`),
   KEY `tblcharactereventxr_ibfk_2` (`intEventID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5538 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5685 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharactereventxr`
@@ -365,7 +380,154 @@ INSERT INTO `tblcharactereventxr` (`intCharacterEventXRID`, `intRPGCharacterID`,
 (5534, 200, 36, '2019-11-12 21:16:14'),
 (5535, 200, 36, '2019-11-12 21:16:14'),
 (5536, 200, 31, '2019-11-12 21:23:21'),
-(5537, 200, 31, '2019-11-12 21:23:21');
+(5537, 200, 31, '2019-11-12 21:23:21'),
+(5538, 201, 2, '2019-11-12 21:56:46'),
+(5539, 201, 2, '2019-11-12 21:56:46'),
+(5540, 201, 2, '2019-11-12 21:56:53'),
+(5541, 201, 2, '2019-11-12 21:56:58'),
+(5542, 201, 2, '2019-11-12 21:56:59'),
+(5543, 201, 2, '2019-11-12 21:56:59'),
+(5544, 201, 18, '2019-11-12 21:57:13'),
+(5545, 201, 18, '2019-11-12 21:57:13'),
+(5546, 201, 3, '2019-11-12 21:57:24'),
+(5547, 201, 3, '2019-11-12 21:57:24'),
+(5548, 201, 1, '2019-11-12 21:57:26'),
+(5549, 201, 1, '2019-11-12 21:57:26'),
+(5550, 201, 28, '2019-11-12 21:58:01'),
+(5551, 201, 28, '2019-11-12 21:58:01'),
+(5552, 201, 19, '2019-11-12 21:59:15'),
+(5553, 201, 19, '2019-11-12 21:59:17'),
+(5554, 201, 25, '2019-11-12 22:00:07'),
+(5555, 201, 25, '2019-11-12 22:00:07'),
+(5556, 201, 25, '2019-11-12 22:00:10'),
+(5557, 201, 25, '2019-11-12 22:00:10'),
+(5558, 201, 4, '2019-11-12 22:00:38'),
+(5559, 201, 4, '2019-11-12 22:00:38'),
+(5560, 201, 26, '2019-11-12 22:01:14'),
+(5561, 201, 26, '2019-11-12 22:01:14'),
+(5562, 201, 27, '2019-11-12 22:03:08'),
+(5563, 201, 27, '2019-11-12 22:03:08'),
+(5564, 201, 23, '2019-11-12 22:03:59'),
+(5565, 201, 23, '2019-11-12 22:03:59'),
+(5566, 201, 42, '2019-11-12 22:09:11'),
+(5567, 201, 42, '2019-11-12 22:09:11'),
+(5568, 201, 42, '2019-11-12 22:09:18'),
+(5569, 201, 42, '2019-11-12 22:09:29'),
+(5570, 201, 22, '2019-11-12 22:14:12'),
+(5571, 201, 22, '2019-11-12 22:14:20'),
+(5572, 201, 44, '2019-11-12 22:19:48'),
+(5573, 201, 44, '2019-11-12 22:19:48'),
+(5574, 201, 44, '2019-11-12 22:21:31'),
+(5575, 201, 43, '2019-11-12 22:21:38'),
+(5576, 201, 43, '2019-11-12 22:21:38'),
+(5577, 201, 43, '2019-11-12 22:21:40'),
+(5578, 201, 43, '2019-11-12 22:21:42'),
+(5579, 201, 43, '2019-11-12 22:21:48'),
+(5580, 201, 43, '2019-11-12 22:21:53'),
+(5581, 201, 43, '2019-11-12 22:21:53'),
+(5582, 201, 43, '2019-11-12 22:21:55'),
+(5583, 201, 39, '2019-11-12 22:26:01'),
+(5584, 201, 39, '2019-11-12 22:26:01'),
+(5585, 201, 38, '2019-11-12 22:26:45'),
+(5586, 201, 38, '2019-11-12 22:26:47'),
+(5587, 201, 32, '2019-11-12 22:27:15'),
+(5588, 201, 32, '2019-11-12 22:27:15'),
+(5589, 201, 29, '2019-11-12 22:27:57'),
+(5590, 201, 29, '2019-11-12 22:27:57'),
+(5591, 201, 45, '2019-11-12 22:29:36'),
+(5592, 201, 45, '2019-11-12 22:29:36'),
+(5593, 201, 46, '2019-11-24 21:52:31'),
+(5594, 201, 46, '2019-11-24 21:52:31'),
+(5595, 201, 46, '2019-11-24 21:52:32'),
+(5596, 201, 47, '2019-11-24 21:52:44'),
+(5597, 201, 47, '2019-11-24 21:52:44'),
+(5598, 201, 47, '2019-11-24 21:52:45'),
+(5599, 201, 48, '2019-11-24 21:53:13'),
+(5600, 201, 48, '2019-11-24 21:53:13'),
+(5601, 201, 48, '2019-11-24 21:53:14'),
+(5602, 201, 48, '2019-11-24 21:59:49'),
+(5603, 201, 33, '2019-11-24 21:59:56'),
+(5604, 201, 33, '2019-11-24 21:59:56'),
+(5605, 201, 36, '2019-11-24 22:15:35'),
+(5606, 201, 36, '2019-11-24 22:15:35'),
+(5607, 202, 2, '2019-11-24 22:54:17'),
+(5608, 202, 2, '2019-11-24 22:54:17'),
+(5609, 202, 2, '2019-11-24 22:54:19'),
+(5610, 202, 2, '2019-11-24 22:54:23'),
+(5611, 202, 2, '2019-11-24 22:54:24'),
+(5612, 202, 2, '2019-11-24 22:54:24'),
+(5613, 202, 1, '2019-11-24 22:54:26'),
+(5614, 202, 1, '2019-11-24 22:54:26'),
+(5615, 202, 28, '2019-11-24 22:54:31'),
+(5616, 202, 28, '2019-11-24 22:54:31'),
+(5617, 202, 18, '2019-11-24 22:54:37'),
+(5618, 202, 18, '2019-11-24 22:54:38'),
+(5619, 202, 4, '2019-11-24 22:54:41'),
+(5620, 202, 4, '2019-11-24 22:54:41'),
+(5621, 202, 19, '2019-11-24 22:55:27'),
+(5622, 202, 19, '2019-11-24 22:55:30'),
+(5623, 202, 19, '2019-11-24 22:55:31'),
+(5624, 202, 19, '2019-11-24 22:55:32'),
+(5625, 202, 19, '2019-11-24 22:55:36'),
+(5626, 202, 19, '2019-11-24 22:55:38'),
+(5627, 202, 19, '2019-11-24 22:55:39'),
+(5628, 202, 19, '2019-11-24 22:55:42'),
+(5629, 202, 25, '2019-11-24 22:55:58'),
+(5630, 202, 25, '2019-11-24 22:55:58'),
+(5631, 202, 26, '2019-11-24 22:56:37'),
+(5632, 202, 26, '2019-11-24 22:56:37'),
+(5633, 202, 40, '2019-11-24 22:57:09'),
+(5634, 202, 40, '2019-11-24 22:57:09'),
+(5635, 202, 40, '2019-11-24 22:57:09'),
+(5636, 202, 40, '2019-11-24 22:57:12'),
+(5637, 202, 23, '2019-11-24 22:57:15'),
+(5638, 202, 23, '2019-11-24 22:57:15'),
+(5639, 202, 27, '2019-11-24 22:57:31'),
+(5640, 202, 27, '2019-11-24 22:57:31'),
+(5641, 202, 42, '2019-11-24 23:00:51'),
+(5642, 202, 42, '2019-11-24 23:00:51'),
+(5643, 202, 42, '2019-11-24 23:00:52'),
+(5644, 202, 42, '2019-11-24 23:00:56'),
+(5645, 202, 39, '2019-11-24 23:07:21'),
+(5646, 202, 39, '2019-11-24 23:07:21'),
+(5647, 202, 39, '2019-11-24 23:07:28'),
+(5648, 202, 39, '2019-11-24 23:07:28'),
+(5649, 202, 22, '2019-11-24 23:11:33'),
+(5650, 202, 22, '2019-11-24 23:11:34'),
+(5651, 202, 41, '2019-11-24 23:13:42'),
+(5652, 202, 41, '2019-11-24 23:13:43'),
+(5653, 202, 41, '2019-11-24 23:13:44'),
+(5654, 202, 41, '2019-11-24 23:13:49'),
+(5655, 202, 41, '2019-11-24 23:13:51'),
+(5656, 202, 45, '2019-11-24 23:16:36'),
+(5657, 202, 45, '2019-11-24 23:16:36'),
+(5658, 202, 37, '2019-11-24 23:19:04'),
+(5659, 202, 37, '2019-11-24 23:19:04'),
+(5660, 202, 38, '2019-11-24 23:20:37'),
+(5661, 202, 38, '2019-11-24 23:20:37'),
+(5662, 202, 44, '2019-11-25 23:13:33'),
+(5663, 202, 44, '2019-11-25 23:13:33'),
+(5664, 202, 44, '2019-11-25 23:13:33'),
+(5665, 202, 44, '2019-11-25 23:13:36'),
+(5666, 202, 49, '2019-11-25 23:18:42'),
+(5667, 202, 49, '2019-11-25 23:18:42'),
+(5668, 202, 15, '2019-11-26 19:34:48'),
+(5669, 202, 15, '2019-11-26 19:34:48'),
+(5670, 202, 15, '2019-11-26 19:34:50'),
+(5671, 202, 15, '2019-11-26 19:34:51'),
+(5672, 202, 15, '2019-11-26 19:34:54'),
+(5673, 202, 15, '2019-11-26 19:34:55'),
+(5674, 202, 15, '2019-11-26 19:34:56'),
+(5675, 202, 31, '2019-11-26 19:45:59'),
+(5676, 202, 31, '2019-11-26 19:45:59'),
+(5677, 202, 12, '2019-11-26 19:54:31'),
+(5678, 202, 12, '2019-11-26 19:54:31'),
+(5679, 202, 50, '2019-11-26 20:06:35'),
+(5680, 202, 50, '2019-11-26 20:06:35'),
+(5681, 202, 21, '2019-11-26 20:07:15'),
+(5682, 202, 21, '2019-11-26 20:07:15'),
+(5683, 202, 21, '2019-11-26 20:09:22'),
+(5684, 202, 21, '2019-11-26 20:09:22');
 
 -- --------------------------------------------------------
 
@@ -387,7 +549,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacteritemxr` (
   PRIMARY KEY (`intItemInstanceID`),
   KEY `intCharacterID` (`intRPGCharacterID`,`intItemID`),
   KEY `intItemID` (`intItemID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2179 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2252 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharacteritemxr`
@@ -429,7 +591,32 @@ INSERT INTO `tblcharacteritemxr` (`intItemInstanceID`, `intRPGCharacterID`, `int
 (2172, 200, 18, 0, 0, 0, 'S', 0, '2019-11-10 12:21:46'),
 (2173, 200, 14, 0, 0, 0, 'S', 0, '2019-11-10 12:21:50'),
 (2175, 200, 18, 0, 0, 0, 'XXL', 0, '2019-11-11 21:16:21'),
-(2176, 200, 15, 0, 0, 0, 'XXXXL', 0, '2019-11-11 21:27:37');
+(2176, 200, 15, 0, 0, 0, 'XXXXL', 0, '2019-11-11 21:27:37'),
+(2179, 201, 10, 0, 0, 1, 'M', 0, '2019-11-12 21:54:01'),
+(2181, 201, 6, 0, 0, 1, 'M', 0, '2019-11-12 21:55:16'),
+(2188, 201, 45, 0, 0, 0, 'M', 0, '2019-11-12 21:58:01'),
+(2189, 201, 45, 0, 0, 0, 'S', 0, '2019-11-12 21:59:49'),
+(2190, 201, 35, 0, 0, 0, 'S', 0, '2019-11-12 22:00:07'),
+(2204, 201, 15, 0, 0, 1, '', 0, '2019-11-12 22:03:08'),
+(2205, 201, 15, 0, 0, 0, 'M', 0, '2019-11-12 22:10:06'),
+(2206, 201, 18, 0, 0, 0, 'L', 0, '2019-11-12 22:14:25'),
+(2207, 201, 23, 0, 0, 0, 'XXL', 0, '2019-11-12 22:23:21'),
+(2208, 201, 47, 2000, 0, 0, 'XXL', 0, '2019-11-12 22:26:18'),
+(2209, 201, 47, 2000, 0, 0, 'XXXXL', 0, '2019-11-12 22:30:32'),
+(2210, 202, 17, 0, 0, 0, 'M', 0, '2019-11-24 22:53:46'),
+(2212, 202, 6, 0, 0, 1, 'M', 0, '2019-11-24 22:53:54'),
+(2219, 202, 3, 0, 0, 0, 'M', 0, '2019-11-24 22:55:14'),
+(2220, 202, 14, 0, 0, 0, 'M', 0, '2019-11-24 22:55:58'),
+(2221, 202, 3, 0, 0, 0, 'M', 0, '2019-11-24 22:56:15'),
+(2222, 202, 13, 0, 0, 0, 'M', 0, '2019-11-24 22:56:27'),
+(2235, 202, 15, 0, 0, 0, '', 0, '2019-11-24 22:57:31'),
+(2236, 202, 12, 0, 0, 0, 'M', 0, '2019-11-24 23:00:11'),
+(2237, 202, 14, 0, 0, 0, 'L', 0, '2019-11-24 23:04:00'),
+(2238, 202, 21, 0, 0, 1, 'L', 0, '2019-11-24 23:04:58'),
+(2239, 202, 12, 0, 0, 0, 'L', 0, '2019-11-24 23:05:13'),
+(2240, 202, 15, 0, 0, 0, 'XL', 0, '2019-11-24 23:11:42'),
+(2242, 202, 34, 0, 0, 0, 'XXXXL', 0, '2019-11-25 23:18:39'),
+(2248, 202, 34, 0, 0, 0, 'XL', 0, '2019-11-26 20:00:02');
 
 -- --------------------------------------------------------
 
@@ -446,7 +633,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacteroverridexr` (
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intRPGCharacterID_2` (`intRPGCharacterID`),
   KEY `intOverrideID` (`intOverrideID`)
-) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=235 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharacteroverridexr`
@@ -622,7 +809,24 @@ INSERT INTO `tblcharacteroverridexr` (`intCharacterOverrideXRID`, `intRPGCharact
 (199, 200, 4),
 (200, 200, 1),
 (201, 200, 2),
-(202, 200, 4);
+(202, 200, 4),
+(203, 200, 1),
+(204, 200, 2),
+(205, 200, 4),
+(208, 201, 1),
+(209, 201, 2),
+(210, 201, 1),
+(211, 201, 2),
+(217, 201, 4),
+(220, 202, 1),
+(221, 202, 2),
+(223, 202, 4),
+(229, 202, 1),
+(230, 202, 2),
+(231, 202, 4),
+(232, 202, 1),
+(233, 202, 2),
+(234, 202, 4);
 
 -- --------------------------------------------------------
 
@@ -643,7 +847,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacterquestkillreqxr` (
   KEY `intQuestID` (`intQuestID`),
   KEY `intKillReqID` (`intKillReqID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharacterquestkillreqxr`
@@ -653,7 +857,10 @@ INSERT INTO `tblcharacterquestkillreqxr` (`intCharacterQuestKillReqXRID`, `intQu
 (1, 2, 2, 197, '2019-10-04 19:23:52', '2019-10-04 23:50:21', 5),
 (2, 1, 1, 197, '2019-10-04 19:50:41', '2019-10-05 01:42:56', 5),
 (6, 2, 2, 200, '2019-11-10 12:16:05', '2019-11-10 17:21:37', 5),
-(7, 1, 1, 200, '2019-11-11 21:17:21', '0000-00-00 00:00:00', 1);
+(7, 1, 1, 200, '2019-11-11 21:17:21', '0000-00-00 00:00:00', 1),
+(8, 1, 1, 201, '2019-11-12 22:08:52', '2019-11-13 03:17:15', 5),
+(9, 2, 2, 202, '2019-11-24 22:57:09', '2019-11-25 04:13:21', 5),
+(10, 1, 1, 202, '2019-11-24 23:00:49', '2019-11-25 04:05:29', 5);
 
 -- --------------------------------------------------------
 
@@ -672,7 +879,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacterquestxr` (
   PRIMARY KEY (`intCharacterQuestXRID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intQuestID` (`intQuestID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharacterquestxr`
@@ -682,7 +889,10 @@ INSERT INTO `tblcharacterquestxr` (`intCharacterQuestXRID`, `intRPGCharacterID`,
 (1, 197, 2, '2019-10-04 19:23:52', '2019-10-04 23:50:21', 0),
 (2, 197, 1, '2019-10-04 19:50:41', '2019-10-05 01:42:56', 0),
 (6, 200, 2, '2019-11-10 12:16:05', '2019-11-10 17:21:37', 0),
-(7, 200, 1, '2019-11-11 21:17:21', '0000-00-00 00:00:00', 1);
+(7, 200, 1, '2019-11-11 21:17:21', '0000-00-00 00:00:00', 1),
+(8, 201, 1, '2019-11-12 22:08:52', '2019-11-13 03:17:15', 0),
+(9, 202, 2, '2019-11-24 22:57:09', '2019-11-25 04:13:21', 0),
+(10, 202, 1, '2019-11-24 23:00:49', '2019-11-25 04:05:29', 0);
 
 -- --------------------------------------------------------
 
@@ -710,7 +920,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacterstats` (
   `intMaxHunger` int(11) NOT NULL DEFAULT '100',
   PRIMARY KEY (`intCharacterStatsID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`)
-) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=200 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharacterstats`
@@ -718,7 +928,9 @@ CREATE TABLE IF NOT EXISTS `tblcharacterstats` (
 
 INSERT INTO `tblcharacterstats` (`intCharacterStatsID`, `intRPGCharacterID`, `intMaxHP`, `intStrength`, `intIntelligence`, `intAgility`, `intVitality`, `intWillpower`, `intDexterity`, `intAccuracy`, `intEvasion`, `intCritDamage`, `intPierce`, `intBlockRate`, `intBlockReduction`, `intMaxHunger`) VALUES
 (194, 197, 10, 5, 5, 5, 5, 5, 5, 0, 0, 150, 0, 0, 10, 1090),
-(197, 200, 10, 5, 5, 5, 5, 5, 5, 0, 0, 150, 0, 0, 10, 1110);
+(197, 200, 10, 5, 5, 5, 5, 5, 5, 0, 0, 150, 0, 0, 10, 1110),
+(198, 201, 10, 5, 5, 5, 5, 5, 5, 0, 0, 150, 0, 0, 10, 1130),
+(199, 202, 10, 5, 5, 5, 5, 5, 5, 0, 0, 150, 0, 0, 10, 1065);
 
 -- --------------------------------------------------------
 
@@ -737,7 +949,7 @@ CREATE TABLE IF NOT EXISTS `tblcharacterstatuseffectxr` (
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intStatusEffectID` (`intStatusEffectID`),
   KEY `intItemInstanceID` (`intItemInstanceID`)
-) ENGINE=InnoDB AUTO_INCREMENT=936 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1054 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblcharacterstatuseffectxr`
@@ -750,7 +962,15 @@ INSERT INTO `tblcharacterstatuseffectxr` (`intCharacterStatusEffectXRID`, `intRP
 (868, 200, 2, NULL, 9999),
 (869, 200, 3, NULL, 9999),
 (873, 200, 4, NULL, 9999),
-(935, 200, 7, NULL, 9999);
+(935, 200, 7, NULL, 9999),
+(937, 201, 2, NULL, 9999),
+(938, 201, 3, NULL, 9999),
+(996, 201, 7, NULL, 9999),
+(997, 201, 4, NULL, 9999),
+(1000, 202, 2, NULL, 9999),
+(1001, 202, 3, NULL, 9999),
+(1005, 202, 4, NULL, 9999),
+(1053, 202, 7, NULL, 9999);
 
 -- --------------------------------------------------------
 
@@ -886,8 +1106,8 @@ CREATE TABLE IF NOT EXISTS `tblenchant` (
 --
 
 INSERT INTO `tblenchant` (`intEnchantID`, `strEnchantName`, `strAllowedOn`, `dtmCreatedOn`, `strCreatedBy`, `dtmModifiedOn`, `strModifiedBy`) VALUES
-(1, 'Fattening', 'Armour', '2014-11-04 21:26:02', 'akereliuk', NULL, NULL),
-(2, 'Eternally Binding', 'Armour', '2014-11-04 21:26:02', 'akereliuk', NULL, NULL),
+(1, 'Fattening', 'Armour', '2014-11-04 21:26:02', 'admin', NULL, NULL),
+(2, 'Eternally Binding', 'Armour', '2014-11-04 21:26:02', 'admin', NULL, NULL),
 (3, 'Resilient', 'All', '2016-09-11 00:00:00', 'admin', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -938,17 +1158,17 @@ CREATE TABLE IF NOT EXISTS `tblevent` (
   `dtmModifiedOn` datetime DEFAULT NULL,
   `strModifiedBy` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`intEventID`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblevent`
 --
 
 INSERT INTO `tblevent` (`intEventID`, `strEventName`, `txtEventDesc`, `strXML`, `strEventType`, `blnRepeating`, `dtmCreatedOn`, `strCreatedBy`, `dtmModifiedOn`, `strModifiedBy`) VALUES
-(1, 'Standstill', 'No event', 'standstill.xml', 'Standstill', 1, '2014-09-27 00:00:00', 'akereliuk', NULL, NULL),
-(2, 'Tutorial Fairy', 'Character gets to talk to Tutorial Fairy', 'tutorialFairy.xml', 'Start Event', 0, '2014-09-27 00:00:00', 'akereliuk', NULL, NULL),
-(3, 'Weight Gain', 'Character gains weight', 'weightgain.xml', 'Event', 1, '2014-09-27 00:00:00', 'akereliuk', NULL, NULL),
-(4, 'Eat Burger', 'Character eats burger', 'eatburger.xml', 'Event', 1, '2014-10-02 00:00:00', 'akereliuk', NULL, NULL),
+(1, 'Standstill', 'No event', 'standstill.xml', 'Standstill', 1, '2014-09-27 00:00:00', 'admin', NULL, NULL),
+(2, 'Tutorial Fairy', 'Character gets to talk to Tutorial Fairy', 'tutorialFairy.xml', 'Start Event', 0, '2014-09-27 00:00:00', 'admin', NULL, NULL),
+(3, 'Weight Gain', 'Character gains weight', 'weightgain.xml', 'Event', 1, '2014-09-27 00:00:00', 'admin', NULL, NULL),
+(4, 'Eat Burger', 'Character eats burger', 'eatburger.xml', 'Event', 1, '2014-10-02 00:00:00', 'admin', NULL, NULL),
 (11, 'Leave Tower Event Long', 'When user leaves the tower for the first time to enter city.', 'leaveTowerLong.xml', 'Event', 0, '2016-02-12 00:00:00', 'admin', NULL, NULL),
 (12, 'Leave Tower Event Short', 'When user leaves the tower after the first time.', 'leaveTowerShort.xml', 'Event', 1, '2016-02-12 00:00:00', 'admin', NULL, NULL),
 (13, 'Sleep at Home', 'Character sleeps in their room at home.', 'sleepAtHome.xml', 'Event', 1, '2016-02-18 00:00:00', 'admin', NULL, NULL),
@@ -986,7 +1206,9 @@ INSERT INTO `tblevent` (`intEventID`, `strEventName`, `txtEventDesc`, `strXML`, 
 (45, 'Seraphine Event 3', 'Seraphine is in trouble!', 'seraphine3.xml', 'Event', 0, '2019-11-09 00:00:00', 'admin', NULL, NULL),
 (46, 'Restaurant', 'Entering La Contessa, Nora\'s restaurant.', 'restaurant.xml', 'Event', 1, '2019-11-10 00:00:00', 'admin', NULL, NULL),
 (47, 'Nora Event 1', 'Receive the VIP voucher from Nora personally.', 'nora1.xml', 'Event', 1, '2019-11-11 00:00:00', 'admin', NULL, NULL),
-(48, 'Nora Event 2', 'Get a VIP meal from Nora for the first time.', 'nora2.xml', 'Event', 1, '2019-11-11 00:00:00', 'admin', NULL, NULL);
+(48, 'Nora Event 2', 'Get a VIP meal from Nora for the first time.', 'nora2.xml', 'Event', 1, '2019-11-11 00:00:00', 'admin', NULL, NULL),
+(49, 'Floor 4 Standstill', NULL, 'standstill4.xml', 'Standstill', 1, '2019-11-25 00:00:00', 'admin', NULL, NULL),
+(50, 'Floor 4 Boss', NULL, 'floor4Boss.xml', 'End Event', 1, '2019-11-25 00:00:00', 'admin', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1101,16 +1323,17 @@ CREATE TABLE IF NOT EXISTS `tblfloor` (
   `dtmModifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`intFloorID`),
   UNIQUE KEY `intFloorID` (`intFloorID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblfloor`
 --
 
 INSERT INTO `tblfloor` (`intFloorID`, `strFloorName`, `strFloorType`, `intDimension`, `strCreatedBy`, `dtmCreatedOn`, `strModifiedBy`, `dtmModifiedOn`) VALUES
-(1, 'Beginner Floor 1', 'Field', 7, 'akereliuk', '2014-09-20 00:00:00', NULL, NULL),
-(2, 'Dungeon Floor', 'Field', 5, 'admin', '2016-07-19 00:00:00', NULL, NULL),
-(3, 'Swamp Floor', 'Field', 3, 'admin', '2019-09-26 00:00:00', NULL, NULL);
+(1, 'Beginner Floor 1', 'Field', 7, 'admin', '2014-09-20 00:00:00', NULL, NULL),
+(2, 'Dungeon Floor', 'Field', 6, 'admin', '2016-07-19 00:00:00', NULL, NULL),
+(3, 'Swamp Floor', 'Field', 8, 'admin', '2019-09-26 00:00:00', NULL, NULL),
+(4, 'Forest Floor', 'Field', 8, 'admin', '2019-11-25 00:00:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1128,7 +1351,7 @@ CREATE TABLE IF NOT EXISTS `tblflooreventxr` (
   PRIMARY KEY (`intFloorEventXRID`),
   KEY `intFloorID` (`intFloorID`,`intEventID`),
   KEY `intEventID` (`intEventID`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblflooreventxr`
@@ -1158,7 +1381,9 @@ INSERT INTO `tblflooreventxr` (`intFloorEventXRID`, `intFloorID`, `intEventID`, 
 (24, 3, 37, 100, 1),
 (25, 3, 38, 9999, 1),
 (26, 3, 39, 9999, 1),
-(27, 3, 45, 1000, 1);
+(27, 3, 45, 1000, 1),
+(28, 4, 49, 9999, 1),
+(29, 4, 50, 9999, 1);
 
 -- --------------------------------------------------------
 
@@ -1177,7 +1402,7 @@ CREATE TABLE IF NOT EXISTS `tblfloornpcxr` (
   PRIMARY KEY (`intFloorNPCXRID`),
   KEY `intFloorID` (`intFloorID`),
   KEY `intNPCID` (`intNPCID`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblfloornpcxr`
@@ -1201,7 +1426,15 @@ INSERT INTO `tblfloornpcxr` (`intFloorNPCXRID`, `intFloorID`, `intNPCID`, `intNP
 (15, 3, 9, 10, 11, 100),
 (16, 3, 12, 13, 0, 100),
 (17, 3, 14, 11, 11, 9999),
-(18, 3, 2, 0, 0, 9999);
+(18, 3, 2, 0, 0, 9999),
+(19, 4, 18, 20, 0, 1000),
+(20, 4, 20, 21, 0, 1000),
+(21, 4, 19, 0, 0, 1000),
+(22, 4, 22, 0, 0, 1000),
+(23, 4, 18, 19, 0, 1000),
+(24, 4, 21, 22, 0, 1000),
+(25, 4, 18, 19, 20, 1000),
+(26, 4, 23, 22, 22, 9999);
 
 -- --------------------------------------------------------
 
@@ -1239,13 +1472,13 @@ CREATE TABLE IF NOT EXISTS `tblitem` (
 --
 
 INSERT INTO `tblitem` (`intItemID`, `strItemName`, `txtItemDesc`, `strItemType`, `strHandType`, `intCalories`, `intHPHeal`, `intDamage`, `intMagicDamage`, `intDefence`, `intMagicDefence`, `intWaitTime`, `intFullness`, `strStatDamage`, `strFileName`, `intSellPrice`, `strCreatedBy`, `dtmCreatedOn`, `strModifiedBy`, `dtmModifiedOn`) VALUES
-(1, 'Mysterious Hamburger', 'A warm hamburger found on the ground during an event with more calories than usual.', 'Food', NULL, 5000, 2, NULL, NULL, NULL, NULL, 0, 500, NULL, NULL, 1, 'akereliuk', '2014-10-09 19:58:50', NULL, NULL),
-(3, 'Goblin Mace', 'A blunt mace likely to be used by goblins.', 'Weapon:Blunt', 'Primary', NULL, 0, 2, NULL, NULL, NULL, 35, 0, 'Strength', NULL, 1, 'akereliuk', '2014-10-25 19:55:58', NULL, NULL),
-(5, 'Small Health Potion', 'A small potion that will recover some of your health points. Use it when you are injured.', 'Potion', NULL, 100, 5, NULL, NULL, NULL, NULL, 0, 50, 'Strength', NULL, 1, 'admin', '2016-03-11 00:00:00', NULL, NULL),
+(1, 'Mysterious Hamburger', 'A warm hamburger found on the ground during an event with more calories than usual.', 'Food', NULL, 5000, 8, NULL, NULL, NULL, NULL, 0, 500, NULL, NULL, 1, 'admin', '2014-10-09 19:58:50', NULL, NULL),
+(3, 'Goblin Mace', 'A blunt mace likely to be used by goblins.', 'Weapon:Blunt', 'Primary', NULL, 0, 2, NULL, NULL, NULL, 35, 0, 'Strength', NULL, 1, 'admin', '2014-10-25 19:55:58', NULL, NULL),
+(5, 'Small Health Potion', 'A small potion that will recover some of your health points. Use it when you are injured.', 'Potion', NULL, 100, 20, NULL, NULL, NULL, NULL, 0, 50, 'Strength', NULL, 1, 'admin', '2016-03-11 00:00:00', NULL, NULL),
 (6, 'Leather Cuirass', 'A light leather cuirass meant to be worn on top of clothes. The bottom is a skirt which leaves the lower body unprotected. Great for mobility.', 'Armour:Armour', NULL, NULL, 0, NULL, NULL, 2, NULL, 10, 0, NULL, NULL, 1, 'admin', '2016-04-08 00:00:00', NULL, NULL),
 (7, 'Tanktop', 'A simple tanktop.', 'Armour:Top', NULL, NULL, 0, NULL, NULL, 1, NULL, 2, 0, NULL, NULL, 1, 'admin', '2016-04-08 00:00:00', NULL, NULL),
 (8, 'Jeans', 'Straight blue jeans.', 'Armour:Bottom', NULL, NULL, 0, NULL, NULL, 1, NULL, 3, 0, NULL, NULL, 1, 'admin', '2016-04-08 00:00:00', NULL, NULL),
-(9, 'Chocolate Cupcake', 'A delicious chocolate glazed cupcake. Yummy!', 'Food', NULL, 600, 1, NULL, NULL, NULL, NULL, 0, 200, NULL, NULL, 1, 'admin', '2016-07-05 00:00:00', NULL, NULL),
+(9, 'Chocolate Cupcake', 'A delicious chocolate glazed cupcake. Yummy!', 'Food', NULL, 600, 2, NULL, NULL, NULL, NULL, 0, 200, NULL, NULL, 1, 'admin', '2016-07-05 00:00:00', NULL, NULL),
 (10, 'Wooden Stick', 'A rugged wooden stick that could potentially be used as a weapon, albeit not a very effective one.', 'Weapon:Sword', 'Primary', NULL, 0, 1, NULL, NULL, NULL, 10, 0, 'Strength', NULL, 1, 'admin', '2016-07-14 00:00:00', NULL, NULL),
 (11, 'Broad Stick', 'A stick with more girth than your average tree branch, equipped with a trunk-like tip making it much more viable for combat.', 'Weapon:Blunt', 'Primary', NULL, 0, 2, NULL, NULL, NULL, 20, 0, 'Strength', NULL, 1, 'admin', '2016-07-14 00:00:00', NULL, NULL),
 (12, 'Wooden Axe', 'A bit of woodwork and a few sturdy logs and you\'ve got yourself a fairly durable axe weapon. Not nearly as effective as a metal axe, but certainly cheaper.', 'Weapon:Axe', 'Primary', NULL, 0, 2, NULL, NULL, NULL, 20, 0, 'Strength', NULL, 1, 'admin', '2016-07-14 00:00:00', NULL, NULL),
@@ -1259,14 +1492,14 @@ INSERT INTO `tblitem` (`intItemID`, `strItemName`, `txtItemDesc`, `strItemType`,
 (21, 'Magi Staff', 'A long iron rod with an cupped sapphire gemstone at the tip. Its respectable magical capacity comes at the expense of its heavier weight.', 'Weapon:Staff', 'Both', NULL, 0, NULL, 10, NULL, NULL, 25, 0, 'Intelligence', NULL, 5, 'admin', '2016-07-24 00:00:00', NULL, NULL),
 (22, 'Leather Mail', 'This armour consists of light chainmail with a leather chestpiece over top. Steel cuisses cover the thighs. The chestpiece is constructed by fastening multiple layers of leather together then sturdily sewing it.', 'Armour:Armour', NULL, NULL, 0, NULL, NULL, 5, NULL, 15, 0, NULL, NULL, 5, 'admin', '2016-07-25 00:00:00', NULL, NULL),
 (23, 'Succubus Corset', 'A tightly fitting outfit that hardly covers the breasts and extends to the hips. It can be made to be even tighter by pulling the lacing. The material is stiffened and is designed to shape a woman\'s figure.', 'Armour:Top', NULL, NULL, 0, NULL, NULL, 1, 4, 5, 0, 'Strength', NULL, 10, 'admin', '2016-07-30 00:00:00', NULL, NULL),
-(24, 'Sub Sandwich', 'A footlong sub sandwich toasted with turkey, ham, lettuce, tomatoes, and mayo on white bread. It will take a lot of time to eat this due to the length of the sandwich.', 'Food', NULL, 1200, 3, NULL, NULL, NULL, NULL, 0, 600, 'Strength', NULL, 1, 'admin', '2016-08-13 00:00:00', NULL, NULL),
-(25, 'Chocolate Cake Slice', 'The ultimate dessert if you\'re craving chocolate. A spongey exterior stuffed with chocolate cream, glazed with even more melted chocolate and topped with cocoa powder. Only one slice however.', 'Food', NULL, 800, 1, NULL, NULL, NULL, NULL, 0, 300, 'Strength', NULL, 1, 'admin', '2016-08-13 00:00:00', NULL, NULL),
-(26, 'Salad', 'Lettuce leaves tossed with a balsamic dressing. Diet food.', 'Food', NULL, 100, 2, NULL, NULL, NULL, NULL, 0, 200, 'Strength', NULL, 1, 'admin', '2016-08-13 00:00:00', NULL, NULL),
-(27, 'Chocolate Peanut Butter Milkshake', 'Blended buttermilk pancakes and chocolate topped with fudge and peanut butter sauce. A deliciously fattening dessert.', 'Food', NULL, 3000, 2, NULL, NULL, NULL, NULL, 0, 800, 'Strength', NULL, 1, 'admin', '2016-08-13 00:00:00', NULL, NULL),
-(28, 'Rice Bowl', 'A plain bowl of white rice.', 'Food', NULL, 400, 2, NULL, NULL, NULL, NULL, 0, 400, 'Strength', NULL, 1, 'admin', '2016-08-13 00:00:00', NULL, NULL),
-(29, 'Spaghetti and Meatballs', 'Spaghetti pasta topped with tomato sauce and three tasty meatballs.', 'Food', NULL, 1500, 3, NULL, NULL, NULL, NULL, 0, 700, 'Strength', NULL, 1, 'admin', '2016-08-13 00:00:00', NULL, NULL),
+(24, 'Sub Sandwich', 'A footlong sub sandwich toasted with turkey, ham, lettuce, tomatoes, and mayo on white bread. It will take a lot of time to eat this due to the length of the sandwich.', 'Food', NULL, 1200, 7, NULL, NULL, NULL, NULL, 0, 600, 'Strength', NULL, 1, 'admin', '2016-08-13 00:00:00', NULL, NULL),
+(25, 'Chocolate Cake Slice', 'The ultimate dessert if you\'re craving chocolate. A spongey exterior stuffed with chocolate cream, glazed with even more melted chocolate and topped with cocoa powder. Only one slice however.', 'Food', NULL, 800, 4, NULL, NULL, NULL, NULL, 0, 300, 'Strength', NULL, 1, 'admin', '2016-08-13 00:00:00', NULL, NULL),
+(26, 'Salad', 'Lettuce leaves tossed with a balsamic dressing. Diet food.', 'Food', NULL, 100, 5, NULL, NULL, NULL, NULL, 0, 200, 'Strength', NULL, 1, 'admin', '2016-08-13 00:00:00', NULL, NULL),
+(27, 'Chocolate Peanut Butter Milkshake', 'Blended buttermilk pancakes and chocolate topped with fudge and peanut butter sauce. A deliciously fattening dessert.', 'Food', NULL, 3000, 6, NULL, NULL, NULL, NULL, 0, 800, 'Strength', NULL, 1, 'admin', '2016-08-13 00:00:00', NULL, NULL),
+(28, 'Rice Bowl', 'A plain bowl of white rice.', 'Food', NULL, 400, 8, NULL, NULL, NULL, NULL, 0, 400, 'Strength', NULL, 1, 'admin', '2016-08-13 00:00:00', NULL, NULL),
+(29, 'Spaghetti and Meatballs', 'Spaghetti pasta topped with tomato sauce and three tasty meatballs.', 'Food', NULL, 1500, 10, NULL, NULL, NULL, NULL, 0, 700, 'Strength', NULL, 1, 'admin', '2016-08-13 00:00:00', NULL, NULL),
 (30, 'Large Weight Gain Potion', 'Nobody really knows what it contains aside from a buttload of calories. Drink at your own risk!', 'Potion', NULL, 99999, 0, NULL, NULL, NULL, NULL, 0, 5000, 'Strength', 'LargeWeightGain', 30, 'admin', '2016-08-13 00:00:00', NULL, NULL),
-(31, 'Vegetable Smoothie', 'The ultimate diet food. Spinach and kale smoothie that\'s bursting in vitamins and minerals. Will fill you right up with minimal calorie consumption.', 'Food', NULL, 200, 2, NULL, NULL, NULL, NULL, 0, 800, 'Strength', NULL, 1, 'admin', '2016-08-13 00:00:00', NULL, NULL),
+(31, 'Vegetable Smoothie', 'The ultimate diet food. Spinach and kale smoothie that\'s bursting in vitamins and minerals. Will fill you right up with minimal calorie consumption.', 'Food', NULL, 200, 8, NULL, NULL, NULL, NULL, 0, 800, 'Strength', NULL, 1, 'admin', '2016-08-13 00:00:00', NULL, NULL),
 (32, 'Brass Knuckles', 'Metal shaped to fit around the knuckles, concentrating the area of a punch more precisely to deal heavier damage on impact.', 'Weapon:Claws', 'Both', NULL, 0, 2, NULL, NULL, NULL, 2, 0, 'Strength', NULL, 1, 'admin', '2016-08-16 00:00:00', NULL, NULL),
 (33, 'Knife', 'A shorter and lighter version of a dagger, commonly utilized in a quick and precise stabbing motion. Could also be used to cut meat.', 'Weapon:Dagger', 'Primary', NULL, 0, 2, NULL, NULL, NULL, 5, 0, 'Strength', NULL, 1, 'admin', '2016-08-16 00:00:00', NULL, NULL),
 (34, 'Dirk', 'A dagger with a straight, single-edged blade that\'s about a foot long, and short, straight quillions.', 'Weapon:Dagger', 'Primary', NULL, 0, 8, NULL, NULL, NULL, 5, NULL, 'Strength', NULL, 10, 'admin', '2016-08-16 00:00:00', NULL, NULL),
@@ -1276,9 +1509,9 @@ INSERT INTO `tblitem` (`intItemID`, `strItemName`, `txtItemDesc`, `strItemType`,
 (38, 'Small Weight Loss Potion', 'A potion designed to make you rapidly lose weight. Use at your own risk!', 'Potion', NULL, 0, 0, NULL, NULL, NULL, NULL, 0, 100, 'Strength', 'SmallWeightLoss', 20, 'admin', '2016-08-20 00:00:00', NULL, NULL),
 (39, 'Medium Weight Loss Potion', 'A potion designed to make you rapidly lose weight. Use at your own risk!', 'Potion', NULL, 0, 0, NULL, NULL, NULL, NULL, 0, 200, 'Strength', 'MediumWeightLoss', 40, 'admin', '2016-08-20 00:00:00', NULL, NULL),
 (40, 'Large Weight Loss Potion', 'A potion designed to make you rapidly lose weight. Use at your own risk!', 'Potion', NULL, 0, 0, NULL, NULL, NULL, NULL, 0, 300, 'Strength', 'LargeWeightLoss', 60, 'admin', '2016-08-20 00:00:00', NULL, NULL),
-(41, 'Orange Juice', 'Juice made from squeezed oranges with the pulp inside.', 'Food', NULL, 150, 3, NULL, NULL, NULL, NULL, 0, 300, 'Strength', NULL, 1, 'admin', '2016-08-20 00:00:00', NULL, NULL),
-(42, 'Chocolate Milk', 'It\'s milk with cocoa powder mixed in.', 'Food', NULL, 300, 3, NULL, NULL, NULL, NULL, 0, 400, 'Strength', NULL, 1, 'admin', '2016-08-20 00:00:00', NULL, NULL),
-(43, 'Jasmine Tea', 'Uses green tea leaves as base and scented with jasmine blossom aroma.', 'Food', NULL, 0, 4, NULL, NULL, NULL, NULL, 0, 200, 'Strength', NULL, 1, 'admin', '2016-08-20 00:00:00', NULL, NULL),
+(41, 'Orange Juice', 'Juice made from squeezed oranges with the pulp inside.', 'Food', NULL, 150, 6, NULL, NULL, NULL, NULL, 0, 300, 'Strength', NULL, 1, 'admin', '2016-08-20 00:00:00', NULL, NULL),
+(42, 'Chocolate Milk', 'It\'s milk with cocoa powder mixed in.', 'Food', NULL, 300, 6, NULL, NULL, NULL, NULL, 0, 400, 'Strength', NULL, 1, 'admin', '2016-08-20 00:00:00', NULL, NULL),
+(43, 'Jasmine Tea', 'Uses green tea leaves as base and scented with jasmine blossom aroma.', 'Food', NULL, 0, 9, NULL, NULL, NULL, NULL, 0, 200, 'Strength', NULL, 1, 'admin', '2016-08-20 00:00:00', NULL, NULL),
 (44, 'Coffee', 'A brewed drink made with roasted coffee beans. It contains caffeine.', 'Food', NULL, 300, 0, NULL, NULL, NULL, NULL, 0, 400, 'Strength', 'Coffee', 1, 'admin', '2016-08-20 00:00:00', NULL, NULL),
 (45, 'Battle Wand', 'A wand that resembles a club with a large rugged head instead of the usual narrow tip. This wand sacrifices magical capacity for the slight advantage in a melee.', 'Weapon:Wand', 'Primary', NULL, 0, NULL, 4, NULL, NULL, 10, NULL, 'Intelligence', NULL, 5, 'admin', '2016-09-17 00:00:00', NULL, NULL),
 (46, 'Hypno Staff', 'A staff with a unique property: Powerful sleep magic is injected into its wood, granting a chance at putting your enemies to sleep with any magic spell.', 'Weapon:Staff', 'Both', NULL, 0, 0, 6, NULL, NULL, 15, NULL, 'Intelligence', 'HypnoStaff', 25, 'admin', '2016-09-17 00:00:00', NULL, NULL),
@@ -1300,7 +1533,7 @@ CREATE TABLE IF NOT EXISTS `tbliteminstanceenchant` (
   KEY `intItemInstanceID` (`intItemInstanceID`),
   KEY `intSuffixEnchantID` (`intSuffixEnchantID`),
   KEY `intPrefixEnchantID` (`intPrefixEnchantID`)
-) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbliteminstanceenchant`
@@ -1310,7 +1543,11 @@ INSERT INTO `tbliteminstanceenchant` (`intItemInstanceEnchantID`, `intItemInstan
 (98, 2048, 2, NULL),
 (99, 2073, NULL, 3),
 (103, 2147, 2, NULL),
-(104, 2171, NULL, 3);
+(104, 2171, NULL, 3),
+(105, 2181, 2, NULL),
+(106, 2204, NULL, 3),
+(107, 2212, 2, NULL),
+(108, 2235, NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -1502,30 +1739,36 @@ CREATE TABLE IF NOT EXISTS `tblnpc` (
   `dtmModifiedOn` datetime DEFAULT NULL,
   `strModifiedBy` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`intNPCID`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblnpc`
 --
 
 INSERT INTO `tblnpc` (`intNPCID`, `strNPCName`, `strShortName`, `intWeight`, `intHeight`, `intExperienceGiven`, `intGoldDropMin`, `intGoldDropMax`, `blnHasStartEvent`, `blnHasEndEvent`, `strAIName`, `intWeightGain`, `dtmCreatedOn`, `strCreatedBy`, `dtmModifiedOn`, `strModifiedBy`) VALUES
-(1, 'Goblin', '', 120, 150, 800, 0, 5, 0, 0, 'AlwaysAttack', 0, '2014-10-25 14:22:34', 'akereliuk', NULL, NULL),
-(2, 'Seraphine the Tutorial Fairy', 'Seraphine', 50, 100, 1600, 0, 0, 1, 1, 'AlwaysFeed', 0, '2014-11-15 16:38:52', 'akereliuk', NULL, NULL),
+(1, 'Goblin', '', 120, 150, 800, 0, 5, 0, 0, 'AlwaysAttack', 0, '2014-10-25 14:22:34', 'admin', NULL, NULL),
+(2, 'Seraphine the Tutorial Fairy', 'Seraphine', 50, 100, 1600, 0, 0, 1, 1, 'AlwaysFeed', 0, '2014-11-15 16:38:52', 'admin', NULL, NULL),
 (3, 'Rat', '', 2, 30, 400, 0, 3, 0, 0, 'AlwaysAttack', 0, '2016-07-14 00:00:00', 'admin', NULL, NULL),
-(4, 'Skeleton', '', 80, 130, 3200, 3, 10, 0, 0, 'AlwaysAttack', 0, '2016-07-14 00:00:00', 'admin', NULL, NULL),
-(5, 'Goblin Chief', '', 250, 130, 4000, 10, 30, 1, 1, 'AlwaysAttack', 0, '2016-07-14 00:00:00', 'admin', NULL, NULL),
-(6, 'Armoured Skeleton', '', 120, 130, 4500, 5, 15, 0, 0, 'DPS', 0, '2016-07-19 00:00:00', 'admin', NULL, NULL),
-(7, 'Skeleton Mage', '', 130, 120, 4500, 5, 15, 0, 0, 'DPS', 0, '2016-07-21 00:00:00', 'admin', NULL, NULL),
-(8, 'Black Succubus', '', 120, 158, 9600, 20, 50, 1, 1, 'Succubus', 20, '2016-07-21 00:00:00', 'admin', NULL, NULL),
-(9, 'Small Slime', '', 20, 20, 2500, 5, 10, 0, 0, 'AlwaysFeed', 2, '2019-09-26 00:00:00', 'admin', NULL, NULL),
-(10, 'Medium Slime', '', 40, 30, 3000, 6, 12, 0, 0, 'AlwaysFeed', 4, '2019-09-26 00:00:00', 'admin', NULL, NULL),
-(11, 'Large Slime', '', 60, 40, 3500, 8, 16, 0, 0, 'AlwaysFeed', 6, '2019-09-26 00:00:00', 'admin', NULL, NULL),
-(12, 'Venus Flytrap', '', 100, 200, 4000, 5, 15, 0, 0, 'DPS', 0, '2019-09-26 00:00:00', 'admin', NULL, NULL),
+(4, 'Skeleton', '', 80, 130, 3200, 2, 7, 0, 0, 'AlwaysAttack', 0, '2016-07-14 00:00:00', 'admin', NULL, NULL),
+(5, 'Goblin Chief', '', 250, 130, 4000, 10, 20, 1, 1, 'AlwaysAttack', 0, '2016-07-14 00:00:00', 'admin', NULL, NULL),
+(6, 'Armoured Skeleton', '', 120, 130, 4500, 3, 9, 0, 0, 'DPS', 0, '2016-07-19 00:00:00', 'admin', NULL, NULL),
+(7, 'Skeleton Mage', '', 130, 120, 4500, 3, 9, 0, 0, 'DPS', 0, '2016-07-21 00:00:00', 'admin', NULL, NULL),
+(8, 'Black Succubus', '', 120, 158, 9600, 20, 30, 1, 1, 'Succubus', 20, '2016-07-21 00:00:00', 'admin', NULL, NULL),
+(9, 'Small Slime', '', 20, 20, 2500, 4, 10, 0, 0, 'AlwaysFeed', 2, '2019-09-26 00:00:00', 'admin', NULL, NULL),
+(10, 'Medium Slime', '', 40, 30, 3000, 5, 10, 0, 0, 'AlwaysFeed', 4, '2019-09-26 00:00:00', 'admin', NULL, NULL),
+(11, 'Large Slime', '', 60, 40, 3500, 6, 12, 0, 0, 'AlwaysFeed', 6, '2019-09-26 00:00:00', 'admin', NULL, NULL),
+(12, 'Venus Flytrap', '', 100, 200, 4000, 4, 12, 0, 0, 'DPS', 0, '2019-09-26 00:00:00', 'admin', NULL, NULL),
 (13, 'Sarracenia', '', 50, 200, 4200, 5, 15, 0, 0, 'DPS', 0, '2019-09-26 00:00:00', 'admin', NULL, NULL),
-(14, 'Hedorah', '', 700, 400, 12600, 10, 25, 1, 1, 'Hedorah', 8, '2019-09-26 00:00:00', 'admin', NULL, NULL),
+(14, 'Hedorah', '', 700, 400, 12600, 20, 30, 1, 1, 'Hedorah', 8, '2019-09-26 00:00:00', 'admin', NULL, NULL),
 (15, 'Norman Foelsch', 'Norman', 134, 172, 0, 0, 0, 0, 0, 'DPS', 0, '2019-09-26 00:00:00', 'admin', NULL, NULL),
 (16, 'Iyanna Rue', 'Iyanna', 166, 178, 0, 0, 0, 0, 0, 'DPS', 0, '2019-09-26 00:00:00', 'admin', NULL, NULL),
-(17, 'Owen Elsby', 'Owen', 223, 188, 0, 0, 0, 0, 0, 'DPS', 0, '2019-09-29 00:00:00', 'admin', NULL, NULL);
+(17, 'Owen Elsby', 'Owen', 223, 188, 0, 0, 0, 0, 0, 'DPS', 0, '2019-09-29 00:00:00', 'admin', NULL, NULL),
+(18, 'Black Bear', '', 800, 150, 5040, 6, 12, 0, 0, 'DPS', 0, '2019-11-25 00:00:00', 'admin', NULL, NULL),
+(19, 'Wisp', '', 50, 50, 5600, 7, 18, 0, 0, 'DPS', 0, '2019-11-25 00:00:00', 'admin', NULL, NULL),
+(20, 'Dire Wolf', '', 100, 80, 5440, 4, 12, 0, 0, 'DPS', 0, '2019-11-25 00:00:00', 'admin', NULL, NULL),
+(21, 'Anaconda', '', 550, 800, 5440, 4, 12, 0, 0, 'DPS', 0, '2019-11-25 00:00:00', 'admin', NULL, NULL),
+(22, 'Sapper', '', 50, 100, 5260, 5, 15, 0, 0, 'Hedorah', 0, '2019-11-25 00:00:00', 'admin', NULL, NULL),
+(23, 'Hazelleaf', '', 1000, 600, 15120, 20, 30, 1, 1, 'Hedorah', 0, '2019-11-25 00:00:00', 'admin', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1545,7 +1788,7 @@ CREATE TABLE IF NOT EXISTS `tblnpcbattletext` (
   `strFailFleeText` text NOT NULL,
   PRIMARY KEY (`intNPCBattleTextID`),
   KEY `fk_tblnpcbattletext` (`intNPCID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblnpcbattletext`
@@ -1561,7 +1804,13 @@ INSERT INTO `tblnpcbattletext` (`intNPCBattleTextID`, `intNPCID`, `strStartText`
 (8, 10, 'A loud gurgle emits from a nearby bush. A sentient blue slime jumps out at you! You manage to dodge in time, but the slime is ready to rumble. Arming yourself, you are prepared for what’s bound to be a weird encounter.', 'A loud gurgle emits from a nearby bush. A sentient blue slime jumps out at you! You manage to dodge in time, but the slime is ready to rumble. Arming yourself, you are prepared for what’s bound to be a weird encounter.', 'The flattened slime, or rather what’s left of it, rests on the ground it appears incapable of moving anymore.', 'You groan loudly as your stomach ripples and roars from all the food inside it. Unable to move, and stuffed well past your limit, you collapse onto your back in agony. The slime latches onto your face, suffocating you and draining itself into your open mouth rapidly. Your vision begins to fade and warmth overtakes your body...', 'The slime slides the last of itself down your gullet! You clutch your stomach as agony, stuffed beyond your limits. Shortly after, you let out a thunderous belch. You\'ve consumed your enemy entirely! Is this victory, by default..?', 'The slime thrusts itself forward at you, forcing its body down your throat! You manage to pull back, but not without a throatful of blue goop you are forced to swallow so as not to choke!'),
 (9, 11, 'A loud gurgle emits from a nearby bush. A sentient blue slime jumps out at you! You manage to dodge in time, but the slime is ready to rumble. Arming yourself, you are prepared for what’s bound to be a weird encounter.', 'A loud gurgle emits from a nearby bush. A sentient blue slime jumps out at you! You manage to dodge in time, but the slime is ready to rumble. Arming yourself, you are prepared for what’s bound to be a weird encounter.', 'The flattened slime, or rather what’s left of it, rests on the ground it appears incapable of moving anymore.', 'You groan loudly as your stomach ripples and roars from all the food inside it. Unable to move, and stuffed well past your limit, you collapse onto your back in agony. The slime latches onto your face, suffocating you and draining itself into your open mouth rapidly. Your vision begins to fade and warmth overtakes your body...', 'The slime slides the last of itself down your gullet! You clutch your stomach as agony, stuffed beyond your limits. Shortly after, you let out a thunderous belch. You\'ve consumed your enemy entirely! Is this victory, by default..?', 'The slime thrusts itself forward at you, forcing its body down your throat! You manage to pull back, but not without a throatful of blue goop you are forced to swallow so as not to choke!'),
 (10, 12, 'A loud snap comes from the branches above you and suddenly a giant Venus flytrap hangs in front of you. Blocking the way with its leaves it appears there is no way out. With its teeth pointing at you it appears this won\'t be a friendly encounter.\r\n', 'A loud snap comes from the branches above you and suddenly a giant Venus flytrap hangs in front of you. Blocking the way with its leaves it appears there is no way out. With its teeth pointing at you it appears this won\'t be a friendly encounter.\r\n', 'The hideous plant\'s mouth droops down, and its leaves lose the rigidness they had. It hits the ground and begins to curl up, brown and lifeless. You\'ve defeated the fly trap!', '', '', ''),
-(11, 13, 'You hear a crunch and release you\'ve stepped on something living. A giant Sarracenia flower raises itself from the waters, petals dancing around it wildly. The petals whip towards you but you dodge them successfully. You must fight!', 'You hear a crunch and release you\'ve stepped on something living. A giant Sarracenia flower raises itself from the waters, petals dancing around it wildly. The petals whip towards you but you dodge them successfully. You must fight!', 'The giant flower falls back into the depths of the water. Victorious. you are once more free to roam these lands.', '', '', '');
+(11, 13, 'You hear a crunch and realize you\'ve stepped on something living. A giant Sarracenia flower raises itself from the waters, petals dancing around it wildly. The petals whip towards you but you dodge them successfully. You must fight!', 'You hear a crunch and realize you\'ve stepped on something living. A giant Sarracenia flower raises itself from the waters, petals dancing around it wildly. The petals whip towards you but you dodge them successfully. You must fight!', 'The giant flower falls back into the depths of the water. Victorious. you are once more free to roam these lands.', '', '', ''),
+(12, 18, '', '', '', '', '', ''),
+(13, 19, '', '', '', '', '', ''),
+(14, 20, '', '', '', '', '', ''),
+(15, 21, '', '', '', '', '', ''),
+(16, 22, '', '', '', '', '', ''),
+(17, 23, '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -1621,7 +1870,7 @@ CREATE TABLE IF NOT EXISTS `tblnpcinstance` (
   PRIMARY KEY (`intNPCInstanceID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intNPCID` (`intNPCID`)
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblnpcinstance`
@@ -1634,7 +1883,14 @@ INSERT INTO `tblnpcinstance` (`intNPCInstanceID`, `intRPGCharacterID`, `intNPCID
 (67, 197, 17, 1, 0, 0, 50, 0, 223, 500, 1, 303, 250),
 (75, 200, 2, 8, 13220, 2, 0, 2, 234, 0, 1, -1, 250),
 (76, 200, 15, 1, 0, 2, 0, 1, 134, 500, 1, 305, 250),
-(77, 200, 16, 1, 0, 1, 0, 0, 166, 500, 1, 340, 250);
+(77, 200, 16, 1, 0, 1, 0, 0, 166, 500, 1, 340, 250),
+(78, 201, 2, 1, 0, 2, 0, 2, 90, 500, 1, -3, 250),
+(79, 201, 16, 1, 0, 1, 0, 1, 166, 500, 1, 340, 250),
+(80, 201, 17, 1, 0, 1, 0, 0, 223, 500, 1, 303, 250),
+(81, 202, 2, 11, 3578, 2, 0, 2, 147, 256, 1, -10, 250),
+(82, 202, 15, 1, 0, 2, 0, 1, 134, 500, 1, 305, 250),
+(83, 202, 16, 1, 0, 1, 0, 0, 166, 500, 1, 340, 250),
+(84, 202, 17, 1, 0, 1, 0, 0, 223, 500, 1, 303, 250);
 
 -- --------------------------------------------------------
 
@@ -1664,7 +1920,7 @@ CREATE TABLE IF NOT EXISTS `tblnpcinstancestats` (
   PRIMARY KEY (`intNPCInstanceStatID`),
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intNPCID` (`intNPCID`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblnpcinstancestats`
@@ -1677,7 +1933,14 @@ INSERT INTO `tblnpcinstancestats` (`intNPCInstanceStatID`, `intRPGCharacterID`, 
 (53, 197, 17, 280, 75, 65, 40, 45, 40, 65, 50, 25, 50, 50, 25, 50, 1000),
 (61, 200, 2, 27, 2, 16, 23, 2, 9, 16, 0, 7, 157, 7, 0, 10, 1000),
 (62, 200, 15, 300, 10, 100, 10, 10, 70, 20, 100, 0, 100, 100, 5, 50, 1000),
-(63, 200, 16, 300, 80, 50, 40, 80, 80, 40, 50, 10, 50, 20, 60, 100, 1000);
+(63, 200, 16, 300, 80, 50, 40, 80, 80, 40, 50, 10, 50, 20, 60, 100, 1000),
+(64, 201, 2, 20, 2, 2, 2, 2, 2, 2, 0, 0, 150, 0, 0, 10, 1000),
+(65, 201, 16, 300, 80, 50, 40, 80, 80, 40, 50, 10, 50, 20, 60, 100, 1000),
+(66, 201, 17, 280, 75, 65, 40, 45, 40, 65, 50, 25, 50, 50, 25, 50, 1000),
+(67, 202, 2, 30, 2, 22, 32, 2, 12, 22, 0, 10, 160, 10, 0, 10, 1000),
+(68, 202, 15, 300, 10, 100, 10, 10, 70, 20, 100, 0, 100, 100, 5, 50, 1000),
+(69, 202, 16, 300, 80, 50, 40, 80, 80, 40, 50, 10, 50, 20, 60, 100, 1000),
+(70, 202, 17, 280, 75, 65, 40, 45, 40, 65, 50, 25, 150, 50, 25, 50, 1000);
 
 -- --------------------------------------------------------
 
@@ -1697,7 +1960,7 @@ CREATE TABLE IF NOT EXISTS `tblnpcitemxr` (
   PRIMARY KEY (`intNPCItemXRID`),
   KEY `intNPCID` (`intNPCID`,`intItemID`),
   KEY `intItemID` (`intItemID`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblnpcitemxr`
@@ -1716,7 +1979,8 @@ INSERT INTO `tblnpcitemxr` (`intNPCItemXRID`, `intNPCID`, `intItemID`, `blnEquip
 (10, 9, 47, 0, 1, 1000, '2019-09-26 00:00:00'),
 (11, 10, 47, 0, 1, 1000, '2019-09-26 00:00:00'),
 (12, 11, 47, 0, 1, 1000, '2019-09-26 00:00:00'),
-(13, 14, 34, 0, 1, 2000, '2019-09-26 00:00:00');
+(13, 14, 34, 0, 1, 2000, '2019-09-26 00:00:00'),
+(14, 19, 17, 1, 0, 0, '2019-11-26 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1750,7 +2014,7 @@ CREATE TABLE IF NOT EXISTS `tblnpcskillxr` (
   PRIMARY KEY (`intNPCSkillXRID`),
   KEY `intNPCID` (`intNPCID`),
   KEY `intSkillID` (`intSkillID`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblnpcskillxr`
@@ -1770,7 +2034,15 @@ INSERT INTO `tblnpcskillxr` (`intNPCSkillXRID`, `intNPCID`, `intSkillID`, `intRe
 (11, 13, 15, 1),
 (12, 14, 16, 1),
 (13, 14, 17, 1),
-(14, 14, 18, 1);
+(14, 14, 18, 1),
+(15, 18, 19, 1),
+(16, 19, 20, 1),
+(17, 20, 19, 1),
+(18, 21, 23, 1),
+(19, 22, 21, 1),
+(20, 22, 22, 1),
+(21, 23, 15, 1),
+(22, 23, 24, 1);
 
 -- --------------------------------------------------------
 
@@ -1799,7 +2071,7 @@ CREATE TABLE IF NOT EXISTS `tblnpcstats` (
   `intMaxHunger` int(11) NOT NULL DEFAULT '1000',
   PRIMARY KEY (`intNPCStatsID`),
   KEY `intNPCID` (`intNPCID`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblnpcstats`
@@ -1814,15 +2086,21 @@ INSERT INTO `tblnpcstats` (`intNPCStatsID`, `intNPCID`, `intMaxHP`, `intStrength
 (6, 6, 22, 10, 1, 3, 15, 1, 5, 0, 1, 150, 0, 10, 20, 5, 1000000),
 (7, 7, 18, 9, 2, 2, 1, 2, 2, 0, 1, 150, 0, 10, 20, 50, 1000000),
 (8, 8, 25, 5, 100, 20, 5, 20, 20, 0, 60, 150, 0, 10, 20, 100, 1000),
-(9, 9, 50, 5, 5, 5, 5, 100, 5, 0, 0, 0, 0, 0, 0, 100, 1000000),
-(10, 10, 70, 5, 5, 5, 5, 100, 5, 0, 0, 0, 0, 0, 0, 100, 1000000),
-(11, 11, 90, 5, 5, 5, 5, 100, 5, 0, 0, 0, 0, 0, 0, 100, 1000000),
-(12, 12, 65, 10, 10, 10, 10, 10, 10, 5, 5, 5, 5, 5, 5, 0, 100000),
-(13, 13, 72, 10, 10, 10, 10, 10, 10, 5, 5, 5, 5, 5, 5, 0, 100000),
-(14, 14, 120, 20, 5, 5, 10, 5, 5, 5, 5, 5, 5, 5, 5, 100, 1000000),
-(15, 15, 300, 10, 100, 10, 10, 70, 20, 100, 0, 100, 100, 5, 50, 100, 1000),
-(16, 16, 300, 80, 50, 40, 80, 80, 40, 50, 10, 50, 20, 60, 100, 100, 1000),
-(17, 17, 280, 75, 65, 40, 45, 40, 65, 50, 25, 50, 50, 25, 50, 25, 1000);
+(9, 9, 40, 5, 5, 5, 5, 100, 5, 0, 0, 0, 0, 0, 0, 100, 1000000),
+(10, 10, 50, 5, 5, 5, 5, 100, 5, 0, 0, 0, 0, 0, 0, 100, 1000000),
+(11, 11, 60, 5, 5, 5, 5, 100, 5, 0, 0, 0, 0, 0, 0, 100, 1000000),
+(12, 12, 40, 16, 5, 5, 16, 10, 10, 5, 5, 150, 5, 5, 5, 0, 100000),
+(13, 13, 40, 14, 5, 18, 5, 5, 15, 5, 5, 150, 5, 5, 5, 0, 100000),
+(14, 14, 80, 20, 5, 5, 10, 5, 5, 5, 5, 150, 5, 5, 5, 100, 1000000),
+(15, 15, 300, 10, 100, 10, 10, 70, 20, 100, 0, 150, 100, 5, 50, 100, 1000),
+(16, 16, 300, 80, 50, 40, 80, 80, 40, 50, 10, 150, 20, 60, 100, 100, 1000),
+(17, 17, 280, 75, 65, 40, 45, 40, 65, 50, 25, 150, 50, 25, 50, 25, 1000),
+(18, 18, 61, 25, 5, 5, 30, 10, 10, 0, 0, 150, 10, 10, 50, 0, 2000),
+(19, 19, 30, 1, 25, 50, 1, 10, 35, 0, 50, 150, 30, 0, 0, 80, 100000),
+(20, 20, 53, 20, 10, 15, 15, 15, 25, 10, 20, 200, 40, 10, 50, 50, 1000),
+(21, 21, 57, 22, 5, 16, 18, 14, 22, 5, 5, 150, 50, 30, 50, 20, 2000),
+(22, 22, 25, 1, 40, 65, 1, 10, 20, 30, 60, 200, 60, 0, 0, 80, 100000),
+(23, 23, 100, 30, 30, 5, 30, 30, 5, 0, 0, 150, 0, 0, 0, 100, 100000);
 
 -- --------------------------------------------------------
 
@@ -1847,10 +2125,10 @@ CREATE TABLE IF NOT EXISTS `tbloverride` (
 --
 
 INSERT INTO `tbloverride` (`intOverrideID`, `strOverrideName`, `strOverrideDesc`, `dtmCreatedOn`, `strCreatedBy`, `dtmModifiedOn`, `strModifiedBy`) VALUES
-(1, 'Armour Binding', 'Player cannot unequip their armour; must wait until it tears or falls off. Additionally, armour is always tight.', '2014-11-04 21:27:39', 'akereliuk', NULL, NULL),
-(2, 'Stretchy Armour', 'Armour adjusts to player weight; always skintight.', '2014-11-04 21:27:39', 'akereliuk', NULL, NULL),
-(3, 'Allow Equip Tab', 'Allows \r\n\r\nuser to access equip tab during events, but equipping anything will not cause a new event to occur with this override \r\n\r\nset.', '2014-11-13 21:08:16', 'akereliuk', NULL, NULL),
-(4, 'Burdened by Weight', 'Lowers Agility stat based on the user\'s BMI.', '2014-12-08 15:59:48', 'akereliuk', NULL, NULL),
+(1, 'Armour Binding', 'Player cannot unequip their armour; must wait until it tears or falls off. Additionally, armour is always tight.', '2014-11-04 21:27:39', 'admin', NULL, NULL),
+(2, 'Stretchy Armour', 'Armour adjusts to player weight; always skintight.', '2014-11-04 21:27:39', 'admin', NULL, NULL),
+(3, 'Allow Equip Tab', 'Allows \r\n\r\nuser to access equip tab during events, but equipping anything will not cause a new event to occur with this override \r\n\r\nset.', '2014-11-13 21:08:16', 'admin', NULL, NULL),
+(4, 'Burdened by Weight', 'Lowers Agility stat based on the user\'s BMI.', '2014-12-08 15:59:48', 'admin', NULL, NULL),
 (5, 'Hypnotized', 'Cannot attack or use skills and can be controlled by enemy while this override is in effect.', '2016-07-21 00:00:00', 'admin', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -1869,7 +2147,7 @@ CREATE TABLE IF NOT EXISTS `tblpartymember` (
   UNIQUE KEY `intPartyMemberID` (`intPartyMemberID`),
   UNIQUE KEY `intNPCInstanceID_2` (`intNPCInstanceID`),
   KEY `intNPCInstanceID` (`intNPCInstanceID`)
-) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblpartymember`
@@ -1880,7 +2158,9 @@ INSERT INTO `tblpartymember` (`intPartyMemberID`, `intNPCInstanceID`, `strPartyO
 (143, 64, 'PartyOne', 1),
 (144, 67, '', 0),
 (145, 65, '', 0),
-(151, 75, 'PartyOne', 1);
+(151, 75, 'PartyOne', 1),
+(152, 78, '', 0),
+(154, 81, 'PartyOne', 1);
 
 -- --------------------------------------------------------
 
@@ -1999,7 +2279,7 @@ CREATE TABLE IF NOT EXISTS `tblrpgcharacter` (
   PRIMARY KEY (`intRPGCharacterID`),
   KEY `intUserID` (`strUserID`),
   KEY `intFloorID` (`intFloorID`)
-) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblrpgcharacter`
@@ -2007,7 +2287,9 @@ CREATE TABLE IF NOT EXISTS `tblrpgcharacter` (
 
 INSERT INTO `tblrpgcharacter` (`intRPGCharacterID`, `strUserID`, `strRPGCharacterName`, `intHeight`, `dblWeight`, `intDigestionRate`, `intCurrentHunger`, `intHungerRate`, `intTicksStuffed`, `intFloorID`, `intCurrentFloorID`, `intStateID`, `intTownID`, `intLocationID`, `intDay`, `strTime`, `strGender`, `strOrientation`, `strPersonality`, `blnLikesFatSelf`, `blnLikesFatOthers`, `strEyeColour`, `strHairColour`, `strHairLength`, `strEthnicity`, `intLevel`, `intExperience`, `intCurrentHP`, `intStatPoints`, `intGold`, `blnActivated`, `dtmCreatedOn`, `strCreatedBy`, `dtmModifiedOn`, `strModifiedBy`) VALUES
 (197, 'testing', 'test3', 158, 156.59977840397, 250, 522, 1, 0, 3, 3, 1, 0, 0, 24, '17:15', 'Female', 'Heterosexual', 'Shy', 1, 1, 'Brown', 'Brown', 'Short', 'White', 18, 136960, 18, 0, 1015, 1, '2019-09-29 21:50:45', 'system', NULL, NULL),
-(200, 'testing', 'test4', 152, 660.6445015219, 250, 1154, 1, 0, 3, 2, 3, 0, 0, 15, '10:15', 'Female', 'Heterosexual', 'Shy', 1, 1, 'Brown', 'Brown', 'Short', 'White', 12, 8640, 30, 0, 282, 1, '2019-11-10 12:13:46', 'system', NULL, NULL);
+(200, 'testing', 'test4', 152, 660.6445015219, 250, 1110, 1, 0, 3, 2, 4, 1, 6, 15, '10:30', 'Female', 'Heterosexual', 'Shy', 1, 1, 'Brown', 'Brown', 'Short', 'White', 12, 8640, 30, 0, 282, 1, '2019-11-10 12:13:46', 'system', NULL, NULL),
+(201, 'testing', 'test5', 163, 561.2936, 250, 1278, 1, 0, 3, 3, 1, 0, 0, 9, '20:15', 'Female', 'Homosexual', 'Shy', 0, 0, 'Brown', 'Brown', 'Short', 'White', 11, 49860, 18, 0, 493, 1, '2019-11-12 21:53:32', 'system', NULL, NULL),
+(202, 'testing', 'test6', 163, 178.81166041547, 250, 1263, 1, 0, 4, 0, 4, 1, 1, 20, '16:30', 'Female', 'Bisexual', 'Shy', 0, 0, 'Brown', 'Brown', 'Short', 'Tan', 18, 41556, 46, 0, 326, 1, '2019-11-24 22:53:43', 'system', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2116,7 +2398,7 @@ CREATE TABLE IF NOT EXISTS `tblskill` (
   `intPreCooldown` int(11) NOT NULL,
   PRIMARY KEY (`intSkillID`),
   KEY `intStatusEffectID` (`intStatusEffectID`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblskill`
@@ -2137,10 +2419,16 @@ INSERT INTO `tblskill` (`intSkillID`, `strName`, `strClassName`, `txtDescription
 (12, 'Quake', 'Quake', 'Use your weapon to split the ground, sending shockwaves at your enemies and knocking them off their feet.', 'Damage', 1, 3, 0, 'Melee', 3, NULL, 0),
 (13, 'Slime Sacrifice', 'SlimeSacrifice', '', 'Feed', 1, 1, 0, 'None', 0, NULL, 0),
 (14, 'Chew', 'Chew', '', 'Damage', 3, 1, 0, 'None', 3, NULL, 0),
-(15, 'Leaf Cutter', 'LeafCutter', '', 'Damage', 1, 3, 0, 'None', 4, NULL, 2),
+(15, 'Leaf Cutter', 'LeafCutter', '', 'Damage', 1, 3, 0, 'None', 4, NULL, 1),
 (16, 'Goop Cannon', 'GoopCannon', '', 'Debuff', 1, 3, 0, 'None', 3, 12, 3),
 (17, 'Ground Pound', 'GroundPound', '', 'Debuff', 1, 3, 0, 'None', 5, 13, 5),
-(18, 'Toxic Breath', 'ToxicBreath', '', 'Debuff', 1, 3, 0, 'None', 8, NULL, 1);
+(18, 'Toxic Breath', 'ToxicBreath', '', 'Debuff', 1, 3, 0, 'None', 8, NULL, 1),
+(19, 'Claw', 'Claw', '', 'Damage', 1, 1, 0, 'None', 3, NULL, 1),
+(20, 'Lightning Bolt', 'LightningBolt', '', 'Damage', 1, 1, 0, 'None', 0, NULL, 0),
+(21, 'Sap Weight', 'SapWeight', '', 'Debuff', 1, 1, 0, 'None', 2, NULL, 0),
+(22, 'Sap HP', 'SapHP', '', 'Debuff', 1, 1, 0, 'None', 1, NULL, 0),
+(23, 'Poison Bite', 'PoisonBite', '', 'Damage', 1, 1, 0, 'None', 4, NULL, 1),
+(24, 'Entangle', 'Entangle', '', 'Debuff', 1, 3, 0, 'None', 5, 13, 3);
 
 -- --------------------------------------------------------
 
@@ -2188,17 +2476,17 @@ CREATE TABLE IF NOT EXISTS `tblstatuseffect` (
   `dtmModifiedOn` datetime DEFAULT NULL,
   `strModifiedBy` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`intStatusEffectID`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblstatuseffect`
 --
 
 INSERT INTO `tblstatuseffect` (`intStatusEffectID`, `strStatusEffectName`, `dtmCreatedOn`, `strCreatedBy`, `dtmModifiedOn`, `strModifiedBy`) VALUES
-(1, 'Fattening I', '2014-11-04 21:26:59', 'akereliuk', NULL, NULL),
-(2, 'Armour Binding', '2014-11-04 21:26:59', 'akereliuk', NULL, NULL),
-(3, 'Stretchy Armour', '2014-11-04 21:26:59', 'akereliuk', NULL, NULL),
-(4, 'Burdened by Weight', '2014-12-08 15:59:48', 'akereliuk', NULL, NULL),
+(1, 'Fattening I', '2014-11-04 21:26:59', 'admin', NULL, NULL),
+(2, 'Armour Binding', '2014-11-04 21:26:59', 'admin', NULL, NULL),
+(3, 'Stretchy Armour', '2014-11-04 21:26:59', 'admin', NULL, NULL),
+(4, 'Burdened by Weight', '2014-12-08 15:59:48', 'admin', NULL, NULL),
 (5, 'Hypnotized', '2016-07-21 00:00:00', 'admin', NULL, NULL),
 (6, 'Hungry', '2016-08-12 00:00:00', 'admin', NULL, NULL),
 (7, 'Full', '2016-08-12 00:00:00', 'admin', NULL, NULL),
@@ -2232,7 +2520,7 @@ CREATE TABLE IF NOT EXISTS `tblstatuseffectstatchange` (
   PRIMARY KEY (`intStatusEffectStatChangeID`),
   KEY `intStatusEffectID` (`intStatusEffectID`),
   KEY `intOverrideID` (`intOverrideID`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblstatuseffectstatchange`
@@ -2292,7 +2580,7 @@ CREATE TABLE IF NOT EXISTS `tbluniqueeventgifts` (
   KEY `intRPGCharacterID` (`intRPGCharacterID`),
   KEY `intEventID` (`intEventID`),
   KEY `intItemID` (`intItemID`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbluniqueeventgifts`
@@ -2304,7 +2592,13 @@ INSERT INTO `tbluniqueeventgifts` (`intUniqueEventGiftID`, `intRPGCharacterID`, 
 (10, 197, 27, 15, '2019-10-04 19:27:18'),
 (15, 200, 2, 6, '2019-11-10 12:14:13'),
 (16, 200, 27, 9, '2019-11-10 12:19:32'),
-(17, 200, 27, 15, '2019-11-10 12:19:33');
+(17, 200, 27, 15, '2019-11-10 12:19:33'),
+(18, 201, 2, 6, '2019-11-12 21:55:16'),
+(19, 201, 27, 9, '2019-11-12 22:03:00'),
+(20, 201, 27, 15, '2019-11-12 22:03:08'),
+(21, 202, 2, 6, '2019-11-24 22:53:54'),
+(22, 202, 27, 9, '2019-11-24 22:57:31'),
+(23, 202, 27, 15, '2019-11-24 22:57:31');
 
 -- --------------------------------------------------------
 

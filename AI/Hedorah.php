@@ -40,18 +40,45 @@ class Hedorah{
 			$this->_objTarget = $this->_objPlayerTeam->getPartyTwo();
 		}
 		
-		foreach($this->_objNPC->getActiveSkillList('Debuff') as $key => $objSkill){
-			if($objSkill->getCurrentCooldown() == 0 && !$blnPickedSkill){
-				$udfCurrentAction = "Skill" . $objSkill->getClassName();
-				$this->_objNPC->getActiveSkillList('Debuff')[$key]->resetCooldown();
-				$blnPickedSkill = true;
-				if($objSkill->getTargetCount() == '3'){
-					$this->_objTarget = $this->_objPlayerTeam;
+		if($this->_objNPC->getActiveSkillList('Damage')){
+			
+			foreach($this->_objNPC->getActiveSkillList('Damage') as $key => $objSkill){
+				if($objSkill->getCurrentCooldown() == 0 && !$blnPickedSkill){
+					$udfCurrentAction = "Skill" . $objSkill->getClassName();
+					$this->_objNPC->getActiveSkillList('Damage')[$key]->resetCooldown();
+					$blnPickedSkill = true;
+					if($objSkill->getTargetCount() == '3'){
+						$this->_objTarget = $this->_objPlayerTeam;
+					}
+					$blnFoundSkill = true;
+				}
+				else{
+					$this->_objNPC->getActiveSkillList('Damage')[$key]->decrementCooldown();
+					$blnFoundSkill = false;
 				}
 			}
-			else{
-				$this->_objNPC->getActiveSkillList('Debuff')[$key]->decrementCooldown();
+			
+		}
+		else{
+			$blnFoundSkill = false;
+		}
+		
+		if($this->_objNPC->getActiveSkillList('Debuff')){
+		
+			foreach($this->_objNPC->getActiveSkillList('Debuff') as $key => $objSkill){
+				if($objSkill->getCurrentCooldown() == 0 && !$blnPickedSkill){
+					$udfCurrentAction = "Skill" . $objSkill->getClassName();
+					$this->_objNPC->getActiveSkillList('Debuff')[$key]->resetCooldown();
+					$blnPickedSkill = true;
+					if($objSkill->getTargetCount() == '3'){
+						$this->_objTarget = $this->_objPlayerTeam;
+					}
+				}
+				else{
+					$this->_objNPC->getActiveSkillList('Debuff')[$key]->decrementCooldown();
+				}
 			}
+		
 		}
 		
 		return $udfCurrentAction;

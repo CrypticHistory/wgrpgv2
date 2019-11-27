@@ -74,7 +74,7 @@ class SkillPunish{
 	}
 	
 	public function getWaitTime(){
-		return 10;
+		return 40;
 	}
 	
 	public function getSkillBaseModifier(){

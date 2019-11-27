@@ -4,6 +4,7 @@
 	include_once "RPGCombatStatusEffect.php";
 	include_once "CombatSE/SEBurned.php";
 	include_once "CombatSE/SEPoisoned.php";
+	include_once "CombatSE/SEBleeding.php";
 	include_once "RPGSkill.php";
 
 	class RPGCombat{

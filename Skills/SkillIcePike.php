@@ -58,7 +58,7 @@ class SkillIcePike{
 	}
 	
 	public function getWaitTime(){
-		return 50;
+		return 10;
 	}
 	
 	public function getSkillBaseModifier(){

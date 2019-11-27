@@ -792,7 +792,7 @@ class RPGNPC{
 	}
 	
 	public function getActiveSkillList($strSkillType){
-		return $this->_arrActiveSkillList[$strSkillType];
+		return (array_key_exists($strSkillType, $this->_arrActiveSkillList) ? $this->_arrActiveSkillList[$strSkillType] : false);
 	}
 	
 	public function getLastRoll(){
@@ -876,7 +876,7 @@ class RPGNPC{
 	}
 	
 	public function gainExperience($intExpGain){
-		if($this->getLevel() != 20){
+		if($this->getLevel() != 80){
 			$this->_intExperience += $intExpGain;
 		}
 		if($this->_intExperience >= $this->_intRequiredExperience){

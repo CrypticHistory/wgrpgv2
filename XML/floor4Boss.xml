@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<type>Forced Event</type>
+	<end>1</end>
+	<end>5</end>
+	<end>6</end>
+	<end>7</end>
+	<end>8</end>
+	<precondition>CurrentFloorID=4</precondition>
+	<dialog id='0'>
+		<eventText>Clearing aside vines on your path, you come to a clearing. Murky green swamp water separates you from an adjacent patch of land containing a vine stairwell that presumably leads to the next floor. You notice a stone firepit to your side, and a tree stump that may have been used as a seat. Upon further inspection, a blood-stained tunic is revealed to be sprawled across the stump. Somebody was here before you. What dangers lurk within these waters?
+		
+					Before you can act further, a gurgling from the swamp interupts. The putrid water bubbles, and something foul surfaces! A mass which scarcely resembles that of a giant, obese humanoid, though clearly not one of your kin as the creature is made of smog, mud, and everything vile. The monster rears its hide at you and gazes with empty black eyes. It roars, and goop flies from its mouth in all directions, hitting the swamp water every time with a splash. It begins to tredge through the water, towering over you as it comes ever closer. You must fight this monstrosity should you wish to progress to the next floor of the tower!</eventText>
+		<option id='2' action='setCombat~23~22~22~Player'>Prepare yourself!</option>
+	</dialog>
+	<dialog id="1">
+		<eventText>You flee from the battle.</eventText>
+	</dialog>
+	<dialog id="2">
+		<eventText>You exited the game in the middle of a battle, and any progress you made during the battle has been lost. Press continue to resume your game.</eventText>
+		<option id="6">Continue</option>
+	</dialog>
+	<dialog id="3">
+		<eventText>The monster roars once more before imploding, collapsing into itself and shrinking in size rapidly. Finally, it settles, becoming one with the swamp from which it was born.
+		
+					Stepping stones bubble up and float on the water, guiding your path across the swamp to the vine staircase. Should you continue to the next floor?</eventText>
+		<option id="7" action='ascendFloor~'>Ascend</option>
+		<option id="8">Turn Back</option>
+	</dialog>
+	<dialog id="4">
+		<eventText>You collapse to the ground in injury, defeated.</eventText>
+		<option id="5" action="reviveCharacter~">Continue</option>
+	</dialog>
+	<dialog id="5">
+		<eventText>You revived miraculously. Go forth and conquer.</eventText>
+	</dialog>
+	<dialog id="6">
+		<eventText></eventText>
+	</dialog>
+	<dialog id="7">
+	</dialog>
+	<dialog id="8">
+		<eventText>You decide not to climb the spiral staircase, opting to continue exploring the current floor.</eventText>
+	</dialog>
+</event>

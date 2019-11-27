@@ -1647,7 +1647,7 @@ class RPGCharacter{
 	}
 	
 	public function gainExperience($intExpGain){
-		if($this->getLevel() != 20){
+		if($this->getLevel() != 80){
 			$this->_intExperience += $intExpGain;
 		}
 		if($this->_intExperience >= $this->_intRequiredExperience){
@@ -1896,7 +1896,7 @@ class RPGCharacter{
 	}
 	
 	public function ascendFloor(){
-		if($this->getCurrentFloor()->getFloorID() != 3){
+		if($this->getCurrentFloor()->getFloorID() != 4){
 			global $arrStateValues;
 			unset($_SESSION['objEnemy']);
 			unset($_SESSION['objRelationship']);
@@ -1919,7 +1919,7 @@ class RPGCharacter{
 	}
 	
 	public function increaseFloor(){
-		if($this->getCurrentFloor()->getFloorID() != 3){
+		if($this->getCurrentFloor()->getFloorID() != 4){
 			unset($_SESSION['objEnemy']);
 			unset($_SESSION['objRelationship']);
 			$intPreviousFloor = $this->getCurrentFloor()->getFloorID();
