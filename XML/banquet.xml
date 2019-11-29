@@ -3,6 +3,7 @@
 	<type>Forced Event</type>
 	<end>2</end>
 	<end>3</end>
+	<precondition>CurrentFloorID=2</precondition>
 	<dialog id='0'>
 		<eventText>You come across a long banquet table, stretching on for maybe 20 meters it seems. It's meticulously lined with plates and platters of various foods, resembling the likes of a Thanksgiving feast. Though this feast is so grandiose and indulgent that it even seems excessive for the likes of the bourgeois of Turici. Juicy hamburgers, rare cuts of sirloin steak, a massive stuffed turkey and plates of mashed potatoes. Noodles and cheesy pasta, mushrooms, buttered corn and seafood salad. It's certainly much more than what you're accustomed to see on the dinner table. You salivate at the sight.
 

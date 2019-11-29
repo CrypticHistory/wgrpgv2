@@ -88,8 +88,7 @@ class RPGRelationship extends RPGNPC {
 	public function save(){
 		$objDB = new Database();
 		$strSQL = "UPDATE tblnpcinstance
-					SET intLevel = " . $objDB->quote($this->_intLevel) . ",
-						dblWeight = " . $objDB->quote($this->_dblWeight) . ",
+					SET dblWeight = " . $objDB->quote($this->_dblWeight) . ",
 						intExperience = " . $objDB->quote($this->_intExperience) . ",
 						intRelationshipLevel = " . $objDB->quote($this->_intRelationshipLevel) . ",
 						intRelationshipEXP = " . $objDB->quote($this->_intRelationshipEXP) . ",

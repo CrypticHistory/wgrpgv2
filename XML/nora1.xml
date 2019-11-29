@@ -3,6 +3,7 @@
 	<end>0</end>
 	<type>Forced Event</type>
 	<precondition>hasViewedCheckpoint~7=1</precondition>
+	<precondition>TownID=1</precondition>
 	<dialog id='0'>
 		<eventText>You lean back in your chair, patting your stuffed belly in satisfaction.</eventText>
 		<eventText precondition="Personality=Shy"> You softly belch, covering your mouth with your napkin.</eventText>

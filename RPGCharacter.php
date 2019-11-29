@@ -1960,8 +1960,12 @@ class RPGCharacter{
 		}
 	}
 	
-	public function addReservePartyMember($intNPCID){
+	public function addReservePartyMember($intNPCID, $intLevel = 1){
 		$objNPC = new RPGNPC($intNPCID, $this->_intRPGCharacterID);
+		if($intLevel > 1){
+			$objNPC->setLevel($intLevel);
+			$objNPC->save();
+		}
 		$this->getPartyMembers()->addReservePartyMember($objNPC);
 		$this->getPartyMembers()->save();
 	}
@@ -1976,6 +1980,10 @@ class RPGCharacter{
 	
 	public function getCurrentFloor(){
 		return $this->_objCurrentFloor;
+	}
+	
+	public function getCurrentFloorID(){
+		return $this->_objCurrentFloor->getFloorID();
 	}
 	
 	public function setCurrentFloor($intCurrentFloorID){

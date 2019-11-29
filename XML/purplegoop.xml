@@ -6,6 +6,7 @@
 	<end>3</end>
 	<end>4</end>
 	<end>5</end>
+	<precondition>CurrentFloorID=3</precondition>
 	<dialog id='0'>
 		<eventText>Your halt your step; a foul stench is present nearby. Looking around, you are unable to discern what the cause is amongst the foliage. That is, until you feel a drop of oily liquid graze your shoulder. Although the drop was initially condensed, the mysterious substance quickly spreads, forming a sticky patch of purple around your shoulder. After a quick sniff it's obvious this is the source of the smell, and the liquid clearly dripped from above you.
 

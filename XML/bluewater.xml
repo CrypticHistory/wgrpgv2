@@ -4,6 +4,7 @@
 	<end>1</end>
 	<end>2</end>
 	<end>3</end>
+	<precondition>CurrentFloorID=3</precondition>
 	<dialog id='0'>
 		<eventText>Wading through the dense swamplands, you encounter an odd pool of water. It is murky, tainted with thin strands of blue. A vague urge calls for you to sit down and drink from it.</eventText>
 		<option precondition="{5050Roll}" action="growLegs~1" id='1'>Drink</option>

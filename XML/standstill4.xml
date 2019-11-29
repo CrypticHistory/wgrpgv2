@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <event>
 	<end>0</end>
-	<precondition>CurrentFloorID=3</precondition>
+	<precondition>CurrentFloorID=4</precondition>
 	<dialog id='0'>
 		<eventText precondition="BMI&gt;0&amp;BMI&lt;30">You press forward, each careful </eventText>
 		<eventText precondition="BMI&gt;29&amp;BMI&lt;40">You lumber forward, each heavy </eventText>

@@ -3,6 +3,7 @@
 	<end>11</end>
 	<type>Forced Event</type>
 	<precondition>hasViewedCheckpoint~7=1</precondition>
+	<precondition>TownID=1</precondition>
 	<dialog id='0'>
 		<eventText>You hand the waitstaff the VIP pass.
 

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+	<type>Forced Event</type>
+	<end>2</end>
+	<end>6</end>
+	<end>7</end>
+	<end>9</end>
+	<end>11</end>
+	<end>12</end>
+	<precondition>Gold&gt;=20</precondition>
+	<precondition>CurrentFloorID=4</precondition>
+	<dialog id='0'>
+		<eventText>Branches crack, and you look around, uneasy. A wooshing noise passes by you. Someone, or something is here...
+
+"Don't move."
+
+The stern voice from directly behind you is feminine, but muffled. Something cold is pressed against your neck. A knife. Panic sets in. You can't turn your head to see who is wielding the knife.
+
+"Is it money you want?" you ask, trying to maintain your cool.
+
+"Depends. Where are you from?"</eventText>
+		<option id="1">Desmiya</option>
+		<option id="2" action="addReservePartyMember~24~15">Turici</option>
+		<option id="3">Not from here</option>
+	</dialog>
+	<dialog id='1'>
+		<eventText>"Tch. I won't feel bad about killing you, then."
+
+The woman lets up on her control of you, lowering the knife from your neck. You turn to see her already several paces away from you in a combat pose. She's wearing black leather armour with light vambraces and breeches. A hood and face mask conceal all but her focused brown eyes.
+
+"Let's at least make things interesting. Draw your weapon and fight me, pig!"</eventText>
+		<option id='8' action="setCombat~24~NULL~NULL~Enemy">Continue</option>
+	</dialog>
+	<dialog id='2'>
+		<eventText>"Ah, a Turician local."
+
+The woman lets up on her control of you, lowering the knife from your neck.
+
+"The Desmiyans are already causing you Turicians enough trouble. I won't make matters worse."
+
+You turn to face her. She's wearing black leather armour with light vambraces and breeches. A hood and face mask conceal all but her focused brown eyes.
+
+"A thief with morals?" you joke.
+
+"We're rare, but we exist." She lowers her facemask, revealing an empathetic smile and a tan complexion. "I'm an Ambellikan, so I know what it's like."
+
+"The Desmiyans invaded our city when I was only five years old. My father and brother tried to fight back and were killed. My mother, my sisters and I managed to escape, but we lost everything."
+
+"So you steal out of necessity, then. I understand."
+
+"Right. And only from those who deserve it. I know it's not enough to justify theft, but I'm just trying to provide for my family, you know?"
+
+This gives you an idea. Perhaps you can offer this woman to join your party and share some of your spoils with her. The way she held you at knifepoint with barely any noise was impressive, after all. It's better to have her on your side.
+
+"Say, this might seem crazy, but what if we joined forces?" you propose. "I was planning to reach the top of this tower and claim the riches for myself, but I'd be happy to share with someone like you who needs it."
+
+The woman puts her finger to her lips and looks to the sky, pondering the proposal briefly before forming her reply.
+
+"What the hell, why not. You've made it this far, so you must be capable. We can work together, so long as you give me an equal cut of the riches." She extends her hand to shake yours. "I'm Rylie Riddel, professional thief."
+
+"And I'm {getRPGCharacterName}, professional adventurer."
+
+"Well, let's get a move on, {getRPGCharacterName}. The sooner we conquer this tower, the sooner I can retire."</eventText>
+	</dialog>
+	<dialog id='3'>
+		<eventText>"Clearly not. You're an adventurer, aren't you? I can tell. You want to claim the riches for yourself, but I won't allow that."
+
+You need to think of a way out of this, and fast. In one cut, this woman can end your life.</eventText>
+		<option id="4">Try to fight back</option>
+		<option id="5" action="Gold-20">Offer her money</option>
+	</dialog>
+	<dialog id="4">
+		<eventText>But how can you fight back? Any sudden movements and you'll take a knife to your throat. You need to think of something else.</eventText>
+		<option id="5">Offer her money</option>
+	</dialog>
+	<dialog id="5">
+		<eventText>"If it's money you want, I can help with that."
+
+"We'll get to that. But first, just answer me one question. Are you Desmiyan? And don't lie to me. If you lie, I'll kill you on the spot."</eventText>
+		<option id="1">Yes</option>
+		<option id="6">No</option>
+	</dialog>
+	<dialog id="6">
+		<eventText>The woman lets up on her control of you, lowering the knife from your neck.
+
+You turn to face her. She's wearing black leather armour with light vambraces and breeches. A hood and face mask conceal all but her focused brown eyes.
+
+"I can tell you're not lying. You're lucky. I kill Desmiyans on principle, but you aren't a Desmiyan. You must be from Ulea or somewhere. Anyway, it doesn't matter. Hand over the money."
+
+<![CDATA[<i>]]>You have lost 20 gold.<![CDATA[</i>]]>
+
+"Now, let me make this clear to you: Turris Puesco's riches are all mine. Give up and go home. Someone as weak as you will never make it to the top of this tower."
+
+You blink, and the woman is already gone without a sound. Your body is still shaking from that encounter, but at least you're safe now.</eventText>
+	</dialog>
+	<dialog id="7">
+		<eventText>You flee from the battle.</eventText>
+	</dialog>
+	<dialog id="8">
+		<eventText>You exited the game in the middle of a battle, and any progress you made during the battle has been lost. Press continue to resume your game.</eventText>
+		<option id="12">Continue</option>
+	</dialog>
+	<dialog id="9">
+		<eventText>You take a moment to catch your breath, but your opponent breaths no more. That thief put up a good fight, but it wasn't enough. You leave behind her lifeless body and continue on your way.</eventText>
+	</dialog>
+	<dialog id="10">
+		<eventText>You collapse to the ground in injury, defeated.</eventText>
+		<option id="5" action="reviveCharacter~">Continue</option>
+	</dialog>
+	<dialog id="11">
+		<eventText>You revived miraculously. Go forth and conquer.</eventText>
+	</dialog>
+	<dialog id="12">
+		<eventText></eventText>
+	</dialog>
+</event>

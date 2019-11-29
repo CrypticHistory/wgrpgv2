@@ -3,6 +3,7 @@
 	<type>Forced Event</type>
 	<end>1</end>
 	<end>2</end>
+	<precondition>CurrentFloorID=3</precondition>
 	<dialog id='0'>
 		<eventText>As you make your way through the swamp you come across a strange patch of mushrooms. The fungi were growing on a random patch of dirt, with long, thin stalks with puffy blue caps with white polkadots all over. You can't help but notice the oddity of such growths, you can't tell why they would be growing in such a random location, or why they would grow to be so tall. It almost feels like they were planted there for a purpose, but you're not sure what, they do look rather pretty though...</eventText>
 		<option action="increaseHeight~" id='1'>Touch One</option>

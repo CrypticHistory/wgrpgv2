@@ -25,6 +25,28 @@ class DataGameUI{
 		$blnEndOfEvent = $objEvent->checkEndOfEvent();
 		$objXML = new RPGXMLReader($objEvent->getXML());
 		
+		// check if event conditions satisfied
+		if($_SESSION['objRPGCharacter']->getTownID() != 1 && $objXML && $objXML->getPrecondition()){
+			
+			$blnConditionsPassed = false;
+			foreach($objXML->getPrecondition() as $key => $value){
+				if (!DialogConditionFactory::evaluateCondition($value)){
+					$blnConditionsPassed = false;
+				}
+				else{
+					$blnConditionsPassed = true;
+				}
+			}
+			
+			// show standstill if conditions failed
+			if(!$blnConditionsPassed){
+				$objEvent = $_SESSION['objRPGCharacter']->getCurrentFloor()->getStandstill($_SESSION['objRPGCharacter']->getRPGCharacterID());
+				$_SESSION['objRPGCharacter']->setEvent($objEvent);
+				$blnEndOfEvent = true;
+			}
+			
+		}
+		
 		// handle social link inside current event if one exists
 		if(!$blnEndOfEvent && $objEvent->getNPCID() != null && $objEvent->getConversationLevel() != null){
 			// first conversation with NPC

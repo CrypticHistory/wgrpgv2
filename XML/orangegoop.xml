@@ -3,6 +3,7 @@
 	<type>Forced Event</type>
 	<end>1</end>
 	<end>2</end>
+	<precondition>CurrentFloorID=3</precondition>
 	<dialog id='0'>
 		<eventText>As you make your way through the thick bushes and muddy water a particular kind of plant catches your eye. Unlike most of the vegetation around you this one appears to have a distinctive smell and colour. You decide to walk closer to inspect it. 
 

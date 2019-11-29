@@ -3,6 +3,7 @@
 	<type>Forced Event</type>
 	<end>1</end>
 	<end>2</end>
+	<precondition>CurrentFloorID=3</precondition>
 	<dialog id='0'>
 		<eventText>As you continue traversing deeper and deeper into the swamp you notice a distinctive looking tree husk, most of it covered by a violet overgrowth. Having piqued your interest you decide to give the husk a closer look, and notice that it's actually been covered by a special kind of mushroom that seems to grow in patches. 
 
