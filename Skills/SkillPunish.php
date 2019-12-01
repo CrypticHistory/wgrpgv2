@@ -23,8 +23,11 @@ class SkillPunish{
 	}
 	
 	public function castedByNPC($objPlayer, $objNPC){
-		// todo: strSkillUseText in tblnpcskillxr
+		$objRPGCombatHelper = new RPGCombatHelper();
 		
+		$strReturnText = $objNPC->getNPCName() . " enters a parry pose, waiting for the enemy's approach...";
+		
+		$objNPC->addToStatusEffects("Parry Stance");
 	}
 	
 	public function playerParry($objPlayer, $objNPC){
@@ -38,7 +41,7 @@ class SkillPunish{
 		$objNPC->takeDamage($intDamage);
 		$objNPC->addToStatusEffects("Knocked Down");
 		
-		$strReturnText = $objNPC->getNPCName() . " attacks you, but you parry the attack! " . $objNPC->getNPCName() . " sustains " . $intDamage . " damage from the counterattack and is knocked onto the ground, unable to attack.";
+		$strReturnText = $objNPC->getNPCName() . " attacks " . $objNPC->getNPCName() . ", but they parry the attack! " . $objNPC->getNPCName() . " sustains " . $intDamage . " damage from the counterattack and is knocked onto the ground, unable to attack.";
 		
 		return $strReturnText;
 	}
@@ -59,10 +62,10 @@ class SkillPunish{
 			$objNPC->takeDamage($intDamage);
 			$objNPC->addToStatusEffects("Knocked Down");
 			
-			$strReturnText = $objNPC->getNPCName() . " attacks you, but you parry the attack! " . $objNPC->getNPCName() . " sustains " . $intDamage . " damage from the counterattack and is knocked onto the ground, unable to attack.";
+			$strReturnText = $objNPC->getNPCName() . " attacks " . $objPlayer->getNPCName() . ", but they parry the attack! " . $objNPC->getNPCName() . " sustains " . $intDamage . " damage from the counterattack and is knocked onto the ground, unable to attack.";
 		}
 		else{
-			$strReturnText = "You fail to counter " . $objNPC->getNPCName() . "'s attack as it was not a melee attack! ";
+			$strReturnText = $objPlayer->getNPCName() . " fails to counter " . $objNPC->getNPCName() . "'s attack as it was not a melee attack! ";
 			$strReturnText .= $objSkill->castedByNPC($objPlayer, $objNPC);
 		}
 		

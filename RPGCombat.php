@@ -244,26 +244,40 @@
 				
 				$objRPGCombatHelper = new RPGCombatHelper();
 				
-				$intDamage = $objTarget->takeDamage($objRPGCombatHelper->calculateDamage($this->_objPlayerTeam->getPlayer(), $objTarget));
-				
-				if(!$objRPGCombatHelper->getEvaded()){
-					if($objRPGCombatHelper->getBlocked() && $objRPGCombatHelper->getCrit()){
-						$this->_arrCombatMessage["Action"][] = "You land a critical blow on " . $objTarget->getNPCName() . " but they block the attack, sustaining " . $intDamage . " damage.";
-					}
-					
-					
-					else if($objRPGCombatHelper->getBlocked() && !$objRPGCombatHelper->getCrit()){
-						$this->_arrCombatMessage["Action"][] = "You attack " . $objTarget->getNPCName() . " but they successfully block the attack, sustaining " . $intDamage . " damage.";
-					}
-					else if(!$objRPGCombatHelper->getBlocked() && $objRPGCombatHelper->getCrit()){
-						$this->_arrCombatMessage["Action"][] = "You land a critical blow on " . $objTarget->getNPCName() . ", dealing " . $intDamage . " damage.";
-					}
-					else{
-						$this->_arrCombatMessage["Action"][] = "You attack " . $objTarget->getNPCName() . " for " . $intDamage . " damage.";
-					}
+				if($objTarget->hasStatusEffect("Parry Stance")){
+					include_once "Skills/SkillPunish.php";
+					$strAction = 'SkillPunish';
+					$objSkill = new $strAction();
+					$this->_arrCombatMessage["Action"][] = $objSkill->playerParry($objTarget, $this->_objTurnTaker);
+				}
+				else if($objTarget->hasStatusEffect("Decoy")){
+					include_once "Skills/SkillDecoy.php";
+					$strAction = 'SkillDecoy';
+					$objSkill = new $strAction();
+					$this->_arrCombatMessage["Action"][] = $objSkill->playerParry($objTarget, $this->_objTurnTaker);
 				}
 				else{
-					$this->_arrCombatMessage["Action"][] = "You attack " . $objTarget->getNPCName() . " but your attack is evaded.";
+					$intDamage = $objTarget->takeDamage($objRPGCombatHelper->calculateDamage($this->_objPlayerTeam->getPlayer(), $objTarget));
+					
+					if(!$objRPGCombatHelper->getEvaded()){
+						if($objRPGCombatHelper->getBlocked() && $objRPGCombatHelper->getCrit()){
+							$this->_arrCombatMessage["Action"][] = "You land a critical blow on " . $objTarget->getNPCName() . " but they block the attack, sustaining " . $intDamage . " damage.";
+						}
+						
+						
+						else if($objRPGCombatHelper->getBlocked() && !$objRPGCombatHelper->getCrit()){
+							$this->_arrCombatMessage["Action"][] = "You attack " . $objTarget->getNPCName() . " but they successfully block the attack, sustaining " . $intDamage . " damage.";
+						}
+						else if(!$objRPGCombatHelper->getBlocked() && $objRPGCombatHelper->getCrit()){
+							$this->_arrCombatMessage["Action"][] = "You land a critical blow on " . $objTarget->getNPCName() . ", dealing " . $intDamage . " damage.";
+						}
+						else{
+							$this->_arrCombatMessage["Action"][] = "You attack " . $objTarget->getNPCName() . " for " . $intDamage . " damage.";
+						}
+					}
+					else{
+						$this->_arrCombatMessage["Action"][] = "You attack " . $objTarget->getNPCName() . " but your attack is evaded.";
+					}
 				}
 			}
 		}
@@ -284,7 +298,22 @@
 			$this->_strPrevTurn = "Player";
 			$this->_arrWaitTimes["Player"] += $this->_objPlayerTeam->getPlayer()->getWaitTime($intWaitTime);
 			$this->_objPlayerTeam->getPlayer()->getClasses()->getCurrentClass()->getSkills()->applyCooldown($intSkillID);
-			$this->_arrCombatMessage["Action"][] = $objSkill->castedByPlayer($this->_objPlayerTeam->getPlayer(), $objTarget);
+			
+			if($objTarget->hasStatusEffect("Parry Stance")){
+				include_once "Skills/SkillPunish.php";
+				$strAction = 'SkillPunish';
+				$objSkill = new $strAction();
+				$this->_arrCombatMessage["Action"][] = $objSkill->playerParrySkill($objTarget, $this->_objTurnTaker, $objSkill);
+			}
+			else if($objTarget->hasStatusEffect("Decoy")){
+				include_once "Skills/SkillDecoy.php";
+				$strAction = 'SkillDecoy';
+				$objSkill = new $strAction();
+				$this->_arrCombatMessage["Action"][] = $objSkill->playerParry($objTarget, $this->_objTurnTaker);
+			}
+			else{
+				$this->_arrCombatMessage["Action"][] = $objSkill->castedByPlayer($this->_objPlayerTeam->getPlayer(), $objTarget);
+			}
 		}
 		
 		public function playerWait(){
@@ -389,6 +418,12 @@
 						
 						$this->_arrCombatMessage["Action"][] = $objParrySkill->playerParrySkill($objTarget, $this->_objTurnTaker, $objSkill);
 					}
+					else if($objTarget->hasStatusEffect("Decoy")){
+						include_once "Skills/SkillDecoy.php";
+						$strAction = 'SkillDecoy';
+						$objSkill = new $strAction();
+						$this->_arrCombatMessage["Action"][] = $objSkill->playerParry($objTarget, $this->_objTurnTaker);
+					}
 					else{
 						$this->_arrCombatMessage["Action"][] = $objSkill->castedByNPC($objTarget, $this->_objTurnTaker);
 					}
@@ -408,6 +443,12 @@
 			if($objTarget->hasStatusEffect("Parry Stance")){
 				include_once "Skills/SkillPunish.php";
 				$strAction = 'SkillPunish';
+				$objSkill = new $strAction();
+				$this->_arrCombatMessage["Action"][] = $objSkill->playerParry($objTarget, $this->_objTurnTaker);
+			}
+			else if($objTarget->hasStatusEffect("Decoy")){
+				include_once "Skills/SkillDecoy.php";
+				$strAction = 'SkillDecoy';
 				$objSkill = new $strAction();
 				$this->_arrCombatMessage["Action"][] = $objSkill->playerParry($objTarget, $this->_objTurnTaker);
 			}
@@ -458,7 +499,22 @@
 				$intWaitTime = $objSkill->getWaitTime();
 				$this->_strPrevTurn = "Party";
 				$this->_arrWaitTimes[$this->_strTurnTaker] += $this->_objTurnTaker->getWaitTime($intWaitTime);
-				$this->_arrCombatMessage["Action"][] = $objSkill->castedByNPC($objTarget, $this->_objTurnTaker);
+				if($objTarget->hasStatusEffect("Parry Stance")){
+					include_once "Skills/SkillPunish.php";
+					$strAction = 'SkillPunish';
+					$objParrySkill = new $strAction();
+					
+					$this->_arrCombatMessage["Action"][] = $objParrySkill->playerParrySkill($objTarget, $this->_objTurnTaker, $objSkill);
+				}
+				else if($objTarget->hasStatusEffect("Decoy")){
+					include_once "Skills/SkillDecoy.php";
+					$strAction = 'SkillDecoy';
+					$objSkill = new $strAction();
+					$this->_arrCombatMessage["Action"][] = $objSkill->playerParry($objTarget, $this->_objTurnTaker);
+				}
+				else{
+					$this->_arrCombatMessage["Action"][] = $objSkill->castedByNPC($objTarget, $this->_objTurnTaker);
+				}
 			}
 			else{
 				$this->partyWait();
@@ -471,24 +527,38 @@
 			
 			$objRPGCombatHelper = new RPGCombatHelper();
 
-			$intDamage = $objTarget->takeDamage($objRPGCombatHelper->calculateDamage($this->_objTurnTaker, $objTarget));
-			
-			if(!$objRPGCombatHelper->getEvaded()){
-				if($objRPGCombatHelper->getBlocked() && $objRPGCombatHelper->getCrit()){
-					$this->_arrCombatMessage["Action"][] = $this->_objTurnTaker->getNPCName() . " lands a critical blow on " . $objTarget->getNPCName() . " but " . $objTarget->getNPCName() . " blocks it, sustaining " . $intDamage . " damage.";
-				}
-				else if($objRPGCombatHelper->getBlocked() && !$objRPGCombatHelper->getCrit()){
-					$this->_arrCombatMessage["Action"][] = $this->_objTurnTaker->getNPCName() . " attacks " . $objTarget->getNPCName() . " and " . $objTarget->getNPCName() . " blocks the attack, sustaining " . $intDamage . " damage.";
-				}
-				else if(!$objRPGCombatHelper->getBlocked() && $objRPGCombatHelper->getCrit()){
-					$this->_arrCombatMessage["Action"][] = $this->_objTurnTaker->getNPCName() . " lands a critical blow on " . $objTarget->getNPCName() . ", dealing " . $intDamage . " damage.";
-				}
-				else{
-					$this->_arrCombatMessage["Action"][] = $this->_objTurnTaker->getNPCName() . " attacks " . $objTarget->getNPCName() . " for " . $intDamage . " damage.";
-				}
+			if($objTarget->hasStatusEffect("Parry Stance")){
+				include_once "Skills/SkillPunish.php";
+				$strAction = 'SkillPunish';
+				$objSkill = new $strAction();
+				$this->_arrCombatMessage["Action"][] = $objSkill->playerParry($objTarget, $this->_objTurnTaker);
+			}
+			else if($objTarget->hasStatusEffect("Decoy")){
+				include_once "Skills/SkillDecoy.php";
+				$strAction = 'SkillDecoy';
+				$objSkill = new $strAction();
+				$this->_arrCombatMessage["Action"][] = $objSkill->playerParry($objTarget, $this->_objTurnTaker);
 			}
 			else{
-				$this->_arrCombatMessage["Action"][] = $this->_objTurnTaker->getNPCName() . " attacks " . $objTarget->getNPCName() . " but " . $objTarget->getNPCName() . " successfully evades the attack.";
+				$intDamage = $objTarget->takeDamage($objRPGCombatHelper->calculateDamage($this->_objTurnTaker, $objTarget));
+				
+				if(!$objRPGCombatHelper->getEvaded()){
+					if($objRPGCombatHelper->getBlocked() && $objRPGCombatHelper->getCrit()){
+						$this->_arrCombatMessage["Action"][] = $this->_objTurnTaker->getNPCName() . " lands a critical blow on " . $objTarget->getNPCName() . " but " . $objTarget->getNPCName() . " blocks it, sustaining " . $intDamage . " damage.";
+					}
+					else if($objRPGCombatHelper->getBlocked() && !$objRPGCombatHelper->getCrit()){
+						$this->_arrCombatMessage["Action"][] = $this->_objTurnTaker->getNPCName() . " attacks " . $objTarget->getNPCName() . " and " . $objTarget->getNPCName() . " blocks the attack, sustaining " . $intDamage . " damage.";
+					}
+					else if(!$objRPGCombatHelper->getBlocked() && $objRPGCombatHelper->getCrit()){
+						$this->_arrCombatMessage["Action"][] = $this->_objTurnTaker->getNPCName() . " lands a critical blow on " . $objTarget->getNPCName() . ", dealing " . $intDamage . " damage.";
+					}
+					else{
+						$this->_arrCombatMessage["Action"][] = $this->_objTurnTaker->getNPCName() . " attacks " . $objTarget->getNPCName() . " for " . $intDamage . " damage.";
+					}
+				}
+				else{
+					$this->_arrCombatMessage["Action"][] = $this->_objTurnTaker->getNPCName() . " attacks " . $objTarget->getNPCName() . " but " . $objTarget->getNPCName() . " successfully evades the attack.";
+				}
 			}
 		}
 		

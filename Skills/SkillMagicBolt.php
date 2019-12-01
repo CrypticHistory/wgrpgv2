@@ -51,7 +51,22 @@ class SkillMagicBolt{
 			$strReturnText = $objNPC->getNPCName() . " waves its " . $objNPC->getEquippedWeapon()->getItemName() . " and hurls a bolt of magical energy at " . $objPlayer->getNPCName() . ", but they dodge it successfully!";
 		}
 		else{
-			$intDamage = max(0, $objRPGCombatHelper->calculateDamage($objNPC, $objPlayer, $this->getSkillBaseModifier()));
+			
+			if($objRPGCombatHelper->calculateCritRoll($objNPC, $objPlayer)){
+				$intCritDmgModifier = $objRPGCombatHelper->calculateCritDmg($objNPC);
+			}
+			else{
+				$intCritDmgModifier = 1.0;
+			}
+			
+			if($objRPGCombatHelper->calculateBlockRoll($objNPC, $objPlayer)){
+				$intBlockDmgModifier = $objRPGCombatHelper->calculateBlockDmg($objPlayer);
+			}
+			else{
+				$intBlockDmgModifier = 1.0;
+			}
+			
+			$intDamage = max(0, round((((($objNPC->getModifiedMagicDamage() + $objRPGCombatHelper->calculateAdditionalDmg($objNPC)) * $this->getSkillBaseModifier()) * $intCritDmgModifier) - $objPlayer->getModifiedMagicDefence()) * $intBlockDmgModifier));
 			$objPlayer->takeDamage($intDamage);
 			
 			$strReturnText = $objNPC->getNPCName() . " waves its " . $objNPC->getEquippedWeapon()->getItemName() . " and hurls a bolt of magical energy at " . $objPlayer->getNPCName() . ". It connects, inflicting " . $intDamage . " damage.";

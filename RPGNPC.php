@@ -207,7 +207,7 @@ class RPGNPC{
 	public function loadSkills(){
 		$objDB = new Database();
 		$this->_arrSkillList = array();
-		$strSQL = "SELECT intSkillID, strSkillType, intReqLevel
+		$strSQL = "SELECT intSkillID, strSkillType, strName, intReqLevel
 					FROM tblnpcskillxr
 						INNER JOIN tblskill
 							USING (intSkillID)
@@ -216,7 +216,7 @@ class RPGNPC{
 		while($arrRow = $rsResult->fetch(PDO::FETCH_ASSOC)){
 			$objRPGSkill = new RPGSkill($arrRow['intSkillID']);
 			$objRPGSkill->setRequiredLevel($arrRow['intReqLevel']);
-			$this->_arrSkillList[$arrRow['strSkillType']][] = $objRPGSkill;
+			$this->_arrSkillList[$arrRow['strSkillType']][$arrRow['strName']] = $objRPGSkill;
 		}
 	}
 	
@@ -532,7 +532,7 @@ class RPGNPC{
 	}
 	
 	public function getModifiedEvasion(){
-		return round(($this->_objStats->getCombinedStats('intAgility') * 2) + $this->_objStats->getCombinedStatsSecondary('intEvasion'));
+		return round($this->_objStats->getCombinedStats('intAgility') + $this->_objStats->getCombinedStatsSecondary('intEvasion'));
 	}
 	
 	public function getModifiedPierceRate(){
@@ -540,7 +540,7 @@ class RPGNPC{
 	}
 	
 	public function getModifiedAccuracy(){
-		return round(($this->_objStats->getCombinedStats('intDexterity') * 2) + $this->_objStats->getCombinedStatsSecondary('intAccuracy'));
+		return round($this->_objStats->getCombinedStats('intDexterity') + $this->_objStats->getCombinedStatsSecondary('intAccuracy'));
 	}
 	
 	public function getWaitTime($udfWaitType){
@@ -793,6 +793,10 @@ class RPGNPC{
 	
 	public function getActiveSkillList($strSkillType){
 		return (array_key_exists($strSkillType, $this->_arrActiveSkillList) ? $this->_arrActiveSkillList[$strSkillType] : false);
+	}
+	
+	public function getActiveSkill($strSkillType, $strSkillName){
+		return $this->_arrActiveSkillList[$strSkillType][$strSkillName];
 	}
 	
 	public function getLastRoll(){

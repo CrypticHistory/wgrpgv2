@@ -41,7 +41,7 @@ class AlwaysFeed{
 		
 		// todo: multiple feed skills?
 		$arrSkills = $this->_objNPC->getSkillList('Feed');
-		$objSkill = $arrSkills[0];
+		$objSkill = array_values($arrSkills)[0];
 		$strClassName = $objSkill->getClassName();
 		
 		return "Skill" . $strClassName;
@@ -61,7 +61,7 @@ class AlwaysFeed{
 		
 		// todo: multiple feed skills?
 		$arrSkills = $this->_objNPC->getSkillList('Feed');
-		$objSkill = $arrSkills[0];
+		$objSkill = array_values($arrSkills)[0];
 		$strClassName = $objSkill->getClassName();
 		
 		return "Skill" . $strClassName;

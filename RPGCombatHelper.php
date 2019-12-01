@@ -11,11 +11,11 @@ class RPGCombatHelper{
 	}
 	
 	public function calculateEvadeRoll($objAttacker, $objDefender){
-		$intDefenderEvadeRoll = mt_rand(0, $objDefender->getModifiedEvasion());
-		$intAttackerAccuracyRoll = 100 + mt_rand(0, $objAttacker->getModifiedAccuracy());
+		$intAccuracyAfterEvasion = max(0, (100 + $objAttacker->getModifiedAccuracy()) - $objDefender->getModifiedEvasion());
+		$intDefenderEvadeRoll = mt_rand(0, 100);
 		
 		// compare defender evade roll with attacker accuracy roll
-		if($intDefenderEvadeRoll > $intAttackerAccuracyRoll){
+		if($intDefenderEvadeRoll >= $intAccuracyAfterEvasion){
 			return true;
 		}
 		else{

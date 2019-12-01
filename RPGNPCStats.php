@@ -161,8 +161,8 @@
 		public function getCombinedStats($strIndex){
 			
 			$intSEStatTotal = 0;
-			foreach($this->_arrStatusEffectStats[$strIndex] as $key => $intStrVal){
-				$intSEStatTotal += $intStrVal;
+			foreach($this->_arrStatusEffectStats[$strIndex] as $key => $intStatVal){
+				$intSEStatTotal += $intStatVal;
 			}
 			
 			return $this->_arrBaseStats[$strIndex] + $intSEStatTotal;
@@ -173,7 +173,12 @@
 		}
 		
 		public function getCombinedStatsSecondary($strIndex){
-			return $this->_arrBaseStats[$strIndex];
+			$intSEStatTotal = 0;
+			foreach($this->_arrStatusEffectStats[$strIndex] as $key => $intStatVal){
+				$intSEStatTotal += $intStatVal;
+			}
+			
+			return $this->_arrBaseStats[$strIndex] + $intSEStatTotal;
 		}
 		
 		public function setRPGCharacterID($intRPGCharacterID){

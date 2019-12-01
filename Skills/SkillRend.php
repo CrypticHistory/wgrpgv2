@@ -51,8 +51,22 @@ class SkillRend{
 			$strReturnText = $objNPC->getNPCName() . " swings its " . $objNPC->getEquippedWeapon()->getItemName() . " rapidly over top its head, swapping between hands before taking a swing at " . $objPlayer->getNPCName() . "'s head. The attack is dodged, inflicting 0 damage.";
 		}
 		else{
-			$intDamage = max(0, $objRPGCombatHelper->calculateDamage($objNPC, $objPlayer, $this->getSkillBaseModifier()));
 			
+			if($objRPGCombatHelper->calculateCritRoll($objNPC, $objPlayer)){
+				$intCritDmgModifier = $objRPGCombatHelper->calculateCritDmg($objNPC);
+			}
+			else{
+				$intCritDmgModifier = 1.0;
+			}
+			
+			if($objRPGCombatHelper->calculateBlockRoll($objNPC, $objPlayer)){
+				$intBlockDmgModifier = $objRPGCombatHelper->calculateBlockDmg($objPlayer);
+			}
+			else{
+				$intBlockDmgModifier = 1.0;
+			}
+			
+			$intDamage = max(0, round((((($objNPC->getModifiedDamage() + $objRPGCombatHelper->calculateAdditionalDmg($objNPC)) * $this->getSkillBaseModifier()) * $intCritDmgModifier) - $objPlayer->getModifiedDefence()) * $intBlockDmgModifier));
 			$objPlayer->takeDamage($intDamage);
 			
 			$strReturnText = $objNPC->getNPCName() . " swings its " . $objNPC->getEquippedWeapon()->getItemName() . " rapidly over top its head, swapping between hands before finally landing the blade on " . $objPlayer->getNPCName() . "'s skull with a crushing blow. " . $objNPC->getNPCName() . " rends " . $objPlayer->getNPCName() . ", inflicting " . $intDamage . " damage.";

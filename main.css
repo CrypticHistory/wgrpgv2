@@ -806,7 +806,7 @@ span.close {padding-left: 5px; color: red;cursor: pointer;}
 	border-bottom:1px solid grey;
 }
 
-.tooltip {
+.tooltip, .tooltipShop, .tooltipLong {
   position: relative;
   display: inline-block;
   border-bottom: 1px dotted black;
@@ -826,6 +826,20 @@ span.close {padding-left: 5px; color: red;cursor: pointer;}
   border:1px solid grey;
 }
 
-.tooltip:hover .tooltipText {
+.tooltipShop .tooltipText {
+  visibility: hidden;
+  width: 400px;
+  background-color: #ccc8c0;
+  color: rgb(79, 63, 50);
+  text-align: left;
+  padding: 10px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  margin-left:60px;
+  border:1px solid grey;
+}
+
+.tooltip:hover .tooltipText, .tooltipShop:hover .tooltipText {
   visibility: visible;
 }

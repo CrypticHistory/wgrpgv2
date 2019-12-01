@@ -104,6 +104,16 @@
 			$this->_arrStatusEffectStats['intVitality']['Stuffed'] = 0;
 			$this->_arrStatusEffectStats['intWillpower']['Stuffed'] = 0;
 			$this->_arrStatusEffectStats['intDexterity']['Stuffed'] = 0;
+			
+			$this->_arrStatusEffectStats['intMaxHP']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intAccuracy']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intEvasion']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intCritDamage']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intPierce']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intBlockRate']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intBlockReduction']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intFleeResistance']['Hungry'] = 0;
+			$this->_arrStatusEffectStats['intMaxHunger']['Hungry'] = 0;
 		}
 		
 		public function loadAbilityStats(){
@@ -215,8 +225,8 @@
 		public function getCombinedStats($strIndex){
 			
 			$intSEStatTotal = 0;
-			foreach($this->_arrStatusEffectStats[$strIndex] as $key => $intStrVal){
-				$intSEStatTotal += $intStrVal;
+			foreach($this->_arrStatusEffectStats[$strIndex] as $key => $intStatVal){
+				$intSEStatTotal += $intStatVal;
 			}
 			
 			return $this->_arrBaseStats[$strIndex] + $this->_arrAbilityStats[$strIndex] + $intSEStatTotal;
@@ -227,7 +237,12 @@
 		}
 		
 		public function getCombinedStatsSecondary($strIndex){
-			return $this->_arrBaseStats[$strIndex];
+			$intSEStatTotal = 0;
+			foreach($this->_arrStatusEffectStats[$strIndex] as $key => $intStatVal){
+				$intSEStatTotal += $intStatVal;
+			}
+			
+			return $this->_arrBaseStats[$strIndex] + $intSEStatTotal;
 		}
 		
 		public function resetStats(){
