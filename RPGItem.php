@@ -466,7 +466,7 @@ class RPGItem{
 	
 	public function getTypeSecondary(){
 		$arrTypes = explode(":", $this->_strItemType);
-		return $arrTypes[1];
+		return (isset($arrTypes[1]) ? $arrTypes[1] : $this->_strItemType);
 	}
 }
 

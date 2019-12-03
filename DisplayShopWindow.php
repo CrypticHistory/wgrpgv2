@@ -233,13 +233,14 @@ class DisplayShopWindow{
 										<?php
 										
 										foreach($objShop->getShopInv() as $arrItemDetails){
-											$strDamage = (strpos($arrItemDetails['objItem']->getItemType(),'Weapon') !== false && $arrItemDetails['objItem']->getStatDamage() == "Strength" && strpos($arrItemDetails['objItem']->getItemType(),'Shield') == false) ? "<br/>Damage: " . $arrItemDetails['objItem']->getDamage() : "";
+											$strDamage = (strpos($arrItemDetails['objItem']->getItemType(),'Weapon') !== false && $arrItemDetails['objItem']->getStatDamage() == "Strength" && strpos($arrItemDetails['objItem']->getItemType(),'Shield') == false) ? "<br/><b>Damage:</b> " . $arrItemDetails['objItem']->getDamage() : "";
 											$strMagicDamage = (strpos($arrItemDetails['objItem']->getItemType(),'Weapon') !== false && $arrItemDetails['objItem']->getStatDamage() == "Intelligence")  ? "<br/>Magic Damage: " . $arrItemDetails['objItem']->getMagicDamage() : "";
-											$strDefence = (strpos($arrItemDetails['objItem']->getItemType(), 'Armour') !== false || strpos($arrItemDetails['objItem']->getItemType(),'Shield') !== false) ? "<br/>Defence: " . $arrItemDetails['objItem']->getDefence() : "";
-											$strMagicDefence = strpos($arrItemDetails['objItem']->getItemType(), 'Armour') !== false ? "<br/>Magic Defence: " . $arrItemDetails['objItem']->getMagicDefence() : "";
-											$strHPHeal = strpos($arrItemDetails['objItem']->getItemType(), 'Food') !== false || strpos($arrItemDetails['objItem']->getItemType(), 'Potion') !== false ? "<br/>HP Heal: " . $arrItemDetails['objItem']->getHPHeal() : "";
-											$strCalories = strpos($arrItemDetails['objItem']->getItemType(), 'Food') !== false || strpos($arrItemDetails['objItem']->getItemType(), 'Potion') !== false ? "<br/>Calories: " . $arrItemDetails['objItem']->getCalories() : "";
-											$strTooltip = "Description: " . htmlspecialchars($arrItemDetails['objItem']->getItemDesc(), ENT_QUOTES) . $strDamage . $strMagicDamage . $strDefence . $strHPHeal . $strCalories;
+											$strDefence = (strpos($arrItemDetails['objItem']->getItemType(), 'Armour') !== false || strpos($arrItemDetails['objItem']->getItemType(),'Shield') !== false) ? "<br/><b>Defence:</b> " . $arrItemDetails['objItem']->getDefence() : "";
+											$strMagicDefence = strpos($arrItemDetails['objItem']->getItemType(), 'Armour') !== false ? "<br/><b>Magic Defence:</b> " . $arrItemDetails['objItem']->getMagicDefence() : "";
+											$strHPHeal = strpos($arrItemDetails['objItem']->getItemType(), 'Food') !== false || strpos($arrItemDetails['objItem']->getItemType(), 'Potion') !== false ? "<br/><b>HP Heal:</b> " . $arrItemDetails['objItem']->getHPHeal() : "";
+											$strCalories = strpos($arrItemDetails['objItem']->getItemType(), 'Food') !== false || strpos($arrItemDetails['objItem']->getItemType(), 'Potion') !== false ? "<br/><b>Calories:</b> " . $arrItemDetails['objItem']->getCalories() : "";
+											$strItemType = "<br/><b>Type:</b> " . $arrItemDetails['objItem']->getTypeSecondary();
+											$strTooltip = "<b>Description:</b> " . htmlspecialchars($arrItemDetails['objItem']->getItemDesc(), ENT_QUOTES) . $strItemType . $strDamage . $strMagicDamage . $strDefence . $strHPHeal . $strCalories;
 											echo "<tr id='" . $arrItemDetails['objItem']->getItemID() . "'><td><div class='tooltipShop'><span class='tooltipText'>" . $strTooltip . "</span>" . $arrItemDetails['objItem']->getItemName() . "</div></td><td class='price'>" . $arrItemDetails['dblPrice'] . "</td>";
 											if($objShop->getShopType() == 'Tailor' || $objShop->getShopType() == 'Armourer'){
 												echo "<td><select autocomplete='off'>";
